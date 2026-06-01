@@ -25,7 +25,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/retirees" element={<Retirees />} />
           <Route path="/dscr-loans" element={<SpecialtyPage data={seoPages.find(p => p.slug === 'dscr-loans')} />} />
-          <Route path="/first-time" element={<ComingSoon title="First-Time Home Buyers" />} />
           <Route path="/bank-statement-loans" element={<BankStatementLoans />} />
           <Route path="/1099-loans" element={<Loans1099 />} />
           <Route path="/mortgage-for-contractors" element={<ContractorLoans />} />

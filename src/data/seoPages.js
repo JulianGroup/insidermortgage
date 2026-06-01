@@ -263,6 +263,20 @@ export const seoPages = [
       }
     ],
     formSubtitle: 'Ready to scale your portfolio? Use our interactive DSCR Calculator to see if your property qualifies, or request a custom quote below.',
-    leadCategory: 'DSCR Loan Lead'
+    leadCategory: 'DSCR Loan Lead',
+    reviews: [
+      {
+        name: 'Tamara Thompson',
+        text: "We've known David and Rakesh at Insider Mortgage for years and have done more mortgages with them than we could possibly count at this point. They're second to none, honestly. They're thorough and proactive. When they see mortgage rates drop, they reach out and say now's a good time. Getting a refinance or obtaining a mortgage is one of those experiences that most people don't love, and they make it much easier and actually kind of fun between the videos they send and their general joyful nature. David sends a video going over the home loan options, why he thinks one or the other is the better choice, and how each one works. They present the options clearly and make it easy to understand. They cut through the red tape, know what the underwriters need, and can tell you exactly what they're looking for. They make it simple to get through the mortgage process without stress. Our closings are usually about 21 days, and they're responsive in minutes through text or email. We always recommend them to others in the San Diego mortgage area, and people have absolutely gone through with those recommendations.",
+        initials: 'TT',
+        source: 'Google Review'
+      },
+      {
+        name: 'Kaylani I',
+        text: "We first worked with Rakesh at Insider Mortgage back in 2011 or 2012 when we purchased our primary home, and he has handled our refinances multiple times, helping us secure the lowest interest rates. Over the past 14 years, we’ve worked with him at least a dozen times. Rakesh is excellent with numbers and very efficient. He sends clear emails showing scenarios for buying points or other mortgage options and offers no-cost financing alternatives that help us make informed decisions. He is always available for questions. What sets him apart is that he times the market carefully and calls when rates are at their lowest so we can lock in the best mortgage rates. He also identifies extra bank credit, helping us choose between a slightly higher rate with no upfront cost or a lower rate, explaining the break-even timeline. I trust Rakesh completely with my mortgage decisions. Even as someone who usually verifies every detail, I’ve relied on his expertise multiple times. His guidance consistently saves us money and simplifies the home loan and refinancing process. Over the years, I’ve referred him to most of my friends looking for a mortgage broker or loan expert. If you’re looking for a reliable, knowledgeable mortgage professional in the San Diego area who understands the market, Rakesh at Insider Mortgage is someone I would recommend without hesitation.",
+        initials: 'KI',
+        source: 'Google Review'
+      }
+    ]
   }
 ];

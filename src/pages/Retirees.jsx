@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import './SelfEmployed.css'; // Reusing the layout styles
+import ReviewCard from '../components/ReviewCard';
+import './SelfEmployed.css';
 
 const Retirees = () => {
   const [formData, setFormData] = useState({
@@ -90,6 +91,14 @@ const Retirees = () => {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Retiree Reviews Placeholder Section */}
+      <section className="section bg-color" style={{ paddingTop: 0 }}>
+        <div className="container">
+          {/* Reviews will go here once provided */}
+          <div id="retiree-reviews-container"></div>
         </div>
       </section>
 

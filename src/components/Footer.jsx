@@ -20,9 +20,8 @@ const Footer = () => {
               NMLS #240594
             </div>
             <div>
-              <strong style={{ color: 'white' }}>David Julian</strong><br/>
-              NMLS #254108<br/>
-              CA DRE #01193796
+              <strong style={{ color: 'white' }}>David Sider</strong><br/>
+              NMLS #254108 | CA DRE #01193796
             </div>
           </div>
 

@@ -41,10 +41,10 @@ const Hero = () => {
 
           <div className="partner-card">
             <div className="partner-headshot">
-              <img src="https://ui-avatars.com/api/?name=David+Julian&background=1e3a8a&color=fff&size=120" alt="David Julian" />
+              <img src="https://ui-avatars.com/api/?name=David+Sider&background=1e3a8a&color=fff&size=120" alt="David Sider" />
             </div>
             <div className="partner-info">
-              <h3>David Julian</h3>
+              <h3>David Sider</h3>
               <p className="partner-title">Managing Partner / Broker</p>
               <p className="partner-credentials">NMLS #254108 | CA DRE #01193796<br/>Expert mortgage strategies for complex financial scenarios</p>
             </div>

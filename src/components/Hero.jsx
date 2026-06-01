@@ -6,16 +6,24 @@ const Hero = () => {
     <section className="hero" id="about">
       <div className="container hero-container animate-fade-in">
         <div className="hero-content">
-          <h1 className="hero-title">Elevate Your Home Financing Experience</h1>
+          <h1 className="hero-title">
+            Trusted Mortgage Experts <br className="mobile-break" />
+            <span style={{color: 'var(--secondary)', opacity: 0.5}} className="desktop-pipe">|</span>
+            <br className="mobile-break" />
+            <span style={{fontSize: '0.7em', color: 'var(--accent)', fontWeight: '500', display: 'inline-block', marginTop: '10px'}}>Recommended by Friends &amp; Colleagues</span>
+          </h1>
           <p className="hero-subtitle">
-            Expert guidance tailored to your unique financial situation. 
-            Whether you are self-employed, retiring, investing, or buying your first home, 
-            our tailored strategies ensure you secure the best terms available.
+            <strong style={{color: 'white'}}>Rakesh &amp; David</strong> – Loan Officers who specialize in Self-Employed, First-Time Buyers, Retirees &amp; Real Estate Investors
           </p>
+          
+          <div className="hero-contact-banner">
+            <a href="tel:8005550199" className="hero-phone">📞 (800) 555-0199</a>
+          </div>
+
           <div className="hero-cta-group">
-            <a href="#contact" className="btn btn-primary">Get Pre-Approved Today</a>
-            <a href="#solutions" className="btn btn-outline" style={{ color: 'white', borderColor: 'white' }}>
-              Explore Solutions
+            <a href="#contact" className="btn btn-primary btn-lg">Schedule a Call</a>
+            <a href="#solutions" className="btn btn-outline btn-lg" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)' }}>
+              Explore Loan Programs
             </a>
           </div>
         </div>
@@ -23,21 +31,23 @@ const Hero = () => {
         <div className="partners-section">
           <div className="partner-card">
             <div className="partner-headshot">
-              [Rakesh Jain Headshot]
+              <img src="https://ui-avatars.com/api/?name=Rakesh+Jain&background=1e3a8a&color=fff&size=120" alt="Rakesh Jain" />
             </div>
             <div className="partner-info">
               <h3>Rakesh Jain</h3>
-              <p>Managing Partner / Broker</p>
+              <p className="partner-title">Managing Partner / Broker</p>
+              <p className="partner-credentials">NMLS #240594<br/>20+ years helping borrowers secure tailored financing</p>
             </div>
           </div>
 
           <div className="partner-card">
             <div className="partner-headshot">
-              [David Sider Headshot]
+              <img src="https://ui-avatars.com/api/?name=David+Julian&background=1e3a8a&color=fff&size=120" alt="David Julian" />
             </div>
             <div className="partner-info">
-              <h3>David Sider</h3>
-              <p>Managing Partner / Broker</p>
+              <h3>David Julian</h3>
+              <p className="partner-title">Managing Partner / Broker</p>
+              <p className="partner-credentials">NMLS #254108 | CA DRE #01193796<br/>Expert mortgage strategies for complex financial scenarios</p>
             </div>
           </div>
         </div>

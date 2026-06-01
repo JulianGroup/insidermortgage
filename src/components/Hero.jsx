@@ -8,7 +8,6 @@ const Hero = () => {
         <div className="hero-content">
           <h1 className="hero-title">
             Trusted Mortgage Experts <br className="mobile-break" />
-            <span style={{color: 'var(--secondary)', opacity: 0.5}} className="desktop-pipe">|</span>
             <br className="mobile-break" />
             <span style={{fontSize: '0.7em', color: 'var(--accent)', fontWeight: '500', display: 'inline-block', marginTop: '10px'}}>Recommended by Friends &amp; Colleagues</span>
           </h1>
@@ -21,8 +20,8 @@ const Hero = () => {
           </div>
 
           <div className="hero-cta-group">
-            <a href="#contact" className="btn btn-primary btn-lg">Schedule a Call</a>
-            <a href="#solutions" className="btn btn-outline btn-lg" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)' }}>
+            <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({behavior: 'smooth'}); }} className="btn btn-primary btn-lg">Schedule a Call</a>
+            <a href="#solutions" onClick={(e) => { e.preventDefault(); document.getElementById('solutions')?.scrollIntoView({behavior: 'smooth'}); }} className="btn btn-outline btn-lg" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)' }}>
               Explore Loan Programs
             </a>
           </div>

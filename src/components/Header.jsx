@@ -23,7 +23,7 @@ const Header = () => {
       <div className="container header-container">
         
         {/* Logo & DBA */}
-        <Link to="/" className="logo-section" style={{ textDecoration: 'none' }}>
+        <Link to="/" className="logo-section" style={{ textDecoration: 'none' }} onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
           <img src="logo.svg" alt="C2 Financial Logo" style={{ height: '40px' }} />
           <div className="dba-name" style={{ marginLeft: '12px' }}>Insider Mortgage</div>
         </Link>

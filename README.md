@@ -1,16 +1,18 @@
-# React + Vite
+# Insider Mortgage
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the **Insider Mortgage** platform repository!
 
-Currently, two official plugins are available:
+This project is a modern, blazing-fast web application built for the Insider Mortgage team. It is designed to provide clients with top-tier tools, beautiful aesthetics, and seamless user experiences.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
+- **Dynamic Mortgage Calculators:** Includes DSCR Cash Flow analysis and a unique "Utility" calculator for solving missing loan variables.
+- **Specialized Loan Pages:** Dedicated, SEO-optimized landing pages for Bank Statement Loans, 1099 Contractors, and Retirees.
+- **Live Economic Data:** Features baked-in, interactive yield curve and treasury spread charts utilizing data from the Federal Reserve (FRED).
 
-## React Compiler
+## Technology Stack
+- **Framework:** React + Vite
+- **Styling:** Custom CSS with modern glassmorphism UI patterns
+- **Charting:** Recharts
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+*Developed for Insider Mortgage.*

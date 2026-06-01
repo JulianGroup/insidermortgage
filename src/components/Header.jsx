@@ -1,24 +1,40 @@
 import React from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './Header.css';
 
 const Header = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleScroll = (e, id) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className="header">
       <div className="container header-container">
         
         {/* Logo & DBA */}
-        <a href="/" className="logo-section" style={{ textDecoration: 'none' }}>
-          <img src="/logo.svg" alt="C2 Financial Logo" style={{ height: '40px' }} />
+        <Link to="/" className="logo-section" style={{ textDecoration: 'none' }}>
+          <img src="logo.svg" alt="C2 Financial Logo" style={{ height: '40px' }} />
           <div className="dba-name" style={{ marginLeft: '12px' }}>Insider Mortgage</div>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="nav-links">
-          <a href="/#solutions" className="nav-link">Loan Programs</a>
-          <a href="/#calculator" className="nav-link">Calculator</a>
-          <a href="/#reviews" className="nav-link">Reviews</a>
-          <a href="/economic-insights" className="nav-link" style={{ color: 'var(--accent)', fontWeight: 'bold' }}>Yield Curve</a>
-          <a href="/#contact" className="btn btn-primary">Get Started</a>
+          <a href="#solutions" onClick={(e) => handleScroll(e, 'solutions')} className="nav-link">Loan Programs</a>
+          <a href="#calculator" onClick={(e) => handleScroll(e, 'calculator')} className="nav-link">Calculator</a>
+          <a href="#reviews" onClick={(e) => handleScroll(e, 'reviews')} className="nav-link">Reviews</a>
+          <Link to="/economic-insights" className="nav-link" style={{ color: 'var(--accent)', fontWeight: 'bold' }}>Yield Curve</Link>
+          <a href="#contact" onClick={(e) => handleScroll(e, 'contact')} className="btn btn-primary">Get Started</a>
         </nav>
 
         {/* Mobile Menu Button */}

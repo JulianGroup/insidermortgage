@@ -88,6 +88,12 @@ export const seoPages = [
         text: "My wife and I have had great experiences working with David and Rakesh at Insider Mortgage. They helped us buy our first house and guided us through all the paperwork, numbers, and financing. We started with an FHA loan, which required two loans with PMI, and they confidently planned how we could refinance into a conventional loan after six months. When the time came, they helped us refinance. Since we no longer had to pay PMI, we saved money and the process was easy. Since then, we’ve refinanced several times with them. Their strategy of paying down principal through refinancing while slightly lowering interest rates was new to us but very effective. David and Rakesh are always communicative, letting us know exactly what documents we needed and how to connect with them by call or text. They also research different loans and points to match your goals. We’d definitely go back to Insider Mortgage and would recommend them to anyone in the San Diego area looking to make smart mortgage decisions.",
         initials: 'DP',
         source: 'Google Review'
+      },
+      {
+        name: 'Christine Guillen',
+        text: "Working with David was an excellent experience. He took the time to thoroughly explain the loan process and went above and beyond by creating videos to help break down the numbers in a simple and understandable way. I truly appreciated his patience, transparency, and willingness to answer every question. He carefully reviewed different options with me and showed possibilities on how I could save money, which made me feel confident in my decisions. Throughout the process, he was professional, knowledgeable, and genuinely cared about helping me find the best financial option. I highly recommend him to anyone looking for a lender who is honest.",
+        initials: 'CG',
+        source: 'Google Review'
       }
     ]
   },

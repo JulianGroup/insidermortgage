@@ -26,7 +26,21 @@ export const seoPages = [
       }
     ],
     formSubtitle: 'Fill out the form below and an alternative-doc expert will reach out to discuss which program fits your unique cash flow.',
-    leadCategory: 'Self-Employed Borrower'
+    leadCategory: 'Self-Employed Borrower',
+    reviews: [
+      {
+        name: 'Drew Manier',
+        text: "I'm self-employed, so getting financing for a new construction condo in Redondo Beach came with its own set of hurdles. Rakesh handled it using alternative documentation and got it done. But what really stood out was how he managed the whole process. He was the quarterback. He kept tabs on everyone involved, the escrow, the title, the insurance people, making sure nothing fell through the cracks and that everything stayed on track to close on time. A diligent mortgage broker to know, with great follow through and the kind of person who actually coordinates well between all the moving parts. I felt at ease with him in my corner. A 5 star service for homebuyers!",
+        initials: 'DM',
+        source: 'Google Review'
+      },
+      {
+        name: 'Sam Alnweiran',
+        text: "I was introduced to David at Insider Mortgage by my real estate agent as a first-time homebuyer, and I chose to work with him because of how clearly he explains everything. He breaks down every scenario and option so you can truly understand the mortgage process. Unlike other lenders who send a short email about rates and credits, David records detailed videos covering refinancing scenarios and loan programs, including bank statement loans for 1099 business owners. He gives honest guidance, even advising friends to wait on a purchase when market conditions suggested prices would drop. That level of transparency made me confident in working with him and recommending him to others. David’s professionalism and straightforward approach make him stand out as a top mortgage professional in Southern California. He takes the time to educate clients so even first-time buyers can understand complex financial details. By the end of the process, I felt informed and empowered, and my friend also gained valuable insight through his guidance. We purchased a home with a pool and partial ocean view, and I would absolutely call David again or recommend Insider Mortgage to anyone looking for a trusted mortgage lender.",
+        initials: 'SA',
+        source: 'Google Review'
+      }
+    ]
   },
   {
     slug: 'mortgage-for-realtors',

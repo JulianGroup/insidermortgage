@@ -1,0 +1,113 @@
+.testimonials-section {
+  padding: var(--space-16) 0;
+  background-color: var(--primary);
+  color: white;
+}
+
+.testimonials-header {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.testimonials-header h2 {
+  color: white;
+  margin-bottom: var(--space-4);
+}
+
+.testimonials-header p {
+  color: var(--text-muted);
+  font-size: 1.125rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.testimonials-grid {
+  display: grid;
+  gap: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .testimonials-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.testimonial-card {
+  background-color: var(--primary-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  transition: var(--transition);
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.stars {
+  color: #FBBF24; /* Google Star Yellow */
+  font-size: 1.25rem;
+  letter-spacing: 2px;
+}
+
+.review-text {
+  font-style: italic;
+  color: #E2E8F0;
+  font-size: 1rem;
+  line-height: 1.7;
+  flex-grow: 1;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.review-text::-webkit-scrollbar {
+  width: 4px;
+}
+.review-text::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+.review-text::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: var(--radius-full);
+}
+
+.reviewer-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: var(--space-4);
+}
+
+.reviewer-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background-color: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-family: var(--font-heading);
+}
+
+.reviewer-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.reviewer-source {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}

@@ -1,0 +1,110 @@
+.calculator-section {
+  background-color: var(--surface);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.calc-tabs {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.calc-tab {
+  background: none;
+  border: none;
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition);
+}
+
+.calc-tab.active {
+  color: var(--primary);
+}
+
+.calc-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--secondary);
+}
+
+.calc-grid {
+  display: grid;
+  gap: var(--space-8);
+}
+
+@media (min-width: 1024px) {
+  .calc-grid {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.calc-inputs {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .calc-inputs {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.calc-results {
+  background-color: var(--primary);
+  color: white;
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+.result-item.total {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  border-top: 2px solid rgba(255,255,255,0.2);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-bottom: none;
+}
+
+.dscr-alert {
+  margin-top: var(--space-4);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-weight: 600;
+}
+
+.dscr-good {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #10B981;
+}
+
+.dscr-bad {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #EF4444;
+}

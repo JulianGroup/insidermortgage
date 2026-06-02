@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 
 const ReviewCard = ({ review }) => {
@@ -40,3 +41,4 @@ const ReviewCard = ({ review }) => {
 };
 
 export default ReviewCard;
+

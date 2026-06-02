@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import { NumericFormat } from 'react-number-format';
 import './Calculator.css';
@@ -454,3 +455,4 @@ const Calculator = () => {
 };
 
 export default Calculator;
+

@@ -1,0 +1,11 @@
+{
+  "/1099-loans/page": "/1099-loans",
+  "/[slug]/page": "/[slug]",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/bank-statement-loans/page": "/bank-statement-loans",
+  "/economic-insights/page": "/economic-insights",
+  "/mortgage-for-contractors/page": "/mortgage-for-contractors",
+  "/page": "/",
+  "/retirees/page": "/retirees"
+}

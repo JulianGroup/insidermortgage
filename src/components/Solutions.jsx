@@ -1,5 +1,6 @@
+"use client";
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import './Solutions.css';
 
 const categories = [
@@ -61,7 +62,7 @@ const Solutions = () => {
                 ))}
               </ul>
               
-              <Link to={cat.route} className="btn btn-outline" style={{ width: '100%', textAlign: 'center', display: 'inline-block' }}>
+              <Link href={cat.route} className="btn btn-outline" style={{ width: '100%', textAlign: 'center', display: 'inline-block' }}>
                 Learn More
               </Link>
             </div>
@@ -73,3 +74,4 @@ const Solutions = () => {
 };
 
 export default Solutions;
+

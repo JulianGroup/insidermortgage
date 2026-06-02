@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from 'react';
 import './Testimonials.css';
 
@@ -28,3 +29,4 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
+

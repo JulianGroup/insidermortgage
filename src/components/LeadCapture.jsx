@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import './LeadCapture.css';
 
@@ -147,3 +148,4 @@ const LeadCapture = () => {
 };
 
 export default LeadCapture;
+

@@ -45,11 +45,7 @@ export default function PayoffCalculator() {
 
   return (
     <main style={{ minHeight: '100vh', backgroundColor: 'var(--bg-color)', paddingBottom: '4rem' }}>
-      <header style={{ padding: '1.5rem', backgroundColor: 'var(--primary)', color: 'white', textAlign: 'center' }}>
-        <Link href="/" style={{ color: 'white', textDecoration: 'none', fontSize: '1.5rem', fontWeight: 'bold' }}>
-          Insider Mortgage
-        </Link>
-      </header>
+
 
       <section style={{ padding: '4rem 1rem' }}>
         <div className="container" style={{ maxWidth: '900px' }}>

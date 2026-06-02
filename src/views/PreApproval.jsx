@@ -42,12 +42,7 @@ export default function PreApproval() {
   return (
     <main style={{ minHeight: '100vh', backgroundColor: 'var(--bg-color)', display: 'flex', flexDirection: 'column' }}>
       
-      {/* Header */}
-      <header style={{ padding: '1.5rem', backgroundColor: 'var(--primary)', color: 'white', textAlign: 'center' }}>
-        <Link href="/" style={{ color: 'white', textDecoration: 'none', fontSize: '1.5rem', fontWeight: 'bold' }}>
-          Insider Mortgage
-        </Link>
-      </header>
+
 
       {/* Main Funnel Area */}
       <section style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem' }}>

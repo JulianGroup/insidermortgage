@@ -9,7 +9,7 @@ export default function PayoffCalculator() {
   const [currentPmt, setCurrentPmt] = useState(3160);
   
   const [newRate, setNewRate] = useState(6.5);
-  const [newPmt, setNewPmt] = useState(4000);
+  const [newPmt, setNewPmt] = useState(3160);
 
   const [results, setResults] = useState(null);
 
@@ -101,7 +101,7 @@ export default function PayoffCalculator() {
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>New P&I Payment ($)</label>
                   <CurrencyInput value={newPmt} onChange={setNewPmt} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ccc', fontSize: '1rem' }} />
-                  <small style={{ color: 'var(--text-muted)' }}>*Must be greater than current P&I payment</small>
+                  <small style={{ color: 'var(--text-muted)' }}>*Change payment or interest rate to see savings</small>
                 </div>
               </div>
 
@@ -109,9 +109,9 @@ export default function PayoffCalculator() {
           </div>
 
           {/* Results Area */}
-          {results && results.monthsSaved > 0 && parseFloat(newPmt) > parseFloat(currentPmt) ? (
+          {results && results.monthsSaved > 0 ? (
             <div className="animate-fade-in" style={{ backgroundColor: 'var(--primary)', color: 'white', padding: '3rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl)', textAlign: 'center' }}>
-              <div style={{ fontSize: '1.2rem', marginBottom: '1rem', color: 'rgba(255,255,255,0.8)' }}>By increasing your payment to {formatCurrency(newPmt)}...</div>
+              <div style={{ fontSize: '1.2rem', marginBottom: '1rem', color: 'rgba(255,255,255,0.8)' }}>With a payment of {formatCurrency(newPmt)} at {newRate}%...</div>
               <h2 style={{ fontSize: '2.5rem', marginBottom: '2rem', color: 'var(--accent)' }}>
                 You will pay off your mortgage<br/>{results.monthsSaved} months faster!
               </h2>
@@ -134,7 +134,7 @@ export default function PayoffCalculator() {
             </div>
           ) : (
             <div style={{ backgroundColor: 'white', padding: '3rem', borderRadius: 'var(--radius-lg)', textAlign: 'center', border: '2px dashed #ddd', color: 'var(--text-muted)' }}>
-              Enter a new payment greater than your current payment to see your savings.
+              Adjust the interest rate or payment amount to see your potential savings.
             </div>
           )}
 

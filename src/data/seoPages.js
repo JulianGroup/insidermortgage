@@ -94,6 +94,12 @@ export const seoPages = [
         text: "Working with David was an excellent experience. He took the time to thoroughly explain the loan process and went above and beyond by creating videos to help break down the numbers in a simple and understandable way. I truly appreciated his patience, transparency, and willingness to answer every question. He carefully reviewed different options with me and showed possibilities on how I could save money, which made me feel confident in my decisions. Throughout the process, he was professional, knowledgeable, and genuinely cared about helping me find the best financial option. I highly recommend him to anyone looking for a lender who is honest.",
         initials: 'CG',
         source: 'Google Review'
+      },
+      {
+        name: 'Garen Doyle',
+        text: "I was introduced to David at Insider Mortgage by our realtor when we first purchased a home in San Diego. Since then, we've refinanced three different times with them, and it's been a positive experience every time. The guys work around the clock and are convenient, working with my strange schedule to make sure everything happens when it needs to. They're reachable by phone or email, and they seem to be trustworthy and solid guys. What stands out is their approachability and how thorough they are with their spreadsheets and numbers, really doing the math for you and breaking down what financially makes sense. They walked me through the refinancing process and properly explained it so I always knew what was going on. They're very easy to get a hold of, which is important. If I decide to buy or refinance again in the future, David would definitely be the person I'd call or recommend to others.",
+        initials: 'GD',
+        source: 'Google Review'
       }
     ]
   },

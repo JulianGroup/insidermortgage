@@ -2,15 +2,31 @@
 import React, { useState, useMemo } from 'react';
 import loanLimitsData from '../data/loanLimits2026.json';
 
+const BASELINE_1_UNIT_LIMIT = 832750;
+const NATIONAL_LIMITS = {
+  unit1: 832750,
+  unit2: 1106250,
+  unit3: 1288800,
+  unit4: 1601750
+};
+
 export default function LoanLimitTool() {
   const [selectedState, setSelectedState] = useState('');
   const [selectedCounty, setSelectedCounty] = useState('');
 
-  const states = useMemo(() => Object.keys(loanLimitsData).sort(), []);
+  const states = useMemo(() => {
+    return Object.keys(loanLimitsData).filter(state => {
+      // Only include state if it has at least one county with a high-balance limit (> 832,750)
+      return Object.values(loanLimitsData[state]).some(county => county.unit1 > BASELINE_1_UNIT_LIMIT);
+    }).sort();
+  }, []);
   
   const counties = useMemo(() => {
     if (!selectedState || !loanLimitsData[selectedState]) return [];
-    return Object.keys(loanLimitsData[selectedState]).sort();
+    return Object.keys(loanLimitsData[selectedState]).filter(county => {
+      // Only include county if its 1-unit limit is > 832,750
+      return loanLimitsData[selectedState][county].unit1 > BASELINE_1_UNIT_LIMIT;
+    }).sort();
   }, [selectedState]);
 
   const limits = useMemo(() => {
@@ -37,7 +53,21 @@ export default function LoanLimitTool() {
       </section>
 
       <section style={{ padding: '4rem 1rem' }}>
-        <div className="container" style={{ maxWidth: '900px' }}>
+        <div className="container" style={{ maxWidth: '1000px' }}>
+          
+          {/* National Conforming Limits Banner */}
+          <div style={{ backgroundColor: 'var(--bg-color)', border: '1px solid var(--accent)', padding: '1.5rem', borderRadius: 'var(--radius-md)', marginBottom: '3rem', textAlign: 'center' }}>
+            <h3 style={{ color: 'var(--primary)', marginBottom: '1rem', fontSize: '1.3rem' }}>National Conforming Loan Limits (2026)</h3>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2rem', color: 'var(--text-secondary)', fontWeight: 'bold' }}>
+              <span>1-Unit: {formatCurrency(NATIONAL_LIMITS.unit1)}</span>
+              <span>2-Unit: {formatCurrency(NATIONAL_LIMITS.unit2)}</span>
+              <span>3-Unit: {formatCurrency(NATIONAL_LIMITS.unit3)}</span>
+              <span>4-Unit: {formatCurrency(NATIONAL_LIMITS.unit4)}</span>
+            </div>
+            <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 'normal' }}>
+              * If a county is not listed below, it is subject to the standard national conforming loan limits above.
+            </p>
+          </div>
           
           <div style={{ backgroundColor: 'white', padding: '2.5rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', marginBottom: '3rem' }}>
             <h2 style={{ color: 'var(--primary)', marginBottom: '1.5rem', textAlign: 'center' }}>Select Location</h2>
@@ -79,33 +109,33 @@ export default function LoanLimitTool() {
 
           {limits && (
             <div>
-              <h2 style={{ color: 'var(--primary)', marginBottom: '1.5rem', textAlign: 'center' }}>Maximum Loan Limits for {selectedCounty}</h2>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
+              <h2 style={{ color: 'var(--primary)', marginBottom: '1.5rem', textAlign: 'center' }}>High-Balance Loan Limits for {selectedCounty}</h2>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', overflowX: 'auto' }}>
                 
-                <div style={{ backgroundColor: 'white', padding: '2rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', textAlign: 'center', borderTop: '4px solid #10B981' }}>
-                  <div style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: '600' }}>1-Unit Property</div>
-                  <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>
+                <div style={{ backgroundColor: 'white', padding: '1.5rem 1rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', textAlign: 'center', borderTop: '4px solid #10B981', minWidth: '150px' }}>
+                  <div style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '0.5rem', fontWeight: '600' }}>1-Unit</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: 'var(--primary)' }}>
                     {formatCurrency(limits.unit1)}
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'white', padding: '2rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', textAlign: 'center', borderTop: '4px solid #F59E0B' }}>
-                  <div style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: '600' }}>2-Unit Property</div>
-                  <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>
+                <div style={{ backgroundColor: 'white', padding: '1.5rem 1rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', textAlign: 'center', borderTop: '4px solid #F59E0B', minWidth: '150px' }}>
+                  <div style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '0.5rem', fontWeight: '600' }}>2-Unit</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: 'var(--primary)' }}>
                     {formatCurrency(limits.unit2)}
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'white', padding: '2rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', textAlign: 'center', borderTop: '4px solid #3B82F6' }}>
-                  <div style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: '600' }}>3-Unit Property</div>
-                  <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>
+                <div style={{ backgroundColor: 'white', padding: '1.5rem 1rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', textAlign: 'center', borderTop: '4px solid #3B82F6', minWidth: '150px' }}>
+                  <div style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '0.5rem', fontWeight: '600' }}>3-Unit</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: 'var(--primary)' }}>
                     {formatCurrency(limits.unit3)}
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'white', padding: '2rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', textAlign: 'center', borderTop: '4px solid #8B5CF6' }}>
-                  <div style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', marginBottom: '0.5rem', fontWeight: '600' }}>4-Unit Property</div>
-                  <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>
+                <div style={{ backgroundColor: 'white', padding: '1.5rem 1rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', textAlign: 'center', borderTop: '4px solid #8B5CF6', minWidth: '150px' }}>
+                  <div style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '0.5rem', fontWeight: '600' }}>4-Unit</div>
+                  <div style={{ fontSize: '1.8rem', fontWeight: 'bold', color: 'var(--primary)' }}>
                     {formatCurrency(limits.unit4)}
                   </div>
                 </div>

@@ -25,6 +25,16 @@ export default function GeekOut() {
       )
     },
     {
+      title: "Payoff Time Calculator",
+      description: "Model refinancing or extra principal payments to see how many months you can shave off your loan.",
+      href: "/geek-out/payoff-calculator",
+      icon: (
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{width:'40px', height:'40px'}}>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )
+    },
+    {
       title: "Interactive Active Calculator",
       description: "Estimate monthly payments, analyze investment property cash flow, or solve for missing mortgage variables.",
       href: "/geek-out/interactive-active-calculator",

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useMemo } from 'react';
 import './SelfEmployed.css';
+import CurrencyInput from '../components/CurrencyInput';
 
 export default function WeightedAverage() {
   const [rows, setRows] = useState([
@@ -136,19 +137,17 @@ export default function WeightedAverage() {
                         />
                       </td>
                       <td style={{ padding: '1rem' }}>
-                        <input 
-                          type="text" 
+                        <CurrencyInput 
                           value={row.payment} 
-                          onChange={(e) => updateRow(row.id, 'payment', e.target.value)}
+                          onChange={(val) => updateRow(row.id, 'payment', val)}
                           placeholder="0"
                           style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }}
                         />
                       </td>
                       <td style={{ padding: '1rem' }}>
-                        <input 
-                          type="text" 
+                        <CurrencyInput 
                           value={row.balance} 
-                          onChange={(e) => updateRow(row.id, 'balance', e.target.value)}
+                          onChange={(val) => updateRow(row.id, 'balance', val)}
                           placeholder="0"
                           style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }}
                         />

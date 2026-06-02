@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import CurrencyInput from '../components/CurrencyInput';
 
 export default function PayoffCalculator() {
   const [balance, setBalance] = useState(500000);
@@ -72,7 +73,7 @@ export default function PayoffCalculator() {
                 
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Current Balance ($)</label>
-                  <input type="number" value={balance} onChange={(e) => setBalance(e.target.value)} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ccc', fontSize: '1rem' }} />
+                  <CurrencyInput value={balance} onChange={setBalance} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ccc', fontSize: '1rem' }} />
                 </div>
                 
                 <div style={{ marginBottom: '1rem' }}>
@@ -82,7 +83,7 @@ export default function PayoffCalculator() {
 
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>Current P&I Payment ($)</label>
-                  <input type="number" value={currentPmt} onChange={(e) => setCurrentPmt(e.target.value)} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ccc', fontSize: '1rem' }} />
+                  <CurrencyInput value={currentPmt} onChange={setCurrentPmt} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ccc', fontSize: '1rem' }} />
                   <small style={{ color: 'var(--text-muted)' }}>*Principal and Interest only, exclude taxes/insurance</small>
                 </div>
               </div>
@@ -99,7 +100,7 @@ export default function PayoffCalculator() {
 
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>New P&I Payment ($)</label>
-                  <input type="number" value={newPmt} onChange={(e) => setNewPmt(e.target.value)} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ccc', fontSize: '1rem' }} />
+                  <CurrencyInput value={newPmt} onChange={setNewPmt} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ccc', fontSize: '1rem' }} />
                   <small style={{ color: 'var(--text-muted)' }}>*Must be greater than current P&I payment</small>
                 </div>
               </div>

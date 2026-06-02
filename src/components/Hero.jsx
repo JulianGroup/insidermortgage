@@ -16,10 +16,6 @@ const Hero = () => {
           <p className="hero-subtitle">
             <strong style={{color: 'white'}}>Rakesh &amp; David</strong> – Loan Officers who specialize in Self-Employed, First-Time Buyers, Retirees &amp; Real Estate Investors
           </p>
-          
-          <div className="hero-contact-banner">
-            <a href="tel:8005550199" className="hero-phone">📞 (800) 555-0199</a>
-          </div>
 
           <div className="hero-cta-group">
             <Link href="/pre-approval" className="btn btn-accent btn-lg" style={{ backgroundColor: '#EFB51E', color: '#1e3a8a', border: 'none', fontWeight: 'bold' }}>Get Pre-Approved</Link>
@@ -37,7 +33,7 @@ const Hero = () => {
             </div>
             <div className="partner-info">
               <h3>Rakesh Jain</h3>
-              <p className="partner-title">Managing Partner / Broker</p>
+              <p className="partner-title">Managing Partner / Broker<br/><a href="tel:8588485653" style={{color: 'var(--accent)', textDecoration: 'none'}}>📞 858-848-5653</a></p>
               <p className="partner-credentials">NMLS #240594<br/>20+ years helping borrowers secure tailored financing</p>
             </div>
           </div>
@@ -48,7 +44,7 @@ const Hero = () => {
             </div>
             <div className="partner-info">
               <h3>David Sider</h3>
-              <p className="partner-title">Managing Partner / Broker</p>
+              <p className="partner-title">Managing Partner / Broker<br/><a href="tel:8588765363" style={{color: 'var(--accent)', textDecoration: 'none'}}>📞 858-876-5363</a></p>
               <p className="partner-credentials">NMLS #254108 | CA DRE #01193796<br/>Expert mortgage strategies for complex financial scenarios</p>
             </div>
           </div>

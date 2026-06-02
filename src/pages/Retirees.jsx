@@ -2,6 +2,21 @@ import React, { useState } from 'react';
 import ReviewCard from '../components/ReviewCard';
 import './SelfEmployed.css';
 
+const retireeReviews = [
+  {
+    name: 'Client',
+    text: "From our very first call, my wife and I felt like David at Insider Mortgage truly cared about us. Over the course of two to three months, we quickly realized that David was intelligent, creative, and trustworthy, even though we had never met him in person. Through regular telephone conversations, we grew to trust his organization, planning and the milestones he set, which he accomplished on time. The end result was not only securing our reverse mortgage but also gaining a new friend in David. It is clear David enjoys his work, and that made the process easier for us. He listens carefully and explains things in a way that helps people who may not understand all the details. David often provided information before we even thought to ask, anticipating our needs and even sharing referrals and resources that explained regulatory requirements and timing. He clearly takes pride in his knowledge and experience, and he has a wit that makes the process more enjoyable. Our experience with David and Insider Mortgage was so positive that we’d happily refer future inquiries to him...WELL DONE DAVID!",
+    initials: 'C',
+    source: 'Google Review'
+  },
+  {
+    name: 'larry gk',
+    text: "We consider our financial portion of life a 3- legged stool: Wealth advisor, tax accountant and (especially now) mortgage expert. Insider Mortgage is our go-to source for the latter without question I couldn't craft what made sense through Wells Fargo Mortgage. David Sider and his team at Insider Mortgage had creative and compelling alternatives that not only fit the monthly budget but come with other benefits. They thoroughly explained everything got me the loan for our home in beautiful San Diego. The level of attention to details and service is just fantastic. They may use computer and platform based tools but no stage is assumed without personal 1:1 live conversation. The way it should be.... Thanks.",
+    initials: 'LG',
+    source: 'Google Review'
+  }
+];
+
 const Retirees = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -94,11 +109,17 @@ const Retirees = () => {
         </div>
       </section>
 
-      {/* Retiree Reviews Placeholder Section */}
+      {/* Retiree Reviews Section */}
       <section className="section bg-color" style={{ paddingTop: 0 }}>
         <div className="container">
-          {/* Reviews will go here once provided */}
-          <div id="retiree-reviews-container"></div>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <h2 style={{ color: 'var(--primary)', marginBottom: '2rem' }}>Success Stories</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+            {retireeReviews.map((review, idx) => (
+              <ReviewCard key={idx} review={review} />
+            ))}
+          </div>
         </div>
       </section>
 

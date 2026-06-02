@@ -26,7 +26,7 @@ const Header = () => {
         
         {/* Logo & DBA */}
         <Link href="/" className="logo-section" style={{ textDecoration: 'none' }} onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-          <img src="logo.svg" alt="C2 Financial Logo" style={{ height: '40px' }} />
+          <img src="/insidermortgage/logo.svg" alt="C2 Financial Logo" style={{ height: '40px' }} />
           <div className="dba-name" style={{ marginLeft: '12px' }}>Insider Mortgage</div>
         </Link>
 

@@ -8,7 +8,7 @@ export default function PayoffCalculator() {
   const [currentRate, setCurrentRate] = useState(6.5);
   const [currentPmt, setCurrentPmt] = useState(3160);
   
-  const [newRate, setNewRate] = useState(6.5);
+  const [newRate, setNewRate] = useState('');
   const [newPmt, setNewPmt] = useState(3160);
 
   const [results, setResults] = useState(null);
@@ -28,7 +28,7 @@ export default function PayoffCalculator() {
     const newRateMonthly = (parseFloat(newRate) || 0) / 100 / 12;
     const newNper = calculateNPER(newRateMonthly, parseFloat(newPmt) || 0, parseFloat(balance) || 0);
 
-    if (isFinite(currentNper) && isFinite(newNper) && currentNper > 0 && newNper > 0) {
+    if (isFinite(currentNper) && isFinite(newNper) && currentNper > 0 && newNper > 0 && newRate !== '') {
       const monthsSaved = Math.max(0, currentNper - newNper);
       setResults({
         currentMonths: Math.ceil(currentNper),
@@ -90,7 +90,7 @@ export default function PayoffCalculator() {
                 
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '0.5rem', color: 'var(--text-secondary)' }}>New Interest Rate (%)</label>
-                  <input type="number" step="0.125" value={newRate} onChange={(e) => setNewRate(e.target.value)} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ccc', fontSize: '1rem' }} />
+                  <input type="number" step="0.125" value={newRate} onChange={(e) => setNewRate(e.target.value)} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: newRate === '' ? '2px dashed var(--accent)' : '1px solid #ccc', backgroundColor: newRate === '' ? 'rgba(239, 181, 30, 0.1)' : 'white', fontSize: '1rem', transition: 'all 0.3s' }} placeholder="e.g. 5.5" />
                   <small style={{ color: 'var(--text-muted)' }}>*Keep same as current to model extra principal only</small>
                 </div>
 

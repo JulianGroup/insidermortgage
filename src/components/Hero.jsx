@@ -1,5 +1,6 @@
 "use client";
 import React from 'react';
+import Link from 'next/link';
 import './Hero.css';
 
 const Hero = () => {
@@ -21,6 +22,7 @@ const Hero = () => {
           </div>
 
           <div className="hero-cta-group">
+            <Link href="/pre-approval" className="btn btn-accent btn-lg" style={{ backgroundColor: '#EFB51E', color: '#1e3a8a', border: 'none', fontWeight: 'bold' }}>Get Pre-Approved</Link>
             <a href="#contact" onClick={(e) => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({behavior: 'smooth'}); }} className="btn btn-primary btn-lg">Schedule a Call</a>
             <a href="#solutions" onClick={(e) => { e.preventDefault(); document.getElementById('solutions')?.scrollIntoView({behavior: 'smooth'}); }} className="btn btn-outline btn-lg" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)' }}>
               Explore Loan Programs

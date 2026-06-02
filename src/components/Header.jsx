@@ -35,7 +35,7 @@ const Header = () => {
           <a href="#solutions" onClick={(e) => handleScroll(e, 'solutions')} className="nav-link">Loan Programs</a>
           <a href="#calculator" onClick={(e) => handleScroll(e, 'calculator')} className="nav-link">Calculator</a>
           <a href="#reviews" onClick={(e) => handleScroll(e, 'reviews')} className="nav-link">Reviews</a>
-          <Link href="/economic-insights" className="nav-link" style={{ color: 'var(--accent)', fontWeight: 'bold' }}>Yield Curve</Link>
+          <Link href="/geek-out" className="nav-link" style={{ color: 'var(--accent)', fontWeight: 'bold' }}>Geek Out</Link>
           <a href="#contact" onClick={(e) => handleScroll(e, 'contact')} className="btn btn-primary">Get Started</a>
         </nav>
 

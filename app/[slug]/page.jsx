@@ -7,8 +7,9 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }) {
-  const page = seoPages.find((p) => p.slug === params.slug);
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  const page = seoPages.find((p) => p.slug === resolvedParams.slug);
   if (!page) return { title: 'Insider Mortgage' };
   return {
     title: page.seoTitle,
@@ -16,8 +17,9 @@ export function generateMetadata({ params }) {
   };
 }
 
-export default function Page({ params }) {
-  const pageData = seoPages.find((p) => p.slug === params.slug);
+export default async function Page({ params }) {
+  const resolvedParams = await params;
+  const pageData = seoPages.find((p) => p.slug === resolvedParams.slug);
   if (!pageData) return null;
   return <SpecialtyPage data={pageData} />;
 }

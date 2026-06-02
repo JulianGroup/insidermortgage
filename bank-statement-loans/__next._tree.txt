@@ -1,3 +1,3 @@
 :HL["/insidermortgage/_next/static/chunks/2yuvg_bmvuxqh.css","style"]
 :HL["/insidermortgage/_next/static/chunks/42x_ra33cekyl.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"bank-statement-loans","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"WGdMOgvIW6inhFQhdmSTe"}
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"bank-statement-loans","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"7in2QMDmQ2VTRh5rUVZk6"}

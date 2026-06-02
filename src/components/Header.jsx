@@ -33,7 +33,6 @@ const Header = () => {
         {/* Desktop Navigation */}
         <nav className="nav-links">
           <a href="#solutions" onClick={(e) => handleScroll(e, 'solutions')} className="nav-link">Loan Programs</a>
-          <a href="#calculator" onClick={(e) => handleScroll(e, 'calculator')} className="nav-link">Calculator</a>
           <a href="#reviews" onClick={(e) => handleScroll(e, 'reviews')} className="nav-link">Reviews</a>
           <Link href="/partners" className="nav-link">Partners</Link>
           <Link href="/geek-out" className="nav-link" style={{ color: 'var(--accent)', fontWeight: 'bold' }}>Geek Out</Link>

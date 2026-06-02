@@ -72,16 +72,34 @@
       "namedRegex": "^/bank\\-statement\\-loans(?:/)?$"
     },
     {
-      "page": "/economic-insights",
-      "regex": "^/economic\\-insights(?:/)?$",
+      "page": "/geek-out",
+      "regex": "^/geek\\-out(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/economic\\-insights(?:/)?$"
+      "namedRegex": "^/geek\\-out(?:/)?$"
+    },
+    {
+      "page": "/geek-out/weighted-average",
+      "regex": "^/geek\\-out/weighted\\-average(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/geek\\-out/weighted\\-average(?:/)?$"
+    },
+    {
+      "page": "/geek-out/yield-curve",
+      "regex": "^/geek\\-out/yield\\-curve(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/geek\\-out/yield\\-curve(?:/)?$"
     },
     {
       "page": "/mortgage-for-contractors",
       "regex": "^/mortgage\\-for\\-contractors(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/mortgage\\-for\\-contractors(?:/)?$"
+    },
+    {
+      "page": "/partners",
+      "regex": "^/partners(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/partners(?:/)?$"
     },
     {
       "page": "/retirees",

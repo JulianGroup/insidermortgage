@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/geek-out/layout,_N_T_/geek-out/weighted-average/layout,_N_T_/geek-out/weighted-average/page,_N_T_/geek-out/weighted-average"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/geek-out/weighted-average/__PAGE__",
+    "/geek-out/weighted-average",
+    "/geek-out",
+    "/_index",
+    "/_head"
+  ]
+}

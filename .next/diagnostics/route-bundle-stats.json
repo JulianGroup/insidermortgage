@@ -1,9 +1,9 @@
 [
   {
-    "route": "/economic-insights",
-    "firstLoadUncompressedJsBytes": 1739839,
+    "route": "/geek-out/yield-curve",
+    "firstLoadUncompressedJsBytes": 1739908,
     "firstLoadChunkPaths": [
-      ".next\\static\\chunks\\0wpzz7l2pih28.js",
+      ".next\\static\\chunks\\391_s5_8munr3.js",
       ".next\\static\\chunks\\1-8s9_t85wwr4.js",
       ".next\\static\\chunks\\3vjcclav2kjy9.js",
       ".next\\static\\chunks\\1-3at-bas7qha.js",
@@ -15,9 +15,9 @@
   },
   {
     "route": "/1099-loans",
-    "firstLoadUncompressedJsBytes": 567883,
+    "firstLoadUncompressedJsBytes": 567952,
     "firstLoadChunkPaths": [
-      ".next\\static\\chunks\\0wpzz7l2pih28.js",
+      ".next\\static\\chunks\\391_s5_8munr3.js",
       ".next\\static\\chunks\\1-8s9_t85wwr4.js",
       ".next\\static\\chunks\\1sa2juqt9dxqg.js",
       ".next\\static\\chunks\\1-3at-bas7qha.js",
@@ -29,9 +29,9 @@
   },
   {
     "route": "/bank-statement-loans",
-    "firstLoadUncompressedJsBytes": 567793,
+    "firstLoadUncompressedJsBytes": 567862,
     "firstLoadChunkPaths": [
-      ".next\\static\\chunks\\0wpzz7l2pih28.js",
+      ".next\\static\\chunks\\391_s5_8munr3.js",
       ".next\\static\\chunks\\1-8s9_t85wwr4.js",
       ".next\\static\\chunks\\1m4nx_dr6-892.js",
       ".next\\static\\chunks\\1-3at-bas7qha.js",
@@ -43,9 +43,9 @@
   },
   {
     "route": "/",
-    "firstLoadUncompressedJsBytes": 560530,
+    "firstLoadUncompressedJsBytes": 560599,
     "firstLoadChunkPaths": [
-      ".next\\static\\chunks\\0wpzz7l2pih28.js",
+      ".next\\static\\chunks\\391_s5_8munr3.js",
       ".next\\static\\chunks\\1-8s9_t85wwr4.js",
       ".next\\static\\chunks\\2u2l8mb9qn5om.js",
       ".next\\static\\chunks\\1-3at-bas7qha.js",
@@ -57,9 +57,9 @@
   },
   {
     "route": "/[slug]",
-    "firstLoadUncompressedJsBytes": 557016,
+    "firstLoadUncompressedJsBytes": 557085,
     "firstLoadChunkPaths": [
-      ".next\\static\\chunks\\0wpzz7l2pih28.js",
+      ".next\\static\\chunks\\391_s5_8munr3.js",
       ".next\\static\\chunks\\1-8s9_t85wwr4.js",
       ".next\\static\\chunks\\2llqd84hsyb6x.js",
       ".next\\static\\chunks\\1-3at-bas7qha.js",
@@ -71,9 +71,9 @@
   },
   {
     "route": "/mortgage-for-contractors",
-    "firstLoadUncompressedJsBytes": 544466,
+    "firstLoadUncompressedJsBytes": 544535,
     "firstLoadChunkPaths": [
-      ".next\\static\\chunks\\0wpzz7l2pih28.js",
+      ".next\\static\\chunks\\391_s5_8munr3.js",
       ".next\\static\\chunks\\1-8s9_t85wwr4.js",
       ".next\\static\\chunks\\1ch-ia12vbfds.js",
       ".next\\static\\chunks\\1-3at-bas7qha.js",
@@ -84,10 +84,38 @@
     ]
   },
   {
-    "route": "/retirees",
-    "firstLoadUncompressedJsBytes": 534870,
+    "route": "/partners",
+    "firstLoadUncompressedJsBytes": 537442,
     "firstLoadChunkPaths": [
-      ".next\\static\\chunks\\0wpzz7l2pih28.js",
+      ".next\\static\\chunks\\391_s5_8munr3.js",
+      ".next\\static\\chunks\\1-8s9_t85wwr4.js",
+      ".next\\static\\chunks\\10c2_c2d1hed2.js",
+      ".next\\static\\chunks\\1-3at-bas7qha.js",
+      ".next\\static\\chunks\\27jktro2p5rq9.js",
+      ".next\\static\\chunks\\3n7dm2ojtyzwn.js",
+      ".next\\static\\chunks\\187cnyi1wfw_o.js",
+      ".next\\static\\chunks\\turbopack-2a5jsktjtzs-6.js"
+    ]
+  },
+  {
+    "route": "/geek-out/weighted-average",
+    "firstLoadUncompressedJsBytes": 536359,
+    "firstLoadChunkPaths": [
+      ".next\\static\\chunks\\391_s5_8munr3.js",
+      ".next\\static\\chunks\\1-8s9_t85wwr4.js",
+      ".next\\static\\chunks\\0l9ru6kvu5gtu.js",
+      ".next\\static\\chunks\\1-3at-bas7qha.js",
+      ".next\\static\\chunks\\27jktro2p5rq9.js",
+      ".next\\static\\chunks\\3n7dm2ojtyzwn.js",
+      ".next\\static\\chunks\\187cnyi1wfw_o.js",
+      ".next\\static\\chunks\\turbopack-2a5jsktjtzs-6.js"
+    ]
+  },
+  {
+    "route": "/retirees",
+    "firstLoadUncompressedJsBytes": 534939,
+    "firstLoadChunkPaths": [
+      ".next\\static\\chunks\\391_s5_8munr3.js",
       ".next\\static\\chunks\\1-8s9_t85wwr4.js",
       ".next\\static\\chunks\\3tegyiuo92m72.js",
       ".next\\static\\chunks\\1-3at-bas7qha.js",
@@ -98,10 +126,24 @@
     ]
   },
   {
-    "route": "/_not-found",
-    "firstLoadUncompressedJsBytes": 525290,
+    "route": "/geek-out",
+    "firstLoadUncompressedJsBytes": 528957,
     "firstLoadChunkPaths": [
-      ".next\\static\\chunks\\0wpzz7l2pih28.js",
+      ".next\\static\\chunks\\391_s5_8munr3.js",
+      ".next\\static\\chunks\\1-8s9_t85wwr4.js",
+      ".next\\static\\chunks\\2484brbvlh5uf.js",
+      ".next\\static\\chunks\\1-3at-bas7qha.js",
+      ".next\\static\\chunks\\27jktro2p5rq9.js",
+      ".next\\static\\chunks\\3n7dm2ojtyzwn.js",
+      ".next\\static\\chunks\\187cnyi1wfw_o.js",
+      ".next\\static\\chunks\\turbopack-2a5jsktjtzs-6.js"
+    ]
+  },
+  {
+    "route": "/_not-found",
+    "firstLoadUncompressedJsBytes": 525359,
+    "firstLoadChunkPaths": [
+      ".next\\static\\chunks\\391_s5_8munr3.js",
       ".next\\static\\chunks\\1-8s9_t85wwr4.js",
       ".next\\static\\chunks\\1-3at-bas7qha.js",
       ".next\\static\\chunks\\27jktro2p5rq9.js",

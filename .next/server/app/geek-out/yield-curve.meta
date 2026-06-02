@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/geek-out/layout,_N_T_/geek-out/yield-curve/layout,_N_T_/geek-out/yield-curve/page,_N_T_/geek-out/yield-curve"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/geek-out/yield-curve/__PAGE__",
+    "/geek-out/yield-curve",
+    "/geek-out",
+    "/_index",
+    "/_head"
+  ]
+}

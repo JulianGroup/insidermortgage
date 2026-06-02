@@ -5,7 +5,12 @@ import './Calculator.css';
 
 const formatCurrency = (val) => {
   if (isNaN(val) || val === Infinity || val === -Infinity) return 'N/A';
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
+  return new Intl.NumberFormat('en-US', { 
+    style: 'currency', 
+    currency: 'USD',
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0
+  }).format(val);
 };
 
 const formatNumber = (val, decimals = 2) => {
@@ -163,7 +168,7 @@ const Calculator = () => {
     <section className="section calculator-section" id="calculator">
       <div className="container">
         <div className="solutions-header">
-          <h2>Interactive Mortgage Tools</h2>
+          <h2>Interactive Active Calculator</h2>
           <p>Estimate your monthly payments, analyze an investment property's cash flow, or use the Utility Calculator to solve for a missing variable.</p>
         </div>
 

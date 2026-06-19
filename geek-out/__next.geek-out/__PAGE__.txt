@@ -2,5 +2,5 @@
 2:I[64365,["/insidermortgage/_next/static/chunks/00jr592_jctcq.js","/insidermortgage/_next/static/chunks/1-8s9_t85wwr4.js","/insidermortgage/_next/static/chunks/24ui12nxdxz4k.js"],"default"]
 3:I[97367,["/insidermortgage/_next/static/chunks/00jr592_jctcq.js","/insidermortgage/_next/static/chunks/1-8s9_t85wwr4.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/insidermortgage/_next/static/chunks/24ui12nxdxz4k.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"ON1VkVgooou7wz4LWV3ts"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/insidermortgage/_next/static/chunks/24ui12nxdxz4k.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"_K9dTdXMZcqb32Z8qolhc"}
 5:null

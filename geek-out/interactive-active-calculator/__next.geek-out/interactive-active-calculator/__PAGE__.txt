@@ -3,5 +3,5 @@
 3:I[97367,["/insidermortgage/_next/static/chunks/00jr592_jctcq.js","/insidermortgage/_next/static/chunks/1-8s9_t85wwr4.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
 :HL["/insidermortgage/_next/static/chunks/1f0ia-zhciwqm.css","style"]
-0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"style":{"minHeight":"80vh","backgroundColor":"var(--bg-color)"},"children":["$","$L2",null,{}]}],[["$","link","0",{"rel":"stylesheet","href":"/insidermortgage/_next/static/chunks/1f0ia-zhciwqm.css","precedence":"next"}],["$","script","script-0",{"src":"/insidermortgage/_next/static/chunks/1nab8q_sdyks3.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"iEGx8QB3mp5evV_PTeGVt"}
+0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"style":{"minHeight":"80vh","backgroundColor":"var(--bg-color)"},"children":["$","$L2",null,{}]}],[["$","link","0",{"rel":"stylesheet","href":"/insidermortgage/_next/static/chunks/1f0ia-zhciwqm.css","precedence":"next"}],["$","script","script-0",{"src":"/insidermortgage/_next/static/chunks/1nab8q_sdyks3.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"WddXmS6zQIeRsUt_MtqMY"}
 5:null

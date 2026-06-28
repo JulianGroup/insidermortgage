@@ -24,7 +24,6 @@ const HeroV4 = () => {
       }}
     >
         <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bebas+Neue&family=Montserrat:wght@600;800&family=Permanent+Marker&display=swap" rel="stylesheet" />
-      </head>
       {/* Top Text Area */}
       <div style={{ zIndex: 2, display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '1rem' }}>
         <h1 style={{

@@ -7,7 +7,7 @@ const HeroV4 = () => {
     <section style={{ backgroundColor: 'var(--primary)' }}>
       <div style={{ width: '100%', maxWidth: '1600px', margin: '0 auto' }}>
         <img 
-          src="/insidermortgage/SplashPageV4_with_text.jpg" 
+          src="/insidermortgage/main-pg-w-text.png" 
           alt="Insider Mortgage Splash" 
           style={{ width: '100%', height: 'auto', display: 'block' }} 
         />

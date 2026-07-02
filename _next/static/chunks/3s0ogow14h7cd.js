@@ -5,4 +5,4 @@
         @media (min-width: 769px) {
           .mobile-hide { display: block !important; }
         }
-      `}})]});var i=e.i(6310),a=e.i(44008),n=e.i(52186),o=e.i(96616);e.s(["default",0,()=>(0,t.jsxs)("main",{children:[(0,t.jsx)(s,{}),(0,t.jsx)(a.default,{}),(0,t.jsx)(i.default,{}),(0,t.jsx)(n.default,{}),(0,t.jsx)(o.default,{})]})],49645)}]);
+      `}})]});var i=e.i(6310),a=e.i(44008),n=e.i(52186),o=e.i(96616);e.s(["default",0,()=>(0,t.jsxs)("main",{children:[(0,t.jsx)(s,{}),(0,t.jsx)(a.default,{}),(0,t.jsx)(i.default,{}),(0,t.jsx)(n.default,{}),(0,t.jsx)(o.default,{}),(0,t.jsx)("div",{style:{position:"fixed",bottom:"10px",right:"10px",backgroundColor:"rgba(0,0,0,0.7)",color:"white",padding:"4px 8px",borderRadius:"4px",fontSize:"0.8rem",zIndex:9999,pointerEvents:"none",fontFamily:"sans-serif"},children:"Build v4.1"})]})],49645)}]);

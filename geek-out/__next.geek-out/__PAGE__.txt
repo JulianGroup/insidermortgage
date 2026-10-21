@@ -2,5 +2,5 @@
 2:I[14852,["8500","static/chunks/8500-f62a38ff68ab7f42.js","154","static/chunks/app/geek-out/page-284f48e60ae0cfaf.js"],"default"]
 3:I[90484,[],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"EMptMF_lsZmHzANXYVUXu"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"VENIwUgl3BOhW93mSMjz_"}
 5:null

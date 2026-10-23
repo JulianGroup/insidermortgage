@@ -2,5 +2,5 @@
 2:I[65452,["8500","static/chunks/8500-f62a38ff68ab7f42.js","7416","static/chunks/app/bio-rakesh/page-723099c9a3e54c0a.js"],"default"]
 3:I[90484,[],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"uEH4xFWlbymu_OpIWuutq"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"3ScMQ5hnew61U9n9k0Hxk"}
 5:null

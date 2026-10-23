@@ -2,5 +2,5 @@
 2:I[22352,["8500","static/chunks/8500-f62a38ff68ab7f42.js","2928","static/chunks/app/bio-david/page-0fdaa8a7bf4355db.js"],"default"]
 3:I[90484,[],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"QlvvxWOZvuNeM88V3PUew"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"KD2LMBLU---j8xqm9rFHX"}
 5:null

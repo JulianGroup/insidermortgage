@@ -1,11 +1,13 @@
 {
   "businessName": "Insider Mortgage",
+  "gbpAccountId": "101600687501608947227",
+  "gbpLocationId": "8930097509490179790",
   "showHeading": true,
   "heading": "The Word on the Street",
   "averageRating": 5,
   "totalReviewCount": 61,
   "writeReviewUrl": "https://search.google.com/local/writereview?placeid=ChIJveC1LxQH3IARnyqTS4mmz80",
-  "lastUpdated": "2026-10-26T17:39:26.270Z",
+  "lastUpdated": "2026-10-26T20:06:59.333Z",
   "reviews": [
     {
       "id": "rev_garen_doyle",
@@ -13,8 +15,13 @@
       "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocITYDbKUwWNr4XKSNBDc0fwUR46ZP9mTYYeql1vr0LdIrDMew=s128-c0x00000000-cc-rp-mo",
       "rating": 5,
       "comment": "I was introduced to David at Insider Mortgage by our realtor when we first purchased a home in San Diego. Since then, we've refinanced three different times with them, and it's been a positive experience every time. The guys work around the clock and are convenient, working with my strange schedule to make sure everything happens when it needs to. They're reachable by phone or email, and they seem to be trustworthy and solid guys.\n\nWhat stands out is their approachability and how thorough they are with their spreadsheets and numbers, really doing the math for you and breaking down what financially makes sense. They walked me through the refinancing process and properly explained it so I always knew what was going on. They're very easy to get a hold of, which is important. If I decide to buy or refinance again in the future, David would definitely be the person I'd call or recommend to others.",
-      "createTime": "2026-02-23T17:34:31.321037908Z",
-      "updateTime": "2026-02-23T17:34:31.321037908Z",
+      "createTime": "2026-02-23T17:34:31.321037Z",
+      "updateTime": "2026-02-23T17:34:31.321037Z",
+      "reviewReply": {
+        "comment": "Thanks, Garen! Purchase plus three refinances with those around-the-clock spreadsheets - appreciate your continued trust. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2026-02-24T17:17:33.985906Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT201VWJUbFdabFoxWmxnNE4yVlFXbGg2YWtGbk5uYxAB",
       "pinned": true,
       "pinOrder": 1
     },
@@ -24,8 +31,13 @@
       "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJ8kZ7LUMy88Fk6DKwUyFQQZqyHMLatB0s7qdS_w059gt5i7Q=s128-c0x00000000-cc-rp-mo",
       "rating": 5,
       "comment": "I was referred to Rakesh when I was selling my townhome and moving into a new home in the San Diego area. What I appreciated was that he never came to me with just one answer. He would lay out different loan options, explain them, and let me decide which direction made the most sense. There was a lot of transparency throughout the process, and I always felt like I understood the choices in front of me.\n\nWhat ended up being just as valuable happened after I bought the house. I wasn't even aware of some of the refinance opportunities that were available as rates changed, but Rakesh and his team at Insider Mortgage were paying attention. Every so often they would reach out, explain what was happening with rates, and give me different options to consider. Many of those options were things I would not have known to look for on my own. They would present different choices, explain them clearly, and let me decide what made the most sense. I've already referred several people from my network, and at least a couple of them are actively working with him now. I super strongly recommend Rakesh and his team. If you're looking at mortgage loans, they should absolutely be one of your first calls.",
-      "createTime": "2026-06-12T04:16:45.755522947Z",
-      "updateTime": "2026-06-12T04:16:45.755522947Z",
+      "createTime": "2026-06-12T04:16:45.755522Z",
+      "updateTime": "2026-06-12T04:16:45.755522Z",
+      "reviewReply": {
+        "comment": "Thank you, Sudha! Really glad we could stay on top of things even after closing and make sure you never missed an opportunity. Means a lot that you've been sending others our way!\nIf you know anyone in the San Diego area needing a mortgage broker, send them our way. Thanks again!",
+        "updateTime": "2026-06-12T18:58:17.073116Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT25KNVpWaEdXbTFHVUd0SVVEUk9iMU5sY1dsWFkwRRAB",
       "pinned": true,
       "pinOrder": 2
     },
@@ -35,10 +47,47 @@
       "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJWWGOdP_ybkpbEdh4CW9vGSQPOoitdpjzgSUoYkEKND4QZ2w=s128-c0x00000000-cc-rp-mo",
       "rating": 5,
       "comment": "Rakesh is amazing. My husband and I have been working with ​Insider Mortgage for about 10 years now, since we bought our first home in 2015, and we’ve done about five or six transactions with ​Rakesh since, including buying our first home, refinancing, a HELOC, and now purchasing a bigger home in Chula Vista. We’ve trusted him from day one because he always finds us great rates and explains everything so clearly. He’s also very honest. Even though we qualified for a lot more on this last home, he actually recommended staying in a lower price range because he was thinking about what would be comfortable for us, not just what we could get approved for.\n\nHe’s also incredibly responsive, answers calls, emails, and questions quickly, and has always been accommodating with our schedule. My husband and I both work and have kids, so he’s taken meetings with us as late as 7pm after dinner. Really professional, really kind, and he’s made every step of the process smooth. I recommend him 1,000%.",
-      "createTime": "2026-06-16T17:53:49.046031073Z",
-      "updateTime": "2026-06-16T17:53:49.046031073Z",
+      "createTime": "2026-06-16T17:53:49.046031Z",
+      "updateTime": "2026-06-16T17:53:49.046031Z",
+      "reviewReply": {
+        "comment": "Denise, ten years and that many transactions together means everything. Really glad we could always look out for what was actually best for your family. Congrats on the new home in Chula Vista!\nIf you know anyone in the San Diego area needing a mortgage broker, send them our way. Thanks again!",
+        "updateTime": "2026-06-17T15:20:18.412997Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT21Odk5GQlZkRWhwZDFkRlYzVnlMVGt4ZEVsclVFRRAB",
       "pinned": true,
       "pinOrder": 3
+    },
+    {
+      "id": "rev_venkatramana_pegadaraju",
+      "reviewerName": "Venkatramana Pegadaraju",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "When we first talked to Rakesh, an entirely honest guy, he actually told us it wasn't the right time for us to refinance given where rates were, and that he'd keep an eye on things and reach back out when it made sense. That kind of transparency built trust immediately. Most people expect to get locked in on the spot, but he genuinely wanted a win-win for both of us. Sure enough, once conditions improved, he came back to us, and because we'd already had those earlier conversations, everything felt seamless, with no surprises or hidden costs, and everything discussed upfront.\n\nHe's extremely data-oriented and shares everything in detail, which made us feel confident from our very first conversation. We ended up moving our mortgage over to Insider Mortgage because of that trust. At this point, we genuinely view Rakesh as our partner in San Diego, not just a broker, and we'll absolutely be working with him again for future refinancing. Highly recommend him to anyone looking for someone who actually has your best interest in mind.",
+      "createTime": "2026-09-25T01:41:14.409481Z",
+      "updateTime": "2026-09-25T01:41:14.409481Z",
+      "reviewReply": {
+        "comment": "That upfront honesty about waiting for better rates says a lot. Glad it turned into a real partnership with Rakesh. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2026-09-25T19:08:32.246146Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2kxR2RIbDBNalUyZDBOSk1GOHhhRWhsYmxsS1FrRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_david_libs",
+      "reviewerName": "David Libs",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "If David says he can do it, trust him, because he can. He made a complicated, fast-moving loan feel effortless, like we had nothing to worry about when it came to the timeline or approval. He genuinely held our hand through the entire process and made us feel completely taken care of. He'd think out loud in real time, \"well, we could do this, or wait, how about this instead,\" and a few minutes later, he'd follow up with something totally outside the box.\n\nHe handled all the required regulatory red tape so smoothly that it never felt like a big deal, and somehow he's equally serious about the business side while being genuinely funny and personable. He really knows how to read people and knows exactly what to say and when. He even sent us a personalized closing gift with a handwritten note that had us laughing. He's straightforward too, no BS. If he has doubts about something, he'll tell you upfront. That's exactly the kind of person you want handling your mortgage, and David with Insider Mortgage has definitely earned our trust.",
+      "createTime": "2026-09-09T14:58:50.593704Z",
+      "updateTime": "2026-09-09T14:58:50.593704Z",
+      "reviewReply": {
+        "comment": "Doctor David.... Thank you so much for this awesome review.  It truly moves me and is exactly what drives Rakesh, my team and me to keep doing what we love.",
+        "updateTime": "2026-09-10T16:19:24.064470Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2xoUk5EYzJWMkpQTUVwVVNsOTBXbEppYzJOUVQzYxAB",
+      "pinned": false,
+      "pinOrder": null
     },
     {
       "id": "rev_yogesh_verma",
@@ -46,8 +95,13 @@
       "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKXZlmqiL6drVkB8EvcXxx9RNX6T2KYlVAE0ELF5VoS7ES0v4k=s128-c0x00000000-cc-rp-mo",
       "rating": 5,
       "comment": "If anyone doesn't hire Rakesh as their mortgage broker, that's honestly their loss. He's family to me at this point, and I've used him for four transactions now. He's incredibly efficient, always on top of things, and he genuinely takes the time to explain the logic behind the mortgage so you actually understand your options, the best loan rates, and the pros and cons of each scenario. His depth of knowledge is honestly unmatched. You ask him anything, and he gives you the full picture and points you in the right direction.\n\nI've referred Rakesh to people in my business and in my friend circle, and every single one of them has had a great experience too. If you're looking for a mortgage broker in Northern California, he's the person I'd send you to because you'll actually understand what you're getting into before you commit to anything.",
-      "createTime": "2026-08-15T00:39:36.674444499Z",
-      "updateTime": "2026-08-15T00:39:36.674444499Z",
+      "createTime": "2026-08-15T00:39:36.674444Z",
+      "updateTime": "2026-08-15T00:39:36.674444Z",
+      "reviewReply": {
+        "comment": "Appreciate the kind words. Thrilled with the feedback. Thank you for taking the time to share your experience.",
+        "updateTime": "2026-08-19T00:45:48.401682Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2xFd2NYaEdYMFJtV21WV01WZDBjREJMVEhOQ1ozYxAB",
       "pinned": false,
       "pinOrder": null
     },
@@ -57,8 +111,877 @@
       "reviewerPhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKX1mRCHLiA0JZyGxf33KMOX0OJPSKXmJjqSI9w0MIiMSBhvg=s128-c0x00000000-cc-rp-mo",
       "rating": 5,
       "comment": "I work at a fire station, and a handful of guys here have used David at Insider Mortgage, so when I knew I was going to be refinancing after some renovations, I figured why not give it a whirl. Really glad I did because David made it easy. Everything he needed was clearly laid out, so I was never guessing at what came next. The whole process was simple, straightforward, and easy to understand.\n\nWhat sets Insider Mortgage apart is how creative and customizable the approach is. David sent over really detailed videos explaining options, rates, and the reasoning behind what he does. It's not your standard lender experience. He tailors things to your specific goals and what you actually need, which, when you think about the concept of what he does, it's pretty different from what most lenders put in front of you. I'd 100% use him again for my next refinance in Vista and would recommend him to anyone looking to get more out of their loan.",
-      "createTime": "2026-08-04T20:43:14.334037576Z",
-      "updateTime": "2026-08-04T20:43:14.334037576Z",
+      "createTime": "2026-08-04T20:43:14.334037Z",
+      "updateTime": "2026-08-04T20:43:14.334037Z",
+      "reviewReply": {
+        "comment": "Really glad David could make the whole process feel simple and straightforward. Thanks for taking the time to share this.",
+        "updateTime": "2026-08-04T23:01:39.007875Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2pjelZFVlBSRzFYUjNCTGVXNWhhek50ZEVoSGVtYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_dj_mancillas",
+      "reviewerName": "DJ Mancillas",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "We've known Rakesh for a long time through my wife's family, and he helped us purchase our first home 10 years ago, so when it came time to do our FHA loan in Chula Vista, he was the only call we made. Everything was made really simple, quick, and easy. He sent over documents to prep us, walked us through everything, and took the time to explain the parts I wasn't clear on without making it feel complicated. Not stressful at all.\n\nThe communication stood out the most. Every email and phone call was easy to follow. Anytime I didn't understand something, he made himself available to explain whatever I needed to know. He gave us a few options on the rate, was very knowledgeable as a mortgage broker, and really guided us to the right decision. That's exactly what you want, someone who knows what you can do and helps you get there without you having to figure it out on your own. I'd definitely use Rakesh again and would recommend him and Insider Mortgage to anyone looking for a lender who understands the mortgage process inside and out.",
+      "createTime": "2026-06-25T07:40:21.028374Z",
+      "updateTime": "2026-06-25T07:40:21.028374Z",
+      "reviewReply": {
+        "comment": "DJ, ten years and two transactions means everything. Really glad we could deliver again and make it feel just as smooth the second time around. Means a lot!\nIf you know anyone in the Chula Vista area needing a mortgage broker, send them our way. Thanks again!",
+        "updateTime": "2026-06-25T13:59:27.313113Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT25BeVJGVlhTekJTZVRoaE0xWllibkZ4TjA1b2RIYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_aj_camper",
+      "reviewerName": "aj camper",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I used big bank mortgage companies before working with David, and with the big banks it was basically take it or leave it. With David, it was more about thinking outside the box and finding creative solutions and options I just never got anywhere else. He sends tailored videos explaining the loans, how they work, and all the different options, kind of a master class on mortgage rates and lending. It made the whole thing feel more personal, because he actually cares about you. Even if he thinks you can get a better loan somewhere else, he’ll help you do that.\n\nWith Insider Mortgage, it feels more like a relationship because they have a long-term plan for you, totally different than walking into a big bank and getting handed a take it or leave it rate. David actually explains how rates work and what you can qualify for, which isn’t something you normally get going in.​ It’s the only place I would call for a mortgage. If I refinance or buy again, I’m sticking with David and Insider Mortgage.",
+      "createTime": "2026-06-17T17:47:46.298085Z",
+      "updateTime": "2026-06-17T17:47:46.298085Z",
+      "reviewReply": {
+        "comment": "Thank you, AJ! Really glad we could give you options and explain things in a way that actually made sense. Looking forward to working together again down the road!\nIf you know anyone looking for a mortgage broker, send them our way. Thanks again!",
+        "updateTime": "2026-06-18T15:57:51.113853Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT25aQ01XeDBTbnBoV1Y5WlFtbHpUSGszV1VKRU5VRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_j_w",
+      "reviewerName": "J W",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "This is the first time I am buying a home which has been really scary for me in concept. But David really made me feel like I could do this and not dread the process. I have known David and Team Insider for many years and we just completed the process of getting properly pre-approved. David gave me so much time and attention, and I now feel prepared that I can financially handle the change from being a renter to a homeowner here in San Diego.  We went through all the pros and cons of home ownership and we discussed the tax advantages versus renting with my financial and tax advisors as well.  Thank you David for giving me the confidence to now begin my real estate journey.",
+      "createTime": "2026-06-09T02:24:09.690528Z",
+      "updateTime": "2026-06-09T02:24:09.690528Z",
+      "reviewReply": {
+        "comment": "This really means a lot, thank you! Really glad we could make the whole idea feel less daunting and that you're feeling confident going into this next chapter. Exciting times ahead!\nIf you know anyone in the San Diego area looking for a mortgage broker, send them our way. Thanks again!",
+        "updateTime": "2026-06-09T07:30:44.936667Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT21WSGRFOXFUMlo1U1hCdlVXRjVkWGhxVkRRNWRWRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_christine_guillen",
+      "reviewerName": "Christine Guillen",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "Working with David was an excellent experience. He took the time to thoroughly explain the loan process and went above and beyond by creating videos to help break down the numbers in a simple and understandable way.\n\nI truly appreciated his patience, transparency, and willingness to answer every question. He carefully reviewed different options with me and showed possibilities on how I could save money, which made me feel confident in my decisions.\n\nThroughout the process, he was professional, knowledgeable, and genuinely cared about helping me find the best financial option. I highly recommend him to anyone looking for a lender who is honest",
+      "createTime": "2026-05-20T23:21:35.253648Z",
+      "updateTime": "2026-05-20T23:21:35.253648Z",
+      "reviewReply": {
+        "comment": "Thank you, Christine! Really glad we could make everything feel clear and manageable. Means a lot that you took the time to share this!\nIf you know anyone looking for a mortgage broker, send them our way. Thanks again!",
+        "updateTime": "2026-05-21T16:33:30.879219Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT21odWFqTmFUM0JMWm1NNFFXcFZaRXhGUmxwMlNsRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_drew_manier",
+      "reviewerName": "Drew Manier",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I'm self-employed, so getting financing for a new construction condo in Redondo Beach came with its own set of hurdles. Rakesh handled it using alternative documentation and got it done. But what really stood out was how he managed the whole process. He was the quarterback. He kept tabs on everyone involved, the escrow, the title, the insurance people, making sure nothing fell through the cracks and that everything stayed on track to close on time. A diligent mortgage broker to know, with great follow through and the kind of person who actually coordinates well between all the moving parts. I felt at ease with him in my corner. A 5 star service for homebuyers!",
+      "createTime": "2026-03-08T00:04:37.476293Z",
+      "updateTime": "2026-03-08T00:04:37.476293Z",
+      "reviewReply": {
+        "comment": "Thanks, Drew! Self-employed new construction with Rakesh quarterbacking the whole team - that coordination paid off. Thanks again - If you know anyone that needs an experienced mortgage broker in Redondo Beach, recommendations are always welcome.",
+        "updateTime": "2026-03-09T16:56:42.719964Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2xoTWJHNTRWMGsxZFZoNGJFWlRUMmhzVkZOU2VsRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_ashish_sinha",
+      "reviewerName": "Ashish Sinha",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "When I was looking for a mortgage broker in Orange County, my friend recommended Rakesh at Insider Mortgage, and I reached out to him even before I started looking for a house just to understand the process. Even when I wasn’t ready to buy or commit, he was happy to spend time going over everything without any catches. He communicated clearly, responded quickly to questions over text or email, and was flexible almost any time of day, even on weekends. We were selling one house and buying another, and he helped us understand what made the most sense and how the overall home loan process works. I could tell the advice he gave was honest and truly aimed at helping me, not just making a sale. He even provided worksheets that broke down my monthly payments and showed exactly how the numbers were calculated.\n\nThe entire home loan experience with Rakesh was far better than my previous lender when I bought new construction. With other lenders, someone else would answer the phone, and it could take a day or more to get a response. Even when he was busy, Rakesh would send a quick message to let me know he would follow up. There is no comparison in terms of service, availability, and guidance during a big transaction like this. He doesn’t just do the basics; he gives you everything you need to make smart, confident decisions. It was such a positive experience that I’ve already recommended him to my cousin, who used him for a refinance last year.",
+      "createTime": "2026-02-24T23:24:12.871206Z",
+      "updateTime": "2026-02-24T23:24:12.871206Z",
+      "reviewReply": {
+        "comment": "Thanks, Ashish! Those worksheets and weekend availability from day one - Rakesh delivered. Your cousin's referral means everything. Thanks again - If you know anyone that needs an experienced mortgage broker in Orange County, recommendations are always welcome.",
+        "updateTime": "2026-02-25T18:56:46.263963Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT21kVUxUZEhUVGhGY1ZWd1pFTXdOMVJtYWw5aWVFRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_dave_p",
+      "reviewerName": "Dave P",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "My wife and I have had great experiences working with David and Rakesh at Insider Mortgage. They helped us buy our first house and guided us through all the paperwork, numbers, and financing. We started with an FHA loan, which required two loans with PMI, and they confidently planned how we could refinance into a conventional loan after six months. When the time came, they helped us refinance. Since we no longer had to pay PMI, we saved money and the process was easy.\n\nSince then, we’ve refinanced several times with them. Their strategy of paying down principal through refinancing while slightly lowering interest rates was new to us but very effective. David and Rakesh are always communicative, letting us know exactly what documents we needed and how to connect with them by call or text. They also research different loans and points to match your goals. We’d definitely go back to Insider Mortgage and would recommend them to anyone in the San Diego area looking to make smart mortgage decisions.",
+      "createTime": "2026-01-12T19:30:40.016100Z",
+      "updateTime": "2026-01-12T19:30:40.016100Z",
+      "reviewReply": {
+        "comment": "Thanks, Dave! Multiple refinances with that FHA to conventional strategy working perfectly. Appreciate your continued trust. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2026-01-13T19:07:24.679894Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2pSRVpFNVhOVnBXZEZCR1FrZFdPRTFtVkdKNFNVRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_kathy_hegseth",
+      "reviewerName": "Kathy Hegseth",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "My husband and I have worked with David at Insider Mortgage for over 25 years and have completed roughly 20 home loan transactions with him, including purchases and mortgage refinances. He has been a trusted advisor on major financial decisions when it comes to our home mortgage and long-term planning. He consistently takes the time to evaluate mortgage options, interest rates, and loan strategies to be sure the decision makes sense for our future, not just the current transaction. David puts in the extra work to understand our goals and make sure the approach truly benefits us.\n\nWhat sets David apart is that he advocates for his clients and looks for creative solutions to secure the best possible rates and loan terms. When we needed connections outside of the mortgage process, like insurance or real estate, he didn’t just send us a list. He sent us the right people. We have recommended David and Insider Mortgage to others in the San Diego County area over the years and will continue to do so without hesitation. We fully trust his guidance and would absolutely continue working with him for any future home financing needs.",
+      "createTime": "2025-12-18T22:18:24.394305Z",
+      "updateTime": "2025-12-18T22:18:24.394305Z",
+      "reviewReply": {
+        "comment": "Thanks, Kathy! 25 years and 20 transactions - that trust is incredible. Glad David continues to guide you through every financial decision. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2025-12-19T14:00:43.247744Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2tSYU1YcGtOR0ZOVG1WclluQnlUVEZtVWxoM05IYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_m_d",
+      "reviewerName": "M D",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "We met David and Rakesh at Insider Mortgage back in 2012 when we were relocating from San Francisco and buying a house in San Diego County. A real estate agent introduced us to David, and since then, we've completed at least half a dozen transactions total, from purchases to refinances. They work really well as a team. If I can't reach David, I can always get Rakesh. They're very communicative, and I never have to worry about updates. They provide clear guidance on mortgage options, interest rates, and buy-down programs, making every home purchase or refinance straightforward. They tell me what’s going on, both the good and the bad, and they put everything in writing, which makes the whole process smooth and seamless.\n\nEven after closing, they check in to make sure everything is settled and I don’t feel forgotten. I’ve recommended them to friends and colleagues looking for a reliable San Diego mortgage lender, and I would absolutely reach out to them again for future home purchases or refinancing. Their combination of knowledge, communication, and follow-through makes them stand out among mortgage professionals in the area.",
+      "createTime": "2025-12-18T17:56:55.727198Z",
+      "updateTime": "2025-12-18T17:56:55.727198Z",
+      "reviewReply": {
+        "comment": "Thanks, MD! Half a dozen transactions since 2012 - that's the ultimate loyalty. Glad David and Rakesh keep delivering. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2025-12-19T13:59:56.362580Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT21KUmRVWk9kMjkzVEdKVGNVcExaVkZ0WTFwblZXYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_gerald_b",
+      "reviewerName": "Gerald B.",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I’ve refinanced multiple times with Insider Mortgage, and I keep coming back for a reason. I’ve done more than five refinances with David and his team over the years, working closely with Rakesh, and the experience has consistently been positive. They walk me through mortgage refinance options, compare interest rates and closing costs, and explain the differences clearly before making a recommendation. Once I finalize my decision, they handle all the documentation and details. Every refinance with Insider Mortgage has been smooth, and their knowledge of the mortgage lending process (and industry) shows. A strong level of trust has been built over time, and I’m comfortable relying on their guidance.\n\nWe often talk through whether it makes sense to pay points to lower the interest rate or wait and see where the mortgage market is headed. Their insight into refinancing strategies, interest rate trends, and loan options over the next 12 to 24 months has been extremely helpful. They typically present three options and explain the pros and cons of each, so I never feel like I’m guessing or making decisions blindly. I wouldn’t think twice about calling Insider Mortgage again, and I’ve already recommended them to friends and family in San Diego County who were looking to refinance. Anyone looking for a mortgage lender who’s honest, knowledgeable, and keeps things clear would be in good hands with them.",
+      "createTime": "2025-12-18T00:32:26.548051Z",
+      "updateTime": "2025-12-18T00:32:26.548051Z",
+      "reviewReply": {
+        "comment": "Thanks, Gerald! Five+ refinances and that level of trust - appreciate your continued confidence in David and Rakesh. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2025-12-18T17:34:09.544228Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT25GQlpVWkxhV3Q1TkZvMlpHVXhRakZEWVVGNllYYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_ravinder_boparai",
+      "reviewerName": "Ravinder Boparai",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I was introduced to Rakesh at Insider Mortgage through my realtor. I was originally working with someone else, but Rakesh was more honest and straight to the point. Rakesh clearly explained my chances and laid out my real options if I wanted to move forward. He was always prompt with phone calls, and handled everything quickly and efficiently. As a first-time homebuyer, I was trying to get approved for a home loan, and after reviewing my situation, he knew right away that a bank statement loan was the right fit, especially since I’m self-employed.\n\nHe was upfront that the interest rate would be a little higher and explained exactly why. I didn’t need a high down payment, and there was no PMI since the interest rate accounted for that. Even though the rate was higher, it was still the best option available and better than anything else I was offered. I would absolutely reach out to Insider Mortgage again and recommend Rakesh to anyone looking for a knowledgeable mortgage lender who understands self-employed borrowers and nontraditional loan programs.",
+      "createTime": "2025-12-17T05:18:13.025341Z",
+      "updateTime": "2025-12-17T05:18:13.025341Z",
+      "reviewReply": {
+        "comment": "Thanks, Ravinder! Bank statement loans can be tricky - glad Rakesh laid out the honest path forward for you. Thanks again - If you know anyone that needs an experienced mortgage broker, recommendations are always welcome.",
+        "updateTime": "2025-12-17T14:11:13.008569Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT214UGNuVTJOSFpRZFc5UVdqSk1UVVJLY2pBMFgyYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_julia_haus",
+      "reviewerName": "Julia Haus",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "We’ve known David at Insider Mortgage for quite a while and have gone through several mortgages and refinances with him. He’s consistently responsive, thoughtful, and patient, answering our questions anytime we need him. With more than 30 years of experience, his knowledge of the mortgage industry really shows. He not only understands the lending process but genuinely cares about helping his clients get the right mortgage for their situation. He explains everything clearly, which really helps if you’re feeling anxious about the mortgage or refinancing process.\n\nDavid also has a smart approach to comparing interest rates, and he has consistently fought to get us the best rate possible. He takes the time to walk you through each step, making the home financing process feel manageable instead of overwhelming. We would absolutely work with him again and recommend him to anyone looking for a reliable mortgage lender who puts clients first.",
+      "createTime": "2025-12-11T20:33:13.924106Z",
+      "updateTime": "2025-12-12T16:11:25.482097Z",
+      "reviewReply": {
+        "comment": "Thanks, Julia! Multiple mortgages and refinances over the years - that loyalty means everything. Thanks again - If you know anyone that needs an experienced mortgage broker, recommendations are always welcome.",
+        "updateTime": "2025-12-12T20:34:53.218195Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT25GUmVFZFJZMDV3UnpkZldWRXdWazFhZFY4ME0zYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_kaylani_i",
+      "reviewerName": "Kaylani I",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "We first worked with Rakesh at Insider Mortgage back in 2011 or 2012 when we purchased our primary home, and he has handled our refinances multiple times, helping us secure the lowest interest rates. Over the past 14 years, we’ve worked with him at least a dozen times. Rakesh is excellent with numbers and very efficient. He sends clear emails showing scenarios for buying points or other mortgage options and offers no-cost financing alternatives that help us make informed decisions. He is always available for questions. What sets him apart is that he times the market carefully and calls when rates are at their lowest so we can lock in the best mortgage rates. He also identifies extra bank credit, helping us choose between a slightly higher rate with no upfront cost or a lower rate, explaining the break-even timeline.\n\nI trust Rakesh completely with my mortgage decisions. Even as someone who usually verifies every detail, I’ve relied on his expertise multiple times. His guidance consistently saves us money and simplifies the home loan and refinancing process. Over the years, I’ve referred him to most of my friends looking for a mortgage broker or loan expert. If you’re looking for a reliable, knowledgeable mortgage professional in the San Diego area who understands the market, Rakesh at Insider Mortgage is someone I would recommend without hesitation.",
+      "createTime": "2025-12-09T22:36:00.082585Z",
+      "updateTime": "2025-12-09T22:36:00.082585Z",
+      "reviewReply": {
+        "comment": "Thanks, Kaylani! 14 years and a dozen transactions - that trust means everything. Glad Rakesh keeps timing those rates perfectly for you. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2025-12-10T16:17:42.148839Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2xrMmFuZzVUVXhzTTJSVlEwTlZObXBLTWtwWU1VRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_tamara_thompson",
+      "reviewerName": "Tamara Thompson",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "We've known David and Rakesh at Insider Mortgage for years and have done more mortgages with them than we could possibly count at this point. They're second to none, honestly. They're thorough and proactive. When they see mortgage rates drop, they reach out and say now's a good time. Getting a refinance or ​obtaining a mortgage is one of those experiences that most people don't love, and they make it much easier and actually kind of fun between the videos they send and their general joyful nature. David sends a video going over the home loan options, why he thinks one or the other is the better choice, and how each one works. They present the options clearly and make it easy to understand.\n\nThey cut through the red tape, know what the underwriters need, and can tell you exactly what they're looking for. They make it simple to get through the mortgage process without stress. Our closings are usually about 21 days, and they're responsive in minutes through text or email. We always recommend them to others in the San Diego mortgage area, and people have absolutely gone through with those recommendations.",
+      "createTime": "2025-12-02T18:33:50.135600Z",
+      "updateTime": "2025-12-02T18:33:50.135600Z",
+      "reviewReply": {
+        "comment": "Thanks, Tamara! \"More than we could count\" - that's the ultimate compliment. Glad David and Rakesh keep making refinancing fun. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2025-12-03T16:29:58.814251Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT20wMFJqbGFNazQ1UzNod1JVUkhaelY2VmxKVlZYYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_mike_rucker",
+      "reviewerName": "Mike Rucker",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I’ve worked with David at Insider Mortgage for over 20 years and we’ve completed well over twenty home loan and refinance transactions together on the different homes I’ve lived in. What sets David apart is how thorough he is and how he always looks at the big picture. He focuses on how each refinance or home purchase fits into your long-term financial plan instead of treating it like a one-off transaction. He asks the right questions to make sure the loan aligns with your goals, and it always feels like a conversation about what’s right for you, not something rushed so he can move on to the next file. His team is also strong. Rakesh also helped on many of my files and he is just as attentive and detail-oriented.\n\nDavid is one of the most dedicated mortgage brokers I’ve ever worked with. He’ll make time whenever you actually need him, whether that’s early morning, late at night, or a weekend when things come up. My schedule is chaotic and he’s consistently patient when I’m rescheduling or juggling appointments. He explains complicated mortgage and refinance details in a way that makes sense, whether you’re familiar with financial terms or not. My wife appreciates how clearly he breaks things down, and even my kids said their refinance made more sense after talking to him. I think of him as my mortgage broker, but he often ends up being a financial sounding board too since he wants to make sure I’m not ending up in a situation that doesn’t fit where we are as a family. If you’re looking for a mortgage broker in the San Diego area who takes the time to understand your finances, your goals, and how a home loan fits into your life, David is the person to call. I’d reach out to him again without hesitation and continue to recommend him to others.",
+      "createTime": "2025-11-17T23:15:09.975233Z",
+      "updateTime": "2025-11-17T23:15:09.975233Z",
+      "reviewReply": {
+        "comment": "Thanks, Mike! 20+ years and 20+ transactions - that's the ultimate trust. Glad David and Rakesh have been there for you and the family through it all. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2025-11-18T17:32:04.443216Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT25vdGEycFNSbE5XVVZsb2RUQmpXbkU0U0dKV1ExRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_john_thompson",
+      "reviewerName": "John Thompson",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "We've known David and Rakesh at Insider Mortgage for a few years now. We were introduced by a mutual friend and client of David's. They keep things very simple, which is perfect for my wife's and my hectic schedule. Once we provide the information they need, they handle the rest and keep us updated throughout the mortgage process. They explain everything clearly, and we just move forward. We recently completed a jumbo refinance with them, and if I need specifics, I know I can call either one and they will walk me through it. Working with a mortgage broker you trust takes a lot of stress off your shoulders. Their I's are always dotted and T's are crossed, and they focus on what works best for us.\n\nThey also make the process comfortable. They're easy to talk to and explain things in layman's terms so you understand your refinance or loan options. Even with their busy schedules, they take the time to help us understand each step. They make you feel like you're their only client, which is rare in mortgage lending. I'd absolutely reach out to David and Rakesh again or recommend them to anyone in San Diego County looking for a mortgage broker or refinance team they can trust.",
+      "createTime": "2025-11-14T18:27:59.167529Z",
+      "updateTime": "2025-11-14T18:27:59.167529Z",
+      "reviewReply": {
+        "comment": "Thanks, John! Appreciate your continued trust through the refinances. Glad David and Rakesh keep everything simple despite the hectic schedules. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2025-11-17T17:09:06.320787Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT21KVlRGcE1UMjlGZGtOalUyNUNOR1ZTT1RaSlpsRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_gina_c",
+      "reviewerName": "Gina C",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "When I refinanced my mortgage, a friend connected me with David at Insider Mortgage. The process was fast, easy, and required very little on my end. David was responsive and transparent, providing a detailed spreadsheet that clearly broke down every cost and calculation — something I’d never seen from another lender.\n\nI handled everything remotely, and the paperwork was signed online, which made it incredibly convenient. I’d definitely use Insider Mortgage again and recommend them to anyone looking for a smooth, honest refinance experience.",
+      "createTime": "2025-11-12T17:58:32.603709Z",
+      "updateTime": "2025-11-12T17:58:32.603709Z",
+      "reviewReply": {
+        "comment": "Thanks, Gina! Glad that spreadsheet breakdown and remote process made everything smooth. Thanks again - If you know anyone that needs an experienced mortgage broker, recommendations are always welcome.",
+        "updateTime": "2025-11-13T18:58:29.565214Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT21FMVJYWk5UR0puTUhnM1RtTlZWRTB5ZDNCSmQwRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_lisa_fuhrman",
+      "reviewerName": "Lisa Fuhrman",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I never thought refinancing my mortgage would be entertaining, but David's jokes make the hideous job of retrieving all the necessary information for the refinance actually enjoyable. As far as the actual process David and Rakesh are extremely helpful and speed things up as much as they can so it gets done fairly quickly. They help me get the best rate and somehow get the bank to give me significant credits towards the fees. I highly recommend them.",
+      "createTime": "2025-11-06T15:36:09.961325Z",
+      "updateTime": "2025-11-06T15:39:39.586634Z",
+      "reviewReply": {
+        "comment": "Thanks, Lisa! Glad David's jokes made the paperwork bearable and we could speed things up with those credits. Thanks again - If you know anyone that needs an experienced mortgage broker, recommendations are always welcome.",
+        "updateTime": "2025-11-07T18:29:15.036480Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT25SbmJYUlpjMk5RUmtNMmIxRjJkakpsUzFSWWNYYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_michelle_thompson",
+      "reviewerName": "Michelle Thompson",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "This was our second time working with David and Rakesh at Insider Mortgage, and we came back because the first experience was so great. When we decided to refinance our home, we reached out again, and they handled everything with ease. I've worked with other mortgage brokers before, but David and Rakesh just get us. They understand our goals, know our background, and always find a way to make things happen.\n\nOur jumbo refinance process was straightforward from start to finish. They told us exactly what was needed, kept us informed, and even suggested waiting until interest rates dropped a bit before locking things in. Their communication and response time were incredibly fast, and they went above and beyond by giving helpful advice about the timing of other financial plans like solar installation. It felt personal, they genuinely cared about our long-term financial picture, not just closing a loan. We’ll definitely be calling Insider Mortgage again and recommending David and Rakesh to anyone looking to refinance or purchase a home in San Diego County.",
+      "createTime": "2025-10-31T19:13:09.348103Z",
+      "updateTime": "2025-10-31T19:13:09.348103Z",
+      "reviewReply": {
+        "comment": "Thanks, Michelle! Appreciate you coming back for the refinance. Glad David and Rakesh could time everything perfectly for you. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome",
+        "updateTime": "2025-11-01T20:37:27.010335Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT21wcGRubHhhMDEyTUcxS1ltMHdOMkpsVFdOTFJsRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_janai_maulhardt",
+      "reviewerName": "Janai Maulhardt",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I was introduced to David Sider at Insider Mortgage by a friend when a home came up for sale in their neighborhood that we wanted to buy. Having worked in real estate for years, I’ve worked with many lenders and mortgage brokers, but David immediately stood out. He’s creative, thoughtful, and focused on real solutions—not just running numbers. He explored multiple options until we found a plan that made purchasing our home possible. We truly couldn’t have done it without him.\n\nSince then, we’ve refinanced with David several times to secure better rates. He consistently finds smart ways to wrap other costs, like insurance and property taxes, into lender credits so we don’t have to pay them out of pocket. His video walkthroughs and detailed spreadsheets make it easy to understand every option and make informed decisions.\n\nDavid takes a holistic approach, considering your overall financial goals—not just the loan in front of him. I highly recommend David Sider and Insider Mortgage to anyone looking for a broker who’s sharp, responsive, and genuinely invested in helping you reach your goals.",
+      "createTime": "2025-10-29T20:18:55.830400Z",
+      "updateTime": "2025-10-29T20:18:55.830400Z",
+      "reviewReply": {
+        "comment": "Thanks, Janai! Appreciate your trust through the purchase and all those refinances. Glad we could keep finding better solutions for you. Thanks again - If you know anyone that needs an experienced mortgage broker, recommendations are always welcome.",
+        "updateTime": "2025-10-30T16:14:42.964251Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2s5d1gybGhYMkpDU1VwUlptdExRemRwVEU5eGNXYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_sam_alnweiran",
+      "reviewerName": "Sam Alnweiran",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I was introduced to David at Insider Mortgage by my real estate agent as a first-time homebuyer, and I chose to work with him because of how clearly he explains everything. He breaks down every scenario and option so you can truly understand the mortgage process. Unlike other lenders who send a short email about rates and credits, David records detailed videos covering refinancing scenarios and loan programs, including bank statement loans for 1099 business owners. He gives honest guidance, even advising friends to wait on a purchase when market conditions suggested prices would drop. That level of transparency made me confident in working with him and recommending him to others.\n\nDavid’s professionalism and straightforward approach make him stand out as a top mortgage professional in Southern California. He takes the time to educate clients so even first-time buyers can understand complex financial details. By the end of the process, I felt informed and empowered, and my friend also gained valuable insight through his guidance. We purchased a home with a pool and partial ocean view, and I would absolutely call David again or recommend Insider Mortgage to anyone looking for a trusted mortgage lender.",
+      "createTime": "2025-10-08T00:03:01.816556Z",
+      "updateTime": "2025-10-08T00:03:01.816556Z",
+      "reviewReply": {
+        "comment": "Thanks, Sam! Glad those video breakdowns made everything clear for your first purchase. Congrats on the pool and ocean view! Thanks again - If you know anyone that needs an experienced mortgage broker in Southern California, recommendations are always welcome.",
+        "updateTime": "2025-10-09T12:40:17.403349Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2tGRlQyTXRPSEUxZWpkVFVFeDBXbHBZTVZZM1RrRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_tony_cookson",
+      "reviewerName": "Tony Cookson",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "David and Rakesh with Insider Mortgage make buying a home and refinancing loans super easy. After 8 years and over 15 transactions in San Diego County and Temecula, Riverside County, their expertise in VA loans, conventional loans, and home financing keeps me coming back. They are incredibly organized. I provide the documents they request, and they send me a clear sheet with multiple mortgage options. Whether it's a VA loan or a conventional loan, I know David and Rakesh always aim to offer the best mortgage rates and lowest cost options available. Every experience has been seamless. Their responsive communication, streamlined mortgage process, and personalized service make buying or refinancing a stress-free experience. I would absolutely use Insider Mortgage again, and I recently recommended them to a colleague at my office.",
+      "createTime": "2025-10-06T15:18:38.101785Z",
+      "updateTime": "2025-10-06T15:18:38.101785Z",
+      "reviewReply": {
+        "comment": "Thanks, Tony! 15 transactions over 8 years says it all. Appreciate you recommending us to your colleague. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego or Temecula, recommendations are always welcome.",
+        "updateTime": "2025-10-07T08:34:17.787058Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT213eFgxaFllREZyVmxsRlJEQXdSV3hoUlRkNVJVRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_ricky_pirtle",
+      "reviewerName": "Ricky Pirtle",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "Awsome guys to work with. They made it seem so easy. Pro's are David and Rakish. Would highly recomend them, and have. I will continue using them. They know their business.",
+      "createTime": "2025-10-04T19:39:44.005036Z",
+      "updateTime": "2025-10-07T02:42:14.803822Z",
+      "reviewReply": {
+        "comment": "Thanks, Ricky! Appreciate you recommending us and glad we could make it easy. Thanks again - If you know anyone that needs an experienced mortgage broker, recommendations are always welcome.",
+        "updateTime": "2025-10-07T08:14:09.234776Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2s5Qk4wbHNVVWxzUWpKMFVqQjFlV1JqTnpKU05uYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_john_sim",
+      "reviewerName": "John Sim",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "David at Insider Mortgage has helped some of our family members with mortgage refinancing, and we recently purchased my in-law's home in February 2024 through him. We chose to arrange the mortgage with David because we already knew him through family. The experience was excellent. David is straightforward, easy to listen to, and explains things without using complicated financial terms, which made the process very clear.\n\nThe number one takeaway is how transparent and helpful David and the Insider Mortgage team have been. He walks through each step of the process and explains exactly what to expect. David even creates videos to go over important details, which I found very useful. He also finds mortgage programs that offer credits to help with costs like home insurance or property taxes, and the interest rates are often lower than other lenders, which is a huge benefit. I would absolutely call Insider Mortgage again for home mortgage services or refinancing, and I highly recommend them to anyone looking for a reliable San Diego mortgage team.",
+      "createTime": "2025-10-04T13:19:49.155809Z",
+      "updateTime": "2025-10-04T13:19:49.155809Z",
+      "reviewReply": {
+        "comment": "Thanks, John! Glad those video walkthroughs and program credits made everything clear for you. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2025-10-05T10:37:47.515456Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2psaE5UTXpaRWx4TXpaeFQycHdaR2RwVlVKYVdVRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_tynan_skye",
+      "reviewerName": "Tynan Skye",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "David at Insider Mortgage turned what could have been a stressful first-time home buyer experience into a smooth and straightforward process. Our very first offer was accepted, and from there everything went seamlessly thanks to the support of the Insider Mortgage team. What impressed us most was the personalized approach. David explained every step of the home loan process with custom videos and spreadsheets, making complicated terms and requirements easy to understand. It never felt cold or transactional, more like getting advice from a trusted friend. The entire experience was clear, stress-free, and fast. We’d absolutely use David at Insider Mortgage again for refinancing and recommend them to anyone looking for a reliable, responsive mortgage broker who combines expertise with a personal touch.",
+      "createTime": "2025-09-24T20:11:47.237289Z",
+      "updateTime": "2025-09-24T20:11:47.237289Z",
+      "reviewReply": {
+        "comment": "Tynan! I'm thrilled your very first offer was accepted and we could make the whole process feel smooth for you. Means a lot to know you appreciated the custom videos and spreadsheets - I like to make everything as clear as possible, especially for first-time homebuyers so it's nice to know they helped! If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2025-09-25T06:07:49.535219Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT25SalozazJTME5OTkVnMk5qbG5ZelJoWDBkVWRrRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_pamela_lennen",
+      "reviewerName": "Pamela Lennen",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "We were introduced to David at Insider Mortgage through a mutual friend who said he would take care of us from start to finish, and he absolutely delivered. As first-time home buyers, we had no experience with mortgages, and David made the home loan process clear and manageable. What stands out most is the ease of the process and clarity of information, which made everything simple and stress-free. David is extremely honest and transparent, always available to clarify any questions and to make sure we felt comfortable. He guided us through every step, explaining options, walking us through the paperwork, and ensuring we fully understood everything.\n\nEven after refinancing with Insider Mortgage a couple of times, David continues to monitor the market and advise us on when it’s the right time to act, helping us lower our interest rates and achieve the best outcomes. We would absolutely call David again and recommend Insider Mortgage to anyone searching for a reliable mortgage broker, especially first-time home buyers looking for a personalized, stress-free mortgage experience with expert guidance and clear communication.",
+      "createTime": "2025-09-24T19:47:33.025130Z",
+      "updateTime": "2025-09-24T19:47:33.025130Z",
+      "reviewReply": {
+        "comment": "Hi Pamela! Thank you so much for this - it's been wonderful working with you from that first home purchase through all the refinances over the years. I'm so glad I could keep everything clear and stress-free for you both. Thanks again - If you know anyone that needs an experienced mortgage broker in or around Lakeside, recommendations are always welcome.",
+        "updateTime": "2025-09-25T06:04:27.377846Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2tKNE5FdG9PRGw1TUhkdFNDMXJjMTlGVkZkMWRsRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_rick_conner",
+      "reviewerName": "Rick Conner",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I've been working with David at Insider Mortgage for 10+ years, and all of my experiences have been excellent. We've done at least 10 transactions together – I've honestly lost track over the years\nDavid is very creative and knows the financial landscape really well. He has the ability to think outside the traditional loan box, which is important because everyone has slightly different needs, and sometimes a traditional approach doesn't work. He's very astute in the loan broker world and knows how to get the lowest effective rate possible for all the people he works with.\n\nI trust David more than any other mortgage lender I've come across. I can contact him via email or phone, and my questions never go unanswered.  If I have needs now or in the future, he'll be my first call. David has consistently delivered for over a decade, and I'd definitely recommend him to others looking for a mortgage broker in San Diego.",
+      "createTime": "2025-09-23T04:59:27.091634Z",
+      "updateTime": "2025-09-23T04:59:27.091634Z",
+      "reviewReply": {
+        "comment": "Hi Rick! Thank you so much for this - having your trust and business for over 10 years and all those transactions means everything to me. I'm glad my creative approach has consistently worked for your unique situations over the years. Thanks again - If you know anyone that needs an experienced mortgage broker in San Diego, recommendations are always welcome.",
+        "updateTime": "2025-09-23T11:27:22.741925Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2pCR1VXcHpVM2QzV2pjMk1YWk1aekphVnpZeGVuYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_spencer_smock",
+      "reviewerName": "Spencer Smock",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "Working with David at Insider Mortgage has been incredible. I was first introduced to him through his son, a connection in the industry, and almost immediately, he referred clients who successfully purchased homes in Carlsbad, California. Out of the hundreds of transactions I’ve done with other lenders, very few have impressed me the way David has. His attention to detail, the genuine care he has for clients, and how hard he works come through not just on the business side but on the personal side too. With David, it is never just a transaction. He builds lifetime relationships and truly invests in the people he helps. He cares so much for everyone he comes into contact with, taking a real interest in their lives.\n\nWhile many in this industry focus on the deal that nets them the highest commission, David does the exact opposite. He always prioritizes what is best for his clients, even if it means forgoing the biggest payday. That kind of dedication is rare in real estate lending. He’s personable and makes every conversation easy and engaging. I’m confident recommending him to all of my clients and bringing him into the inner circle of our team. If I were looking to purchase or refinance a home, David at Insider Mortgage wouldn’t just be at the top of my list - he would be the only mortgage broker I’d call.",
+      "createTime": "2025-09-12T22:50:42.805632Z",
+      "updateTime": "2025-09-12T22:50:42.805632Z",
+      "reviewReply": {
+        "comment": "Hi Spencer! Thank you so much for this - having your trust and bringing me into your inner circle means everything, especially coming from someone with your experience. I'm grateful for the connection through my son and look forward to continuing to serve your clients well. Thanks again!",
+        "updateTime": "2025-09-13T06:27:36.810045Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT25wUllrb3daa05VUzFCemJEUlFOa3h5UVd0WFRtYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_jim_breeden",
+      "reviewerName": "Jim Breeden",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "From our very first call, my wife and I felt like David at Insider Mortgage truly cared about us. Over the course of two to three months, we quickly realized that David was intelligent, creative, and trustworthy, even though we had never met him in person. Through regular telephone conversations, we grew to trust his organization, planning and the milestones he set, which he accomplished on time. The end result was not only securing our reverse mortgage but also gaining a new friend in David.\n\nIt is clear David enjoys his work, and that made the process easier for us. He listens carefully and explains things in a way that helps people who may not understand all the details. David often provided information before we even thought to ask, anticipating our needs and even sharing referrals and resources that explained regulatory requirements and timing. He clearly takes pride in his knowledge and experience, and he has a wit that makes the process more enjoyable. Our experience with David and Insider Mortgage was so positive that we’d happily refer future inquiries to him...WELL DONE DAVID!",
+      "createTime": "2025-09-12T20:40:58.969735Z",
+      "updateTime": "2025-09-12T23:10:54.020782Z",
+      "reviewReply": {
+        "comment": "Hi Jim! Thank you so much for this - it was such a pleasure getting to know you and your wife over those few months. I'm thrilled we could make the reverse mortgage process smooth for you both and that we've become friends along the way. Thanks again - If you know anyone that needs an experienced mortgage broker, recommendations are always welcome.",
+        "updateTime": "2025-09-13T06:28:06.548095Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT25oVFpWWmlWblZEY0MxYWJGZDNVMFpVU0ZWNE9WRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_lori_larocque",
+      "reviewerName": "Lori Larocque",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "David at Insider Mortgage was great! He really stood out for the personal service and expert mortgage guidance he gave me. David paid close attention to every detail of the transaction and was very professional throughout the entire process. He was available whenever I needed him and explained all the loan options clearly so I knew exactly what would work best for my situation. This was my first time working with him, but compared to other mortgage lenders I've used, the personal service at Insider Mortgage really made the difference. I'd definitely reach out to David again if I need to refinance my mortgage or buy a new home, and I would absolutely recommend David at Insider Mortgage to anyone looking for a trusted mortgage broker or lender.",
+      "createTime": "2025-09-04T22:25:39.672113Z",
+      "updateTime": "2025-09-04T22:25:39.672113Z",
+      "reviewReply": {
+        "comment": "Lori, thank you so much for choosing Insider Mortgage! I'm thrilled the personal service and attention to detail made such a difference compared to other lenders you've used. Making sure you understood all your loan options and felt supported throughout was exactly what we aimed for. Thanks for trusting me as your mortgage broker, and I'd love to help with any future refinancing or home purchases you have!",
+        "updateTime": "2025-09-05T15:06:04.287841Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2t0blZucENlalZRZEZFeWVscHBabmwxTTJoNWJrRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_alexander_upliftedalex_morelli",
+      "reviewerName": "Alexander “UpliftedAlex” Morelli",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "David and Rakesh at Insider Mortgage made me feel like I truly mattered, giving more guidance and care than my realtor ever did. We reached out to several different mortgage brokers and lenders, but David stood out by getting to know us as people. We weren't just line-item numbers to David. He worked with us to figure out the best mortgage options for our family, including guidance on Jumbo loans when our purchase required a larger loan.\n\nAt no point did I feel like I was just another file in the system, which is rare in the world of home loans where commissions often rule the day. While other lenders told us to just bring in outside offers they could try to beat, David provided multiple home loan options, including a range from unique and creative solutions to standard or more conservative mortgage programs. He carefully explained which choices would be best depending on our financial goals and comfort level.\n\nDavid was available for calls throughout the entire process, always patient when answering questions not only about financing but about the overall real estate process. Thanks to David (and his Insider Mortgage), we now have a clear roadmap and plan for our financial future (one that we never would have thought of, or even knew existed before our home purchase)! Long story short, I'd highly recommend this mortgage team (Insider Mortgage with David and Rakesh) in the San Diego area, as they truly seem to care about their client's successes!",
+      "createTime": "2025-08-30T00:14:46.584448Z",
+      "updateTime": "2025-08-30T00:14:46.584448Z",
+      "reviewReply": {
+        "comment": "Alex, thank you so much for the wonderful words! Rakesh and I are thrilled we could make you feel like you truly mattered throughout the process. Getting to know you as people rather than just numbers is exactly how we believe mortgage lending should work. I'm glad those Jumbo loan options and creative financing solutions gave you the roadmap for your financial future! Thanks for choosing Insider Mortgage as your mortgage brokers in San Diego, and we'd love to help anyone you refer!",
+        "updateTime": "2025-09-02T17:29:51.959886Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT21ab2FYZHRkamQyYWtSU2NIZHZUMmhxWDFwaU5tYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_jonathan_asch",
+      "reviewerName": "Jonathan Asch",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I am a real estate agent and have been referring my clients to David Sider and Insider Mortgage for the past 20 years. Creativity and professionalism is critical in this business and all my clients have been enthusiastic about using them. Team Insider spends lots of time with my clients educating and helping them fully understand the loan process and financial landscape. A great and trusted resource for sure. When my family and I needed mortgage loans, they gave us five star service!",
+      "createTime": "2025-07-29T18:37:54.483581Z",
+      "updateTime": "2025-07-29T18:37:54.483581Z",
+      "reviewReply": {
+        "comment": "Jonathan, you are a fantastic referral partner and I appreciate you as a quality real estate agent but also value our friendship tremendously.  I especially love the way you treat your clients...White glove treatment is the only experience that should be provided.  I look forward to every transaction you are involved in.... Thanks for the testimonial and here's to the future....",
+        "updateTime": "2025-08-14T17:41:29.800781Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT25aQmIwRlhVemhDVWtkbE1rRndXVkJTTTBSTVVHYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_michael_richard",
+      "reviewerName": "Michael Richard",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "In a high interest rate market, David Sider and the Insider Mortgage team have been an absolute game-changer for us since June 2023. Their financial guidance and customer service are truly outstanding. They are mortgage lending experts and they are genuinely good people.\nThanks to their expertise, we've successfully navigated and capitalized on lower mortgage interest rates over the past two years and we'll continue to benefit from their insights for years to come. We genuinely appreciate David Sider and Insider Mortgage's professionalism, exceptional service, and sharp financial acumen.",
+      "createTime": "2025-07-29T16:44:32.844664Z",
+      "updateTime": "2025-07-29T16:44:32.844664Z",
+      "reviewReply": {
+        "comment": "I have to give credit where credit is due.... since we work as a team at Insider it's our collective effort that allows us to do the thorough analysis of the markets and analyze the numbers. This ensures we know exactly what the best financial thing is to do at the time we pick the program and lock the rate.  Having great clients like you who enjoys and understands the process makes it so much fun to work as hard as we do.  Let's hope interest rate continue to improve over the next couple of years.",
+        "updateTime": "2025-07-30T01:09:29.884620Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT2t0bGJGVkZVamRaYWpscVpVcHZTRTB6Y21KR1JHYxAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_todd_vukson",
+      "reviewerName": "Todd Vukson",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "David, I didn’t want to say thank you before we closed for fear of jinxing things. But now that the deal is officially done, I can freely exclaim “yahoo” as an expression of my great joy over having made the move to Carlsbad. We love the house, and we love the area. Thank you for being there for us from start to finish. We couldn’t have done it without you. 🫶 ❤️\nThe accompanying photo is a live shot from our rear patio. The setting sun never looked so good. 🥂",
+      "createTime": "2025-07-29T15:50:55.885554Z",
+      "updateTime": "2025-07-29T15:50:55.885554Z",
+      "reviewReply": {
+        "comment": "Hey Todd (and Julia).  We are like family and I am so happy we were there for you throughout your whole real estate roller coaster.  We have a great mortgage strategy in place and you'll see... the beautiful views and home you now have will become even more enjoyable and incredible going forward.  Thanks for being part of the Insider Family.",
+        "updateTime": "2025-07-30T00:37:45.277075Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/Ci9DQUlRQUNvZENodHljRjlvT20wM05YZ3hMVEIwZEcwNVFtTjVhVkkzY3pCUVpWRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_hunter_rice",
+      "reviewerName": "Hunter Rice",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "Working with C2 Financial with my mortgage was fantastic. They are very knowledgeable, explained everything clearly, and helped me get a great rate. They are always available for questions and made the process easy and stress-free. C2 Financial genuinely cared about finding the best solution for me, not just closing the deal. I highly recommend them to anyone looking for a reliable and helpful company needing help with their mortgage.",
+      "createTime": "2024-09-05T16:21:42.711457Z",
+      "updateTime": "2024-09-05T16:21:42.711457Z",
+      "reviewReply": {
+        "comment": "It took until Thanksgiving for me to be able to say THANK YOU  Hunter for the kind words.  I can't believe Google wouldn't let me respond to your 5* review for almost 3 months while they vetted that I'm a real person who provides real results. After doing thousands of transactions over the years and having a giant following of happy clients I felt so helpless while jumping through unbelievable hoops to get cleared by their AI systems. So, sorry for the delay in saying THANK YOU.   As you know we are here for you and your family.  We look forward to the next refinance when the time is right..",
+        "updateTime": "2024-11-29T03:37:49.688949Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChZDSUhNMG9nS0VJQ0FnSUNIZ2RQbFpBEAE",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_bill_frederick",
+      "reviewerName": "Bill Frederick",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "Thank you David and Team Insider for the many years of financing our home. You've made a difference. Your expertise on debt management has been very helpful for our family and we thank you for your recent guidance on getting the best 2nd mortgage HELOC.",
+      "createTime": "2024-07-08T17:03:00.984850Z",
+      "updateTime": "2024-07-08T17:03:00.984850Z",
+      "reviewReply": {
+        "comment": "Thanks Bill for the shout out.  Really appreciate you both.",
+        "updateTime": "2024-07-08T17:55:30.864163Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChdDSUhNMG9nS0VJQ0FnSUNyeVlhSWdBRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_linda_vista_presbyterian_church",
+      "reviewerName": "Linda Vista Presbyterian Church",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "Thank you for the birthday wishes David and Rakesh!  I wanted to send you a note to say that I’m doing well and the other day I was thinking about how different my life would be if you hadn't worked so hard and found a way to help me keep my home 8 years ago and your continued support ever since.  It was truly a miracle and to this day I appreciate the low rates you were able to get me in hard times.  Your wisdom and guidance really pulled me through when I needed it most.  I'm forever grateful to you both!   Judy",
+      "createTime": "2024-05-24T06:43:37.619306Z",
+      "updateTime": "2024-05-25T22:02:03.708297Z",
+      "reviewReply": {
+        "comment": "A heartfelt \"you're welcome\".  We love success stories and it is why we work as hard as we do to always do the right thing.  The BIG PICTURE of life is what we are all about.  We appreciate you very much and thank you for the kind words and acknowledgement.",
+        "updateTime": "2024-05-24T15:26:20.364923Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChdDSUhNMG9nS0VJQ0FnSURUeHE3a193RRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_sue_bishop",
+      "reviewerName": "Sue Bishop",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "David and Rakesh provide extraordinary service and are very professional. Found them to be very responsive and the communications clear with an ease to the entire process. They went above and beyond!",
+      "createTime": "2024-03-07T17:21:29.598741Z",
+      "updateTime": "2024-03-07T17:21:29.598741Z",
+      "reviewReply": {
+        "comment": "Thanks for the awesome review.  We also thank you and appreciate how attentive to details and thorough you are.  Great job and enjoy your new home!",
+        "updateTime": "2024-03-08T09:05:19.072457Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChZDSUhNMG9nS0VJQ0FnSUM5NWZTUGFBEAE",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_rotem_aviv",
+      "reviewerName": "Rotem Aviv",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I've been working with David and his team for the past ten years, and their expertise and service have been consistently outstanding. Insider Mortgage has consistently displayed an unmatched level of professionalism and knowledge in the mortgage industry. They've made the mortgage process smooth and stress-free every time. I highly recommend their services!",
+      "createTime": "2023-10-02T15:21:24.924192Z",
+      "updateTime": "2023-10-02T15:21:24.924192Z",
+      "reviewReply": {
+        "comment": "It is an honor and a blessing being able to work hard for clients like you.",
+        "updateTime": "2024-03-08T09:09:16.394148Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChZDSUhNMG9nS0VJQ0FnSURab2ZuYkFnEAE",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_jenna_armitage",
+      "reviewerName": "Jenna Armitage",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "David and his team were recommended to us with a raving review, and we were certainly not disappointed! It was my husband and I's first time buying a home, which came with all sorts of emotion. David and Insider Mortgage walked us through the process with ease and comfort. He provided so may different resources and information that made it easy to understand and process. I felt very taken care of. It was truly amazing and made the experience better than I could have ever imagined. So thankful for David and the team and would recommend them over and over again!!",
+      "createTime": "2023-07-24T20:22:38.909862Z",
+      "updateTime": "2023-07-24T20:22:38.909862Z",
+      "reviewReply": {
+        "comment": "We missed responding to this GREAT review many months ago.  Thanks soooo much.  The refi wave is about to start rolling so get ready to enjoy the ride.",
+        "updateTime": "2024-05-24T15:35:38.682608Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChdDSUhNMG9nS0VJQ0FnSURKdDVMTjVRRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_jake_armitage",
+      "reviewerName": "Jake Armitage",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "This was my wife and my first time purchasing a home and we had a lot to learn about the full home buying process. David and the team were there for every step of the way by email, phone, and text around the clock. We also had a non-standard home purchase, which the In'Sider' team's knowledge and experience had no trouble guiding us through. Every question we could throw at them was answered with details explaining what to do, how to do it, and why. David provided significant resources and info to help us make informed decisions and help educate us on all things to consider when navigating the home buying process. We are VERY grateful for all of the help and support that they could offer and recommend everyone to make Insider Mortgage their first call (or email) when purchasing a home.",
+      "createTime": "2023-07-18T13:22:33.714878Z",
+      "updateTime": "2023-07-18T13:22:33.714878Z",
+      "reviewReply": {
+        "comment": "Wow.  What a great review. Thanks for the acknowledgement!  Makes me want to do another loan",
+        "updateTime": "2023-07-18T17:31:38.252868Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChZDSUhNMG9nS0VJQ0FnSURKb2Y3a2ZBEAE",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_michael_parker",
+      "reviewerName": "Michael Parker",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I’ve worked with David and Rakesh for nearly ten years for mortgage financing and refinancing. They are extremely helpful and educational in the process. I consider myself very fortunate to have been introduced to them early on in my journey with home ownership. I did not realize how beneficial their services were, until realizing the pitfalls of some of my peers that were not as fortunate. I also appreciated how they helped inform me of long term decisions while also being very respectful of the emotional side of financing. As you will learn, if you haven’t already, it can be hard to separate what emotionally feels right versus what makes the most sense financially. David was very helpful in navigating those decisions.",
+      "createTime": "2023-06-16T23:49:54.510221Z",
+      "updateTime": "2023-06-16T23:49:54.510221Z",
+      "reviewReply": {
+        "comment": "Thanks for the review.  We work very hard to get such enthusiastic comments.  We appreciate you, and as you leave our wonderful city (and State) we'll still be by your side as you move on to you next new home purchase adventure in Washington state.",
+        "updateTime": "2023-06-17T00:09:18.503837Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChZDSUhNMG9nS0VJQ0FnSUR4OTZtNk9BEAE",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_puneet_sethi",
+      "reviewerName": "Puneet Sethi",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "This review is after multiple finance/refinance transactions. Every time my expectations were exceeded and professionalism was top-notch. I strongly recommend Rakesh at insider mortgage.",
+      "createTime": "2023-06-13T02:21:01.271528Z",
+      "updateTime": "2023-06-13T02:21:01.271528Z",
+      "reviewReply": {
+        "comment": "Thanks Puneet.  Rakesh and I will always be in your corner.",
+        "updateTime": "2023-06-17T00:12:52.750082Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChdDSUhNMG9nS0VJQ0FnSUR4OWVibDN3RRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_tyler_smith",
+      "reviewerName": "Tyler Smith",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "Working with Insider Mortgage was the best decision we could have made. We are on our 4th loan with them and truly couldn't imagine working with anyone else. The attention to detail that David and Rakesh give to ensure their clients get the best loan and save the most amount of money is AMAZING. They have saved us tens of thousands of dollars over the years. I can't thank you guys enough! Would recommend you 10/10 times.",
+      "createTime": "2023-05-03T23:50:28.434332Z",
+      "updateTime": "2023-05-03T23:50:28.434332Z",
+      "reviewReply": {
+        "comment": "Now that is a great review.  Thank you so much .... That is exactly what we work so hard for.    Really appreciate you guys.",
+        "updateTime": "2023-05-04T03:01:56.699433Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChZDSUhNMG9nS0VJQ0FnSURScTl6UExnEAE",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_charlotte_coseo",
+      "reviewerName": "Charlotte Coseo",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "David and Rakesh just never give up, and no matter how challenging the situation might be, they get the loan done. We are about to complete our latest transaction with them and I'm just appreciative to have Team Insider in my inner circle.",
+      "createTime": "2023-04-27T22:17:43.024434Z",
+      "updateTime": "2023-04-27T22:17:43.024434Z",
+      "reviewReply": {
+        "comment": "Once, about 20 years ago, we failed on delivering on a loan... oh and then there was the time in 2008 or 2009 when Washington Mutual went under in the middle of a transaction... so 2 failures in 2 decades of work.  No matter how easy or how hard the transaction, we are passionate to succeed. As long as we have awesome clients (like you) to work for, we will always go the extra mile.\n It's FUN.",
+        "updateTime": "2023-05-03T04:32:54.745797Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChZDSUhNMG9nS0VJQ0FnSURSOGIzTlJnEAE",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_joe_grass",
+      "reviewerName": "Joe Grass",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I came to you with a very complex financial situation, and I urgently needed a solution.  You told me “Don’t worry, I love dealing with complexity!”, and you very clearly explained several options, and shared possible obstacles in the process.  You quickly got me a cash out loan, at rates and costs way under what other lenders were proposing.  You made it all look easy, the process was smooth sailing.  Thanks so much for your help, I can’t tell you how relieved I am that you quickly found the right loan for me.",
+      "createTime": "2023-04-12T01:00:53.645027Z",
+      "updateTime": "2023-04-12T01:00:53.645027Z",
+      "reviewReply": {
+        "comment": "Wow.  Thank you for such a great review.  This kind of acknowledgement makes all the hard work totally worth it.  I'm so glad you were referred to me because you're such an amazing person.  Look forward to meeting you!",
+        "updateTime": "2023-04-12T04:49:57.092107Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChZDSUhNMG9nS0VJQ0FnSUNSaDdfaUt3EAE",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_steven_derby",
+      "reviewerName": "Steven Derby",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "We just moved to San Diego from San Francisco Bay area and after an extensive search, we finally located our \"dream home\" in the Coronado Cays. We were referred to Team Insider by our family members who had also used their services. Team Insider impressed us with their speed and responsiveness which allowed us to make an offer on our home in days after it became available. We got a very competitive rate and no surprises. Thank you, Team Insider for helping us live our dream.",
+      "createTime": "2023-04-06T22:26:17.045419Z",
+      "updateTime": "2023-04-06T22:26:17.045419Z",
+      "reviewReply": {
+        "comment": "The Cays is indeed a special place. We are so glad to have you part of San Diego County (best county in the state)... and now really glad to have you part of the Insider Family. Thanks for trusting us with this important financial decision.",
+        "updateTime": "2023-04-08T18:47:49.696986Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChRDSUhNMG9nS0VJQ0FnSUNSbFlSahAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_peter_holman",
+      "reviewerName": "Peter Holman",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "We have dealt with Insider Mortgage for over a decade, counting on them for several complicated refinances. They know the mortgage lending business inside and out and the service has been excellent!",
+      "createTime": "2023-04-03T03:13:47.266669Z",
+      "updateTime": "2023-04-03T03:13:47.266669Z",
+      "reviewReply": {
+        "comment": "And it's a privilege working with you and getting to know you.  Thank you for your loyalty and friendship.",
+        "updateTime": "2023-04-03T04:08:00.866087Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChdDSUhNMG9nS0VJQ0FnSUNSdnJHRy1RRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_julie_hansen",
+      "reviewerName": "Julie Hansen",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "I have a crazy-complicated real estate portfolio - over a dozen properties, some of which I have bought and sold in the middle of doing a loan transaction. Somehow Team Insider has organized all my data and helped me manage my estate saving me a lot of money. Their professionalism and experience is over the top, and I love that they can work with my tax and financial advisors which is a great service and value add. Thank you for taking such good care of me.",
+      "createTime": "2023-04-01T01:11:57.044890Z",
+      "updateTime": "2023-04-01T01:11:57.044890Z",
+      "reviewReply": {
+        "comment": "And we look forward to helping with your next one, and the next one, and the next one.",
+        "updateTime": "2023-04-13T13:56:11.408734Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChdDSUhNMG9nS0VJQ0FnSUNSbHZDbndnRRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_robert_blum",
+      "reviewerName": "robert blum",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "As a CPA, it is essential that my clients have competent and capable mortgage loan professionals in their corner that are able to do more than process cookie cutter loans.\n\nTeam Insider with David and Rakesh bring sophistication and experience to the table and implement debt management strategies that go beyond of the scope of merely closing on a loan.\n\nFurthermore, by understanding  the complexities of complicated tax returns, they capably package loans  to underwriters that facilitate loan approval  all with minimal time and effort from me or my  clients.\n\nIn conclusion, David and Rakesh get loans approved where other lenders are not able…I find these results impressive.",
+      "createTime": "2023-03-15T17:44:16.000582Z",
+      "updateTime": "2023-03-15T17:44:16.000582Z",
+      "reviewReply": {
+        "comment": "A stellar review from a spectacular CPA. Best of the best.  Your clients are always a pleasure to work with. Thank you so much for your support.",
+        "updateTime": "2023-03-16T02:37:39.784492Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChZDSUhNMG9nS0VJQ0FnSURodllTZ2ZBEAE",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_larry_gk",
+      "reviewerName": "larry gk",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "We consider our financial portion of life a 3- legged stool: Wealth advisor, tax accountant and (especially now) mortgage expert. Insider Mortgage is our go-to source for the latter without question I couldn't craft what made sense through Wells Fargo Mortgage. David Sider and his team at Insider Mortgage had creative and compelling alternatives that not only fit the monthly budget but come with other benefits. They thoroughly explained everything got me the loan for our home in beautiful San Diego. The level of attention to details and service is just fantastic. They may use computer and platform based tools but no stage is assumed without personal 1:1 live conversation. The way it should be....\nThanks.",
+      "createTime": "2023-03-11T23:59:30.512746Z",
+      "updateTime": "2023-03-11T23:59:30.512746Z",
+      "reviewReply": {
+        "comment": "All of us at Team Insider completely appreciate the time and energy you put into writing this review.... You're a mortgage advisor's favorite kind of client - one who likes to engage and is interested in understanding and learning. It's a pleasure to serve you!",
+        "updateTime": "2023-03-12T06:04:02.306931Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChZDSUhNMG9nS0VJQ0FnSURoeWM3Rkd3EAE",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_kristin_hampshire",
+      "reviewerName": "Kristin Hampshire",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "David, Rakesh and Insider Mortgage are incredibly skilled at what they do. We have been grateful for their expertise through the purchase, financing and refinancing of 3 homes over the past 20 years. Each transaction was as smooth as can be, they were able to secure the best rates available at the time, and facilitated no cost/no hassle refinancing when rates dropped--saved us a lot of money over time. They are incredibly responsive and on top of every possible detail, every step of the way. Work ethic, experience, knowledge, efficiency, skill AND even a sense of humor to lighten things up along the way. Highly recommend!",
+      "createTime": "2023-03-11T14:30:30.899943Z",
+      "updateTime": "2023-03-13T20:38:47.050113Z",
+      "reviewReply": {
+        "comment": "And now you have your dream home.  Love it.  And next year, if interest rates drop, let's save you even more.",
+        "updateTime": "2023-03-31T16:21:38.656904Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChdDSUhNMG9nS0VJQ0FnSURoOGJpU3B3RRAB",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_brian_toupin",
+      "reviewerName": "Brian Toupin",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "As a member of the Navy, I have been fortunate to receive the amazing benefits of the VA loan. David and Rakesh of Insider Mortgage are experts in maximizing my VA loan entitlements. I have worked with them for over a decade, during which they have assisted me in purchasing and refinancing multiple properties. Their experience and knowledge is impressive, and I have faith in their ability to steer me towards making sound financial choices. I cannot imagine working with a finer team!",
+      "createTime": "2023-03-10T01:08:18.206976Z",
+      "updateTime": "2023-03-10T01:08:18.206976Z",
+      "reviewReply": {
+        "comment": "VA loans are awesome and so are you. Thanks for being part of the \"Insider Family\"",
+        "updateTime": "2023-03-10T01:36:20.177738Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChZDSUhNMG9nS0VJQ0FnSURodnYtZEVBEAE",
+      "pinned": false,
+      "pinOrder": null
+    },
+    {
+      "id": "rev_aaron_ortiz",
+      "reviewerName": "Aaron Ortiz",
+      "reviewerPhotoUrl": "",
+      "rating": 5,
+      "comment": "You guys hit it out of the park. I appreciate all the work and commitment to your profession which allowed my wife and I to leverage your service and expertise.  You helped us manage our credit and structured an incredible FHA cash out refinance loan transaction that ended up being a no cost loan.  Keep up the great work.",
+      "createTime": "2018-05-03T19:57:40.049Z",
+      "updateTime": "2018-05-03T19:57:40.049Z",
+      "reviewReply": {
+        "comment": "So glad Scott referred you to us, and that we were able to take advantage of the special FHA program to get you into the perfect loan.  Thank you so much for the review.",
+        "updateTime": "2018-05-03T21:17:18.376817Z"
+      },
+      "gbpResourceName": "accounts/101600687501608947227/locations/8930097509490179790/reviews/ChdDSUhNMG9nS0VJQ0FnSUNBc3U2cWlRRRAB",
       "pinned": false,
       "pinOrder": null
     }

@@ -2,5 +2,5 @@
 2:I[98587,["7705","static/chunks/dfe01bee-75836533d749f9bb.js","2301","static/chunks/0e142730-a77f2d52b7ed60a1.js","8500","static/chunks/8500-f62a38ff68ab7f42.js","6683","static/chunks/6683-4fe347fcb5e9fadc.js","876","static/chunks/app/geek-out/mbs-rate-watch/page-b490f52b7598ce4d.js"],"default"]
 3:I[90484,[],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"9AZ1Ma8C2mP4Pr-G4YyZ5"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"vXf-Yexup4UGGKFvl-K34"}
 5:null

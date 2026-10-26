@@ -1,7 +1,7 @@
 1:"$Sreact.fragment"
-2:I[76404,["8500","static/chunks/8500-f62a38ff68ab7f42.js","7177","static/chunks/app/layout-be1d6368e6c9665f.js"],"default"]
+2:I[76404,["8500","static/chunks/8500-f62a38ff68ab7f42.js","7177","static/chunks/app/layout-2c96aa5f61b9df8a.js"],"default"]
 3:I[57121,[],""]
 4:I[74581,[],""]
-5:I[39785,["8500","static/chunks/8500-f62a38ff68ab7f42.js","7177","static/chunks/app/layout-be1d6368e6c9665f.js"],"default"]
+5:I[39785,["8500","static/chunks/8500-f62a38ff68ab7f42.js","7177","static/chunks/app/layout-2c96aa5f61b9df8a.js"],"default"]
 :HL["/insidermortgage/_next/static/css/41921c81e2074004.css","style"]
-0:{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/insidermortgage/_next/static/css/41921c81e2074004.css","precedence":"next"}]],["$","html",null,{"lang":"en","children":[["$","head",null,{"children":["$","link",null,{"rel":"icon","type":"image/svg+xml","href":"/insidermortgage/favicon.svg"}]}],["$","body",null,{"children":[["$","$L2",null,{}],["$","$L3",null,{"parallelRouterKey":"children","template":["$","$L4",null,{}]}],["$","$L5",null,{}]]}]]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"gPaPrkaSeCiFlHB17SeRX"}
+0:{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/insidermortgage/_next/static/css/41921c81e2074004.css","precedence":"next"}]],["$","html",null,{"lang":"en","children":[["$","head",null,{"children":["$","link",null,{"rel":"icon","type":"image/svg+xml","href":"/insidermortgage/favicon.svg"}]}],["$","body",null,{"children":[["$","$L2",null,{}],["$","$L3",null,{"parallelRouterKey":"children","template":["$","$L4",null,{}]}],["$","$L5",null,{}]]}]]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"ARKvll71P6AGA9ktN0c6x"}

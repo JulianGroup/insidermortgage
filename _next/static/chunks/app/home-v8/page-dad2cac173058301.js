@@ -1,0 +1,1191 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[973],{25104:(e,r,i)=>{Promise.resolve().then(i.bind(i,62279))},30391:(e,r,i)=>{"use strict";i.d(r,{A:()=>n});var s=i(95155),a=i(12115);function t(e,r,i){let s={event:"trust_chip_click",chip_id:e,chip_headline:r,chip_placement:i,timestamp:new Date().toISOString()};Array.isArray(window.dataLayer)&&window.dataLayer.push(s),"function"==typeof window.gtag&&window.gtag("event","trust_chip_click",{chip_id:e,chip_headline:r,chip_placement:i}),window.dispatchEvent(new CustomEvent("insider:trust_chip_click",{detail:s}))}i(64263);let n=({placement:e="lead-capture",compact:r=!1,layout:i="row"})=>{let[n,o]=(0,a.useState)({rating:"5.0",count:61});(0,a.useEffect)(()=>{let e=!0,r=["/insidermortgage/google-reviews/data/reviews.json","/google-reviews/data/reviews.json"];return(async()=>{for(let i of r)try{let r=await fetch(i,{cache:"no-cache"});if(!r.ok)continue;let s=await r.json();if(e&&s){let e=Number(s.averageRating||5),r=Number(s.totalReviewCount||s.reviews&&s.reviews.length||61);o({rating:e.toFixed(1),count:r})}break}catch{}})(),()=>{e=!1}},[]);let l=[{id:"chip_1_google_rating",headline:`★ ${n.rating} on Google`,subline:`${n.count} client reviews`,href:"https://search.google.com/local/reviews?placeid=ChIJveC1LxQH3IARnyqTS4mmz80",external:!0,icon:(0,s.jsx)("svg",{viewBox:"0 0 24 24",width:"22",height:"22",fill:"currentColor","aria-hidden":"true",children:(0,s.jsx)("path",{d:"M12 2l2.92 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77 5.82 21 7 14.14 2 9.27l7.08-1.01L12 2z"})})},{id:"chip_2_referred_by_trust",headline:"Referred by people you trust",subline:"Clients, CPAs & financial planners",href:"#reviews",external:!1,scrollTarget:"reviews",icon:(0,s.jsxs)("svg",{viewBox:"0 0 24 24",width:"22",height:"22",fill:"none",stroke:"currentColor",strokeWidth:"2.2",strokeLinecap:"round",strokeLinejoin:"round","aria-hidden":"true",children:[(0,s.jsx)("path",{d:"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"}),(0,s.jsx)("circle",{cx:"9",cy:"7",r:"4"}),(0,s.jsx)("path",{d:"M23 21v-2a4 4 0 0 0-3-3.87"}),(0,s.jsx)("path",{d:"M16 3.13a4 4 0 0 1 0 7.75"})]})},{id:"chip_3_nmls_verified",headline:"Licensed in AZ, CA, FL, UT & WA",subline:"C2 Financial NMLS #135622 • Look us up",title:"NMLS IDs: 135622 (C2 Financial), 240594 (Rakesh Jain), 254108 (David Sider — CA)",href:"https://www.nmlsconsumeraccess.org/",external:!0,icon:(0,s.jsxs)("svg",{viewBox:"0 0 24 24",width:"22",height:"22",fill:"none",stroke:"currentColor",strokeWidth:"2.2",strokeLinecap:"round",strokeLinejoin:"round","aria-hidden":"true",children:[(0,s.jsx)("path",{d:"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"}),(0,s.jsx)("polyline",{points:"9 12 11 14 15 10"})]})},{id:"chip_4_work_directly",headline:"You work directly with us",subline:"David and Rakesh handle your loan personally",href:"tel:8588485653",external:!1,directAction:!0,icon:(0,s.jsx)("svg",{viewBox:"0 0 24 24",width:"22",height:"22",fill:"none",stroke:"currentColor",strokeWidth:"2.2",strokeLinecap:"round",strokeLinejoin:"round","aria-hidden":"true",children:(0,s.jsx)("path",{d:"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"})})}],d=r?l.filter(e=>"chip_1_google_rating"===e.id||"chip_4_work_directly"===e.id):l;return(0,s.jsx)("div",{className:`tc-chips-grid ${"grid-2x2"===i?"tc-layout-2x2":"tc-layout-row"} ${r?"tc-layout-compact":""}`,role:"region","aria-label":"Verified Trust Credentials",children:d.map(r=>r.external?(0,s.jsxs)("a",{href:r.href,target:"_blank",rel:"noopener noreferrer",title:r.title,className:"tc-chip-card","data-analytics-event":r.id,onClick:()=>t(r.id,r.headline,e),children:[(0,s.jsx)("span",{className:"tc-chip-icon","aria-hidden":"true",children:r.icon}),(0,s.jsxs)("span",{className:"tc-chip-text",children:[(0,s.jsx)("span",{className:"tc-chip-headline",children:r.headline}),(0,s.jsx)("span",{className:"tc-chip-subline",children:r.subline})]})]},r.id):r.scrollTarget?(0,s.jsxs)("a",{href:r.href,className:"tc-chip-card","data-analytics-event":r.id,onClick:i=>{var s,a,n;let o;return s=r.scrollTarget,a=r.id,n=r.headline,i.preventDefault(),t(a,n,e),void((o=document.getElementById(s))?o.scrollIntoView({behavior:"smooth"}):window.location.hash=s)},children:[(0,s.jsx)("span",{className:"tc-chip-icon","aria-hidden":"true",children:r.icon}),(0,s.jsxs)("span",{className:"tc-chip-text",children:[(0,s.jsx)("span",{className:"tc-chip-headline",children:r.headline}),(0,s.jsx)("span",{className:"tc-chip-subline",children:r.subline})]})]},r.id):(0,s.jsxs)("a",{href:r.href,className:"tc-chip-card","data-analytics-event":r.id,onClick:i=>((r,i,s)=>{if(t(i,s,e),window.innerWidth<768)return;r.preventDefault();let a=document.getElementById("contact");a&&a.scrollIntoView({behavior:"smooth"})})(i,r.id,r.headline),children:[(0,s.jsx)("span",{className:"tc-chip-icon","aria-hidden":"true",children:r.icon}),(0,s.jsxs)("span",{className:"tc-chip-text",children:[(0,s.jsx)("span",{className:"tc-chip-headline",children:r.headline}),(0,s.jsx)("span",{className:"tc-chip-subline",children:r.subline})]})]},r.id))})}},62279:(e,r,i)=>{"use strict";i.d(r,{default:()=>v});var s=i(95155),a=i(12115),t=i(98500),n=i.n(t),o=i(63640),l=i.n(o),d=i(91531),c=i(91470),m=i(30391);let p=[{id:"self-employed",tag:"ENTREPRENEURS & 1099",title:"Self-Employed",shortDesc:"Bank Statement, P&L-only, and 1099 qualification strategies.",route:"/self-employed-programs",icon:(0,s.jsxs)("svg",{viewBox:"0 0 28 28",width:"24",height:"24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,s.jsx)("rect",{x:"3",y:"7",width:"22",height:"16",rx:"2.5"}),(0,s.jsx)("path",{d:"M9 7V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"}),(0,s.jsx)("path",{d:"M3 13h22"})]})},{id:"investors",tag:"PORTFOLIO GROWTH",title:"Investors",shortDesc:"DSCR cash-flow loans with no personal income limits.",route:"/dscr-loans",icon:(0,s.jsxs)("svg",{viewBox:"0 0 28 28",width:"24",height:"24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,s.jsx)("path",{d:"M3 24h22"}),(0,s.jsx)("path",{d:"M6 24V10l8-6 8 6v14"}),(0,s.jsx)("path",{d:"M11 24v-6h6v6"})]})},{id:"first-time",tag:"STEP-BY-STEP ROADMAP",title:"First Time Buyers",shortDesc:"Low down payment options and strategic pre-approvals.",route:"/first-time",icon:(0,s.jsxs)("svg",{viewBox:"0 0 28 28",width:"24",height:"24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,s.jsx)("circle",{cx:"9.5",cy:"14.5",r:"5.5"}),(0,s.jsx)("path",{d:"M14 14.5h11"}),(0,s.jsx)("path",{d:"M21 14.5v4"}),(0,s.jsx)("path",{d:"M24 14.5v3"})]})},{id:"retirees",tag:"ASSET-BASED QUALIFYING",title:"Retirees",shortDesc:"Asset depletion & equity solutions without W-2 income.",route:"/retirees",icon:(0,s.jsxs)("svg",{viewBox:"0 0 28 28",width:"24",height:"24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,s.jsx)("path",{d:"M14 24V11"}),(0,s.jsx)("path",{d:"M14 11c-2.5-3.5-7-3.5-9-1 2.5 0 5.5 1 9 1z"}),(0,s.jsx)("path",{d:"M14 11c2.5-3.5 7-3.5 9-1-2.5 0-5.5 1-9 1z"}),(0,s.jsx)("path",{d:"M8 24c2-1.5 4-2 6-2s4 .5 6 2"})]})},{id:"complicated",tag:"BESPOKE STRUCTURING",title:"Borrowers with Complicated Scenarios",shortDesc:"Multi-entity LLCs, S-Corps, trusts, and non-traditional income.",route:"/mortgage-for-llc",icon:(0,s.jsxs)("svg",{viewBox:"0 0 28 28",width:"24",height:"24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,s.jsx)("path",{d:"M16 23H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v7"}),(0,s.jsx)("line",{x1:"8",y1:"9",x2:"15",y2:"9"}),(0,s.jsx)("line",{x1:"8",y1:"13",x2:"15",y2:"13"}),(0,s.jsx)("circle",{cx:"21",cy:"20",r:"3"}),(0,s.jsx)("path",{d:"M21 15.5v1.2M21 23.3v1.2M16.5 20h1.2M24.3 20h1.2"})]})}],h=[{id:"self-employed",badge:"ENTREPRENEURS & CONTRACTORS",title:"Self-Employed Borrowers",description:"Your tax returns are designed to minimize tax liability—not showcase your true borrowing power. We use alternative documentation programs tailored to how your business actually operates.",metrics:"12–24 Mo. Bank Statements • 1099 Only • CPA P&L",highlights:["Bank Statement Loans (Personal or Business)","1099 Expense-Ratio Qualification","S-Corp, LLC & Small Business Structuring"],route:"/self-employed-programs",span:"wide"},{id:"investors",badge:"REAL ESTATE PORTFOLIOS",title:"Rental & DSCR Financing",description:"Scale your real estate holdings without personal debt-to-income bottlenecks. Qualify directly on the subject property’s rental cash flow.",metrics:"DSCR Cash-Flow Qualifying • LLC Vesting Available",highlights:["No Personal Income or Tax Returns Required","Long-Term & Short-Term Rental Options","Portfolio & Cross-Collateral Strategies"],route:"/dscr-loans",span:"normal"},{id:"retirees",badge:"WEALTH & RETIREMENT",title:"Retirees & Asset-Rich Borrowers",description:"Turn retirement accounts, investment portfolios, and home equity into qualifying power—even with zero traditional W-2 employment income.",metrics:"Asset Depletion • Retirement Distributions",highlights:["Asset Depletion & Portfolio Qualifying","Strategic Equity Unlocking & Downsizing","Tailored Cash-Flow Preservation"],route:"/retirees",span:"normal"},{id:"first-time",badge:"NEXT-GENERATION BUYERS",title:"First-Time Home Buyers & Complex Scenarios",description:"Buying your first home—or navigating variable RSU/bonus compensation, family gifts, or co-borrowers—requires an advisor who maps out every step before you make an offer.",metrics:" Rock-Solid Pre-Approvals • Low Down Payment Options",highlights:["Clear Side-by-Side Total Cost Comparisons","Low Down Payment & Assistance Strategies","Realtor-Backed Pre-Approval Letters That Win Offers"],route:"/first-time",span:"wide"}],g=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],v=()=>{let[e,r]=(0,a.useState)({name:"",email:"",phone:"",category:"",preferredDays:[],preferredTime:"I'm flexible",smsConsent:!1}),[i,t]=(0,a.useState)({name:"",email:"",phone:"",category:""}),[o,v]=(0,a.useState)(!1),[x,u]=(0,a.useState)(null);(0,a.useEffect)(()=>{let e=document.querySelector("script[data-igr-script]"),r=()=>{window.InsiderGoogleReviews&&window.InsiderGoogleReviews.init()};if(e)r();else{let e=document.createElement("script");e.src="/insidermortgage/google-reviews/google-reviews-widget.js",e.async=!0,e.setAttribute("data-igr-script","true"),e.onload=r,document.body.appendChild(e)}},[]);let f=e=>{let s,a,{name:n,value:o,type:l,checked:d}=e.target,c="checkbox"===l?d:"phone"===n?0===(a=(11===(s=String(o||"").replace(/\D/g,"")).length&&s.startsWith("1")?s.slice(1):s).slice(0,10)).length?"":a.length<4?`(${a}`:a.length<7?`(${a.slice(0,3)}) ${a.slice(3)}`:`(${a.slice(0,3)}) ${a.slice(3,6)}-${a.slice(6,10)}`:o;r(e=>({...e,[n]:c})),i[n]&&t(e=>({...e,[n]:""}))},b=async i=>{if(i.preventDefault(),(()=>{let r={name:"",email:"",phone:"",category:""};if(e.name.trim()||(r.name="Please enter your full name."),e.email.trim()){var i;i=e.email,/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(i||"").trim())||(r.email="Please enter a valid email address (e.g., you@example.com).")}else r.email="Please enter your email address.";if(e.phone.trim()){let i,s;s=11===(i=String(e.phone||"").replace(/\D/g,"")).length&&i.startsWith("1")?i.slice(1):i,/^[2-9]\d{9}$/.test(s)||(r.phone="Please enter a valid 10-digit US phone number, e.g., (555) 123-4567.")}else r.phone="Please enter a 10-digit US phone number.";return e.category||(r.category="Please select a profile option."),t(r),!r.name&&!r.email&&!r.phone&&!r.category})()){u("submitting");try{await (0,d.gS)((0,d.rJ)(c.db,"leads"),{...e,preferredDay:e.preferredDays.length>0?e.preferredDays.join(", "):"Flexible",source:"HomeV8",submittedAt:(0,d.O5)(),submittedAtIso:new Date().toISOString()}),u("success"),r({name:"",email:"",phone:"",category:"",preferredDays:[],preferredTime:"I'm flexible",smsConsent:!1}),t({name:"",email:"",phone:"",category:""}),v(!1)}catch(e){console.error("Submission Error:",e),u("error")}}};return(0,s.jsxs)("main",{className:"v8-page",children:[(0,s.jsxs)(l(),{children:[(0,s.jsx)("title",{children:"Insider Mortgage | Trusted Mortgage Experts (V8)"}),(0,s.jsx)("meta",{name:"description",content:"Team Insider — Trusted Mortgage Experts Recommended by Professionals, Friends & Family."})]}),(0,s.jsx)("link",{href:"https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Montserrat:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",rel:"stylesheet"}),(0,s.jsxs)("section",{className:"v8-hero-section",children:[(0,s.jsx)("div",{className:"v8-ambient-glow v8-glow-1"}),(0,s.jsx)("div",{className:"v8-ambient-glow v8-glow-2"}),(0,s.jsxs)("div",{className:"v8-container",children:[(0,s.jsxs)("div",{className:"v8-hero-grid",children:[(0,s.jsxs)("div",{className:"v8-hero-copy",children:[(0,s.jsxs)("div",{className:"v8-eyebrow-pill",children:[(0,s.jsx)("span",{className:"v8-eyebrow-dot"}),(0,s.jsx)("span",{children:"TEAM INSIDER • MORTGAGE ADVISORY"})]}),(0,s.jsx)("div",{className:"v8-headline-wrap",children:(0,s.jsx)("img",{src:"/insidermortgage/headline-graphic.png",alt:"TRUSTED MORTGAGE EXPERTS",className:"v8-headline-graphic"})}),(0,s.jsxs)("p",{className:"v8-recommended-line",children:["Recommended by"," ",(0,s.jsx)("span",{className:"v8-gold-text",children:"Professionals, Friends & Family."})]}),(0,s.jsxs)("h2",{className:"v8-editorial-subhead",children:["Mortgage advice built around your situation—",(0,s.jsx)("em",{children:"not simply a loan."})]}),(0,s.jsx)("p",{className:"v8-editorial-lead",children:"Experienced mortgage professionals helping buyers, homeowners, investors, self-employed borrowers, and retirees evaluate their options and structure the right financing strategy."}),(0,s.jsxs)("div",{className:"v8-cta-group",children:[(0,s.jsxs)("a",{href:"#contact",className:"v8-btn-primary",children:[(0,s.jsx)("span",{children:"Schedule a Mortgage Review"}),(0,s.jsxs)("svg",{viewBox:"0 0 24 24",width:"20",height:"20",fill:"none",stroke:"currentColor",strokeWidth:"2.4",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,s.jsx)("line",{x1:"5",y1:"12",x2:"19",y2:"12"}),(0,s.jsx)("polyline",{points:"12 5 19 12 12 19"})]})]}),(0,s.jsx)("a",{href:"#solutions",className:"v8-btn-secondary",children:"Explore Loan Strategies"})]}),(0,s.jsxs)("div",{className:"v8-referral-note",children:[(0,s.jsxs)("svg",{viewBox:"0 0 24 24",width:"18",height:"18",fill:"none",stroke:"#F2C230",strokeWidth:"2.2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,s.jsx)("path",{d:"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"}),(0,s.jsx)("polyline",{points:"9 12 11 14 15 10"})]}),(0,s.jsxs)("span",{children:["Referred by a friend, client, or trusted professional?"," ",(0,s.jsx)("strong",{children:"You’re in the right place."})]})]})]}),(0,s.jsxs)("div",{className:"v8-hero-visual",children:[(0,s.jsxs)("div",{className:"v8-dog-showcase-frame",children:[(0,s.jsx)("img",{src:"/insidermortgage/splash-bg.jpg",alt:"Surfing dog riding the interest rate wave",className:"v8-dog-showcase-img"}),(0,s.jsxs)("div",{className:"v8-floating-chip v8-chip-top",children:[(0,s.jsx)("span",{className:"v8-chip-indicator"}),(0,s.jsx)("span",{children:"Strategic Rate & Structure Analysis"})]}),(0,s.jsx)("div",{className:"v8-dog-quote-overlay",children:(0,s.jsx)("img",{src:"/insidermortgage/wave-quote-graphic.png",alt:"I'm riding the interest rate wave",className:"v8-dog-quote-img"})})]}),(0,s.jsxs)("div",{className:"v8-floating-advisory-card",children:[(0,s.jsxs)("div",{className:"v8-advisory-avatars",children:[(0,s.jsx)("img",{src:"/insidermortgage/david-sider.jpg",alt:"David Sider"}),(0,s.jsx)("img",{src:"/insidermortgage/rakesh-jain.jpg",alt:"Rakesh Jain"})]}),(0,s.jsxs)("div",{className:"v8-advisory-meta",children:[(0,s.jsx)("strong",{children:"Direct Partner Advisory"}),(0,s.jsx)("span",{children:"Work directly with David & Rakesh"})]})]})]})]}),(0,s.jsxs)("div",{className:"v8-bento-bar",children:[(0,s.jsxs)("div",{className:"v8-bento-header",children:[(0,s.jsxs)("div",{className:"v8-bento-title-group",children:[(0,s.jsx)("span",{className:"v8-bento-eyebrow",children:"TAILORED LENDING EXPERTISE"}),(0,s.jsxs)("h3",{children:[(0,s.jsx)("strong",{children:"Team Insider"})," specializes in loans for:"]})]}),(0,s.jsx)("span",{className:"v8-bento-hint",children:"Select a profile to explore →"})]}),(0,s.jsx)("div",{className:"v8-bento-grid",children:p.map(e=>(0,s.jsxs)(n(),{href:e.route,className:"v8-bento-card",children:[(0,s.jsxs)("div",{className:"v8-bento-card-top",children:[(0,s.jsx)("span",{className:"v8-bento-icon",children:e.icon}),(0,s.jsx)("span",{className:"v8-bento-arrow",children:(0,s.jsxs)("svg",{viewBox:"0 0 24 24",width:"18",height:"18",fill:"none",stroke:"currentColor",strokeWidth:"2.2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,s.jsx)("line",{x1:"7",y1:"17",x2:"17",y2:"7"}),(0,s.jsx)("polyline",{points:"7 7 17 7 17 17"})]})})]}),(0,s.jsx)("span",{className:"v8-bento-tag",children:e.tag}),(0,s.jsx)("h4",{className:"v8-bento-card-title",children:e.title}),(0,s.jsx)("p",{className:"v8-bento-card-desc",children:e.shortDesc})]},e.id))})]})]})]}),(0,s.jsx)("section",{className:"v8-partners-section",children:(0,s.jsxs)("div",{className:"v8-container",children:[(0,s.jsxs)("div",{className:"v8-partners-header",children:[(0,s.jsx)("span",{className:"v8-section-kicker",children:"MEET YOUR ADVISORS"}),(0,s.jsx)("h2",{className:"v8-team-insider-title",children:"Team Insider"}),(0,s.jsx)("svg",{viewBox:"0 0 420 26",preserveAspectRatio:"none",className:"v8-team-swoosh",children:(0,s.jsx)("path",{d:"M6,20 Q205,2 414,15 Q210,11 18,24 Z",fill:"#F2C230"})}),(0,s.jsxs)("p",{className:"v8-team-led-by",children:["led by ",(0,s.jsx)("strong",{children:"David & Rakesh"})]}),(0,s.jsx)("p",{className:"v8-partners-intro",children:"Unlike call-center lenders or algorithms, we personally evaluate your tax returns, business entities, real estate goals, and long-term balance sheet to craft a financing strategy that fits."})]}),(0,s.jsxs)("div",{className:"v8-partners-grid",children:[(0,s.jsxs)("div",{className:"v8-partner-editorial-card",children:[(0,s.jsx)("div",{className:"v8-partner-photo-wrap",children:(0,s.jsx)("img",{src:"/insidermortgage/rakesh-jain.jpg",alt:"Rakesh Jain",className:"v8-partner-photo"})}),(0,s.jsxs)("div",{className:"v8-partner-content",children:[(0,s.jsx)("span",{className:"v8-partner-role",children:"Managing Partner / Broker"}),(0,s.jsx)("h3",{children:"Rakesh Jain"}),(0,s.jsx)("p",{children:"Known for structuring complex self-employed, multi-entity, and real estate investor transactions with precision and clarity."}),(0,s.jsxs)("div",{className:"v8-partner-tags",children:[(0,s.jsx)("span",{children:"Self-Employed Strategy"}),(0,s.jsx)("span",{children:"Investor & DSCR"}),(0,s.jsx)("span",{children:"Complex Tax Returns"})]}),(0,s.jsxs)(n(),{href:"/bio-rakesh",className:"v8-partner-link",children:[(0,s.jsx)("span",{children:"Read Rakesh’s Full Bio"}),(0,s.jsxs)("svg",{viewBox:"0 0 24 24",width:"18",height:"18",fill:"none",stroke:"currentColor",strokeWidth:"2.2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,s.jsx)("line",{x1:"5",y1:"12",x2:"19",y2:"12"}),(0,s.jsx)("polyline",{points:"12 5 19 12 12 19"})]})]})]})]}),(0,s.jsxs)("div",{className:"v8-partner-editorial-card",children:[(0,s.jsx)("div",{className:"v8-partner-photo-wrap",children:(0,s.jsx)("img",{src:"/insidermortgage/david-sider.jpg",alt:"David Sider",className:"v8-partner-photo"})}),(0,s.jsxs)("div",{className:"v8-partner-content",children:[(0,s.jsx)("span",{className:"v8-partner-role",children:"Managing Partner / Broker"}),(0,s.jsx)("h3",{children:"David Sider"}),(0,s.jsx)("p",{children:"Dedicated to helping home buyers, families, and retirees navigate rate cycles and unlock flexible financing solutions with zero surprises."}),(0,s.jsxs)("div",{className:"v8-partner-tags",children:[(0,s.jsx)("span",{children:"Purchase & Refinance"}),(0,s.jsx)("span",{children:"Retiree & Asset Loans"}),(0,s.jsx)("span",{children:"First-Time Buyers"})]}),(0,s.jsxs)(n(),{href:"/bio-david",className:"v8-partner-link",children:[(0,s.jsx)("span",{children:"Read David’s Full Bio"}),(0,s.jsxs)("svg",{viewBox:"0 0 24 24",width:"18",height:"18",fill:"none",stroke:"currentColor",strokeWidth:"2.2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,s.jsx)("line",{x1:"5",y1:"12",x2:"19",y2:"12"}),(0,s.jsx)("polyline",{points:"12 5 19 12 12 19"})]})]})]})]})]})]})}),(0,s.jsx)("section",{className:"v8-solutions-section",id:"solutions",children:(0,s.jsxs)("div",{className:"v8-container",children:[(0,s.jsxs)("div",{className:"v8-section-header-split",children:[(0,s.jsxs)("div",{children:[(0,s.jsx)("span",{className:"v8-section-kicker v8-kicker-dark",children:"FINANCING ARCHITECTURES"}),(0,s.jsx)("h2",{className:"v8-section-title-dark",children:"Built for borrowers who don’t fit inside a cookie-cutter box."})]}),(0,s.jsx)("p",{className:"v8-section-desc-dark",children:"We believe mortgage advice shouldn’t be one-size-fits-all. Explore how we tailor loan programs around your income structure, assets, and investment horizon."})]}),(0,s.jsx)("div",{className:"v8-solutions-bento",children:h.map(e=>(0,s.jsxs)("div",{className:`v8-solution-bento-card ${"wide"===e.span?"v8-bento-span-7":"v8-bento-span-5"}`,children:[(0,s.jsxs)("div",{className:"v8-sol-top",children:[(0,s.jsx)("span",{className:"v8-sol-badge",children:e.badge}),(0,s.jsx)("span",{className:"v8-sol-metrics",children:e.metrics})]}),(0,s.jsx)("h3",{children:e.title}),(0,s.jsx)("p",{children:e.description}),(0,s.jsx)("ul",{className:"v8-sol-list",children:e.highlights.map(e=>(0,s.jsxs)("li",{children:[(0,s.jsx)("svg",{viewBox:"0 0 24 24",width:"18",height:"18",fill:"none",stroke:"#D99B00",strokeWidth:"2.5",strokeLinecap:"round",strokeLinejoin:"round",children:(0,s.jsx)("polyline",{points:"20 6 9 17 4 12"})}),(0,s.jsx)("span",{children:e})]},e))}),(0,s.jsx)("div",{className:"v8-sol-footer",children:(0,s.jsxs)(n(),{href:e.route,className:"v8-sol-btn",children:[(0,s.jsxs)("span",{children:["Explore ",e.title]}),(0,s.jsxs)("svg",{viewBox:"0 0 24 24",width:"18",height:"18",fill:"none",stroke:"currentColor",strokeWidth:"2.2",strokeLinecap:"round",strokeLinejoin:"round",children:[(0,s.jsx)("line",{x1:"5",y1:"12",x2:"19",y2:"12"}),(0,s.jsx)("polyline",{points:"12 5 19 12 12 19"})]})]})})]},e.id))})]})}),(0,s.jsx)("section",{className:"v8-testimonials-section",id:"reviews",children:(0,s.jsxs)("div",{className:"v8-container",children:[(0,s.jsxs)("div",{className:"v8-testimonials-header",children:[(0,s.jsx)("span",{className:"v8-section-kicker",children:"VERIFIED CLIENT REVIEWS"}),(0,s.jsx)("h2",{children:"Why Professionals, Friends & Family Refer Us"}),(0,s.jsx)("p",{children:"Our business is built on trust and repeat referrals from CPAs, financial advisors, Realtors, and past clients."})]}),(0,s.jsx)("div",{className:"v8-testimonials-frame",children:(0,s.jsx)("div",{id:"insider-google-reviews","data-reviews-url":"/insidermortgage/google-reviews/data/reviews.json","data-heading":"The Word on the Street","data-show-heading":"true","data-expand-mode":"inline",style:{width:"100%","--igr-bg":"transparent","--igr-padding":"0"}})})]})}),(0,s.jsx)("section",{className:"v8-contact-section",id:"contact",children:(0,s.jsxs)("div",{className:"v8-container",children:[(0,s.jsx)("div",{style:{marginBottom:"2rem"},children:(0,s.jsx)(m.A,{placement:"lead-capture",layout:"row"})}),(0,s.jsxs)("div",{className:"v8-contact-card",children:[(0,s.jsxs)("div",{className:"v8-contact-left",children:[(0,s.jsx)("span",{className:"v8-section-kicker",children:"ONE OBVIOUS NEXT STEP"}),(0,s.jsx)("h2",{children:"Schedule Your Mortgage Review"}),(0,s.jsx)("p",{children:"Whether you are preparing to buy, evaluating a refinance, or structuring a complex self-employed or investment scenario, let’s review your numbers together."}),(0,s.jsxs)("div",{className:"v8-contact-pillars",children:[(0,s.jsxs)("div",{className:"v8-pillar-item",children:[(0,s.jsx)("div",{className:"v8-pillar-icon",children:"1"}),(0,s.jsxs)("div",{children:[(0,s.jsx)("strong",{children:"15-Minute Discovery Call"}),(0,s.jsx)("span",{children:"A candid conversation about your goals and timeline—no sales pressure."})]})]}),(0,s.jsxs)("div",{className:"v8-pillar-item",children:[(0,s.jsx)("div",{className:"v8-pillar-icon",children:"2"}),(0,s.jsxs)("div",{children:[(0,s.jsx)("strong",{children:"Custom Scenario Modeling"}),(0,s.jsx)("span",{children:"We analyze tax returns, entity structures, and rate/cost trade-offs."})]})]}),(0,s.jsxs)("div",{className:"v8-pillar-item",children:[(0,s.jsx)("div",{className:"v8-pillar-icon",children:"3"}),(0,s.jsxs)("div",{children:[(0,s.jsx)("strong",{children:"Clear Actionable Strategy"}),(0,s.jsx)("span",{children:"Walk away with a concrete financing roadmap or pre-approval."})]})]})]})]}),(0,s.jsxs)("div",{className:"v8-contact-right",children:[(0,s.jsx)("h3",{children:"Request a Consultation"}),(0,s.jsxs)("form",{onSubmit:b,className:"v8-form",noValidate:!0,children:[(0,s.jsx)("h4",{className:"v8-schedule-heading",children:"When is a good time to connect?"}),(0,s.jsx)("p",{className:"v8-schedule-subtext",children:"Let us know what works best for you."}),(0,s.jsxs)("div",{className:"v8-radio-group",children:[(0,s.jsx)("span",{className:"v8-radio-title",children:"Preferred day"}),(0,s.jsx)("div",{className:"v8-options-grid v8-days-grid",children:g.map(i=>{let a=e.preferredDays.includes(i);return(0,s.jsxs)("label",{className:"v8-radio-item",children:[(0,s.jsx)("input",{type:"checkbox",name:"preferredDays",value:i,checked:a,onChange:()=>{r(e=>{let r=e.preferredDays.includes(i)?e.preferredDays.filter(e=>e!==i):[...e.preferredDays,i];return{...e,preferredDays:r}})},className:"v8-multi-radio-input"}),(0,s.jsx)("span",{children:i})]},i)})})]}),(0,s.jsxs)("div",{className:"v8-radio-group",children:[(0,s.jsx)("span",{className:"v8-radio-title",children:"Preferred time (Pacific Time)"}),(0,s.jsxs)("div",{className:"v8-options-grid v8-times-grid",children:[(0,s.jsxs)("label",{className:"v8-radio-item",children:[(0,s.jsx)("input",{type:"radio",name:"preferredTime",value:"Morning (9 AM–12 PM)",checked:"Morning (9 AM–12 PM)"===e.preferredTime,onChange:f}),(0,s.jsx)("span",{children:"Morning (9 AM–12 PM)"})]}),(0,s.jsxs)("label",{className:"v8-radio-item",children:[(0,s.jsx)("input",{type:"radio",name:"preferredTime",value:"Afternoon (12 PM–4 PM)",checked:"Afternoon (12 PM–4 PM)"===e.preferredTime,onChange:f}),(0,s.jsx)("span",{children:"Afternoon (12 PM–4 PM)"})]}),(0,s.jsxs)("label",{className:"v8-radio-item",children:[(0,s.jsx)("input",{type:"radio",name:"preferredTime",value:"Late afternoon (4 PM–6 PM)",checked:"Late afternoon (4 PM–6 PM)"===e.preferredTime,onChange:f}),(0,s.jsx)("span",{children:"Late afternoon (4 PM–6 PM)"})]}),(0,s.jsxs)("label",{className:"v8-radio-item",children:[(0,s.jsx)("input",{type:"radio",name:"preferredTime",value:"I'm flexible",checked:"I'm flexible"===e.preferredTime,onChange:f}),(0,s.jsx)("span",{children:"I'm flexible"})]})]})]}),(0,s.jsx)("button",{type:"button",className:"v8-dark-pill-btn",onClick:()=>{v(!0)},children:"Schedule Time"}),o&&(0,s.jsxs)("div",{className:"v8-schedule-drawer",children:[(0,s.jsx)("p",{className:"v8-form-sub",style:{margin:"0 0 0.25rem 0"},children:"Tell us a little about yourself, and we'll help you take the next step."}),(0,s.jsxs)("div",{className:"v8-field",children:[(0,s.jsx)("label",{children:"Full Name"}),(0,s.jsx)("input",{type:"text",name:"name",required:!0,value:e.name,onChange:f,placeholder:"Your full name",className:`v8-pill-input ${i.name?"v8-input-error":""}`}),i.name&&(0,s.jsx)("span",{className:"v8-error-text",children:i.name})]}),(0,s.jsxs)("div",{className:"v8-field",children:[(0,s.jsx)("label",{children:"Email Address"}),(0,s.jsx)("input",{type:"email",name:"email",required:!0,value:e.email,onChange:f,placeholder:"you@example.com",className:`v8-pill-input ${i.email?"v8-input-error":""}`}),i.email&&(0,s.jsx)("span",{className:"v8-error-text",children:i.email})]}),(0,s.jsxs)("div",{className:"v8-field",children:[(0,s.jsx)("label",{children:"Phone Number"}),(0,s.jsx)("input",{type:"tel",name:"phone",required:!0,value:e.phone,onChange:f,placeholder:"(555) 123-4567",className:`v8-pill-input ${i.phone?"v8-input-error":""}`}),i.phone?(0,s.jsx)("span",{className:"v8-error-text",children:i.phone}):(0,s.jsx)("span",{className:"v8-phone-helper",children:"We'll use this to follow up on your consultation request."})]}),(0,s.jsxs)("div",{className:"v8-field",children:[(0,s.jsx)("label",{children:"I am best described as a..."}),(0,s.jsxs)("select",{name:"category",required:!0,value:e.category,onChange:f,className:`v8-pill-input ${i.category?"v8-input-error":""}`,children:[(0,s.jsx)("option",{value:"",disabled:!0,children:"Select a profile..."}),(0,s.jsx)("option",{value:"Self-Employed",children:"Self-Employed Borrower"}),(0,s.jsx)("option",{value:"Retiree",children:"Retiree"}),(0,s.jsx)("option",{value:"Real Estate Investor",children:"Real Estate Investor (Rental Property)"}),(0,s.jsx)("option",{value:"First-Time Home Buyer",children:"First-Time Home Buyer"}),(0,s.jsx)("option",{value:"Other",children:"Other / Standard Refinance"})]}),i.category&&(0,s.jsx)("span",{className:"v8-error-text",children:i.category})]}),(0,s.jsxs)("div",{className:"v8-sms-consent",children:[(0,s.jsxs)("label",{className:"v8-sms-label",children:[(0,s.jsx)("input",{type:"checkbox",name:"smsConsent",checked:e.smsConsent,onChange:f}),(0,s.jsx)("strong",{children:"Yes, you may text me."})]}),(0,s.jsx)("p",{className:"v8-sms-disclaimer",children:"I agree to receive text messages from Insider Mortgage about my consultation request and scheduling. Consent is not a condition of purchasing services. Message frequency varies. Message and data rates may apply. Reply STOP to opt out."})]}),(0,s.jsx)("button",{type:"submit",className:"v8-dark-pill-btn",disabled:"submitting"===x,children:"submitting"===x?"Sending...":"Request a Call"})]}),"success"===x&&(0,s.jsx)("div",{className:"v8-alert v8-alert-success",children:"Thank you! Your request has been received. David or Rakesh will be in touch shortly."}),"error"===x&&(0,s.jsx)("div",{className:"v8-alert v8-alert-error",children:"Something went wrong submitting your request. Please try again."})]})]})]})]})}),(0,s.jsx)("style",{dangerouslySetInnerHTML:{__html:`
+        .v8-page {
+          font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+          color: #0A192F;
+          background-color: #F8FAFC;
+          overflow-x: hidden;
+        }
+
+        .v8-container {
+          width: 100%;
+          max-width: 1380px;
+          margin: 0 auto;
+          padding: 0 4%;
+          position: relative;
+          z-index: 2;
+        }
+
+        /* =========================================================
+           1. HERO SECTION (LAND-BOOK SPLIT EDITORIAL + BENTO BAR)
+           ========================================================= */
+        .v8-hero-section {
+          position: relative;
+          background: radial-gradient(circle at 82% 22%, #133B6E 0%, #061A33 52%, #031022 100%);
+          color: #FFFFFF;
+          padding: 3.5rem 0 4.5rem 0;
+          overflow: hidden;
+        }
+
+        .v8-ambient-glow {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(110px);
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .v8-glow-1 {
+          width: 520px;
+          height: 520px;
+          background: rgba(242, 194, 48, 0.14);
+          top: -120px;
+          right: 8%;
+        }
+
+        .v8-glow-2 {
+          width: 460px;
+          height: 460px;
+          background: rgba(29, 122, 218, 0.18);
+          bottom: 5%;
+          left: -100px;
+        }
+
+        .v8-hero-grid {
+          display: grid;
+          grid-template-columns: 1.08fr 0.92fr;
+          gap: 3.25rem;
+          align-items: center;
+        }
+
+        .v8-eyebrow-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          padding: 0.45rem 1rem;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(242, 194, 48, 0.35);
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.78rem;
+          font-weight: 700;
+          letter-spacing: 1.4px;
+          color: #F2C230;
+          margin-bottom: 1.25rem;
+        }
+
+        .v8-eyebrow-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #F2C230;
+          box-shadow: 0 0 10px #F2C230;
+        }
+
+        .v8-headline-wrap {
+          width: 100%;
+          max-width: 640px;
+          margin-bottom: 0.45rem;
+        }
+
+        .v8-headline-graphic {
+          width: 100%;
+          height: auto;
+          display: block;
+          filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.65));
+        }
+
+        .v8-recommended-line {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 700;
+          font-size: clamp(1.05rem, 1.55vw, 1.38rem);
+          color: #F8FAFC;
+          margin: 0 0 1.5rem 0;
+        }
+
+        .v8-gold-text {
+          color: #F2C230;
+        }
+
+        .v8-editorial-subhead {
+          font-family: 'Fraunces', Georgia, serif;
+          font-weight: 600;
+          font-size: clamp(1.65rem, 2.6vw, 2.45rem);
+          line-height: 1.2;
+          color: #FFFFFF;
+          margin: 0 0 1rem 0;
+          letter-spacing: -0.4px;
+        }
+
+        .v8-editorial-subhead em {
+          font-style: italic;
+          color: #F2C230;
+          font-weight: 600;
+        }
+
+        .v8-editorial-lead {
+          font-size: clamp(1rem, 1.2vw, 1.14rem);
+          line-height: 1.68;
+          color: rgba(241, 245, 249, 0.86);
+          margin: 0 0 2rem 0;
+          max-width: 590px;
+        }
+
+        .v8-cta-group {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 1rem;
+          margin-bottom: 1.65rem;
+        }
+
+        .v8-btn-primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.7rem;
+          background: #F2C230;
+          color: #061A33;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 800;
+          font-size: 1rem;
+          padding: 1rem 1.75rem;
+          border-radius: 14px;
+          text-decoration: none;
+          box-shadow: 0 12px 28px rgba(242, 194, 48, 0.28);
+          transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .v8-btn-primary:hover {
+          background: #FFCF40;
+          transform: translateY(-2px);
+          box-shadow: 0 16px 34px rgba(242, 194, 48, 0.38);
+        }
+
+        .v8-btn-secondary {
+          display: inline-flex;
+          align-items: center;
+          padding: 1rem 1.45rem;
+          border-radius: 14px;
+          border: 1.5px solid rgba(255, 255, 255, 0.24);
+          background: rgba(255, 255, 255, 0.05);
+          color: #FFFFFF;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 600;
+          font-size: 0.96rem;
+          text-decoration: none;
+          transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .v8-btn-secondary:hover {
+          background: rgba(255, 255, 255, 0.12);
+          border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .v8-referral-note {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          font-size: 0.94rem;
+          color: rgba(241, 245, 249, 0.85);
+          background: rgba(255, 255, 255, 0.05);
+          border-left: 3px solid #F2C230;
+          padding: 0.65rem 1rem;
+          border-radius: 0 10px 10px 0;
+        }
+
+        .v8-referral-note strong {
+          color: #FFFFFF;
+        }
+
+        /* Right Column Visual Showcase */
+        .v8-hero-visual {
+          position: relative;
+        }
+
+        .v8-dog-showcase-frame {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16 / 10.5;
+          border-radius: 26px;
+          overflow: hidden;
+          border: 1.5px solid rgba(255, 255, 255, 0.18);
+          box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55);
+          background: #041E3A;
+        }
+
+        .v8-dog-showcase-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: 62% center;
+          display: block;
+          transform: scale(1.01);
+        }
+
+        .v8-floating-chip {
+          position: absolute;
+          top: 1.1rem;
+          left: 1.1rem;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.45rem 0.9rem;
+          border-radius: 999px;
+          background: rgba(4, 24, 48, 0.72);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.22);
+          font-size: 0.78rem;
+          font-weight: 600;
+          color: #F8FAFC;
+          z-index: 3;
+        }
+
+        .v8-chip-indicator {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: #22C55E;
+        }
+
+        .v8-dog-quote-overlay {
+          position: absolute;
+          bottom: 13%;
+          right: 4%;
+          width: 34%;
+          z-index: 3;
+          pointer-events: none;
+        }
+
+        .v8-dog-quote-img {
+          width: 100%;
+          height: auto;
+          display: block;
+          filter: drop-shadow(0 1px 6px rgba(255, 255, 255, 0.55));
+        }
+
+        .v8-floating-advisory-card {
+          position: absolute;
+          bottom: -1.35rem;
+          left: 1.5rem;
+          display: flex;
+          align-items: center;
+          gap: 0.9rem;
+          padding: 0.75rem 1.15rem;
+          border-radius: 18px;
+          background: rgba(8, 31, 58, 0.92);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(242, 194, 48, 0.45);
+          box-shadow: 0 16px 32px rgba(0, 0, 0, 0.45);
+          z-index: 4;
+        }
+
+        .v8-advisory-avatars {
+          display: flex;
+          align-items: center;
+        }
+
+        .v8-advisory-avatars img {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 2px solid #F2C230;
+        }
+
+        .v8-advisory-avatars img + img {
+          margin-left: -12px;
+        }
+
+        .v8-advisory-meta {
+          display: flex;
+          flex-direction: column;
+          font-size: 0.82rem;
+          line-height: 1.3;
+        }
+
+        .v8-advisory-meta strong {
+          color: #FFFFFF;
+          font-weight: 700;
+        }
+
+        .v8-advisory-meta span {
+          color: #F2C230;
+          font-weight: 500;
+        }
+
+        /* Bento Specialty Bar */
+        .v8-bento-bar {
+          margin-top: 4.25rem;
+          padding-top: 2.5rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .v8-bento-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          margin-bottom: 1.35rem;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+
+        .v8-bento-eyebrow {
+          display: block;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.74rem;
+          font-weight: 700;
+          letter-spacing: 1.5px;
+          color: #F2C230;
+          margin-bottom: 0.25rem;
+        }
+
+        .v8-bento-title-group h3 {
+          margin: 0;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 500;
+          font-size: clamp(1.25rem, 2vw, 1.7rem);
+          color: #F8FAFC;
+        }
+
+        .v8-bento-title-group h3 strong {
+          font-weight: 800;
+          color: #FFFFFF;
+        }
+
+        .v8-bento-hint {
+          font-size: 0.88rem;
+          color: rgba(241, 245, 249, 0.7);
+          font-weight: 500;
+        }
+
+        .v8-bento-grid {
+          display: grid;
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: 1rem;
+        }
+
+        .v8-bento-card {
+          display: flex;
+          flex-direction: column;
+          padding: 1.25rem;
+          border-radius: 18px;
+          background: rgba(255, 255, 255, 0.055);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          text-decoration: none;
+          color: #FFFFFF;
+          transition: transform 0.22s ease, background-color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .v8-bento-card:hover {
+          transform: translateY(-4px);
+          background: rgba(255, 255, 255, 0.1);
+          border-color: #F2C230;
+          box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        .v8-bento-card-top {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.85rem;
+        }
+
+        .v8-bento-icon {
+          width: 42px;
+          height: 42px;
+          border-radius: 11px;
+          background: rgba(242, 194, 48, 0.16);
+          color: #F2C230;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .v8-bento-arrow {
+          color: rgba(255, 255, 255, 0.45);
+          transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .v8-bento-card:hover .v8-bento-arrow {
+          color: #F2C230;
+          transform: translate(2px, -2px);
+        }
+
+        .v8-bento-tag {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.68rem;
+          font-weight: 700;
+          letter-spacing: 1px;
+          color: #F2C230;
+          margin-bottom: 0.3rem;
+        }
+
+        .v8-bento-card-title {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 1.05rem;
+          font-weight: 800;
+          color: #FFFFFF;
+          margin: 0 0 0.4rem 0;
+          line-height: 1.25;
+        }
+
+        .v8-bento-card-desc {
+          font-size: 0.84rem;
+          line-height: 1.45;
+          color: rgba(241, 245, 249, 0.74);
+          margin: 0;
+        }
+
+        /* =========================================================
+           2. BIO SECTION (TEAM INSIDER LED BY DAVID & RAKESH)
+           ========================================================= */
+        .v8-partners-section {
+          background: #061A33;
+          color: #FFFFFF;
+          padding: 5.5rem 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .v8-partners-header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          max-width: 720px;
+          margin: 0 auto 3.5rem auto;
+        }
+
+        .v8-section-kicker {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.78rem;
+          font-weight: 800;
+          letter-spacing: 1.8px;
+          color: #F2C230;
+          text-transform: uppercase;
+          margin-bottom: 0.6rem;
+        }
+
+        .v8-team-insider-title {
+          margin: 0;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 800;
+          font-size: clamp(2.4rem, 4.8vw, 3.6rem);
+          line-height: 1.05;
+          color: #FFFFFF;
+        }
+
+        .v8-team-swoosh {
+          width: clamp(240px, 40vw, 370px);
+          height: 20px;
+          margin: 0.25rem 0;
+          display: block;
+        }
+
+        .v8-team-led-by {
+          margin: 0 0 1.25rem 0;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 500;
+          font-size: clamp(1.25rem, 2.3vw, 1.85rem);
+          color: #FFFFFF;
+        }
+
+        .v8-team-led-by strong {
+          font-weight: 700;
+          color: #F2C230;
+        }
+
+        .v8-partners-intro {
+          font-size: 1.05rem;
+          line-height: 1.65;
+          color: rgba(241, 245, 249, 0.8);
+          margin: 0;
+        }
+
+        .v8-partners-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 2rem;
+        }
+
+        .v8-partner-editorial-card {
+          display: grid;
+          grid-template-columns: 220px 1fr;
+          gap: 1.75rem;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 24px;
+          padding: 1.5rem;
+          align-items: center;
+          transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .v8-partner-editorial-card:hover {
+          border-color: rgba(242, 194, 48, 0.6);
+          transform: translateY(-3px);
+        }
+
+        .v8-partner-photo-wrap {
+          width: 100%;
+          aspect-ratio: 4 / 5;
+          border-radius: 16px;
+          overflow: hidden;
+          background: #0A2342;
+        }
+
+        .v8-partner-photo {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .v8-partner-role {
+          display: inline-block;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          color: #F2C230;
+          margin-bottom: 0.35rem;
+        }
+
+        .v8-partner-content h3 {
+          font-family: 'Fraunces', Georgia, serif;
+          font-size: 1.75rem;
+          margin: 0 0 0.65rem 0;
+          color: #FFFFFF;
+        }
+
+        .v8-partner-content p {
+          font-size: 0.95rem;
+          line-height: 1.6;
+          color: rgba(241, 245, 249, 0.8);
+          margin: 0 0 1rem 0;
+        }
+
+        .v8-partner-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.45rem;
+          margin-bottom: 1.25rem;
+        }
+
+        .v8-partner-tags span {
+          font-size: 0.75rem;
+          font-weight: 600;
+          padding: 0.3rem 0.65rem;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.08);
+          color: #E2E8F0;
+        }
+
+        .v8-partner-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 700;
+          font-size: 0.9rem;
+          color: #F2C230;
+          text-decoration: none;
+        }
+
+        .v8-partner-link:hover {
+          text-decoration: underline;
+        }
+
+        /* =========================================================
+           3. BENTO SOLUTIONS SECTION (LIGHT WARM IVORY / SLATE)
+           ========================================================= */
+        .v8-solutions-section {
+          padding: 6rem 0;
+          background: #F8FAFC;
+        }
+
+        .v8-section-header-split {
+          display: grid;
+          grid-template-columns: 1.1fr 0.9fr;
+          gap: 2.5rem;
+          align-items: end;
+          margin-bottom: 3rem;
+        }
+
+        .v8-kicker-dark {
+          color: #B47D00;
+          display: block;
+        }
+
+        .v8-section-title-dark {
+          font-family: 'Fraunces', Georgia, serif;
+          font-size: clamp(2rem, 3.2vw, 2.85rem);
+          line-height: 1.15;
+          color: #061A33;
+          margin: 0;
+        }
+
+        .v8-section-desc-dark {
+          font-size: 1.06rem;
+          line-height: 1.65;
+          color: #475569;
+          margin: 0;
+        }
+
+        .v8-solutions-bento {
+          display: grid;
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          gap: 1.5rem;
+        }
+
+        .v8-bento-span-7 {
+          grid-column: span 7;
+        }
+
+        .v8-bento-span-5 {
+          grid-column: span 5;
+        }
+
+        .v8-solution-bento-card {
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          border-radius: 24px;
+          padding: 2.25rem;
+          display: flex;
+          flex-direction: column;
+          box-shadow: 0 10px 30px rgba(6, 26, 51, 0.04);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .v8-solution-bento-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 40px rgba(6, 26, 51, 0.09);
+          border-color: #CBD5E1;
+        }
+
+        .v8-sol-top {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .v8-sol-badge {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 0.72rem;
+          font-weight: 800;
+          letter-spacing: 1.1px;
+          padding: 0.35rem 0.75rem;
+          border-radius: 999px;
+          background: #FEF3C7;
+          color: #92400E;
+        }
+
+        .v8-sol-metrics {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: #64748B;
+        }
+
+        .v8-solution-bento-card h3 {
+          font-family: 'Fraunces', Georgia, serif;
+          font-size: 1.6rem;
+          color: #061A33;
+          margin: 0 0 0.75rem 0;
+        }
+
+        .v8-solution-bento-card p {
+          font-size: 0.98rem;
+          line-height: 1.65;
+          color: #475569;
+          margin: 0 0 1.35rem 0;
+        }
+
+        .v8-sol-list {
+          list-style: none;
+          padding: 0;
+          margin: 0 0 1.75rem 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.6rem;
+        }
+
+        .v8-sol-list li {
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+          font-size: 0.93rem;
+          font-weight: 600;
+          color: #1E293B;
+        }
+
+        .v8-sol-footer {
+          margin-top: auto;
+          padding-top: 1rem;
+          border-top: 1px solid #F1F5F9;
+        }
+
+        .v8-sol-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 700;
+          font-size: 0.92rem;
+          color: #061A33;
+          text-decoration: none;
+          transition: gap 0.2s ease, color 0.2s ease;
+        }
+
+        .v8-sol-btn:hover {
+          color: #B47D00;
+          gap: 0.75rem;
+        }
+
+        /* =========================================================
+           4. TESTIMONIALS SECTION
+           ========================================================= */
+        .v8-testimonials-section {
+          padding: 5.5rem 0;
+          background: #FFFFFF;
+          border-top: 1px solid #E2E8F0;
+        }
+
+        .v8-testimonials-header {
+          text-align: center;
+          max-width: 680px;
+          margin: 0 auto 2.5rem auto;
+        }
+
+        .v8-testimonials-header h2 {
+          font-family: 'Fraunces', Georgia, serif;
+          font-size: clamp(1.9rem, 3vw, 2.6rem);
+          color: #061A33;
+          margin: 0.4rem 0 0.75rem 0;
+        }
+
+        .v8-testimonials-header p {
+          font-size: 1.05rem;
+          color: #475569;
+          margin: 0;
+        }
+
+        .v8-testimonials-frame {
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
+          border-radius: 24px;
+          padding: 2rem;
+        }
+
+        /* =========================================================
+           5. CONCIERGE CONSULTATION SECTION
+           ========================================================= */
+        .v8-contact-section {
+          padding: 5.5rem 0 6.5rem 0;
+          background: #F8FAFC;
+        }
+
+        .v8-contact-card {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          background: #061A33;
+          color: #FFFFFF;
+          border-radius: 30px;
+          overflow: hidden;
+          box-shadow: 0 28px 60px rgba(6, 26, 51, 0.22);
+        }
+
+        .v8-contact-left {
+          padding: 3.5rem;
+          background: radial-gradient(circle at top left, #123764 0%, #061A33 75%);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .v8-contact-left h2 {
+          font-family: 'Fraunces', Georgia, serif;
+          font-size: clamp(2rem, 3vw, 2.65rem);
+          margin: 0.4rem 0 1rem 0;
+          color: #FFFFFF;
+        }
+
+        .v8-contact-left p {
+          font-size: 1.02rem;
+          line-height: 1.65;
+          color: rgba(241, 245, 249, 0.82);
+          margin: 0 0 2.25rem 0;
+        }
+
+        .v8-contact-pillars {
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
+        }
+
+        .v8-pillar-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+
+        .v8-pillar-icon {
+          width: 34px;
+          height: 34px;
+          border-radius: 10px;
+          background: #F2C230;
+          color: #061A33;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 800;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          margin-top: 0.15rem;
+        }
+
+        .v8-pillar-item strong {
+          display: block;
+          font-size: 1rem;
+          color: #FFFFFF;
+          margin-bottom: 0.2rem;
+        }
+
+        .v8-pillar-item span {
+          font-size: 0.88rem;
+          color: rgba(241, 245, 249, 0.74);
+          line-height: 1.45;
+        }
+
+        .v8-contact-right {
+          padding: 3.5rem;
+          background: #FFFFFF;
+          color: #061A33;
+        }
+
+        .v8-contact-right h3 {
+          font-family: 'Fraunces', Georgia, serif;
+          font-size: 1.75rem;
+          margin: 0 0 0.4rem 0;
+          color: #061A33;
+        }
+
+        .v8-form-sub {
+          font-size: 0.94rem;
+          color: #64748B;
+          margin: 0 0 1.75rem 0;
+        }
+
+        .v8-form {
+          display: flex;
+          flex-direction: column;
+          gap: 1.15rem;
+        }
+
+        .v8-field-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+        }
+
+        .v8-field {
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+        }
+
+        .v8-field label {
+          font-size: 0.86rem;
+          font-weight: 600;
+          color: #374151;
+        }
+
+        .v8-field input.v8-pill-input,
+        .v8-field select.v8-pill-input {
+          padding: 0.78rem 1.15rem;
+          border-radius: 999px;
+          border: 1px solid #D1D5DB;
+          font-size: 0.95rem;
+          font-family: inherit;
+          color: #111827;
+          background: #FFFFFF;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .v8-field input.v8-pill-input:focus,
+        .v8-field select.v8-pill-input:focus {
+          outline: none;
+          border-color: #111827;
+          box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+        }
+
+        .v8-phone-helper {
+          font-size: 0.78rem;
+          color: #6B7280;
+          margin-top: 0.1rem;
+        }
+
+        .v8-input-error {
+          border-color: #DC2626 !important;
+          box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+        }
+
+        .v8-error-text {
+          font-size: 0.78rem;
+          font-weight: 600;
+          color: #DC2626;
+          margin-top: 0.1rem;
+        }
+
+        .v8-dark-pill-btn {
+          width: 100%;
+          margin-top: 0.2rem;
+          padding: 0.85rem 1.5rem;
+          border-radius: 999px;
+          border: none;
+          background: #0B0F17;
+          color: #FFFFFF;
+          font-family: inherit;
+          font-weight: 700;
+          font-size: 0.95rem;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+        }
+
+        .v8-dark-pill-btn:hover {
+          background: #1F2937;
+        }
+
+        .v8-schedule-drawer {
+          margin-top: 0.4rem;
+          padding-top: 1.25rem;
+          border-top: 1px solid #F1F5F9;
+          display: flex;
+          flex-direction: column;
+          gap: 1.1rem;
+        }
+
+        .v8-schedule-heading {
+          font-size: 1.05rem;
+          font-weight: 700;
+          color: #111827;
+          margin: 0;
+        }
+
+        .v8-schedule-subtext {
+          font-size: 0.88rem;
+          color: #6B7280;
+          margin: -0.6rem 0 0 0;
+        }
+
+        .v8-radio-group {
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
+        }
+
+        .v8-options-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.55rem 0.9rem;
+        }
+
+        @media (max-width: 540px) {
+          .v8-days-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.5rem 0.75rem;
+          }
+
+          .v8-times-grid {
+            grid-template-columns: 1fr;
+            gap: 0.45rem;
+          }
+        }
+
+        .v8-radio-title {
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: #4B5563;
+          margin-bottom: 0.1rem;
+        }
+
+        .v8-radio-item {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.65rem;
+          font-size: 0.95rem;
+          color: #1F2937;
+          cursor: pointer;
+          font-weight: 500;
+          text-transform: none;
+          letter-spacing: 0;
+        }
+
+        .v8-radio-item input[type="radio"] {
+          width: 18px;
+          height: 18px;
+          accent-color: #0B0F17;
+          cursor: pointer;
+          margin: 0;
+        }
+
+        .v8-multi-radio-input {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 18px;
+          height: 18px;
+          border: 1.5px solid #6B7280;
+          border-radius: 50%;
+          background-color: #FFFFFF;
+          cursor: pointer;
+          margin: 0;
+          display: inline-grid;
+          place-content: center;
+          flex-shrink: 0;
+        }
+
+        .v8-multi-radio-input::before {
+          content: "";
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: #0B0F17;
+          transform: scale(0);
+          transition: transform 0.12s ease-in-out;
+        }
+
+        .v8-multi-radio-input:checked {
+          border-color: #0B0F17;
+        }
+
+        .v8-multi-radio-input:checked::before {
+          transform: scale(1);
+        }
+
+        .v8-sms-consent {
+          margin-top: 0.25rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
+        }
+
+        .v8-sms-label {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.65rem;
+          font-size: 0.95rem;
+          color: #111827;
+          cursor: pointer;
+          text-transform: none;
+          letter-spacing: 0;
+        }
+
+        .v8-sms-label input[type="checkbox"] {
+          width: 18px;
+          height: 18px;
+          accent-color: #0B0F17;
+          cursor: pointer;
+          margin: 0;
+        }
+
+        .v8-sms-disclaimer {
+          font-size: 0.78rem;
+          line-height: 1.5;
+          color: #4B5563;
+          margin: 0;
+        }
+
+        .v8-alert {
+          padding: 0.85rem 1rem;
+          border-radius: 10px;
+          font-size: 0.9rem;
+          font-weight: 600;
+        }
+
+        .v8-alert-success {
+          background: #DCFCE7;
+          color: #166534;
+        }
+
+        .v8-alert-error {
+          background: #FEE2E2;
+          color: #991B1B;
+        }
+
+        /* =========================================================
+           RESPONSIVE BREAKPOINTS
+           ========================================================= */
+        @media (max-width: 1120px) {
+          .v8-hero-grid {
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+          }
+
+          .v8-bento-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+
+          .v8-partners-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .v8-section-header-split {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+          }
+
+          .v8-bento-span-7,
+          .v8-bento-span-5 {
+            grid-column: span 6;
+          }
+
+          .v8-contact-card {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .v8-hero-section {
+            padding: 2.25rem 0 3.5rem 0;
+          }
+
+          .v8-bento-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .v8-partner-editorial-card {
+            grid-template-columns: 1fr;
+          }
+
+          .v8-partner-photo-wrap {
+            max-width: 240px;
+          }
+
+          .v8-bento-span-7,
+          .v8-bento-span-5 {
+            grid-column: span 12;
+          }
+
+          .v8-field-row {
+            grid-template-columns: 1fr;
+          }
+
+          .v8-contact-left,
+          .v8-contact-right {
+            padding: 2.25rem 1.5rem;
+          }
+
+          .v8-floating-advisory-card {
+            position: relative;
+            bottom: auto;
+            left: auto;
+            margin-top: 1rem;
+          }
+        }
+
+        @media (max-width: 520px) {
+          .v8-bento-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}})]})}},63640:(e,r)=>{"use strict";function i(){return null}Object.defineProperty(r,"__esModule",{value:!0}),Object.defineProperty(r,"default",{enumerable:!0,get:function(){return i}}),("function"==typeof r.default||"object"==typeof r.default&&null!==r.default)&&void 0===r.default.__esModule&&(Object.defineProperty(r.default,"__esModule",{value:!0}),Object.assign(r.default,r),e.exports=r.default)},64263:()=>{},91470:(e,r,i)=>{"use strict";i.d(r,{db:()=>n});var s=i(97873),a=i(91531);let t=0===(0,s.Dk)().length?(0,s.Wp)({projectId:"imc-website-2026",appId:"1:243344090160:web:d14650fbc71537615279f5",storageBucket:"imc-website-2026.firebasestorage.app",apiKey:"AIzaSyAiaCV63wukbNALJzh1GMxjWZVnT2tKIi4",authDomain:"imc-website-2026.firebaseapp.com",messagingSenderId:"243344090160"}):(0,s.Sx)(),n=(0,a.aU)(t)}},e=>{e.O(0,[782,7705,2301,8500,6683,8441,3794,7358],()=>e(e.s=25104)),_N_E=e.O()}]);

@@ -15,7 +15,7 @@ const BioDavid = () => {
           
           <div style={{ position: 'sticky', top: '2rem' }}>
             <img 
-              src="/insidermortgage/david-sider.jpg" 
+              src="/david-sider.jpg" 
               alt="David Sider" 
               style={{ width: '100%', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl)', display: 'block' }} 
             />

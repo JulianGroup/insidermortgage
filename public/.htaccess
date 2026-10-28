@@ -1,0 +1,3 @@
+# Apache config for DreamHost shared hosting (copied into out/ by next build)
+ErrorDocument 404 /404.html
+DirectoryIndex index.html

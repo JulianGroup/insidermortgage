@@ -12,7 +12,7 @@ const HeroV4 = () => {
         minHeight: '80vh',
         maxWidth: '1600px',
         margin: '0 auto',
-        backgroundImage: "url('/insidermortgage/main-pg-no-text.png')",
+        backgroundImage: "url('/main-pg-no-text.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',

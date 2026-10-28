@@ -15,7 +15,7 @@ const BioRakesh = () => {
           
           <div style={{ position: 'sticky', top: '2rem' }}>
             <img 
-              src="/insidermortgage/rakesh-jain.jpg" 
+              src="/rakesh-jain.jpg" 
               alt="Rakesh Jain" 
               style={{ width: '100%', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl)', display: 'block' }} 
             />

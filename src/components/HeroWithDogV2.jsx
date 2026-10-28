@@ -10,7 +10,7 @@ const HeroWithDogV2 = () => {
           position: 'relative',
           minHeight: '80vh',
           width: '100%',
-          backgroundImage: "url('/insidermortgage/DogSurfing1.jpg')",
+          backgroundImage: "url('/DogSurfing1.jpg')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -101,7 +101,7 @@ const HeroWithDogV2 = () => {
           
           <div className="partners-section" style={{ marginTop: '0' }}>
             <div className="partner-card">
-              <img src="/insidermortgage/rakesh-jain.jpg" alt="Rakesh Jain" className="partner-bg-image" />
+              <img src="/rakesh-jain.jpg" alt="Rakesh Jain" className="partner-bg-image" />
               <div className="partner-info">
                 <h3>Rakesh Jain</h3>
                 <p className="partner-title">Managing Partner / Broker</p>
@@ -110,7 +110,7 @@ const HeroWithDogV2 = () => {
             </div>
 
             <div className="partner-card">
-              <img src="/insidermortgage/david-sider.jpg" alt="David Sider" className="partner-bg-image" />
+              <img src="/david-sider.jpg" alt="David Sider" className="partner-bg-image" />
               <div className="partner-info">
                 <h3>David Sider</h3>
                 <p className="partner-title">Managing Partner / Broker</p>

@@ -1,42 +1,177 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { submitConsultationLead } from '../lib/submitLead';
+import TrustChips from './TrustChips';
 import './LeadCapture.css';
+
+// Format digits into (XXX) XXX-XXXX
+function formatUsPhoneInput(value) {
+  const digits = value.replace(/\D/g, '');
+  const normalized = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
+  const trimmed = normalized.slice(0, 10);
+  if (trimmed.length === 0) return '';
+  if (trimmed.length < 4) return `(${trimmed}`;
+  if (trimmed.length < 7) return `(${trimmed.slice(0, 3)}) ${trimmed.slice(3)}`;
+  return `(${trimmed.slice(0, 3)}) ${trimmed.slice(3, 6)}-${trimmed.slice(6, 10)}`;
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(email || '').trim());
+}
+
+function isValidUsPhone(phone) {
+  const digits = String(phone || '').replace(/\D/g, '');
+  const normalized = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
+  return /^[2-9]\d{9}$/.test(normalized);
+}
+
+const PREFERRED_DAY_OPTIONS = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+];
 
 const LeadCapture = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
+    category: '',
+    preferredDays: [],
+    preferredTime: "I'm flexible",
+    smsConsent: false
+  });
+
+  const [fieldErrors, setFieldErrors] = useState({
+    name: '',
+    email: '',
+    phone: '',
     category: ''
   });
-  
+
+  const [showContactSection, setShowContactSection] = useState(false);
   const [status, setStatus] = useState(null); // 'submitting', 'success', 'error'
 
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const phoneRef = useRef(null);
+  const categoryRef = useRef(null);
+
+  const handleDayToggle = (day) => {
+    setFormData((prev) => {
+      const exists = prev.preferredDays.includes(day);
+      const nextDays = exists
+        ? prev.preferredDays.filter((d) => d !== day)
+        : [...prev.preferredDays, day];
+      return {
+        ...prev,
+        preferredDays: nextDays
+      };
+    });
+  };
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    const nextValue =
+      type === 'checkbox'
+        ? checked
+        : name === 'phone'
+        ? formatUsPhoneInput(value)
+        : value;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: nextValue
+    }));
+
+    if (fieldErrors[name]) {
+      setFieldErrors((prev) => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const validateContactFields = () => {
+    const errors = {
+      name: '',
+      email: '',
+      phone: '',
+      category: ''
+    };
+
+    if (!formData.name.trim()) {
+      errors.name = 'Please enter your full name.';
+    }
+
+    if (!formData.email.trim()) {
+      errors.email = 'Please enter your email address.';
+    } else if (!isValidEmail(formData.email)) {
+      errors.email = 'Please enter a valid email address (e.g., you@example.com).';
+    }
+
+    if (!formData.phone.trim()) {
+      errors.phone = 'Please enter a 10-digit US phone number.';
+    } else if (!isValidUsPhone(formData.phone)) {
+      errors.phone = 'Please enter a valid 10-digit US phone number, e.g., (555) 123-4567.';
+    }
+
+    if (!formData.category) {
+      errors.category = 'Please select a profile option.';
+    }
+
+    setFieldErrors(errors);
+
+    if (errors.name) {
+      nameRef.current?.focus();
+      return false;
+    }
+    if (errors.email) {
+      emailRef.current?.focus();
+      return false;
+    }
+    if (errors.phone) {
+      phoneRef.current?.focus();
+      return false;
+    }
+    if (errors.category) {
+      categoryRef.current?.focus();
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleOpenContactDetails = () => {
+    setShowContactSection(true);
+    setTimeout(() => {
+      nameRef.current?.focus();
+    }, 100);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateContactFields()) {
+      return;
+    }
+
     setStatus('submitting');
 
-    // Replace this URL with your actual Google Apps Script Web App URL once deployed
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_YOUR_SCRIPT_ID/exec';
-
     try {
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors', // Required for Google Scripts without complex CORS setup
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      await submitConsultationLead(formData, 'LeadCapture');
 
-      // no-cors mode won't return a readable response body, 
-      // so we assume success if the fetch promise resolves.
       setStatus('success');
-      setFormData({ name: '', email: '', phone: '', category: '' });
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        category: '',
+        preferredDays: [],
+        preferredTime: "I'm flexible",
+        smsConsent: false
+      });
+      setFieldErrors({ name: '', email: '', phone: '', category: '' });
+      setShowContactSection(false);
     } catch (error) {
       console.error('Submission Error:', error);
       setStatus('error');
@@ -46,91 +181,218 @@ const LeadCapture = () => {
   return (
     <section className="lead-capture-section" id="contact">
       <div className="container lead-capture-container">
-        
         <div className="lead-content">
           <h2>Ready to Take the Next Step?</h2>
           <p>
-            Whether you're just starting to explore your options or you're ready to get pre-approved, 
+            Whether you&apos;re just starting to explore your options or you&apos;re ready to get pre-approved,
             our team is here to provide expert guidance tailored to your scenario.
           </p>
-          <div className="trust-badges">
-            <span className="trust-badge">🔒 Secure Data</span>
-            <span className="trust-badge">⚡ Fast Pre-Approvals</span>
-            <span className="trust-badge">🤝 Expert Guidance</span>
-          </div>
+          <TrustChips placement="lead-capture" layout="row" />
         </div>
 
-        <div className="card lead-form-card">
-          <h3 style={{ marginBottom: '1.5rem' }}>Request a Consultation</h3>
-          <form onSubmit={handleSubmit}>
-            
-            <div className="form-group">
-              <label className="form-label">Full Name</label>
-              <input 
-                type="text" 
-                name="name"
-                className="form-input" 
-                required 
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="John Doe"
-              />
+        <div className="consult-mockup-card">
+          <h3 className="consult-card-title">Request a Consultation</h3>
+
+          <form onSubmit={handleSubmit} className="consult-mockup-form" noValidate>
+            {/* STEP 1: PREFERRED DAY & TIME */}
+            <h4 className="consult-schedule-heading">When is a good time to connect?</h4>
+            <p className="consult-schedule-subtext">
+              Let us know what works best for you.
+            </p>
+
+            <div className="consult-radio-section">
+              <span className="consult-radio-group-title">Preferred day</span>
+              <div className="consult-options-grid consult-days-grid">
+                {PREFERRED_DAY_OPTIONS.map((day) => {
+                  const isSelected = formData.preferredDays.includes(day);
+                  return (
+                    <label key={day} className="consult-radio-option">
+                      <input
+                        type="checkbox"
+                        name="preferredDays"
+                        value={day}
+                        checked={isSelected}
+                        onChange={() => handleDayToggle(day)}
+                        className="consult-multi-radio-input"
+                      />
+                      <span>{day}</span>
+                    </label>
+                  );
+                })}
+              </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Email Address</label>
-              <input 
-                type="email" 
-                name="email"
-                className="form-input" 
-                required 
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="john@example.com"
-              />
+            <div className="consult-radio-section">
+              <span className="consult-radio-group-title">Preferred time (Pacific Time)</span>
+              <div className="consult-options-grid consult-times-grid">
+                <label className="consult-radio-option">
+                  <input
+                    type="radio"
+                    name="preferredTime"
+                    value="Morning (9 AM–12 PM)"
+                    checked={formData.preferredTime === 'Morning (9 AM–12 PM)'}
+                    onChange={handleChange}
+                  />
+                  <span>Morning (9 AM–12 PM)</span>
+                </label>
+                <label className="consult-radio-option">
+                  <input
+                    type="radio"
+                    name="preferredTime"
+                    value="Afternoon (12 PM–4 PM)"
+                    checked={formData.preferredTime === 'Afternoon (12 PM–4 PM)'}
+                    onChange={handleChange}
+                  />
+                  <span>Afternoon (12 PM–4 PM)</span>
+                </label>
+                <label className="consult-radio-option">
+                  <input
+                    type="radio"
+                    name="preferredTime"
+                    value="Late afternoon (4 PM–6 PM)"
+                    checked={formData.preferredTime === 'Late afternoon (4 PM–6 PM)'}
+                    onChange={handleChange}
+                  />
+                  <span>Late afternoon (4 PM–6 PM)</span>
+                </label>
+                <label className="consult-radio-option">
+                  <input
+                    type="radio"
+                    name="preferredTime"
+                    value="I'm flexible"
+                    checked={formData.preferredTime === "I'm flexible"}
+                    onChange={handleChange}
+                  />
+                  <span>I&apos;m flexible</span>
+                </label>
+              </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Phone Number</label>
-              <input 
-                type="tel" 
-                name="phone"
-                className="form-input" 
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="(555) 123-4567"
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">I am best described as a...</label>
-              <select 
-                name="category"
-                className="form-select" 
-                required
-                value={formData.category}
-                onChange={handleChange}
-              >
-                <option value="" disabled>Select a profile...</option>
-                <option value="Self-Employed">Self-Employed Borrower</option>
-                <option value="Retiree">Retiree</option>
-                <option value="Real Estate Investor">Real Estate Investor (Rental Property)</option>
-                <option value="First-Time Home Buyer">First-Time Home Buyer</option>
-                <option value="Other">Other / Standard Refinance</option>
-              </select>
-            </div>
-
-            <button 
-              type="submit" 
-              className="btn btn-primary submit-btn"
-              disabled={status === 'submitting'}
+            <button
+              type="button"
+              className="consult-dark-pill-btn"
+              onClick={handleOpenContactDetails}
             >
-              {status === 'submitting' ? 'Sending...' : 'Get Started'}
+              Schedule Time
             </button>
+
+            {/* STEP 2: CONTACT DETAILS (OPENS WHEN SCHEDULE TIME IS PRESSED) */}
+            {showContactSection && (
+              <div className="consult-schedule-drawer">
+                <p className="consult-card-subtitle" style={{ margin: '0 0 0.25rem 0' }}>
+                  Tell us a little about yourself, and we&apos;ll help you take the next step.
+                </p>
+
+                <div className="consult-field-group">
+                  <label className="consult-label">Full Name</label>
+                  <input
+                    ref={nameRef}
+                    type="text"
+                    name="name"
+                    className={`consult-pill-input ${fieldErrors.name ? 'consult-input-error' : ''}`}
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Your full name"
+                  />
+                  {fieldErrors.name && (
+                    <span className="consult-error-text">{fieldErrors.name}</span>
+                  )}
+                </div>
+
+                <div className="consult-field-group">
+                  <label className="consult-label">Email Address</label>
+                  <input
+                    ref={emailRef}
+                    type="email"
+                    name="email"
+                    className={`consult-pill-input ${fieldErrors.email ? 'consult-input-error' : ''}`}
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="you@example.com"
+                  />
+                  {fieldErrors.email && (
+                    <span className="consult-error-text">{fieldErrors.email}</span>
+                  )}
+                </div>
+
+                <div className="consult-field-group">
+                  <label className="consult-label">Phone Number</label>
+                  <input
+                    ref={phoneRef}
+                    type="tel"
+                    name="phone"
+                    className={`consult-pill-input ${fieldErrors.phone ? 'consult-input-error' : ''}`}
+                    required
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="(555) 123-4567"
+                  />
+                  {fieldErrors.phone ? (
+                    <span className="consult-error-text">{fieldErrors.phone}</span>
+                  ) : (
+                    <span className="consult-helper-text">
+                      We&apos;ll use this to follow up on your consultation request.
+                    </span>
+                  )}
+                </div>
+
+                <div className="consult-field-group">
+                  <label className="consult-label">I am best described as a...</label>
+                  <select
+                    ref={categoryRef}
+                    name="category"
+                    className={`consult-pill-select ${fieldErrors.category ? 'consult-input-error' : ''}`}
+                    required
+                    value={formData.category}
+                    onChange={handleChange}
+                  >
+                    <option value="" disabled>
+                      Select a profile...
+                    </option>
+                    <option value="Self-Employed">Self-Employed Borrower</option>
+                    <option value="Retiree">Retiree</option>
+                    <option value="Real Estate Investor">Real Estate Investor (Rental Property)</option>
+                    <option value="First-Time Home Buyer">First-Time Home Buyer</option>
+                    <option value="Other">Other / Standard Refinance</option>
+                  </select>
+                  {fieldErrors.category && (
+                    <span className="consult-error-text">{fieldErrors.category}</span>
+                  )}
+                </div>
+
+                <div className="consult-sms-consent">
+                  <label className="consult-sms-label">
+                    <input
+                      type="checkbox"
+                      name="smsConsent"
+                      checked={formData.smsConsent}
+                      onChange={handleChange}
+                    />
+                    <strong>Yes, you may text me.</strong>
+                  </label>
+                  <p className="consult-sms-disclaimer">
+                    I agree to receive text messages from Insider Mortgage about my consultation
+                    request and scheduling. Consent is not a condition of purchasing services.
+                    Message frequency varies. Message and data rates may apply. Reply STOP to opt
+                    out.
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  className="consult-dark-pill-btn consult-final-submit"
+                  disabled={status === 'submitting'}
+                >
+                  {status === 'submitting' ? 'Sending...' : 'Request a Call'}
+                </button>
+              </div>
+            )}
 
             {status === 'success' && (
               <div className="form-status status-success">
-                Thank you! Your information has been received. We will be in touch shortly.
+                Thank you! Your consultation request has been received. We will be in touch shortly.
               </div>
             )}
             {status === 'error' && (
@@ -138,14 +400,11 @@ const LeadCapture = () => {
                 There was an error sending your request. Please try again later.
               </div>
             )}
-
           </form>
         </div>
-
       </div>
     </section>
   );
 };
 
 export default LeadCapture;
-

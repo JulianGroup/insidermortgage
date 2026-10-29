@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const API_KEY = '3d5d9630c59341874221b3bc64123aa5';
+const API_KEY = process.env.FRED_API_KEY || '3d5d9630c59341874221b3bc64123aa5';
 
 async function downloadData() {
   console.log("Fetching T10Y3M...");

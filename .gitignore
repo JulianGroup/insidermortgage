@@ -22,3 +22,21 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Next.js build output (build fresh before deploying)
+.next
+out
+
+# Local design reference bundles & scratch files
+*.zip
+*.lnk
+*.docx
+Logos/
+PhotosDSRJ/
+splash-page/
+whealth/
+live_index.html
+scratch.js
+scratch.cjs
+fix-components.cjs
+fix_footer.cjs

@@ -5,6 +5,16 @@ import Link from 'next/link';
 export default function GeekOut() {
   const tools = [
     {
+      title: "MBS Rate Watch",
+      description: "Live Mortgage-Backed Securities (UMBS 30YR 6.0, 6.5, 7.0) and US 10-Year Treasury Note tracker that auto-updates every minute.",
+      href: "/geek-out/mbs-rate-watch",
+      icon: (
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{width:'40px', height:'40px'}}>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+      )
+    },
+    {
       title: "Yield Curve",
       description: "Interactive chart tracking the Treasury Yield Curve to understand its impact on mortgage rates.",
       href: "/geek-out/yield-curve",

@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Public read access for live MBS Rate Watch board; allow client updates for live benchmark sync & admin overrides
+    match /marketWatch/{docId} {
+      allow read, write: if true;
+    }
+    // Allow visitors to submit consultation / lead capture forms directly into Firestore
+    match /leads/{leadId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+  }
+}

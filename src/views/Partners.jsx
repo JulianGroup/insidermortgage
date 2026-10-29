@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Head from 'next/head';
+import TestimonialBox from '../components/TestimonialBox';
 
 export default function Partners() {
   const [formData, setFormData] = useState({ name: '', email: '', role: '', message: '' });
@@ -22,15 +23,40 @@ export default function Partners() {
       </Head>
 
       {/* Hero Section */}
-      <section style={{ backgroundColor: 'var(--primary)', color: 'white', padding: '6rem 1rem 4rem', textAlign: 'center' }}>
+      <section style={{ backgroundColor: 'var(--primary)', color: 'white', padding: '3rem 1rem 3rem', textAlign: 'center' }}>
         <div className="container" style={{ maxWidth: '800px' }}>
-          <h1 style={{ fontSize: '3rem', marginBottom: '1.5rem', lineHeight: '1.2' }}>
-            Why Referrers Choose Insider Mortgage
+          <h1 style={{ fontSize: '3rem', marginBottom: '1.5rem', lineHeight: '1.2', color: 'white' }}>
+            The Mortgage Partner Realtors Trust
           </h1>
-          <p style={{ fontSize: '1.3rem', opacity: 0.9, lineHeight: '1.6' }}>
-            When you refer someone to us, you're trusting us with your reputation. We take that responsibility seriously.
+          <p style={{ fontSize: '1.3rem', opacity: 0.9, lineHeight: '1.6', marginBottom: '2rem' }}>
+            When your offer needs to win, experience matters. We help buyers get fully prepared before they write an offer and stay on track through closing.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: '1.5rem', fontSize: '1.2rem', margin: '0 auto 2rem auto', maxWidth: '800px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ color: '#10B981', fontWeight: 'bold' }}>✓</span> Fast pre-approvals
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ color: '#10B981', fontWeight: 'bold' }}>✓</span> Clear communication
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ color: '#10B981', fontWeight: 'bold' }}>✓</span> Reliable closings
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span style={{ color: '#10B981', fontWeight: 'bold' }}>✓</span> 20+ years of lending experience
+            </div>
+          </div>
+          <p style={{ fontSize: '1.2rem', opacity: 0.9, lineHeight: '1.6', fontWeight: '500' }}>
+            Helping buyers and Realtors succeed throughout San Diego and California.
           </p>
         </div>
+      </section>
+
+      <section className="container" style={{ paddingTop: '4rem' }}>
+        <TestimonialBox 
+          title="What Our Partners Say"
+          quote="I am a real estate agent and have been referring my clients to David Sider and Insider Mortgage for the past 20 years. Creativity and professionalism is critical in this business and all my clients have been enthusiastic about using them. Team Insider spends lots of time with my clients educating and helping them fully understand the loan process and financial landscape. A great and trusted resource for sure. When my family and I needed mortgage loans, they gave us five star service!"
+          author={<a href="https://www.compass.com/agents/jonathan-asch/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Jonathan Asch</a>}
+        />
       </section>
 
       {/* Main Content & Form Layout */}
@@ -194,6 +220,16 @@ export default function Partners() {
           </div>
 
         </div>
+      </section>
+
+      <section className="container" style={{ paddingBottom: '4rem' }}>
+        <TestimonialBox 
+          title={null}
+          quote="Working with David at Insider Mortgage has been incredible. I was first introduced to him through his son, a connection in the industry, and almost immediately, he referred clients who successfully purchased homes in Carlsbad, California. Out of the hundreds of transactions I’ve done with other lenders, very few have impressed me the way David has. His attention to detail, the genuine care he has for clients, and how hard he works come through not just on the business side but on the personal side too. With David, it is never just a transaction. He builds lifetime relationships and truly invests in the people he helps. He cares so much for everyone he comes into contact with, taking a real interest in their lives.
+
+While many in this industry focus on the deal that nets them the highest commission, David does the exact opposite. He always prioritizes what is best for his clients, even if it means forgoing the biggest payday. That kind of dedication is rare in real estate lending. He’s personable and makes every conversation easy and engaging. I’m confident recommending him to all of my clients and bringing him into the inner circle of our team. If I were looking to purchase or refinance a home, David at Insider Mortgage wouldn’t just be at the top of my list - he would be the only mortgage broker I’d call."
+          author={<a href="https://www.linkedin.com/in/spencersmock/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)', textDecoration: 'underline' }}>Spencer Smock</a>}
+        />
       </section>
     </main>
   );

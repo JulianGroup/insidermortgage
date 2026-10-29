@@ -1,0 +1,51 @@
+# Builds the static site on every push to master and publishes the result to
+# the dreamhost-build branch. A GitHub webhook on that branch tells the
+# DreamHost server to pull it (DreamHost's shared servers can't run the build).
+name: Build for DreamHost
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dreamhost-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Check the export is built for the domain root
+        run: |
+          test -f out/index.html
+          if grep -q '/insidermortgage/' out/index.html; then
+            echo "::error::out/index.html still uses the /insidermortgage basePath; remove basePath from next.config.mjs"
+            exit 1
+          fi
+
+      - name: Publish to the dreamhost-build branch
+        working-directory: out
+        run: |
+          git init -q -b dreamhost-build
+          git add -A
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -q -m "Build of master ${GITHUB_SHA::8}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" HEAD:dreamhost-build

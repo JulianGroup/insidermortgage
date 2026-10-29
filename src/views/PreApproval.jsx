@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react';
+import TestimonialBox from '../components/TestimonialBox';
 
 export default function PreApproval() {
   const [activeTab, setActiveTab] = useState(1);
@@ -79,28 +80,29 @@ export default function PreApproval() {
         {/* Tab 1: Budgeting */}
         {activeTab === 1 && (
           <div className="animate-fade-in">
-            <h2 style={{ fontSize: '2rem', marginBottom: '2rem', textAlign: 'center', color: 'var(--primary)' }}>Budgeting for Your Home</h2>
+            <h2 style={{ fontSize: '2rem', marginBottom: '2rem', textAlign: 'center', color: 'var(--primary)' }}>How Much Can I Afford to Buy?</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
               
               <div style={{ backgroundColor: 'white', padding: '2rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', color: 'var(--primary)' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>📊</div>
-                <h3 style={{ marginBottom: '1rem', color: 'var(--accent)' }}>Income & Debt-to-Income (DTI)</h3>
+                <div style={{ fontSize: '2.5rem', marginBottom: '1rem', fontWeight: 'bold' }}>%</div>
+                <h3 style={{ marginBottom: '1rem', color: 'var(--accent)' }}>The Debt-To-Income Ratio (DTI)</h3>
                 <p style={{ marginBottom: '1rem' }}>Your buying power largely depends on your verifiable income relative to your monthly debt obligations.</p>
                 <ul style={{ paddingLeft: '1.5rem', lineHeight: '1.8' }}>
                   <li><strong>Gross Income:</strong> Lenders use your gross (pre-tax) income to calculate affordability.</li>
-                  <li><strong>DTI Ratio:</strong> Your total monthly debt payments (including the new mortgage) shouldn't typically exceed 43-50% of your gross monthly income.</li>
-                  <li><strong>Variable Income:</strong> Bonuses, commissions, and self-employment income usually require a two-year history to be fully counted.</li>
+                  <li><strong>DTI Ratio:</strong> Your total monthly debt payments (including the new mortgage) will be limited to 43-50% of your gross monthly income for most programs. VA Loans and other specialty loans do offer more aggressive ratios.</li>
+                  <li><strong>Variable Income:</strong> Bonuses, Overtime, RSU, Self-Employed, and tax-free income involve more complex analyses. Team Insider specializes in analyzing various income methods and sources to reach your financial goals.</li>
                 </ul>
               </div>
 
               <div style={{ backgroundColor: 'white', padding: '2rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', color: 'var(--primary)' }}>
                 <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>💰</div>
-                <h3 style={{ marginBottom: '1rem', color: 'var(--accent)' }}>Down Payment & Closing Costs</h3>
-                <p style={{ marginBottom: '1rem' }}>You need cash to close, which is broken down into two main buckets:</p>
-                <ul style={{ paddingLeft: '1.5rem', lineHeight: '1.8' }}>
-                  <li><strong>Down Payment:</strong> Minimums range from 0% (VA/USDA) to 3% or 3.5% (FHA/Conventional). 20% eliminates Mortgage Insurance (MI).</li>
-                  <li><strong>Closing Costs:</strong> These are fees paid to third parties (escrow, title, appraisal, taxes). They typically range from 1% to 3% of the purchase price.</li>
-                  <li><strong>Reserves:</strong> Lenders may require you to have extra cash left over after closing, usually equivalent to a few months of mortgage payments.</li>
+                <h3 style={{ marginBottom: '1rem', color: 'var(--accent)' }}>CASH TO CLOSE</h3>
+                <p style={{ marginBottom: '1rem' }}>You need cash to close, which is broken down into 4 categories:</p>
+                <ul style={{ listStyleType: 'none', paddingLeft: '0', lineHeight: '1.8' }}>
+                  <li style={{ marginBottom: '0.5rem' }}><strong>1. Down Payment:</strong> Minimums range from 0% (of the purchase price) (VA/USDA/DPA) to 3% or 3.5% (FHA/Conventional) to any higher percent. Down Payments greater than 20% eliminates possible Mortgage Insurance (MI).</li>
+                  <li style={{ marginBottom: '0.5rem' }}><strong>2. Transaction Closing Costs:</strong> These are fees paid to third parties directly related to the transaction (such as escrow fees, title insurance, appraisal, credit, lender, county recording fees AND cost of the rate). Note, the cost of the rate could result in an offset (credit) towards the closing costs.</li>
+                  <li style={{ marginBottom: '0.5rem' }}><strong>3. Prepaids:</strong> Hazard Insurance Premiums, Prorated Property Taxes, Prepaid Interest to the lender, HOA dues, and a possible property tax and/or insurance IMPOUND RESERVE are items where cash is needed in escrow but are not a cost of the transaction.</li>
+                  <li style={{ marginBottom: '0.5rem' }}><strong>4. Reserves:</strong> Depending on the type of loan, lenders may require you to have extra cash left over after closing (usually equivalent to several months of mortgage payments). These funds are not to be used as collateral; the lender just needs to know they exist.</li>
                 </ul>
               </div>
 
@@ -280,6 +282,16 @@ export default function PreApproval() {
         )}
 
       </div>
+
+      {/* Testimonial Section */}
+      <div className="container" style={{ marginTop: '4rem' }}>
+        <TestimonialBox 
+          title="What Our Clients Say"
+          quote="David, Rakesh and Insider Mortgage are incredibly skilled at what they do. We have been grateful for their expertise through the purchase, financing and refinancing of 3 homes over the past 20 years. Each transaction was as smooth as can be, they were able to secure the best rates available at the time, and facilitated no cost/no hassle refinancing when rates dropped--saved us a lot of money over time. They are incredibly responsive and on top of every possible detail, every step of the way. Work ethic, experience, knowledge, efficiency, skill AND even a sense of humor to lighten things up along the way. Highly recommend!"
+          author="Drs. Andy & Kristin Hampshire"
+        />
+      </div>
+
     </main>
   );
 }

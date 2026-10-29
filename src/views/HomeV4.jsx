@@ -14,6 +14,22 @@ const HomeV4 = () => {
       <Solutions />
       <Testimonials />
       <LeadCapture />
+      {/* Version Indicator */}
+      <div style={{
+        position: 'fixed',
+        bottom: '10px',
+        right: '10px',
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        color: 'white',
+        padding: '4px 8px',
+        borderRadius: '4px',
+        fontSize: '0.8rem',
+        zIndex: 9999,
+        pointerEvents: 'none',
+        fontFamily: 'sans-serif'
+      }}>
+        Build v4.2
+      </div>
     </main>
   );
 };

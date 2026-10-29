@@ -4,29 +4,39 @@ import './Testimonials.css';
 
 const Testimonials = () => {
   useEffect(() => {
-    if (!document.getElementById('jotform-widget-script')) {
+    const existingScript = document.querySelector('script[data-igr-script]');
+    const initWidget = () => {
+      if (typeof window !== 'undefined' && window.InsiderGoogleReviews) {
+        window.InsiderGoogleReviews.init();
+      }
+    };
+
+    if (!existingScript) {
       const script = document.createElement('script');
-      script.id = 'jotform-widget-script';
-      script.src = 'https://www.jotform.com/website-widgets/embed/019e8576208670b48ce5b752598ff8e0e156';
+      script.src = '/google-reviews/google-reviews-widget.js';
       script.async = true;
+      script.setAttribute('data-igr-script', 'true');
+      script.onload = initWidget;
       document.body.appendChild(script);
+    } else {
+      initWidget();
     }
   }, []);
 
   return (
     <section className="testimonials-section" id="reviews">
       <div className="container">
-        <div className="testimonials-header">
-          <h2>Client Success Stories</h2>
-          <p>Don't just take our word for it. Here is what our clients have to say about working with Insider Mortgage.</p>
-        </div>
-
-        {/* Jotform Custom Widget */}
-        <div id="JFWebsiteWidget-019e8576208670b48ce5b752598ff8e0e156" style={{ width: '100%', margin: 'var(--space-8) 0' }}></div>
+        <div
+          id="insider-google-reviews"
+          data-reviews-url="/google-reviews/data/reviews.json"
+          data-heading="The Word on the Street"
+          data-show-heading="true"
+          data-expand-mode="inline"
+          style={{ width: '100%', '--igr-bg': 'transparent', '--igr-padding': '0' }}
+        />
       </div>
     </section>
   );
 };
 
 export default Testimonials;
-

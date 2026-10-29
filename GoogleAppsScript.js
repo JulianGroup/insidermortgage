@@ -13,7 +13,7 @@
  * 5. Copy the Web App URL and set NEXT_PUBLIC_GOOGLE_SCRIPT_URL in .env.local.
  */
 
-var GROUP_EMAIL = 'DSRJ@InsiderMtg.com';
+var RECIPIENT_EMAILS = 'rjain@insidermtg.com,dsider@insidermtg.com';
 
 function doPost(e) {
   try {
@@ -23,14 +23,14 @@ function doPost(e) {
     if (sheet.getLastRow() === 0) {
       sheet.appendRow([
         'Timestamp',
+        'Page',
         'Name',
         'Email',
         'Phone',
         'Profile',
         'Preferred Day(s)',
         'Preferred Time (PT)',
-        'SMS Consent',
-        'Source'
+        'SMS Consent'
       ]);
       sheet.getRange(1, 1, 1, 9).setFontWeight('bold');
     }
@@ -42,22 +42,27 @@ function doPost(e) {
         : 'Flexible');
     var preferredTime = data.preferredTime || "I'm flexible";
     var smsText = data.smsConsent ? 'Yes, you may text me' : 'No';
+    var pageInfo = data.pageName || data.source || '';
 
     sheet.appendRow([
       new Date(),
+      pageInfo,
       data.name || '',
       data.email || '',
       data.phone || '',
       data.category || '',
       preferredDay,
       preferredTime,
-      smsText,
-      data.source || ''
+      smsText
     ]);
 
-    var recipient = data.notifyEmail || GROUP_EMAIL;
+    var recipient = Array.isArray(data.notifyEmails)
+      ? data.notifyEmails.join(',')
+      : RECIPIENT_EMAILS;
     var subject =
-      'New Consultation Request: ' +
+      'New Lead [' +
+      (pageInfo || 'Website') +
+      ']: ' +
       (data.name || 'Website Lead') +
       (data.category ? ' (' + data.category + ')' : '');
 
@@ -65,6 +70,8 @@ function doPost(e) {
       '<div style="font-family: Arial, sans-serif; max-width: 600px; color: #1e293b;">' +
       '<h2 style="color: #060a2d; margin-bottom: 16px;">New Consultation Request</h2>' +
       '<table style="width: 100%; border-collapse: collapse;">' +
+      rowHtml('Submitted From Page', pageInfo) +
+      rowHtml('Page URL', data.pageUrl) +
       rowHtml('Full Name', data.name) +
       rowHtml('Email Address', data.email) +
       rowHtml('Phone Number', data.phone) +
@@ -72,7 +79,6 @@ function doPost(e) {
       rowHtml('Preferred Day(s)', preferredDay) +
       rowHtml('Preferred Time (Pacific Time)', preferredTime) +
       rowHtml('SMS Text Consent', smsText) +
-      rowHtml('Submitted From', data.source) +
       '</table>' +
       '</div>';
 

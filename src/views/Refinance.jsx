@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import TestimonialBox from '../components/TestimonialBox';
+import { submitConsultationLead } from '../lib/submitLead';
 
 export default function Refinance() {
   const [activeTab, setActiveTab] = useState(1);
@@ -24,17 +25,24 @@ export default function Refinance() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitStatus('submitting');
-    setTimeout(() => {
+    try {
+      await submitConsultationLead(
+        { ...formData, category: 'Refinance Consultation' },
+        'Refinance Page'
+      );
       setSubmitStatus('success');
       setFormData({ 
         name: '', email: '', phone: '', propertyAddress: '',
         loanBalance: '', interestRate: '', miAmount: '', piPayment: '', 
         impounds: '', propertyValue: '', occupancy: '', notes: '' 
       });
-    }, 1000);
+    } catch (err) {
+      console.error('Refinance submission error:', err);
+      setSubmitStatus('error');
+    }
   };
 
   return (

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import TestimonialBox from '../components/TestimonialBox';
+import { submitConsultationLead } from '../lib/submitLead';
 
 export default function PreApproval() {
   const [activeTab, setActiveTab] = useState(1);
@@ -18,16 +19,23 @@ export default function PreApproval() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitStatus('submitting');
-    setTimeout(() => {
+    try {
+      await submitConsultationLead(
+        { ...formData, category: 'Purchase Pre-Approval' },
+        'Purchase Pre-Approval Page'
+      );
       setSubmitStatus('success');
       setFormData({ 
         name: '', email: '', phone: '',
         firstTimeBuyer: '', vaEligible: '', movingHomes: ''
       });
-    }, 1000);
+    } catch (err) {
+      console.error('Pre-approval submission error:', err);
+      setSubmitStatus('error');
+    }
   };
 
   return (

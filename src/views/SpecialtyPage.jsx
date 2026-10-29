@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { seoPages } from '../data/seoPages';
 import ReviewCard from '../components/ReviewCard';
+import { submitConsultationLead } from '../lib/submitLead';
 import './SelfEmployed.css';
 
 const SpecialtyPage = ({ data }) => {
@@ -19,14 +20,8 @@ const SpecialtyPage = ({ data }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('submitting');
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_YOUR_SCRIPT_ID/exec';
     try {
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      await submitConsultationLead(formData, data.title || data.leadCategory);
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', category: data.leadCategory });
     } catch (error) {

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import ReviewCard from '../components/ReviewCard';
+import { submitConsultationLead } from '../lib/submitLead';
 import './SelfEmployed.css';
 
 const retireeReviews = [
@@ -32,14 +33,8 @@ const Retirees = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus('submitting');
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_YOUR_SCRIPT_ID/exec';
     try {
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      await submitConsultationLead(formData, 'Mortgages for Retirees');
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', category: 'Retiree Borrower' });
     } catch (error) {

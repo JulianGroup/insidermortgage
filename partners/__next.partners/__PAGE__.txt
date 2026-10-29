@@ -1,6 +1,6 @@
 1:"$Sreact.fragment"
-2:I[95129,["8284","static/chunks/app/partners/page-840aa3f6ee7fe747.js"],"default"]
-3:I[90484,[],"OutletBoundary"]
+2:I[12292,["/insidermortgage/_next/static/chunks/102_l_rpucuyz.js","/insidermortgage/_next/static/chunks/1-8s9_t85wwr4.js","/insidermortgage/_next/static/chunks/3gqebahizm_4v.js"],"default"]
+3:I[97367,["/insidermortgage/_next/static/chunks/102_l_rpucuyz.js","/insidermortgage/_next/static/chunks/1-8s9_t85wwr4.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"rZdG5kz1rNidMjVzVlhbB"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/insidermortgage/_next/static/chunks/3gqebahizm_4v.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"pdkvIi0H86iwEw2HCD728"}
 5:null

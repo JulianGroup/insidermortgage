@@ -1,32 +1,9 @@
 "use client";
-import React, { useState } from 'react';
-import { submitConsultationLead } from '../lib/submitLead';
+import React from 'react';
+import ScheduleCallForm from '../components/ScheduleCallForm';
 import './SelfEmployed.css';
 
 const SelfEmployed = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    category: 'Self-Employed Borrower'
-  });
-  const [status, setStatus] = useState(null);
-
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('submitting');
-    try {
-      await submitConsultationLead(formData, 'Mortgages for Self-Employed');
-      setStatus('success');
-      setFormData({ name: '', email: '', phone: '', category: 'Self-Employed Borrower' });
-    } catch (error) {
-      console.error(error);
-      setStatus('error');
-    }
-  };
-
   return (
     <main>
       <section className="se-hero animate-fade-in">
@@ -98,25 +75,7 @@ const SelfEmployed = () => {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <input 
-              type="text" name="name" className="form-input" required 
-              placeholder="Full Name" value={formData.name} onChange={handleChange} 
-            />
-            <input 
-              type="email" name="email" className="form-input" required 
-              placeholder="Email Address" value={formData.email} onChange={handleChange} 
-            />
-            <input 
-              type="tel" name="phone" className="form-input" 
-              placeholder="Phone Number" value={formData.phone} onChange={handleChange} 
-            />
-            <button type="submit" className="btn btn-primary" style={{ padding: '1rem', fontSize: '1.1rem', marginTop: '1rem' }} disabled={status === 'submitting'}>
-              {status === 'submitting' ? 'Sending...' : 'Request Consultation'}
-            </button>
-            {status === 'success' && <div style={{ color: '#059669', textAlign: 'center', marginTop: '1rem', fontWeight: 'bold' }}>Thank you! A specialist will contact you shortly.</div>}
-            {status === 'error' && <div style={{ color: '#DC2626', textAlign: 'center', marginTop: '1rem' }}>An error occurred. Please try again.</div>}
-          </form>
+          <ScheduleCallForm source="Mortgages for Self-Employed" />
         </div>
       </section>
     </main>

@@ -2,37 +2,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { seoPages } from '../data/seoPages';
+import ScheduleCallForm from '../components/ScheduleCallForm';
 import './SelfEmployed.css'; 
 
 const ContractorLoans = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    category: 'Contractor Mortgage Lead'
-  });
-  const [status, setStatus] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
-
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('submitting');
-    try {
-      await fetch('https://script.google.com/macros/s/AKfycbz_YOUR_SCRIPT_ID/exec', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      setStatus('success');
-      setFormData({ name: '', email: '', phone: '', category: 'Contractor Mortgage Lead' });
-    } catch (error) {
-      console.error(error);
-      setStatus('error');
-    }
-  };
 
   const toggleFaq = (index) => {
     setOpenFaq(openFaq === index ? null : index);
@@ -265,32 +239,7 @@ const ContractorLoans = () => {
             </div>
 
             {/* Lead Form */}
-            <div style={{ backgroundColor: 'var(--bg-color)', padding: '2.5rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)' }}>
-              <h3 style={{ textAlign: 'center', marginBottom: '0.5rem', color: 'var(--primary)' }}>Get a Free Income Review</h3>
-              <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2rem' }}>Stop letting tax write-offs hold you back.</p>
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <input 
-                  type="text" name="name" className="form-input" required 
-                  placeholder="Full Name" value={formData.name} onChange={handleChange} 
-                  style={{ backgroundColor: 'white' }}
-                />
-                <input 
-                  type="email" name="email" className="form-input" required 
-                  placeholder="Email Address" value={formData.email} onChange={handleChange} 
-                  style={{ backgroundColor: 'white' }}
-                />
-                <input 
-                  type="tel" name="phone" className="form-input" 
-                  placeholder="Phone Number" value={formData.phone} onChange={handleChange} 
-                  style={{ backgroundColor: 'white' }}
-                />
-                <button type="submit" className="btn btn-primary" style={{ padding: '1rem', fontSize: '1.1rem', marginTop: '1rem' }} disabled={status === 'submitting'}>
-                  {status === 'submitting' ? 'Sending...' : 'Request Consultation'}
-                </button>
-                {status === 'success' && <div style={{ color: '#059669', textAlign: 'center', marginTop: '1rem', fontWeight: 'bold' }}>Thank you! A specialist will contact you shortly.</div>}
-                {status === 'error' && <div style={{ color: '#DC2626', textAlign: 'center', marginTop: '1rem' }}>An error occurred. Please try again.</div>}
-              </form>
-            </div>
+            <ScheduleCallForm source="Mortgages for Contractors" />
           </div>
         </section>
 

@@ -1,50 +1,10 @@
 "use client";
 import React, { useState } from 'react';
 import TestimonialBox from '../components/TestimonialBox';
-import { submitConsultationLead } from '../lib/submitLead';
+import ScheduleCallForm from '../components/ScheduleCallForm';
 
 export default function Refinance() {
   const [activeTab, setActiveTab] = useState(1);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    propertyAddress: '',
-    loanBalance: '',
-    interestRate: '',
-    miAmount: '',
-    piPayment: '',
-    impounds: '',
-    propertyValue: '',
-    occupancy: '',
-    notes: ''
-  });
-  const [submitStatus, setSubmitStatus] = useState(null);
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitStatus('submitting');
-    try {
-      await submitConsultationLead(
-        { ...formData, category: 'Refinance Consultation' },
-        'Refinance Page'
-      );
-      setSubmitStatus('success');
-      setFormData({ 
-        name: '', email: '', phone: '', propertyAddress: '',
-        loanBalance: '', interestRate: '', miAmount: '', piPayment: '', 
-        impounds: '', propertyValue: '', occupancy: '', notes: '' 
-      });
-    } catch (err) {
-      console.error('Refinance submission error:', err);
-      setSubmitStatus('error');
-    }
-  };
-
   return (
     <main style={{ minHeight: '100vh', backgroundColor: 'var(--bg-color)', color: 'white', paddingBottom: '4rem' }}>
       
@@ -202,115 +162,7 @@ export default function Refinance() {
             <h2 style={{ fontSize: '2rem', marginBottom: '1rem', textAlign: 'center', color: 'var(--primary)' }}>Schedule a Consultation</h2>
             <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '3rem' }}>Ready to run the numbers? Request a consultation and we'll help you build a personalized refinance strategy.</p>
             
-            <div style={{ backgroundColor: 'white', padding: '3rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl)' }}>
-              <form onSubmit={handleSubmit}>
-                <h3 style={{ color: 'var(--primary)', marginBottom: '1.5rem', borderBottom: '2px solid var(--accent)', paddingBottom: '0.5rem' }}>Contact Information</h3>
-                
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Full Name</label>
-                    <input type="text" name="name" required value={formData.name} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="John Doe" />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Email Address</label>
-                    <input type="email" name="email" required value={formData.email} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="john@example.com" />
-                  </div>
-                </div>
-
-                <div style={{ marginBottom: '2.5rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Phone Number</label>
-                  <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="(555) 123-4567" />
-                </div>
-
-                <h3 style={{ color: 'var(--primary)', marginBottom: '1rem', borderBottom: '2px solid var(--accent)', paddingBottom: '0.5rem' }}>Current Loan Details (Optional)</h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-                  For a detailed analysis (see our ABCD worksheet video), please provide the following information about your current loan:
-                </p>
-
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Property Address</label>
-                  <input type="text" name="propertyAddress" value={formData.propertyAddress} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="123 Main St, City, State ZIP" />
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Estimated Property Value</label>
-                    <input type="text" name="propertyValue" value={formData.propertyValue} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="$" />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Loan Balance</label>
-                    <input type="text" name="loanBalance" value={formData.loanBalance} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="$" />
-                  </div>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Interest Rate</label>
-                    <input type="text" name="interestRate" value={formData.interestRate} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="%" />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Principal & Interest Payment</label>
-                    <input type="text" name="piPayment" value={formData.piPayment} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="$ / month" />
-                  </div>
-                </div>
-
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Mortgage Insurance Amount (if applicable)</label>
-                  <input type="text" name="miAmount" value={formData.miAmount} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="$ / month" />
-                </div>
-
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>
-                    Do you prefer <span title="Impounds are when the lender collects your property taxes and insurance on a monthly basis." style={{ fontStyle: 'italic', borderBottom: '1px dotted var(--primary)', cursor: 'help' }}>impounds</span>?
-                  </label>
-                  <div style={{ display: 'flex', gap: '1.5rem' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', cursor: 'pointer' }}>
-                      <input type="radio" name="impounds" value="Yes" checked={formData.impounds === 'Yes'} onChange={handleInputChange} /> Yes
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', cursor: 'pointer' }}>
-                      <input type="radio" name="impounds" value="No" checked={formData.impounds === 'No'} onChange={handleInputChange} /> No
-                    </label>
-                  </div>
-                </div>
-
-                <div style={{ marginBottom: '2.5rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Occupancy Type</label>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', cursor: 'pointer' }}>
-                      <input type="radio" name="occupancy" value="Primary Residence" checked={formData.occupancy === 'Primary Residence'} onChange={handleInputChange} /> Primary Residence
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', cursor: 'pointer' }}>
-                      <input type="radio" name="occupancy" value="Vacation Home" checked={formData.occupancy === 'Vacation Home'} onChange={handleInputChange} /> Vacation Home
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', cursor: 'pointer' }}>
-                      <input type="radio" name="occupancy" value="Investment Property" checked={formData.occupancy === 'Investment Property'} onChange={handleInputChange} /> Investment Property
-                    </label>
-                  </div>
-                </div>
-
-                <div style={{ marginBottom: '2rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>What are you looking to achieve?</label>
-                  <textarea 
-                    name="notes" 
-                    rows="3"
-                    value={formData.notes} 
-                    onChange={handleInputChange} 
-                    style={{ width: '100%', padding: '1rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem', fontFamily: 'inherit' }} 
-                    placeholder="e.g. I want to lower my rate, or I'm looking for $50k cash out for renovations."
-                  ></textarea>
-                </div>
-
-                <button type="submit" disabled={submitStatus === 'submitting'} style={{ width: '100%', padding: '1.2rem', backgroundColor: 'var(--accent)', color: 'var(--primary)', border: 'none', borderRadius: '4px', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', transition: 'background-color 0.2s' }}>
-                  {submitStatus === 'submitting' ? 'Sending...' : 'Request Consultation'}
-                </button>
-                
-                {submitStatus === 'success' && (
-                  <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#d1fae5', color: '#065f46', borderRadius: '4px', textAlign: 'center', fontWeight: 'bold' }}>
-                    Request received! We'll be in touch shortly.
-                  </div>
-                )}
-              </form>
-            </div>
+            <ScheduleCallForm source="Refinance Page" />
           </div>
         )}
 

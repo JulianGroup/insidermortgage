@@ -1,43 +1,10 @@
 "use client";
 import React, { useState } from 'react';
 import TestimonialBox from '../components/TestimonialBox';
-import { submitConsultationLead } from '../lib/submitLead';
+import ScheduleCallForm from '../components/ScheduleCallForm';
 
 export default function PreApproval() {
   const [activeTab, setActiveTab] = useState(1);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    firstTimeBuyer: '',
-    vaEligible: '',
-    movingHomes: ''
-  });
-  const [submitStatus, setSubmitStatus] = useState(null);
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitStatus('submitting');
-    try {
-      await submitConsultationLead(
-        { ...formData, category: 'Purchase Pre-Approval' },
-        'Purchase Pre-Approval Page'
-      );
-      setSubmitStatus('success');
-      setFormData({ 
-        name: '', email: '', phone: '',
-        firstTimeBuyer: '', vaEligible: '', movingHomes: ''
-      });
-    } catch (err) {
-      console.error('Pre-approval submission error:', err);
-      setSubmitStatus('error');
-    }
-  };
-
   return (
     <main style={{ minHeight: '100vh', backgroundColor: 'var(--bg-color)', color: 'white', paddingBottom: '4rem' }}>
       
@@ -214,78 +181,7 @@ export default function PreApproval() {
             <h2 style={{ fontSize: '2rem', marginBottom: '1rem', textAlign: 'center', color: 'var(--primary)' }}>Schedule a Pre-Approval Consultation</h2>
             <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '3rem' }}>We'll review your specific scenario and issue a strong pre-approval letter so you can start shopping with confidence.</p>
             
-            <div style={{ backgroundColor: 'white', padding: '3rem', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl)' }}>
-              <form onSubmit={handleSubmit}>
-                
-                {/* Part 1: Contact Info */}
-                <h3 style={{ color: 'var(--primary)', marginBottom: '1.5rem', borderBottom: '2px solid var(--accent)', paddingBottom: '0.5rem' }}>Contact Information</h3>
-                
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Full Name</label>
-                    <input type="text" name="name" required value={formData.name} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="John Doe" />
-                  </div>
-                  <div>
-                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Email Address</label>
-                    <input type="email" name="email" required value={formData.email} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="john@example.com" />
-                  </div>
-                </div>
-
-                <div style={{ marginBottom: '2.5rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Phone Number</label>
-                  <input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} style={{ width: '100%', padding: '0.8rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '1rem' }} placeholder="(555) 123-4567" />
-                </div>
-
-                {/* Part 2: Questions */}
-                <h3 style={{ color: 'var(--primary)', marginBottom: '1.5rem', borderBottom: '2px solid var(--accent)', paddingBottom: '0.5rem' }}>Tell us about your plans</h3>
-                
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Are you a First Time Home Buyer?</label>
-                  <div style={{ display: 'flex', gap: '1.5rem' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', cursor: 'pointer' }}>
-                      <input type="radio" name="firstTimeBuyer" value="Yes" checked={formData.firstTimeBuyer === 'Yes'} onChange={handleInputChange} required /> Yes
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', cursor: 'pointer' }}>
-                      <input type="radio" name="firstTimeBuyer" value="No" checked={formData.firstTimeBuyer === 'No'} onChange={handleInputChange} /> No
-                    </label>
-                  </div>
-                </div>
-
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Are you VA Eligible?</label>
-                  <div style={{ display: 'flex', gap: '1.5rem' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', cursor: 'pointer' }}>
-                      <input type="radio" name="vaEligible" value="Yes" checked={formData.vaEligible === 'Yes'} onChange={handleInputChange} required /> Yes
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', cursor: 'pointer' }}>
-                      <input type="radio" name="vaEligible" value="No" checked={formData.vaEligible === 'No'} onChange={handleInputChange} /> No
-                    </label>
-                  </div>
-                </div>
-
-                <div style={{ marginBottom: '2.5rem' }}>
-                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>Are you moving from one home to a new home?</label>
-                  <div style={{ display: 'flex', gap: '1.5rem' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', cursor: 'pointer' }}>
-                      <input type="radio" name="movingHomes" value="Yes" checked={formData.movingHomes === 'Yes'} onChange={handleInputChange} required /> Yes
-                    </label>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)', cursor: 'pointer' }}>
-                      <input type="radio" name="movingHomes" value="No" checked={formData.movingHomes === 'No'} onChange={handleInputChange} /> No
-                    </label>
-                  </div>
-                </div>
-
-                <button type="submit" disabled={submitStatus === 'submitting'} style={{ width: '100%', padding: '1.2rem', backgroundColor: 'var(--accent)', color: 'var(--primary)', border: 'none', borderRadius: '4px', fontSize: '1.2rem', fontWeight: 'bold', cursor: 'pointer', transition: 'background-color 0.2s' }}>
-                  {submitStatus === 'submitting' ? 'Sending...' : 'Request Pre-Approval'}
-                </button>
-                
-                {submitStatus === 'success' && (
-                  <div className="animate-fade-in" style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#d1fae5', color: '#065f46', borderRadius: '4px', textAlign: 'center', fontWeight: 'bold' }}>
-                    Request received! We'll be in touch shortly.
-                  </div>
-                )}
-              </form>
-            </div>
+            <ScheduleCallForm source="Purchase Pre-Approval Page" />
           </div>
         )}
 

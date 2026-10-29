@@ -10,7 +10,7 @@
     "lint": "next lint",
     "update-data": "node fetch_data.cjs",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d out -t"
+    "deploy": "gh-pages -d out -b dreamhost-build -t -m \"Build of master\""
   },
   "dependencies": {
     "firebase": "^13.1.0",

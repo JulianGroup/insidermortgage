@@ -5,6 +5,7 @@ import { db } from './firebase';
 export const PRIMARY_LEAD_EMAIL = 'rjain@insidermtg.com';
 export const CC_LEAD_EMAIL = 'dsider@insidermtg.com';
 
+const DREAMHOST_PHP_ENDPOINT = '/send-lead.php';
 const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${PRIMARY_LEAD_EMAIL}`;
 const GOOGLE_SCRIPT_WEBHOOK_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || '';
 
@@ -38,6 +39,7 @@ function getPageContext(defaultSource) {
   if (typeof window === 'undefined') {
     return {
       pageName: defaultSource,
+      shortPageName: defaultSource,
       pathname: '/',
       pageUrl: defaultSource
     };
@@ -103,6 +105,15 @@ export async function submitConsultationLead(formData, defaultSource = 'Website 
   const cleanPhone = String(formData.phone || '').trim();
   const cleanCategory = String(formData.category || defaultSource).trim();
 
+  const extraFields = {};
+  for (const [fieldKey, label] of Object.entries(OPTIONAL_DETAIL_LABELS)) {
+    const val = formData[fieldKey];
+    if (val !== undefined && String(val).trim() !== '') {
+      extraFields[label] = String(val).trim();
+    }
+  }
+
+  // 1. Always save a permanent copy in Firestore
   const firestoreTask = addDoc(collection(db, 'leads'), {
     ...formData,
     notifyEmails: [PRIMARY_LEAD_EMAIL, CC_LEAD_EMAIL],
@@ -115,86 +126,90 @@ export async function submitConsultationLead(formData, defaultSource = 'Website 
     submittedAtIso
   });
 
-  const emailPayload = {
-    _subject: `New Lead [${shortPageName}]: ${cleanName}${cleanCategory ? ` (${cleanCategory})` : ''}`,
-    _cc: CC_LEAD_EMAIL,
-    _replyto: cleanEmail,
-    _template: 'table',
-    _captcha: 'false',
-    'Submitted From Page': pageName,
-    'Page URL': pageUrl,
-    'Full Name': cleanName,
-    'Email Address': cleanEmail,
-    'Phone Number': cleanPhone || 'Not provided',
-    'Borrower Profile / Form': cleanCategory
+  const structuredPayload = {
+    name: cleanName,
+    email: cleanEmail,
+    phone: cleanPhone,
+    category: cleanCategory,
+    preferredDay,
+    preferredTime: hasScheduleFields ? formData.preferredTime || "I'm flexible" : '',
+    ...(typeof formData.smsConsent === 'boolean' ? { smsConsent: formData.smsConsent } : {}),
+    shortPageName,
+    pageName,
+    pageUrl,
+    source: pageName,
+    extraFields,
+    submittedAtPacific,
+    notifyEmails: [PRIMARY_LEAD_EMAIL, CC_LEAD_EMAIL]
   };
 
-  if (hasScheduleFields) {
-    emailPayload['Preferred Day(s)'] = preferredDay;
-    emailPayload['Preferred Time (Pacific Time)'] = formData.preferredTime || "I'm flexible";
-  }
-
-  if (typeof formData.smsConsent === 'boolean') {
-    emailPayload['SMS Text Consent'] = formData.smsConsent ? 'Yes, you may text me' : 'No';
-  }
-
-  for (const [fieldKey, label] of Object.entries(OPTIONAL_DETAIL_LABELS)) {
-    const val = formData[fieldKey];
-    if (val !== undefined && String(val).trim() !== '') {
-      emailPayload[label] = String(val).trim();
-    }
-  }
-
-  emailPayload['Submitted At (PT)'] = `${submittedAtPacific} PT`;
-
-  const emailTask = fetch(FORMSUBMIT_ENDPOINT, {
+  // 2. Native DreamHost server-side PHP mailer (/send-lead.php)
+  const dreamhostMailTask = fetch(DREAMHOST_PHP_ENDPOINT, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json'
-    },
-    body: JSON.stringify(emailPayload)
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify(structuredPayload)
   }).then(async (res) => {
     if (!res.ok) {
-      const bodyText = await res.text().catch(() => '');
-      throw new Error(`Email relay HTTP ${res.status}: ${bodyText}`);
+      throw new Error(`DreamHost mail HTTP ${res.status}`);
     }
     return res.json();
   });
 
-  const tasks = [firestoreTask, emailTask];
+  const tasks = [firestoreTask, dreamhostMailTask];
 
+  // 3. Google Workspace Apps Script mailer (if configured) or FormSubmit fallback
   if (GOOGLE_SCRIPT_WEBHOOK_URL) {
     tasks.push(
       fetch(GOOGLE_SCRIPT_WEBHOOK_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({
-          ...formData,
-          preferredDay,
-          pageName,
-          pageUrl,
-          source: pageName,
-          submittedAtPacific,
-          notifyEmails: [PRIMARY_LEAD_EMAIL, CC_LEAD_EMAIL]
-        })
+        body: JSON.stringify(structuredPayload)
+      })
+    );
+  } else {
+    const formSubmitPayload = {
+      _subject: `New Lead [${shortPageName}]: ${cleanName}${cleanCategory ? ` (${cleanCategory})` : ''}`,
+      _cc: CC_LEAD_EMAIL,
+      _replyto: cleanEmail,
+      _template: 'table',
+      _captcha: 'false',
+      'Submitted From Page': pageName,
+      'Page URL': pageUrl,
+      'Full Name': cleanName,
+      'Email Address': cleanEmail,
+      'Phone Number': cleanPhone || 'Not provided',
+      'Borrower Profile / Form': cleanCategory,
+      ...(hasScheduleFields
+        ? {
+            'Preferred Day(s)': preferredDay,
+            'Preferred Time (Pacific Time)': formData.preferredTime || "I'm flexible"
+          }
+        : {}),
+      ...(typeof formData.smsConsent === 'boolean'
+        ? { 'SMS Text Consent': formData.smsConsent ? 'Yes, you may text me' : 'No' }
+        : {}),
+      ...extraFields,
+      'Submitted At (PT)': `${submittedAtPacific} PT`
+    };
+
+    tasks.push(
+      fetch(FORMSUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(formSubmitPayload)
+      }).then(async (res) => {
+        if (!res.ok) {
+          throw new Error(`FormSubmit HTTP ${res.status}`);
+        }
+        return res.json();
       })
     );
   }
 
   const results = await Promise.allSettled(tasks);
-  const [firestoreResult, emailResult] = results;
-
-  if (firestoreResult.status === 'rejected') {
-    console.error('Firestore lead save failed:', firestoreResult.reason);
-  }
-  if (emailResult.status === 'rejected') {
-    console.error('Email notification failed:', emailResult.reason);
-  }
-
   const anySucceeded = results.some((r) => r.status === 'fulfilled');
   if (!anySucceeded) {
-    throw firestoreResult.reason || emailResult.reason || new Error('Submission failed');
+    throw new Error('Submission failed across all channels');
   }
 }

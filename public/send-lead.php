@@ -4,7 +4,9 @@
  *
  * Dispatches consultation form leads to rjain@insidermtg.com and dsider@insidermtg.com.
  * Uses native PHP mail() with -fnoreply@insidermortgage.com, and automatically
- * falls back to authenticated SSL SMTP via mail.insidermortgage.com:465.
+ * falls back to authenticated SSL SMTP via smtp.dreamhost.com:465. The SMTP
+ * password lives on the server, outside the web root, in
+ * ~/insidermortgage-secrets/smtp.password; never commit it to this repo.
  */
 
 header('Content-Type: application/json; charset=utf-8');
@@ -110,16 +112,20 @@ if ($sent) {
 }
 
 function send_smtp_direct($to, $subject, $htmlBody, $replyTo) {
-    $host = 'mail.insidermortgage.com';
+    $host = 'smtp.dreamhost.com';
     $port = 465;
     $user = 'noreply@insidermortgage.com';
-    $pass = 'QPeNHjW_WXMkoQJ7gby4a6Ey7';
+    $passFile = dirname(__DIR__) . '/insidermortgage-secrets/smtp.password';
+    $pass = is_readable($passFile) ? trim((string) file_get_contents($passFile)) : '';
+    if ($pass === '') {
+        error_log('send-lead.php: SMTP password file missing or empty');
+        return false;
+    }
 
     $ctx = stream_context_create([
         'ssl' => [
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-            'allow_self_signed' => true
+            'verify_peer' => true,
+            'verify_peer_name' => true,
         ]
     ]);
 

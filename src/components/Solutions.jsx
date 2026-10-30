@@ -10,7 +10,7 @@ const categories = [
     description: 'We understand that your tax returns don\'t always tell the whole story. Leverage our alternative documentation programs designed for entrepreneurs.',
     icon: '💼',
     highlights: ['Bank Statement Loans', 'P&L Only Programs', '1099 Expense Ratio Loans'],
-    route: '/self-employed'
+    route: '/self-employed-programs'
   },
   {
     id: 'retiree',

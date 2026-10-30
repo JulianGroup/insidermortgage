@@ -32,7 +32,8 @@ const ROUTE_LABELS = {
   '/mortgage-for-llc': 'Mortgages for LLCs',
   '/mortgage-for-realtors': 'Mortgages for Realtors',
   '/mortgage-for-scorp': 'Mortgages for S-Corps',
-  '/mortgage-for-small-business': 'Mortgages for Small Business Owners'
+  '/mortgage-for-small-business': 'Mortgages for Small Business Owners',
+  '/CAprop-19-calculator': 'CA Prop 19 Calculator'
 };
 
 function getPageContext(defaultSource) {

@@ -1,6 +1,10 @@
 const fs = require('fs');
 
-const API_KEY = process.env.FRED_API_KEY || '3d5d9630c59341874221b3bc64123aa5';
+const API_KEY = process.env.FRED_API_KEY;
+if (!API_KEY) {
+  console.error("Error: FRED_API_KEY environment variable is not set.");
+  process.exit(1);
+}
 
 async function downloadData() {
   console.log("Fetching T10Y3M...");

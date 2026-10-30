@@ -27,6 +27,12 @@ dist-ssr
 .next
 out
 
+# Environment & credentials
+.env
+.env*.local
+.env.*
+*.env
+
 # Local design reference bundles & scratch files
 *.zip
 *.lnk

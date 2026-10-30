@@ -130,17 +130,7 @@
       <!-- Step 2: Sale and Replacement Property Details -->
       <section class="card">
         <h2 class="card-title"><span class="step-num">2</span> Relocation & Purchase Plan</h2>
-        <p class="section-subtitle">Determine your equal-or-lesser threshold and calculate the buy-up adjustment if applicable.</p>
-
-        <div class="form-group">
-          <label class="form-label" id="salePriceLabel" for="salePrice">Original Home Sale Price ($)</label>
-          <input type="number" id="salePrice" class="form-input" value="1350000" step="10000">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="purchasePrice">New Replacement Home Purchase Price ($)</label>
-          <input type="number" id="purchasePrice" class="form-input" value="1500000" step="10000">
-        </div>
+        <p class="section-subtitle">Select your purchase timing, then enter your sale price and replacement purchase price to calculate whether you qualify for a 100% transfer or the Prop 19 buy-up formula.</p>
 
         <div class="form-group">
           <label class="form-label" for="timingRule">Timing of Replacement Home Purchase</label>
@@ -150,6 +140,16 @@
             <option value="1.10">Purchased between 1 and 2 years AFTER selling (110% Cap)</option>
           </select>
           <p class="help-text">California allows higher purchase price caps when you buy after selling your original home.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" id="salePriceLabel" for="salePrice">Original Home Sale Price ($)</label>
+          <input type="number" id="salePrice" class="form-input" value="1350000" step="10000">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" id="purchasePriceLabel" for="purchasePrice">New Replacement Home Purchase Price ($)</label>
+          <input type="number" id="purchasePrice" class="form-input" value="1500000" step="10000">
         </div>
 
         <div class="form-group">
@@ -215,6 +215,7 @@
   const netBaseDisplay = document.getElementById('netBaseDisplay');
 
   const salePriceLabel = document.getElementById('salePriceLabel');
+  const purchasePriceLabel = document.getElementById('purchasePriceLabel');
   const salePriceInput = document.getElementById('salePrice');
   const purchasePriceInput = document.getElementById('purchasePrice');
   const timingSelect = document.getElementById('timingRule');
@@ -226,13 +227,25 @@
   const newAssessedBaseDisplay = document.getElementById('newAssessedBaseDisplay');
   const tenYearSavingsDisplay = document.getElementById('tenYearSavingsDisplay');
 
-  function updateStreetName() {
+  function updateDynamicLabels() {
     const addr = addressInput.value.trim();
     const street = addr ? addr.split(',')[0].trim() : '';
-    salePriceLabel.textContent = street ? `${street} Sale Price ($)` : 'Original Home Sale Price ($)';
-    salePriceInput.placeholder = street ? `Sales price for ${street}` : 'Original Home Sale Price';
+    const isAfter = parseFloat(timingSelect.value) > 1.0;
+
+    if (isAfter) {
+      salePriceLabel.textContent = street ? `${street} Expected Sales Price ($)` : 'Expected Sales Price ($)';
+      salePriceInput.placeholder = street ? `Expected sales price for ${street}` : 'Expected Sales Price';
+      purchasePriceLabel.textContent = 'Expected Replacement Purchase Price ($)';
+      purchasePriceInput.placeholder = 'Expected Replacement Purchase Price';
+    } else {
+      salePriceLabel.textContent = street ? `${street} Sale Price ($)` : 'Original Home Sale Price ($)';
+      salePriceInput.placeholder = street ? `Sales price for ${street}` : 'Original Home Sale Price';
+      purchasePriceLabel.textContent = 'New Replacement Purchase Price ($)';
+      purchasePriceInput.placeholder = 'New Replacement Purchase Price';
+    }
   }
-  addressInput.addEventListener('input', updateStreetName);
+  addressInput.addEventListener('input', updateDynamicLabels);
+  timingSelect.addEventListener('change', updateDynamicLabels);
 
   googleSearchBtn.addEventListener('click', () => {
     const address = addressInput.value.trim();
@@ -296,7 +309,7 @@
     element.addEventListener('change', recalculate);
   });
 
-  updateStreetName();
+  updateDynamicLabels();
   recalculate();
 </script>
 </body>

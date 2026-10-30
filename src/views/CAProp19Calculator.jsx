@@ -234,34 +234,10 @@ export default function CAProp19Calculator() {
                 <h2 style={{ fontSize: '1.35rem', fontWeight: 700, color: '#060a2d', margin: 0 }}>Relocation & Purchase Plan</h2>
               </div>
               <p style={{ fontSize: '0.9rem', color: '#64748b', marginBottom: '1.5rem' }}>
-                Enter your original sale price and replacement purchase price to calculate whether you qualify for a 100% transfer or the Prop 19 buy-up formula.
+                Select your purchase timing, then enter your sale price and replacement purchase price to calculate whether you qualify for a 100% transfer or the Prop 19 buy-up formula.
               </p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px', marginBottom: '1.25rem' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#1e293b', marginBottom: '6px' }}>
-                    {streetName ? `${streetName} Sale Price ($)` : 'Original Home Sale Price ($)'}
-                  </label>
-                  <CurrencyInput
-                    value={salePrice}
-                    onChange={setSalePrice}
-                    placeholder={streetName ? `Sales price for ${streetName}` : 'Original Home Sale Price'}
-                    style={{ width: '100%', padding: '11px 14px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '0.95rem' }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#1e293b', marginBottom: '6px' }}>
-                    New Replacement Purchase Price ($)
-                  </label>
-                  <CurrencyInput
-                    value={purchasePrice}
-                    onChange={setPurchasePrice}
-                    style={{ width: '100%', padding: '11px 14px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '0.95rem' }}
-                  />
-                </div>
-              </div>
-
-              {/* Timing Rule Dropdown */}
+              {/* Timing Rule Dropdown (Asked First) */}
               <div style={{ marginBottom: '1.25rem' }}>
                 <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#1e293b', marginBottom: '6px' }}>
                   Timing of Replacement Home Purchase
@@ -278,6 +254,44 @@ export default function CAProp19Calculator() {
                 <p style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '6px' }}>
                   California law gives you a 5% inflation buffer in Year 1 and 10% in Year 2 when purchasing after selling.
                 </p>
+              </div>
+
+              {/* Price Fields with Dynamic Labels based on Timing */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px', marginBottom: '1.25rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#1e293b', marginBottom: '6px' }}>
+                    {timingMultiplier > 1.0
+                      ? (streetName ? `${streetName} Expected Sales Price ($)` : 'Expected Sales Price ($)')
+                      : (streetName ? `${streetName} Sale Price ($)` : 'Original Home Sale Price ($)')}
+                  </label>
+                  <CurrencyInput
+                    value={salePrice}
+                    onChange={setSalePrice}
+                    placeholder={
+                      timingMultiplier > 1.0
+                        ? (streetName ? `Expected sales price for ${streetName}` : 'Expected Sales Price')
+                        : (streetName ? `Sales price for ${streetName}` : 'Original Home Sale Price')
+                    }
+                    style={{ width: '100%', padding: '11px 14px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '0.95rem' }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#1e293b', marginBottom: '6px' }}>
+                    {timingMultiplier > 1.0
+                      ? 'Expected Replacement Purchase Price ($)'
+                      : 'New Replacement Purchase Price ($)'}
+                  </label>
+                  <CurrencyInput
+                    value={purchasePrice}
+                    onChange={setPurchasePrice}
+                    placeholder={
+                      timingMultiplier > 1.0
+                        ? 'Expected Replacement Purchase Price'
+                        : 'New Replacement Purchase Price'
+                    }
+                    style={{ width: '100%', padding: '11px 14px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '0.95rem' }}
+                  />
+                </div>
               </div>
 
               {/* County Tax Rate */}

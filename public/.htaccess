@@ -1,3 +1,6 @@
 # Apache config for DreamHost shared hosting (copied into out/ by next build)
 ErrorDocument 404 /404.html
 DirectoryIndex index.html
+
+# Redirect legacy /self-employed URLs to /self-employed-programs/
+RedirectMatch 301 ^/self-employed/?$ /self-employed-programs/

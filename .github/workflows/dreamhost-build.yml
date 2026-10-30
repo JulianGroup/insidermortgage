@@ -43,6 +43,9 @@ jobs:
       - name: Publish to the dreamhost-build branch
         working-directory: out
         run: |
+          # DreamHost's firewall rejects webhook payloads that list a file named
+          # .htaccess, so ship it under another name; the deploy renames it back.
+          if [ -f .htaccess ]; then mv .htaccess htaccess.from-build; fi
           git init -q -b dreamhost-build
           git add -A
           git -c user.name="github-actions[bot]" \

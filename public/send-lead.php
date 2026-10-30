@@ -2,11 +2,9 @@
 /**
  * Native DreamHost Consultation Lead Emailer for insidermortgage.com
  *
- * Note on DreamHost Sender Domain Policy:
- * DreamHost shared hosting requires the "From:" address (noreply@insidermortgage.com)
- * to be an active mailbox hosted under insidermortgage.com in the DreamHost panel.
- * Once Jason creates noreply@insidermortgage.com in DreamHost -> Manage Email,
- * this endpoint delivers instant HTML lead notifications with zero third-party services.
+ * Dispatches consultation form leads to rjain@insidermtg.com and dsider@insidermtg.com.
+ * Uses native PHP mail() with -fnoreply@insidermortgage.com, and automatically
+ * falls back to authenticated SSL SMTP via mail.insidermortgage.com:465.
  */
 
 header('Content-Type: application/json; charset=utf-8');
@@ -96,11 +94,100 @@ if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $headers .= "Reply-To: {$email}\r\n";
 }
 
+// 1. Try native PHP mail() first
 $sent = @mail($to, $subject, $htmlBody, $headers, "-f{$fromAddress}");
+
+// 2. Fallback to direct authenticated SSL SMTP if mail() fails
+if (!$sent) {
+    $sent = send_smtp_direct($to, $subject, $htmlBody, $email);
+}
 
 if ($sent) {
     echo json_encode(['status' => 'success']);
 } else {
     http_response_code(500);
     echo json_encode(['status' => 'error', 'message' => 'Server mail dispatch failed']);
+}
+
+function send_smtp_direct($to, $subject, $htmlBody, $replyTo) {
+    $host = 'mail.insidermortgage.com';
+    $port = 465;
+    $user = 'noreply@insidermortgage.com';
+    $pass = 'QPeNHjW_WXMkoQJ7gby4a6Ey7';
+
+    $ctx = stream_context_create([
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        ]
+    ]);
+
+    $socket = @stream_socket_client("ssl://{$host}:{$port}", $errno, $errstr, 12, STREAM_CLIENT_CONNECT, $ctx);
+    if (!$socket) {
+        return false;
+    }
+
+    $read = function() use ($socket) {
+        $res = '';
+        while ($line = fgets($socket, 512)) {
+            $res .= $line;
+            if (substr($line, 3, 1) === ' ') break;
+        }
+        return $res;
+    };
+
+    $send = function($cmd) use ($socket) {
+        fputs($socket, $cmd . "\r\n");
+    };
+
+    $res = $read();
+    if (substr($res, 0, 3) !== '220') { fclose($socket); return false; }
+
+    $send("EHLO insidermortgage.com");
+    $res = $read();
+
+    $send("AUTH LOGIN");
+    $res = $read();
+    if (substr($res, 0, 3) !== '334') { fclose($socket); return false; }
+
+    $send(base64_encode($user));
+    $res = $read();
+    if (substr($res, 0, 3) !== '334') { fclose($socket); return false; }
+
+    $send(base64_encode($pass));
+    $res = $read();
+    if (substr($res, 0, 3) !== '235') { fclose($socket); return false; }
+
+    $send("MAIL FROM:<{$user}>");
+    $res = $read();
+    if (substr($res, 0, 3) !== '250') { fclose($socket); return false; }
+
+    $recipients = array_map('trim', explode(',', $to));
+    foreach ($recipients as $rcpt) {
+        $send("RCPT TO:<{$rcpt}>");
+        $res = $read();
+    }
+
+    $send("DATA");
+    $res = $read();
+    if (substr($res, 0, 3) !== '354') { fclose($socket); return false; }
+
+    $msg = "From: Insider Mortgage Website <{$user}>\r\n";
+    $msg .= "To: {$to}\r\n";
+    if ($replyTo) {
+        $msg .= "Reply-To: {$replyTo}\r\n";
+    }
+    $msg .= "Subject: {$subject}\r\n";
+    $msg .= "MIME-Version: 1.0\r\n";
+    $msg .= "Content-Type: text/html; charset=UTF-8\r\n\r\n";
+    $msg .= $htmlBody . "\r\n.\r\n";
+
+    $send($msg);
+    $res = $read();
+
+    $send("QUIT");
+    fclose($socket);
+
+    return (substr($res, 0, 3) === '250');
 }

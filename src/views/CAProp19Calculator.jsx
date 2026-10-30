@@ -6,14 +6,18 @@ import CurrencyInput from '../components/CurrencyInput';
 
 export default function CAProp19Calculator() {
   const [address, setAddress] = useState('');
-  const [landValue, setLandValue] = useState('450000');
-  const [impValue, setImpValue] = useState('711400');
-  const [exemptionValue, setExemptionValue] = useState('7000');
+  const [netTaxableValue, setNetTaxableValue] = useState('1154400');
 
   const [salePrice, setSalePrice] = useState('1350000');
   const [purchasePrice, setPurchasePrice] = useState('1500000');
   const [timingMultiplier, setTimingMultiplier] = useState(1.05);
   const [taxRate, setTaxRate] = useState('1.15');
+
+  // Extract street address from user's entered address (e.g. "123 Main St, San Diego" -> "123 Main St")
+  const streetName = useMemo(() => {
+    if (!address || !address.trim()) return '';
+    return address.trim().split(',')[0].trim();
+  }, [address]);
 
   // Handle Google Assessment search
   const handleGoogleSearch = () => {
@@ -22,7 +26,7 @@ export default function CAProp19Calculator() {
       alert('Please enter your California property address first.');
       return;
     }
-    const query = `property tax assessment ${trimmed}`;
+    const query = `property tax assessment net taxable value ${trimmed}`;
     const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
@@ -39,11 +43,7 @@ export default function CAProp19Calculator() {
 
   // Calculations
   const calculations = useMemo(() => {
-    const land = Math.max(0, parseFloat(landValue) || 0);
-    const imp = Math.max(0, parseFloat(impValue) || 0);
-    const ex = Math.max(0, parseFloat(exemptionValue) || 0);
-
-    const originalBase = Math.max(0, land + imp - ex);
+    const originalBase = Math.max(0, parseFloat(netTaxableValue) || 0);
 
     const origSale = Math.max(0, parseFloat(salePrice) || 0);
     const newPurchase = Math.max(0, parseFloat(purchasePrice) || 0);
@@ -88,7 +88,7 @@ export default function CAProp19Calculator() {
       annualSavings,
       cumulativeSavings
     };
-  }, [landValue, impValue, exemptionValue, salePrice, purchasePrice, timingMultiplier, taxRate]);
+  }, [netTaxableValue, salePrice, purchasePrice, timingMultiplier, taxRate]);
 
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#f8fafc', color: '#0f172a', paddingBottom: '5rem' }}>
@@ -177,47 +177,28 @@ export default function CAProp19Calculator() {
                     <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                       <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
-                    Search Google ↗
+                    Search Google for your home&apos;s Net Taxable Value ↗
                   </button>
                 </div>
                 <p style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '6px' }}>
-                  Click to open Google’s public record tax roll card for your property’s land & improvements breakdown.
+                  Click to open Google’s public record tax roll card for your property’s net assessed taxable value.
                 </p>
               </div>
 
-              {/* Three Column Breakdown */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '12px', marginBottom: '1.25rem' }}>
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#1e293b', marginBottom: '4px' }}>
-                    Land Value ($)
-                  </label>
-                  <CurrencyInput
-                    value={landValue}
-                    onChange={setLandValue}
-                    style={{ width: '100%', padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '0.95rem' }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#1e293b', marginBottom: '4px' }}>
-                    Improvements ($)
-                  </label>
-                  <CurrencyInput
-                    value={impValue}
-                    onChange={setImpValue}
-                    style={{ width: '100%', padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '0.95rem' }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 600, color: '#1e293b', marginBottom: '4px' }}>
-                    Exemption ($)
-                  </label>
-                  <CurrencyInput
-                    value={exemptionValue}
-                    onChange={setExemptionValue}
-                    style={{ width: '100%', padding: '10px 12px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '0.95rem' }}
-                  />
-                  <span style={{ fontSize: '0.72rem', color: '#64748b' }}>Standard CA: $7,000</span>
-                </div>
+              {/* Single Net Taxable Value Input */}
+              <div style={{ marginBottom: '1.25rem' }}>
+                <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#1e293b', marginBottom: '6px' }}>
+                  Current Net Taxable Value ($)
+                </label>
+                <CurrencyInput
+                  value={netTaxableValue}
+                  onChange={setNetTaxableValue}
+                  placeholder="e.g. $1,154,400"
+                  style={{ width: '100%', padding: '11px 14px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', fontWeight: 600 }}
+                />
+                <p style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '6px' }}>
+                  Enter your current Net Taxable Value from your county property tax bill (or assessor portal). This is the protected base amount that transfers under Prop 19.
+                </p>
               </div>
 
               {/* Net Base Callout */}
@@ -234,14 +215,14 @@ export default function CAProp19Calculator() {
               }}>
                 <div>
                   <span style={{ fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', color: '#065f46', letterSpacing: '0.04em' }}>
-                    Current Net Taxable Base Value
+                    Net Factored Base Value (Transfers under Prop 19)
                   </span>
                   <div style={{ fontSize: '1.45rem', fontWeight: 800, color: '#065f46' }}>
                     {currencyFmt.format(calculations.originalBase)}
                   </div>
                 </div>
                 <span style={{ padding: '4px 10px', backgroundColor: '#d1fae5', color: '#065f46', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 600 }}>
-                  Eligible for Prop 19 Transfer
+                  Current Tax Base
                 </span>
               </div>
             </div>
@@ -259,11 +240,12 @@ export default function CAProp19Calculator() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px', marginBottom: '1.25rem' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#1e293b', marginBottom: '6px' }}>
-                    Original Home Sale Price ($)
+                    {streetName ? `${streetName} Sale Price ($)` : 'Original Home Sale Price ($)'}
                   </label>
                   <CurrencyInput
                     value={salePrice}
                     onChange={setSalePrice}
+                    placeholder={streetName ? `Sales price for ${streetName}` : 'Original Home Sale Price'}
                     style={{ width: '100%', padding: '11px 14px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '0.95rem' }}
                   />
                 </div>

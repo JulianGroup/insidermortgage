@@ -54,9 +54,6 @@
     .btn-search { white-space: nowrap; padding: 0 16px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s; }
     .btn-search:hover { background: var(--primary-light); }
 
-    .three-col-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    @media (max-width: 600px) { .three-col-grid { grid-template-columns: 1fr; } }
-
     /* Summary callout box */
     .base-callout { background: var(--success-bg); border: 1px solid #a7f3d0; border-radius: 8px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
     .base-callout-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: #065f46; letter-spacing: 0.04em; }
@@ -109,26 +106,16 @@
             <input type="text" id="propAddress" class="form-input" placeholder="e.g. 16557 4S Ranch Pkwy, San Diego, CA 92127">
             <button type="button" id="googleSearchBtn" class="btn-search">
               <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-              Search Google ↗
+              Search Google for your home's Net Taxable Value ↗
             </button>
           </div>
-          <p class="help-text">Click to open a targeted Google search to view your county tax roll assessment breakdown.</p>
+          <p class="help-text">Click to open a targeted Google search to view your county tax roll net assessed value.</p>
         </div>
 
-        <div class="three-col-grid">
-          <div class="form-group">
-            <label class="form-label" for="landValue">Land Value ($)</label>
-            <input type="number" id="landValue" class="form-input" value="450000" step="5000">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="impValue">Improvements ($)</label>
-            <input type="number" id="impValue" class="form-input" value="711400" step="5000">
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="exemptionValue">Exemption ($)</label>
-            <input type="number" id="exemptionValue" class="form-input" value="7000" step="1000">
-            <p class="help-text">Standard CA Homeowners' Exemption: $7,000</p>
-          </div>
+        <div class="form-group">
+          <label class="form-label" for="netTaxableValue">Current Net Taxable Value ($)</label>
+          <input type="number" id="netTaxableValue" class="form-input" value="1154400" step="5000">
+          <p class="help-text">Enter your Net Taxable Value from your annual county tax bill. This is the protected amount that transfers under Prop 19.</p>
         </div>
 
         <div class="base-callout">
@@ -146,7 +133,7 @@
         <p class="section-subtitle">Determine your equal-or-lesser threshold and calculate the buy-up adjustment if applicable.</p>
 
         <div class="form-group">
-          <label class="form-label" for="salePrice">Original Home Sales Price ($)</label>
+          <label class="form-label" id="salePriceLabel" for="salePrice">Original Home Sale Price ($)</label>
           <input type="number" id="salePrice" class="form-input" value="1350000" step="10000">
         </div>
 
@@ -224,12 +211,10 @@
 <script>
   const addressInput = document.getElementById('propAddress');
   const googleSearchBtn = document.getElementById('googleSearchBtn');
-
-  const landInput = document.getElementById('landValue');
-  const impInput = document.getElementById('impValue');
-  const exemptionInput = document.getElementById('exemptionValue');
+  const netTaxableInput = document.getElementById('netTaxableValue');
   const netBaseDisplay = document.getElementById('netBaseDisplay');
 
+  const salePriceLabel = document.getElementById('salePriceLabel');
   const salePriceInput = document.getElementById('salePrice');
   const purchasePriceInput = document.getElementById('purchasePrice');
   const timingSelect = document.getElementById('timingRule');
@@ -241,6 +226,14 @@
   const newAssessedBaseDisplay = document.getElementById('newAssessedBaseDisplay');
   const tenYearSavingsDisplay = document.getElementById('tenYearSavingsDisplay');
 
+  function updateStreetName() {
+    const addr = addressInput.value.trim();
+    const street = addr ? addr.split(',')[0].trim() : '';
+    salePriceLabel.textContent = street ? `${street} Sale Price ($)` : 'Original Home Sale Price ($)';
+    salePriceInput.placeholder = street ? `Sales price for ${street}` : 'Original Home Sale Price';
+  }
+  addressInput.addEventListener('input', updateStreetName);
+
   googleSearchBtn.addEventListener('click', () => {
     const address = addressInput.value.trim();
     if (!address) {
@@ -248,7 +241,7 @@
       addressInput.focus();
       return;
     }
-    const query = `property tax assessment ${address}`;
+    const query = `property tax assessment net taxable value ${address}`;
     const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
     window.open(url, '_blank');
   });
@@ -260,11 +253,7 @@
   });
 
   function recalculate() {
-    const land = Math.max(0, parseFloat(landInput.value) || 0);
-    const imp = Math.max(0, parseFloat(impInput.value) || 0);
-    const ex = Math.max(0, parseFloat(exemptionInput.value) || 0);
-
-    const originalBase = Math.max(0, (land + imp) - ex);
+    const originalBase = Math.max(0, parseFloat(netTaxableInput.value) || 0);
     netBaseDisplay.textContent = currencyFmt.format(originalBase);
 
     const salePrice = Math.max(0, parseFloat(salePriceInput.value) || 0);
@@ -302,11 +291,12 @@
     tenYearSavingsDisplay.textContent = currencyFmt.format(cumulativeSavings);
   }
 
-  [landInput, impInput, exemptionInput, salePriceInput, purchasePriceInput, timingSelect, taxRateInput].forEach(element => {
+  [netTaxableInput, salePriceInput, purchasePriceInput, timingSelect, taxRateInput].forEach(element => {
     element.addEventListener('input', recalculate);
     element.addEventListener('change', recalculate);
   });
 
+  updateStreetName();
   recalculate();
 </script>
 </body>

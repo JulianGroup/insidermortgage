@@ -484,38 +484,7 @@ const HomeV8 = () => {
           </div>
 
           <div className="v8-partners-grid">
-            {/* Partner 1: Rakesh Jain */}
-            <div className="v8-partner-editorial-card">
-              <div className="v8-partner-photo-wrap">
-                <img
-                  src="/rakesh-jain.jpg"
-                  alt="Rakesh Jain"
-                  className="v8-partner-photo"
-                />
-              </div>
-              <div className="v8-partner-content">
-                <span className="v8-partner-role">Managing Partner / Broker</span>
-                <h3>Rakesh Jain</h3>
-                <p>
-                  Known for structuring complex self-employed, multi-entity, and
-                  real estate investor transactions with precision and clarity.
-                </p>
-                <div className="v8-partner-tags">
-                  <span>Self-Employed Strategy</span>
-                  <span>Investor &amp; DSCR</span>
-                  <span>Complex Tax Returns</span>
-                </div>
-                <Link href="/bio-rakesh" className="v8-partner-link">
-                  <span>Read Rakesh’s Full Bio</span>
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </svg>
-                </Link>
-              </div>
-            </div>
-
-            {/* Partner 2: David Sider */}
+            {/* Partner 1: David Sider */}
             <div className="v8-partner-editorial-card">
               <div className="v8-partner-photo-wrap">
                 <img
@@ -539,6 +508,37 @@ const HomeV8 = () => {
                 </div>
                 <Link href="/bio-david" className="v8-partner-link">
                   <span>Read David’s Full Bio</span>
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+
+            {/* Partner 2: Rakesh Jain */}
+            <div className="v8-partner-editorial-card">
+              <div className="v8-partner-photo-wrap">
+                <img
+                  src="/rakesh-jain.jpg"
+                  alt="Rakesh Jain"
+                  className="v8-partner-photo"
+                />
+              </div>
+              <div className="v8-partner-content">
+                <span className="v8-partner-role">Managing Partner / Broker</span>
+                <h3>Rakesh Jain</h3>
+                <p>
+                  Known for structuring complex self-employed, multi-entity, and
+                  real estate investor transactions with precision and clarity.
+                </p>
+                <div className="v8-partner-tags">
+                  <span>Self-Employed Strategy</span>
+                  <span>Investor &amp; DSCR</span>
+                  <span>Complex Tax Returns</span>
+                </div>
+                <Link href="/bio-rakesh" className="v8-partner-link">
+                  <span>Read Rakesh’s Full Bio</span>
                   <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />

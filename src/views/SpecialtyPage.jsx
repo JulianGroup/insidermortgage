@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { seoPages } from '../data/seoPages';
 import ReviewCard from '../components/ReviewCard';
 import ScheduleCallForm from '../components/ScheduleCallForm';
+import RelatedInsights from '../components/blog/RelatedInsights';
 import './SelfEmployed.css';
 
 const SpecialtyPage = ({ data }) => {
@@ -97,6 +98,13 @@ const SpecialtyPage = ({ data }) => {
             </div>
           </div>
         </section>
+
+        <RelatedInsights
+          routeSlug={data.slug}
+          title={`${data.title} — Insights & Breakdowns`}
+          subtitle="Real-world mortgage math and scenario walkthroughs by David Sider and Rakesh Jain."
+          background="#FFFFFF"
+        />
 
         <section className="se-contact-section">
           <div className="container" style={{ maxWidth: '600px' }}>

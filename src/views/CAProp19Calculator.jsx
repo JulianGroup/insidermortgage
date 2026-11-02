@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import ScheduleCallForm from '../components/ScheduleCallForm';
 import CurrencyInput from '../components/CurrencyInput';
+import RelatedInsights from '../components/blog/RelatedInsights';
 
 export default function CAProp19Calculator() {
   const [address, setAddress] = useState('');
@@ -481,6 +482,15 @@ export default function CAProp19Calculator() {
           </div>
         </section>
 
+      </div>
+
+      <div style={{ marginTop: '4rem' }}>
+        <RelatedInsights
+          calculatorId="calc-prop19"
+          title="Prop 19 & 55+ Relocation Strategy Guides"
+          subtitle="Walkthroughs on combining California Prop 19 property tax transfers with retirement financing."
+          background="#FFFFFF"
+        />
       </div>
     </main>
   );

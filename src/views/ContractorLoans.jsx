@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { seoPages } from '../data/seoPages';
 import ScheduleCallForm from '../components/ScheduleCallForm';
+import RelatedInsights from '../components/blog/RelatedInsights';
 import './SelfEmployed.css'; 
 
 const ContractorLoans = () => {
@@ -211,6 +212,13 @@ const ContractorLoans = () => {
             </div>
           </div>
         </section>
+
+        <RelatedInsights
+          routeSlug="mortgage-for-contractors"
+          title="Contractor & Self-Employed Loan Insights"
+          subtitle="Breakdowns and walkthroughs by David Sider and Rakesh Jain."
+          background="#FFFFFF"
+        />
 
         {/* 8. TRUST & ACTION (Contact) */}
         <section className="se-contact-section" style={{ backgroundColor: '#fff' }}>

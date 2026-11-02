@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import TableOfContents from '../../src/views/TableOfContents';
 import { seoPages } from '../../src/data/seoPages';
+import { getAllPublishedPosts, getAuthorForPost } from '../../src/lib/blog';
 
 export const metadata = {
   title: 'Table of Contents | Insider Mortgage',
@@ -189,6 +190,12 @@ const KNOWN_PAGE_METADATA = {
     title: 'Privacy Policy',
     description: 'Data protection, privacy practices, and compliance disclosures.',
     category: 'team-company'
+  },
+  '/resource-library': {
+    title: 'Resource Library & Strategy Blog (Central Hub)',
+    description: 'Central repository of articles, YouTube walkthroughs, and calculator guides by David Sider and Rakesh Jain.',
+    highlight: 'NEW • HUB',
+    category: 'resource-library'
   }
 };
 
@@ -212,6 +219,11 @@ const CATEGORY_DEFINITIONS = [
     id: 'calculators',
     title: 'Geek Out: Financial Calculators & Market Tools',
     subtitle: 'Interactive mortgage calculators, charts, and analytical tools.'
+  },
+  {
+    id: 'resource-library',
+    title: 'Resource Library & Strategy Blog',
+    subtitle: 'Central blog hub and individual articles/videos distributed across Who We Serve, Calculators, and Bio pages.'
   },
   {
     id: 'team-company',
@@ -328,6 +340,18 @@ function buildAutoCategories() {
         category: known?.category || inferCategory(routePath)
       });
     }
+  }
+
+  for (const post of getAllPublishedPosts()) {
+    const routePath = `/resource-library/${post.slug}`;
+    const author = getAuthorForPost(post);
+    allRoutesMap.set(routePath, {
+      path: routePath,
+      title: post.title,
+      description: `By ${author.name} • ${post.excerpt}`,
+      highlight: post.isDraftSample ? 'DRAFT' : undefined,
+      category: 'resource-library',
+    });
   }
 
   // Group into categories and sort naturally

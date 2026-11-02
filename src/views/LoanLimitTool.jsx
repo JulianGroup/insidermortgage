@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useMemo } from 'react';
 import loanLimitsData from '../data/loanLimits2026.json';
+import RelatedInsights from '../components/blog/RelatedInsights';
 
 const BASELINE_1_UNIT_LIMIT = 832750;
 const NATIONAL_LIMITS = {
@@ -150,6 +151,13 @@ export default function LoanLimitTool() {
 
         </div>
       </section>
+
+      <RelatedInsights
+        calculatorId="calc-loan-limits"
+        title="Conforming, High-Balance & Multi-Unit Loan Guides"
+        subtitle="How county loan limits impact down payments and pricing."
+        background="#FFFFFF"
+      />
     </main>
   );
 }

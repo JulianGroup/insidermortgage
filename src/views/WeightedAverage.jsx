@@ -2,6 +2,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import './SelfEmployed.css';
 import CurrencyInput from '../components/CurrencyInput';
+import RelatedInsights from '../components/blog/RelatedInsights';
 
 const STORAGE_KEY_ROWS = 'insider_mortgage_wa_rows_v1';
 const STORAGE_KEY_HELOC = 'insider_mortgage_wa_heloc_v1';
@@ -393,6 +394,13 @@ export default function WeightedAverage() {
           
         </div>
       </section>
+
+      <RelatedInsights
+        calculatorId="calc-weighted-avg"
+        title="How We Use Blended Debt & HELOC Math in Real Scenarios"
+        subtitle="Articles and video walkthroughs that pair with the Weighted Average Calculator."
+        background="#FFFFFF"
+      />
 
       <style dangerouslySetInnerHTML={{ __html: `
         @media (max-width: 900px) {

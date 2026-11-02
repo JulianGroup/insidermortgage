@@ -2,6 +2,7 @@
 import React from 'react';
 import ReviewCard from '../components/ReviewCard';
 import ScheduleCallForm from '../components/ScheduleCallForm';
+import RelatedInsights from '../components/blog/RelatedInsights';
 import './SelfEmployed.css';
 
 const retireeReviews = [
@@ -95,6 +96,13 @@ const Retirees = () => {
           </div>
         </div>
       </section>
+
+      <RelatedInsights
+        categoryId="cat-retirees"
+        title="Retirement & 55+ Mortgage Insights"
+        subtitle="Articles and scenario breakdowns on equity strategies, Prop 19, and asset-depletion qualifying by David and Rakesh."
+        background="#FFFFFF"
+      />
 
       <section className="se-contact-section">
         <div className="container" style={{ maxWidth: '600px' }}>

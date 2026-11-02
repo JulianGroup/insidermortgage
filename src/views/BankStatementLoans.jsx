@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { seoPages } from '../data/seoPages';
 import ScheduleCallForm from '../components/ScheduleCallForm';
+import RelatedInsights from '../components/blog/RelatedInsights';
 import './SelfEmployed.css'; 
 
 const BankStatementLoans = () => {
@@ -213,6 +214,13 @@ const BankStatementLoans = () => {
             </div>
           </div>
         </section>
+
+        <RelatedInsights
+          routeSlug="bank-statement-loans"
+          title="Self-Employed & Bank Statement Loan Insights"
+          subtitle="Breakdowns and walkthroughs by David Sider and Rakesh Jain."
+          background="#FFFFFF"
+        />
 
         {/* 9. TRUST & ACTION (Contact) */}
         <section className="se-contact-section" style={{ backgroundColor: '#fff' }}>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { seoPages } from '../data/seoPages';
 import ScheduleCallForm from '../components/ScheduleCallForm';
+import RelatedInsights from '../components/blog/RelatedInsights';
 import './SelfEmployed.css'; 
 
 const Loans1099 = () => {
@@ -207,6 +208,13 @@ const Loans1099 = () => {
             </div>
           </div>
         </section>
+
+        <RelatedInsights
+          routeSlug="1099-loans"
+          title="1099 & Self-Employed Mortgage Insights"
+          subtitle="Breakdowns and walkthroughs by David Sider and Rakesh Jain."
+          background="#FFFFFF"
+        />
 
         {/* 9. TRUST & ACTION (Contact) */}
         <section className="se-contact-section" style={{ backgroundColor: '#fff' }}>

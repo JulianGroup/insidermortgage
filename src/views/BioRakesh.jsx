@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
+import RelatedInsights from '../components/blog/RelatedInsights';
 
 const BioRakesh = () => {
   return (
@@ -56,6 +57,15 @@ const BioRakesh = () => {
           </div>
           
         </div>
+      </div>
+
+      <div style={{ marginTop: '4rem' }}>
+        <RelatedInsights
+          bioTagId="bio-rakesh"
+          title="Personal Perspectives from Rakesh"
+          subtitle="Stories, milestones, and reflections explicitly shared on Rakesh's bio."
+          background="#FFFFFF"
+        />
       </div>
     </main>
   );

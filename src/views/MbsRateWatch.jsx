@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { doc, onSnapshot, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import RelatedInsights from '../components/blog/RelatedInsights';
 
 const FIRESTORE_COLLECTION = 'marketWatch';
 const FIRESTORE_DOC_ID = 'liveQuotes';
@@ -766,6 +767,13 @@ export default function MbsRateWatch() {
           </p>
         </div>
       </section>
+
+      <RelatedInsights
+        calculatorId="calc-mbs"
+        title="Lock vs. Float & Loan Estimate Strategy Breakdowns"
+        subtitle="How MBS pricing, points, and lender credits work in practice."
+        background="#FFFFFF"
+      />
 
       <style dangerouslySetInnerHTML={{ __html: `
         .lb-mbs-page {

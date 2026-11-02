@@ -14,7 +14,8 @@ const Footer = () => {
           </div>
           <img src="/logo-white.svg" alt="C2 Financial Logo" style={{ height: '40px' }} />
         </div>
-        <div style={{ display: 'flex', gap: '20px', margin: '10px 0' }}>
+        <div style={{ display: 'flex', gap: '20px', margin: '10px 0', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <Link href="/resource-library" style={{ color: 'white', textDecoration: 'underline' }}>Resource Library</Link>
           <Link href="/partners" style={{ color: 'white', textDecoration: 'underline' }}>Partners</Link>
           <Link href="/big-picture" style={{ color: 'white', textDecoration: 'underline' }}>IMC's Big Picture</Link>
           <Link href="/privacy-policy" style={{ color: 'white', textDecoration: 'underline' }}>Privacy Policy</Link>
@@ -49,22 +50,22 @@ const Footer = () => {
                 <td style={{ padding: '2px 4px' }}>Arizona</td>
                 <td style={{ padding: '2px 4px' }}></td>
                 <td style={{ padding: '2px 4px' }}>1050797</td>
-                <td style={{ padding: '2px 4px' }}>919209</td>
+                <td style={{ padding: '2px 4px' }}>BK-2009362</td>
               </tr>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                <td style={{ padding: '2px 4px' }}>California</td>
-                <td style={{ padding: '2px 4px' }}>1193796</td>
-                <td style={{ padding: '2px 4px' }}>1336748</td>
-                <td style={{ padding: '2px 4px' }}>1821025</td>
+                <td style={{ padding: '2px 4px' }}>California (DRE)</td>
+                <td style={{ padding: '2px 4px' }}>01193796</td>
+                <td style={{ padding: '2px 4px' }}>01336748</td>
+                <td style={{ padding: '2px 4px' }}>01821025</td>
               </tr>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                 <td style={{ padding: '2px 4px' }}>Florida</td>
                 <td style={{ padding: '2px 4px' }}></td>
                 <td style={{ padding: '2px 4px' }}>LO121680</td>
-                <td style={{ padding: '2px 4px' }}>MBR3519</td>
+                <td style={{ padding: '2px 4px' }}>MLD2635</td>
               </tr>
               <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                <td style={{ padding: '2px 4px' }}>Utah</td>
+                <td style={{ padding: '2px 4px' }}>Utah (UDRE)</td>
                 <td style={{ padding: '2px 4px' }}></td>
                 <td style={{ padding: '2px 4px' }}>13917645</td>
                 <td style={{ padding: '2px 4px' }}>13748829</td>
@@ -81,7 +82,7 @@ const Footer = () => {
           <div style={{ marginTop: 'var(--space-6)', paddingTop: 'var(--space-4)', borderTop: '1px solid rgba(255,255,255,0.15)', display: 'flex', flexDirection: 'column', gap: '0.85rem', color: 'rgba(255,255,255,0.88)', fontSize: '0.78rem', lineHeight: '1.6' }}>
             <div>
               <p style={{ margin: 0 }}>
-                This licensee is performing acts for which a mortgage brokers license is required. C2 Financial Corporation is licensed by the California Department of Real Estate, Broker # 01821025; California Department of Financial Protection and Innovation, California Finance Lenders Law License # 603L442; NMLS# 135622. Loan approval is not guaranteed and is subject to lender review of information. All loan approvals are conditional and all conditions must be met by borrower. Loan is only approved when lender has issued approval in writing and is subject to the Lender conditions. Specified rates may not be available for all borrowers. Rate subject to change with market conditions. C2 Financial Corporation is an Equal Opportunity Mortgage Broker/Lender. The services referred to herein are not available to persons located outside the state of CA.
+                This licensee is performing acts for which a mortgage broker/lender license is required. C2 Financial Corporation (NMLS #135622) is licensed in: California by the Department of Real Estate, Real Estate Broker License #01821025, and the Department of Financial Protection and Innovation, California Finance Lenders Law License #603L442; Arizona Mortgage Banker License #BK-2009362; Florida Mortgage Lender License #MLD2635; Utah Division of Real Estate Entity License #13748829; and Washington Consumer Loan Company License #MB135622. Individual loan officer state authorizations vary as listed above (David Sider NMLS #254108: CA DRE #01193796; Rakesh Jain NMLS #240594: AZ #1050797, CA DRE #01336748, FL #LO121680, UT #13917645, WA #MLO-240594). Loan approval is not guaranteed and is subject to lender review of information. All loan approvals are conditional and all conditions must be met by borrower. Loan is only approved when lender has issued approval in writing and is subject to the Lender conditions. Specified rates may not be available for all borrowers. Rate subject to change with market conditions. C2 Financial Corporation is an Equal Opportunity Mortgage Broker/Lender. Services referred to herein are available only to persons located in states where licensed (AZ, CA, FL, UT, and WA).
               </p>
             </div>
 

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import CurrencyInput from '../components/CurrencyInput';
+import RelatedInsights from '../components/blog/RelatedInsights';
 
 export default function PayoffCalculator() {
   const [balance, setBalance] = useState(500000);
@@ -136,6 +137,13 @@ export default function PayoffCalculator() {
 
         </div>
       </section>
+
+      <RelatedInsights
+        calculatorId="calc-payoff"
+        title="Payoff & Principal Acceleration Strategies"
+        subtitle="Insights from David and Rakesh on shaving years off your loan."
+        background="#FFFFFF"
+      />
     </main>
   );
 }

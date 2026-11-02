@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Legend } from 'recharts';
 import './SelfEmployed.css';
 import yieldCurveDataRaw from '../data/yieldCurveData.json';
+import RelatedInsights from '../components/blog/RelatedInsights';
 
 const YieldCurve = () => {
   const [timeframe, setTimeframe] = useState('10Y');
@@ -194,6 +195,13 @@ const YieldCurve = () => {
             </div>
           </div>
         </section>
+
+        <RelatedInsights
+          calculatorId="calc-yield-curve"
+          title="Market Rate & Yield Curve Commentary"
+          subtitle="How bond market spreads shape mortgage lock and refinance timing."
+          background="#F8FAFC"
+        />
       </main>
     </>
   );

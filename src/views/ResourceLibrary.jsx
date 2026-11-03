@@ -56,10 +56,19 @@ export default function ResourceLibrary() {
       // Search filter
       if (q) {
         const sectionText = (post.sections || [])
-          .map(
-            (s) =>
-              `${s.heading || ''} ${(s.paragraphs || []).join(' ')} ${(s.bullets || []).join(' ')}`
-          )
+          .map((s) => {
+            const tableText = s.table
+              ? `${(s.table.headers || []).join(' ')} ${(s.table.rows || [])
+                  .map((r) => r.join(' '))
+                  .join(' ')}`
+              : '';
+            const numText = (s.numberedItems || [])
+              .map((n) => `${n.title || ''} ${n.text || ''}`)
+              .join(' ');
+            return `${s.heading || ''} ${(s.paragraphs || []).join(' ')} ${(
+              s.bullets || []
+            ).join(' ')} ${tableText} ${numText}`;
+          })
           .join(' ')
           .toLowerCase();
 

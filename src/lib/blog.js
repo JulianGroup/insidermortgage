@@ -10,7 +10,14 @@ import {
 export function getAllPublishedPosts() {
   return [...rawPosts]
     .filter((post) => post.status === 'published')
-    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+    .sort((a, b) => {
+      const dateDiff = new Date(b.publishedAt) - new Date(a.publishedAt);
+      if (dateDiff !== 0) return dateDiff;
+      // Put live non-draft articles ahead of draft placeholders on the same date
+      const aDraft = a.isDraftSample ? 1 : 0;
+      const bDraft = b.isDraftSample ? 1 : 0;
+      return aDraft - bDraft;
+    });
 }
 
 export function getPostBySlug(slug) {

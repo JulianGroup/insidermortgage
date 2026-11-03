@@ -12,6 +12,27 @@ import AuthorLicenseCard from '../components/blog/AuthorLicenseCard';
 import ArticleShareBar from '../components/blog/ArticleShareBar';
 import RelatedInsights from '../components/blog/RelatedInsights';
 
+/**
+ * Renders lightweight inline markdown (**bold** and *italic*) safely as React elements.
+ */
+function renderInlineMarkdown(text) {
+  if (!text || typeof text !== 'string') return text;
+  const tokens = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+  return tokens.map((tok, i) => {
+    if (tok.startsWith('**') && tok.endsWith('**') && tok.length > 4) {
+      return (
+        <strong key={i} style={{ color: '#0F172A', fontWeight: 700 }}>
+          {tok.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (tok.startsWith('*') && tok.endsWith('*') && tok.length > 2) {
+      return <em key={i}>{tok.slice(1, -1)}</em>;
+    }
+    return tok;
+  });
+}
+
 export default function BlogPostView({ post }) {
   if (!post) return null;
 
@@ -232,13 +253,20 @@ export default function BlogPostView({ post }) {
             }}
           >
             {(post.sections || []).map((sec, idx) => (
-              <div key={idx} style={{ marginBottom: idx < post.sections.length - 1 ? '2.25rem' : '1rem' }}>
+              <div
+                key={idx}
+                style={{
+                  marginBottom: idx < post.sections.length - 1 ? '2.35rem' : '1rem',
+                  paddingTop: idx > 0 && sec.dividerAbove ? '1.75rem' : 0,
+                  borderTop: idx > 0 && sec.dividerAbove ? '1px solid #E2E8F0' : 'none',
+                }}
+              >
                 {sec.heading && (
                   <h2
                     style={{
                       fontSize: '1.5rem',
                       color: 'var(--primary, #060A2D)',
-                      marginBottom: '0.9rem',
+                      marginBottom: '0.95rem',
                     }}
                   >
                     {sec.heading}
@@ -255,9 +283,81 @@ export default function BlogPostView({ post }) {
                       marginBottom: '1.1rem',
                     }}
                   >
-                    {p}
+                    {renderInlineMarkdown(p)}
                   </p>
                 ))}
+
+                {sec.table && sec.table.headers && (
+                  <div
+                    style={{
+                      overflowX: 'auto',
+                      margin: '1.25rem 0 1.35rem',
+                      borderRadius: '12px',
+                      border: '1px solid #E2E8F0',
+                      boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
+                    }}
+                  >
+                    <table
+                      style={{
+                        width: '100%',
+                        minWidth: '580px',
+                        borderCollapse: 'collapse',
+                        textAlign: 'left',
+                        fontSize: '0.94rem',
+                      }}
+                    >
+                      <thead>
+                        <tr style={{ backgroundColor: 'var(--primary, #060A2D)', color: '#FFFFFF' }}>
+                          {sec.table.headers.map((h, hIdx) => (
+                            <th
+                              key={hIdx}
+                              style={{
+                                padding: '0.85rem 1rem',
+                                fontWeight: 700,
+                                fontSize: '0.88rem',
+                                letterSpacing: '0.02em',
+                                borderRight:
+                                  hIdx < sec.table.headers.length - 1
+                                    ? '1px solid rgba(255,255,255,0.12)'
+                                    : 'none',
+                              }}
+                            >
+                              {renderInlineMarkdown(h)}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(sec.table.rows || []).map((row, rIdx) => (
+                          <tr
+                            key={rIdx}
+                            style={{
+                              backgroundColor: rIdx % 2 === 0 ? '#FFFFFF' : '#F8FAFC',
+                              borderTop: '1px solid #E2E8F0',
+                            }}
+                          >
+                            {row.map((cell, cIdx) => (
+                              <td
+                                key={cIdx}
+                                style={{
+                                  padding: '0.85rem 1rem',
+                                  color: cIdx === 0 ? '#0F172A' : '#334155',
+                                  fontWeight: cIdx === 0 ? 600 : 400,
+                                  lineHeight: 1.55,
+                                  verticalAlign: 'top',
+                                  borderRight:
+                                    cIdx < row.length - 1 ? '1px solid #F1F5F9' : 'none',
+                                }}
+                              >
+                                {renderInlineMarkdown(cell)}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
 
                 {sec.bullets && sec.bullets.length > 0 && (
                   <ul
@@ -270,11 +370,85 @@ export default function BlogPostView({ post }) {
                     }}
                   >
                     {sec.bullets.map((b, bIdx) => (
-                      <li key={bIdx} style={{ marginBottom: '0.55rem' }}>
-                        {b}
+                      <li key={bIdx} style={{ marginBottom: '0.65rem' }}>
+                        {renderInlineMarkdown(b)}
                       </li>
                     ))}
                   </ul>
+                )}
+
+                {sec.numberedItems && sec.numberedItems.length > 0 && (
+                  <ol
+                    style={{
+                      listStyle: 'none',
+                      paddingLeft: 0,
+                      margin: '1.15rem 0',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '1rem',
+                    }}
+                  >
+                    {sec.numberedItems.map((item, nIdx) => (
+                      <li
+                        key={nIdx}
+                        style={{
+                          display: 'flex',
+                          gap: '0.95rem',
+                          alignItems: 'flex-start',
+                          backgroundColor: '#F8FAFC',
+                          border: '1px solid #E2E8F0',
+                          borderRadius: '12px',
+                          padding: '1.1rem 1.25rem',
+                        }}
+                      >
+                        <span
+                          style={{
+                            width: '30px',
+                            height: '30px',
+                            borderRadius: '50%',
+                            backgroundColor: 'var(--primary, #060A2D)',
+                            color: 'var(--accent, #EFB51E)',
+                            fontWeight: 800,
+                            fontSize: '0.9rem',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                            marginTop: '2px',
+                          }}
+                        >
+                          {nIdx + 1}
+                        </span>
+                        <div style={{ flex: 1 }}>
+                          {item.title && (
+                            <div
+                              style={{
+                                fontWeight: 700,
+                                color: '#0F172A',
+                                fontSize: '1.04rem',
+                                marginBottom: '0.3rem',
+                                lineHeight: 1.45,
+                              }}
+                            >
+                              {renderInlineMarkdown(item.title)}
+                            </div>
+                          )}
+                          {item.text && (
+                            <p
+                              style={{
+                                margin: 0,
+                                color: '#334155',
+                                fontSize: '1rem',
+                                lineHeight: 1.7,
+                              }}
+                            >
+                              {renderInlineMarkdown(item.text)}
+                            </p>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
                 )}
               </div>
             ))}
@@ -300,10 +474,10 @@ export default function BlogPostView({ post }) {
                     marginBottom: '0.35rem',
                   }}
                 >
-                  Bottom-Line Takeaway
+                  {post.keyTakeawayTitle || 'Bottom-Line Takeaway'}
                 </div>
                 <p style={{ margin: 0, fontSize: '1.04rem', color: '#0F172A', fontWeight: 500, lineHeight: 1.6 }}>
-                  {post.keyTakeaway}
+                  {renderInlineMarkdown(post.keyTakeaway)}
                 </p>
               </div>
             )}

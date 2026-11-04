@@ -27,11 +27,6 @@ const KNOWN_PAGE_METADATA = {
     description: 'Initial surfing dog hero layout.',
     category: 'homepages'
   },
-  '/home-backup': {
-    title: 'Home Backup (Original Non-Dog Hero)',
-    description: 'Backup of the original homepage layout.',
-    category: 'homepages'
-  },
   '/self-employed-programs': {
     title: 'Self-Employed Mortgage Programs (Hub)',
     description: 'Overview of alternative documentation programs for entrepreneurs, freelancers, and business owners.',

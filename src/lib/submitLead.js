@@ -13,7 +13,6 @@ const ROUTE_LABELS = {
   '/': 'Homepage (Home V6)',
   '/home-v8': 'Home V8',
   '/home-with-dog': 'Home (Surfing Dog)',
-  '/home-backup': 'Home (Backup)',
   '/refinance': 'Refinance Consultation Page',
   '/pre-approval': 'Purchase Pre-Approval Page',
   '/retirees': 'Mortgages for Retirees',

@@ -30,7 +30,7 @@
         ],
         "formula": "Interest Rate = Index (Prime Rate) + Margin",
         "bullets": [
-          "**Prime Rate:** Base index tied directly to Federal Reserve rate changes. Every lender uses the same index. You can track historical rate movements via the [Federal Reserve Historical Prime Rate Table](https://www.federalreserve.gov/datadownload/Choose.aspx?rel=H15).",
+          "**Prime Rate:** Base index tied directly to Federal Reserve rate changes. Every lender uses the same index. You can track the current rate and 10-year historical rate movements via our [U.S. Prime Rate History](https://insidermortgage.com/geek-out/prime-rate-history/) page.",
           "**Margin:** The fixed percentage added to or subtracted from Prime. This is the metric you shop. (e.g., Prime + 0.50% vs. Prime + 1.25%).",
           "**Blended Cost of Capital:** If you are utilizing a HELOC to consolidate debt, calculating your combined effective rate is critical. You can model your blended borrowing rate with this [Weighted Average Interest Rate Calculator](https://insidermortgage.com/geek-out/weighted-average/)."
         ],

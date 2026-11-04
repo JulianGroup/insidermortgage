@@ -30,6 +30,57 @@ import { extractYouTubeId, getYouTubeThumbnail, formatPostDate } from '../lib/bl
 const GITHUB_WORKFLOW_URL =
   'https://github.com/JulianGroup/insidermortgage/actions/workflows/publish-blog.yml';
 
+// Firestore forbids directly nested arrays (e.g., table.rows = [["a","b"],["c","d"]]) and `undefined` values.
+// Wrap table rows as `{ cells: [...] }` (and any generic nested array as `{ __items: [...] }`) on write,
+// and unwrap seamlessly back to plain arrays on read.
+function isPlainObject(obj) {
+  if (!obj || typeof obj !== 'object') return false;
+  const proto = Object.getPrototypeOf(obj);
+  return proto === Object.prototype || proto === null;
+}
+
+function toFirestoreValue(val) {
+  if (val === undefined) return undefined;
+  if (Array.isArray(val)) {
+    return val
+      .filter((item) => item !== undefined)
+      .map((item) => (Array.isArray(item) ? { cells: toFirestoreValue(item) } : toFirestoreValue(item)));
+  }
+  if (isPlainObject(val)) {
+    const out = {};
+    for (const [k, v] of Object.entries(val)) {
+      const converted = toFirestoreValue(v);
+      if (converted !== undefined) out[k] = converted;
+    }
+    return out;
+  }
+  // Preserve Firestore FieldValue sentinels (e.g. serverTimestamp()), Timestamps, Dates, primitives
+  return val;
+}
+
+function fromFirestoreValue(val) {
+  if (Array.isArray(val)) {
+    return val.map((item) => {
+      if (
+        isPlainObject(item) &&
+        Array.isArray(item.cells) &&
+        Object.keys(item).length === 1
+      ) {
+        return fromFirestoreValue(item.cells);
+      }
+      return fromFirestoreValue(item);
+    });
+  }
+  if (isPlainObject(val)) {
+    const out = {};
+    for (const [k, v] of Object.entries(val)) {
+      out[k] = fromFirestoreValue(v);
+    }
+    return out;
+  }
+  return val;
+}
+
 function slugify(str) {
   return (str || '')
     .toLowerCase()
@@ -147,7 +198,7 @@ function BlogStudioInner() {
     setLoadingPosts(true);
     try {
       const snap = await getDocs(collection(db, 'blogPosts'));
-      const list = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+      const list = snap.docs.map((d) => fromFirestoreValue({ id: d.id, ...d.data() }));
       list.sort((a, b) => {
         // Pending review items surface to top for owners
         if (a.status === 'pending' && b.status !== 'pending') return -1;
@@ -184,12 +235,12 @@ function BlogStudioInner() {
       for (const sp of missingSeedPosts) {
         batch.set(
           doc(db, 'blogPosts', sp.id),
-          {
+          toFirestoreValue({
             ...sp,
             importedFromSiteJson: true,
             updatedBy: profile.email,
             updatedAt: serverTimestamp(),
-          },
+          }),
           { merge: true }
         );
       }
@@ -333,7 +384,7 @@ function BlogStudioInner() {
         payload.approvedAt = serverTimestamp();
       }
 
-      await setDoc(doc(db, 'blogPosts', payload.id), payload, { merge: true });
+      await setDoc(doc(db, 'blogPosts', payload.id), toFirestoreValue(payload), { merge: true });
       setEditingPost({ ...payload });
       setIsNewPost(false);
       setSlugTouched(true);

@@ -50,6 +50,32 @@ function decodeFirestoreFields(fields) {
   return out;
 }
 
+// Unwraps `{ cells: [...] }` wrappers used to store 2D table rows in Firestore
+function unwrapNestedArrays(val) {
+  if (Array.isArray(val)) {
+    return val.map((item) => {
+      if (
+        item &&
+        typeof item === 'object' &&
+        !Array.isArray(item) &&
+        Array.isArray(item.cells) &&
+        Object.keys(item).length === 1
+      ) {
+        return unwrapNestedArrays(item.cells);
+      }
+      return unwrapNestedArrays(item);
+    });
+  }
+  if (val && typeof val === 'object') {
+    const out = {};
+    for (const [k, v] of Object.entries(val)) {
+      out[k] = unwrapNestedArrays(v);
+    }
+    return out;
+  }
+  return val;
+}
+
 async function syncPublishedBlogPosts() {
   const url = `https://firestore.googleapis.com/v1/projects/${PROJECT_ID}/databases/(default)/documents:runQuery`;
   const queryBody = {
@@ -82,7 +108,7 @@ async function syncPublishedBlogPosts() {
     .filter((r) => r.document && r.document.fields)
     .map((r) => {
       const docId = r.document.name.split('/').pop();
-      const decoded = decodeFirestoreFields(r.document.fields);
+      const decoded = unwrapNestedArrays(decodeFirestoreFields(r.document.fields));
       for (const auditKey of AUDIT_FIELDS_TO_STRIP) {
         delete decoded[auditKey];
       }

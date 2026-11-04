@@ -265,14 +265,14 @@ function BlogStudioInner() {
       await fn({ reason });
       setBanner({
         type: 'success',
-        text: 'Live website rebuild started! Your published changes will be live on insidermortgage.com in ~60–90 seconds.',
+        text: 'Publishing updates to website! Your changes will be live on insidermortgage.com in ~60–90 seconds.',
       });
     } catch (err) {
       setBanner({
         type: 'warn',
-        text: 'Saved to Firestore as Published! Automatic rebuild trigger is awaiting one-time Cloud Function token setup — click below to run the 1-click GitHub rebuild now:',
+        text: 'Ready to push live! Automatic background trigger is awaiting one-time Cloud Function token setup — click below to publish your updates to the website now:',
         actionUrl: GITHUB_WORKFLOW_URL,
-        actionLabel: 'Run Publish Workflow on GitHub ↗',
+        actionLabel: 'Publish Updates on GitHub ↗',
       });
     } finally {
       setDeploying(false);
@@ -398,7 +398,7 @@ function BlogStudioInner() {
           draft: 'Draft saved privately to Firestore.',
           pending: 'Submitted for owner review! Rakesh and David will see this under "Needs Approval".',
           published: 'Article marked as Published.',
-          archived: 'Article archived — it will be removed from the live site on the next rebuild.',
+          archived: 'Article archived — click "Publish Updates to Website" to remove it from the live site.',
         };
         setBanner({ type: 'success', text: msgMap[targetStatus] || 'Saved.' });
       }
@@ -426,7 +426,7 @@ function BlogStudioInner() {
       await loadPosts();
       setBanner({
         type: 'success',
-        text: 'Article deleted from Firestore. Click "Rebuild Live Website" if it was previously published.',
+        text: 'Article deleted from Firestore. Click "Publish Updates to Website" if it was previously published.',
       });
     } catch (err) {
       setBanner({ type: 'error', text: `Delete failed: ${err.message}` });
@@ -1254,7 +1254,7 @@ function BlogStudioInner() {
               type="button"
               className="btn"
               disabled={deploying || posts.length === 0}
-              onClick={() => triggerWebsiteRebuild('Manual rebuild from Blog Studio')}
+              onClick={() => triggerWebsiteRebuild('Manual publish from Blog Studio')}
               style={{
                 backgroundColor: '#FFFFFF',
                 border: '1px solid #CBD5E1',
@@ -1262,7 +1262,7 @@ function BlogStudioInner() {
                 fontWeight: 700,
               }}
             >
-              {deploying ? 'Starting Rebuild…' : '🚀 Rebuild Live Website'}
+              {deploying ? 'Publishing Updates…' : '🚀 Publish Updates to Website'}
             </button>
           )}
           <button type="button" className="btn btn-primary" onClick={openNewPost}>

@@ -177,6 +177,21 @@ export default function BlogCard({ post, compact = false }) {
               </span>
             ))}
 
+            {categories.length === 0 && post.topicBadge && (
+              <span
+                style={{
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  padding: '0.2rem 0.65rem',
+                  borderRadius: '999px',
+                  backgroundColor: 'rgba(4, 104, 233, 0.08)',
+                  color: 'var(--primary, #060A2D)',
+                }}
+              >
+                {post.topicBadge}
+              </span>
+            )}
+
             {bioTags.length > 0 && categories.length === 0 && (
               <span
                 style={{

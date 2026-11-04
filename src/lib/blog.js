@@ -165,9 +165,20 @@ export function formatAuthorLicenseLine(author) {
   return `${author.name}, NMLS #${author.nmls} | ${C2_CORPORATE.name} dba ${C2_CORPORATE.dba}, NMLS #${author.c2Nmls} | ${stateParts}`;
 }
 
+function stripInlineMarkdown(text) {
+  if (!text || typeof text !== 'string') return '';
+  return text
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/`([^`]+)`/g, '$1');
+}
+
 export function generateShareSnippets(post, siteOrigin = 'https://www.insidermtg.com') {
   const author = getAuthorForPost(post);
   const cleanTitle = post.title.replace(/^Draft:\s*/i, '');
+  const cleanExcerpt = stripInlineMarkdown(post.excerpt);
+  const cleanTakeaway = stripInlineMarkdown(post.keyTakeaway);
   const postUrl = `${siteOrigin.replace(/\/$/, '')}/resource-library/${post.slug}/`;
   const hasVideo = Boolean(extractYouTubeId(post.youtubeUrl));
   const licenseFooter = formatAuthorLicenseLine(author);
@@ -179,9 +190,9 @@ I just put together a new ${hasVideo ? 'video and numbers breakdown' : 'mortgage
 
 ${cleanTitle}
 
-${post.excerpt}
+${cleanExcerpt}
 
-${post.keyTakeaway ? `Key Takeaway: ${post.keyTakeaway}\n\n` : ''}${hasVideo ? 'Watch the video & read the full breakdown here' : 'Read the full breakdown here'}:
+${cleanTakeaway ? `Key Takeaway: ${cleanTakeaway}\n\n` : ''}${hasVideo ? 'Watch the video & read the full breakdown here' : 'Read the full breakdown here'}:
 ${postUrl}
 
 If you ever want me to run these numbers for your specific situation, just reply to this email or give me a call/text at ${author.phone}.
@@ -194,9 +205,9 @@ Equal Housing Opportunity`;
 
   const socialCopy = `${cleanTitle}
 
-${post.excerpt}
+${cleanExcerpt}
 
-${post.keyTakeaway ? `💡 ${post.keyTakeaway}\n\n` : ''}${hasVideo ? '🎥 Watch the walkthrough & run the numbers:' : '📊 Full breakdown & calculators:'} ${postUrl}
+${cleanTakeaway ? `💡 ${cleanTakeaway}\n\n` : ''}${hasVideo ? '🎥 Watch the walkthrough & run the numbers:' : '📊 Full breakdown & calculators:'} ${postUrl}
 
 —
 ${licenseFooter} | Equal Housing Opportunity`;

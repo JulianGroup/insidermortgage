@@ -13,22 +13,94 @@ import ArticleShareBar from '../components/blog/ArticleShareBar';
 import RelatedInsights from '../components/blog/RelatedInsights';
 
 /**
- * Renders lightweight inline markdown (**bold** and *italic*) safely as React elements.
+ * Normalizes same-site URLs (insidermortgage.com / insidermtg.com) to internal Next.js routes.
+ */
+function toInternalHref(url) {
+  if (!url || typeof url !== 'string') return null;
+  const trimmed = url.trim();
+  if (trimmed.startsWith('/')) return trimmed;
+  const match = trimmed.match(/^https?:\/\/(?:www\.)?(?:insidermortgage|insidermtg)\.com(\/.*)?$/i);
+  if (match) {
+    return match[1] || '/';
+  }
+  return null;
+}
+
+/**
+ * Renders lightweight inline markdown (**bold**, *italic*, `code/formula`, and [label](url)) safely as React elements.
  */
 function renderInlineMarkdown(text) {
   if (!text || typeof text !== 'string') return text;
-  const tokens = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+  const tokens = text.split(/(\[[^\]]+\]\([^)]+\)|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g);
   return tokens.map((tok, i) => {
+    if (!tok) return null;
+
+    // Markdown link: [label](url)
+    const linkMatch = tok.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (linkMatch) {
+      const [, label, rawUrl] = linkMatch;
+      const internalHref = toInternalHref(rawUrl);
+      const linkStyle = {
+        color: 'var(--secondary, #0468E9)',
+        fontWeight: 600,
+        textDecoration: 'underline',
+        textUnderlineOffset: '2px',
+      };
+      if (internalHref) {
+        return (
+          <Link key={i} href={internalHref} style={linkStyle}>
+            {renderInlineMarkdown(label)}
+          </Link>
+        );
+      }
+      return (
+        <a
+          key={i}
+          href={rawUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={linkStyle}
+        >
+          {renderInlineMarkdown(label)}
+        </a>
+      );
+    }
+
+    // Bold: **text**
     if (tok.startsWith('**') && tok.endsWith('**') && tok.length > 4) {
       return (
         <strong key={i} style={{ color: '#0F172A', fontWeight: 700 }}>
-          {tok.slice(2, -2)}
+          {renderInlineMarkdown(tok.slice(2, -2))}
         </strong>
       );
     }
+
+    // Italic: *text*
     if (tok.startsWith('*') && tok.endsWith('*') && tok.length > 2) {
       return <em key={i}>{tok.slice(1, -1)}</em>;
     }
+
+    // Inline code / formula chip: `text`
+    if (tok.startsWith('`') && tok.endsWith('`') && tok.length > 2) {
+      return (
+        <span
+          key={i}
+          style={{
+            display: 'inline-block',
+            backgroundColor: '#F1F5F9',
+            border: '1px solid #E2E8F0',
+            borderRadius: '6px',
+            padding: '0.08rem 0.48rem',
+            fontSize: '0.94em',
+            fontWeight: 600,
+            color: '#0F172A',
+          }}
+        >
+          {tok.slice(1, -1)}
+        </span>
+      );
+    }
+
     return tok;
   });
 }
@@ -113,6 +185,20 @@ export default function BlogPostView({ post }) {
                 {cat.icon} {cat.label}
               </Link>
             ))}
+            {categories.length === 0 && post.topicBadge && (
+              <span
+                style={{
+                  fontSize: '0.8rem',
+                  fontWeight: 600,
+                  padding: '0.25rem 0.75rem',
+                  borderRadius: '999px',
+                  backgroundColor: 'rgba(255,255,255,0.12)',
+                  color: '#FFFFFF',
+                }}
+              >
+                {post.topicBadge}
+              </span>
+            )}
           </div>
 
           <h1
@@ -287,6 +373,106 @@ export default function BlogPostView({ post }) {
                   </p>
                 ))}
 
+                {sec.formula && (
+                  <div
+                    style={{
+                      margin: '0.85rem 0 1.35rem',
+                      padding: '1.15rem 1.35rem',
+                      borderRadius: '12px',
+                      backgroundColor: '#F8FAFC',
+                      border: '1.5px solid #CBD5E1',
+                      borderLeft: '4px solid var(--primary, #060A2D)',
+                      textAlign: 'center',
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: 'clamp(0.98rem, 2.2vw, 1.16rem)',
+                        fontWeight: 700,
+                        color: 'var(--primary, #060A2D)',
+                        letterSpacing: '0.01em',
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {renderInlineMarkdown(sec.formula)}
+                    </div>
+                  </div>
+                )}
+
+                {sec.comparisonColumns && sec.comparisonColumns.length > 0 && (
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                      gap: '1rem',
+                      margin: '1.15rem 0 1.35rem',
+                    }}
+                  >
+                    {sec.comparisonColumns.map((col, colIdx) => (
+                      <div
+                        key={colIdx}
+                        style={{
+                          borderRadius: '12px',
+                          overflow: 'hidden',
+                          border: '1px solid #CBD5E1',
+                          backgroundColor: '#FFFFFF',
+                          boxShadow: '0 2px 8px rgba(15, 23, 42, 0.04)',
+                          display: 'flex',
+                          flexDirection: 'column',
+                        }}
+                      >
+                        <div
+                          style={{
+                            backgroundColor: 'var(--primary, #060A2D)',
+                            color: '#FFFFFF',
+                            padding: '0.9rem 1.15rem',
+                            textAlign: 'center',
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontWeight: 800,
+                              fontSize: '0.96rem',
+                              letterSpacing: '0.04em',
+                              textTransform: 'uppercase',
+                            }}
+                          >
+                            {col.title}
+                          </div>
+                          {col.subtitle && (
+                            <div
+                              style={{
+                                fontSize: '0.84rem',
+                                fontWeight: 600,
+                                color: 'var(--accent, #EFB51E)',
+                                marginTop: '0.2rem',
+                              }}
+                            >
+                              {col.subtitle}
+                            </div>
+                          )}
+                        </div>
+                        <ul
+                          style={{
+                            padding: '1.1rem 1.25rem 1.1rem 2.15rem',
+                            margin: 0,
+                            color: '#334155',
+                            fontSize: '0.98rem',
+                            lineHeight: 1.65,
+                            flex: 1,
+                          }}
+                        >
+                          {(col.bullets || []).map((b, bIdx) => (
+                            <li key={bIdx} style={{ marginBottom: bIdx < col.bullets.length - 1 ? '0.5rem' : 0 }}>
+                              {renderInlineMarkdown(b)}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 {sec.table && sec.table.headers && (
                   <div
                     style={{
@@ -300,7 +486,7 @@ export default function BlogPostView({ post }) {
                     <table
                       style={{
                         width: '100%',
-                        minWidth: '580px',
+                        minWidth: sec.table.headers.length > 2 ? '580px' : '100%',
                         borderCollapse: 'collapse',
                         textAlign: 'left',
                         fontSize: '0.94rem',
@@ -450,6 +636,53 @@ export default function BlogPostView({ post }) {
                     ))}
                   </ol>
                 )}
+
+                {sec.subsections &&
+                  sec.subsections.map((sub, subIdx) => (
+                    <div key={subIdx} style={{ marginTop: '1.35rem' }}>
+                      {sub.subheading && (
+                        <h3
+                          style={{
+                            fontSize: '1.18rem',
+                            color: 'var(--primary, #060A2D)',
+                            marginBottom: '0.7rem',
+                          }}
+                        >
+                          {sub.subheading}
+                        </h3>
+                      )}
+                      {(sub.paragraphs || []).map((sp, spIdx) => (
+                        <p
+                          key={spIdx}
+                          style={{
+                            fontSize: '1.06rem',
+                            color: '#334155',
+                            lineHeight: 1.8,
+                            marginBottom: '1.1rem',
+                          }}
+                        >
+                          {renderInlineMarkdown(sp)}
+                        </p>
+                      ))}
+                      {sub.bullets && sub.bullets.length > 0 && (
+                        <ul
+                          style={{
+                            paddingLeft: '1.35rem',
+                            marginBottom: '1.1rem',
+                            color: '#334155',
+                            fontSize: '1.04rem',
+                            lineHeight: 1.75,
+                          }}
+                        >
+                          {sub.bullets.map((sb, sbIdx) => (
+                            <li key={sbIdx} style={{ marginBottom: '0.6rem' }}>
+                              {renderInlineMarkdown(sb)}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
               </div>
             ))}
 
@@ -629,8 +862,8 @@ export default function BlogPostView({ post }) {
         </div>
       </section>
 
-      {/* More Posts in Same Category */}
-      {categories.length > 0 && (
+      {/* More Posts in Same Category or Calculator */}
+      {categories.length > 0 ? (
         <RelatedInsights
           categoryId={categories[0].id}
           excludeSlug={post.slug}
@@ -638,7 +871,15 @@ export default function BlogPostView({ post }) {
           limit={3}
           background="#FFFFFF"
         />
-      )}
+      ) : calculators.length > 0 ? (
+        <RelatedInsights
+          calculatorId={calculators[0].id}
+          excludeSlug={post.slug}
+          title="Related Equity & Calculator Breakdowns"
+          limit={3}
+          background="#FFFFFF"
+        />
+      ) : null}
     </main>
   );
 }

@@ -65,14 +65,25 @@ export default function ResourceLibrary() {
             const numText = (s.numberedItems || [])
               .map((n) => `${n.title || ''} ${n.text || ''}`)
               .join(' ');
-            return `${s.heading || ''} ${(s.paragraphs || []).join(' ')} ${(
+            const compText = (s.comparisonColumns || [])
+              .map((col) => `${col.title || ''} ${col.subtitle || ''} ${(col.bullets || []).join(' ')}`)
+              .join(' ');
+            const subText = (s.subsections || [])
+              .map(
+                (sub) =>
+                  `${sub.subheading || ''} ${(sub.paragraphs || []).join(' ')} ${(
+                    sub.bullets || []
+                  ).join(' ')}`
+              )
+              .join(' ');
+            return `${s.heading || ''} ${s.formula || ''} ${(s.paragraphs || []).join(' ')} ${(
               s.bullets || []
-            ).join(' ')} ${tableText} ${numText}`;
+            ).join(' ')} ${tableText} ${numText} ${compText} ${subText}`;
           })
           .join(' ')
           .toLowerCase();
 
-        const haystack = `${post.title} ${post.excerpt} ${post.keyTakeaway || ''} ${sectionText}`.toLowerCase();
+        const haystack = `${post.title} ${post.topicBadge || ''} ${post.excerpt} ${post.keyTakeaway || ''} ${sectionText}`.toLowerCase();
         if (!haystack.includes(q)) return false;
       }
 

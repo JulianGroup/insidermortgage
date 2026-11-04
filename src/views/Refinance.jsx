@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import TestimonialBox from '../components/TestimonialBox';
 import ScheduleCallForm from '../components/ScheduleCallForm';
+import RelatedInsights from '../components/blog/RelatedInsights';
 
 export default function Refinance() {
   const [activeTab, setActiveTab] = useState(1);
@@ -169,7 +170,7 @@ export default function Refinance() {
       </div>
 
       {/* Testimonial Section */}
-      <div className="container" style={{ marginTop: '4rem' }}>
+      <div className="container" style={{ marginTop: '4rem', marginBottom: '3rem' }}>
         <TestimonialBox 
           title="What Our Clients Say"
           quote="This was our second time working with David and Rakesh at Insider Mortgage, and we came back because the first experience was so great. When we decided to refinance our home, we reached out again, and they handled everything with ease. I've worked with other mortgage brokers before, but David and Rakesh just get us. They understand our goals, know our background, and always find a way to make things happen.
@@ -178,6 +179,13 @@ Our jumbo refinance process was straightforward from start to finish. They told 
           author="Michelle Thompson"
         />
       </div>
+
+      <RelatedInsights
+        routeSlug="refinance"
+        title="Refinance & Home Equity Strategy Guides"
+        subtitle="Deep dives on rate-and-term timing, HELOC shopping, and blended debt strategies."
+        background="#FFFFFF"
+      />
     </main>
   );
 }

@@ -254,8 +254,9 @@ function scanAppDirectory(dirPath, baseRoute = '') {
   const entries = fs.readdirSync(dirPath, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.isDirectory()) {
-      // Skip dynamic route folders like [slug] (handled via seoPages) and TOC itself
-      if (entry.name.startsWith('[') || entry.name.startsWith('_') || entry.name.toLowerCase() === 'toc') {
+      // Skip dynamic route folders like [slug] (handled via seoPages), internal /admin routes, and TOC itself
+      const lowerName = entry.name.toLowerCase();
+      if (entry.name.startsWith('[') || entry.name.startsWith('_') || lowerName === 'toc' || lowerName === 'admin') {
         continue;
       }
       const childRoute = `${baseRoute}/${entry.name}`;

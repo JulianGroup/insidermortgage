@@ -70,6 +70,7 @@ jobs:
         if: steps.check_diff.outputs.changed == 'true'
         working-directory: out
         run: |
+          if [ -f .htaccess ]; then mv .htaccess htaccess.from-build; fi
           MASTER_SHA=$(git -C .. rev-parse --short=8 HEAD)
           git init -q -b dreamhost-build
           git add -A

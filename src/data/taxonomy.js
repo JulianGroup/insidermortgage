@@ -216,3 +216,20 @@ export const BIO_TAGS = [
     route: '/bio-david',
   },
 ];
+
+export const SPECIFIC_ROUTE_OPTIONS = [
+  { slug: 'self-employed-programs', label: 'Self-Employed Hub (/self-employed-programs)' },
+  { slug: 'bank-statement-loans', label: 'Bank Statement Loans (/bank-statement-loans)' },
+  { slug: '1099-loans', label: '1099 Income Loans (/1099-loans)' },
+  { slug: 'mortgage-for-contractors', label: 'Independent Contractors (/mortgage-for-contractors)' },
+  { slug: 'mortgage-for-small-business', label: 'Small Business Owners (/mortgage-for-small-business)' },
+  { slug: 'mortgage-for-llc', label: 'LLC Owners (/mortgage-for-llc)' },
+  { slug: 'mortgage-for-scorp', label: 'S-Corp Owners (/mortgage-for-scorp)' },
+  { slug: 'mortgage-for-gig-workers', label: 'Gig Workers & Freelancers (/mortgage-for-gig-workers)' },
+  { slug: 'mortgage-for-realtors', label: 'Realtors & Agents (/mortgage-for-realtors)' },
+  { slug: 'first-time', label: 'First-Time Home Buyers (/first-time)' },
+  { slug: 'pre-approval', label: 'Purchase Pre-Approval (/pre-approval)' },
+  { slug: 'refinance', label: 'Refinance & Home Equity (/refinance)' },
+  { slug: 'dscr-loans', label: 'DSCR Investor Loans (/dscr-loans)' },
+  { slug: 'retirees', label: 'Retirees & 55+ (/retirees)' },
+];

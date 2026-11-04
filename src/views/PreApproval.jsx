@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import TestimonialBox from '../components/TestimonialBox';
 import ScheduleCallForm from '../components/ScheduleCallForm';
+import RelatedInsights from '../components/blog/RelatedInsights';
 
 export default function PreApproval() {
   const [activeTab, setActiveTab] = useState(1);
@@ -188,13 +189,20 @@ export default function PreApproval() {
       </div>
 
       {/* Testimonial Section */}
-      <div className="container" style={{ marginTop: '4rem' }}>
+      <div className="container" style={{ marginTop: '4rem', marginBottom: '3rem' }}>
         <TestimonialBox 
           title="What Our Clients Say"
           quote="David, Rakesh and Insider Mortgage are incredibly skilled at what they do. We have been grateful for their expertise through the purchase, financing and refinancing of 3 homes over the past 20 years. Each transaction was as smooth as can be, they were able to secure the best rates available at the time, and facilitated no cost/no hassle refinancing when rates dropped--saved us a lot of money over time. They are incredibly responsive and on top of every possible detail, every step of the way. Work ethic, experience, knowledge, efficiency, skill AND even a sense of humor to lighten things up along the way. Highly recommend!"
           author="Drs. Andy & Kristin Hampshire"
         />
       </div>
+
+      <RelatedInsights
+        routeSlug="pre-approval"
+        title="Home Buying & Pre-Approval Guides"
+        subtitle="Practical walkthroughs on underwriting, contingencies, and winning offers."
+        background="#FFFFFF"
+      />
 
     </main>
   );

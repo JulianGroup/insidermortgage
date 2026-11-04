@@ -1,5 +1,7 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { getFunctions } from 'firebase/functions';
 
 // Firebase configuration for "IMC Website" (imc-website-2026)
 const firebaseConfig = {
@@ -13,5 +15,7 @@ const firebaseConfig = {
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
+const auth = getAuth(app);
+const functions = getFunctions(app, 'us-central1');
 
-export { app, db };
+export { app, db, auth, functions };

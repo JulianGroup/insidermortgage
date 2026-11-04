@@ -23,9 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
-# Next.js build output (build fresh before deploying)
+# Next.js & Firebase build/cache output
 .next
 out
+.firebase
 
 # Environment & credentials
 .env

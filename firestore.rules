@@ -10,5 +10,46 @@ service cloud.firestore {
       allow create: if true;
       allow read, update, delete: if false;
     }
+
+    // ---------- Admin Portal (Phase 3) ----------
+    // Owners are bootstrapped by verified email (keep in sync with ADMIN_EMAIL_WHITELIST in src/data/taxonomy.js).
+    function verified() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+    function isOwner() {
+      return verified() && request.auth.token.email.lower() in [
+        'rakeshjain100@gmail.com',
+        'rjain@insidermtg.com',
+        'davidsider@gmail.com',
+        'dsider@insidermtg.com'
+      ];
+    }
+    function staffDoc() {
+      return get(/databases/$(database)/documents/staff/$(request.auth.token.email.lower())).data;
+    }
+    function isActiveStaff() {
+      return verified()
+        && exists(/databases/$(database)/documents/staff/$(request.auth.token.email.lower()))
+        && staffDoc().active != false;
+    }
+    function hasPermission(p) {
+      return isOwner() || (isActiveStaff() && p in staffDoc().permissions);
+    }
+
+    // Staff profiles: owners manage; each person may read only their own profile.
+    match /staff/{email} {
+      allow read: if isOwner() || (verified() && request.auth.token.email.lower() == email);
+      allow write: if isOwner();
+    }
+
+    // Blog Studio: published posts are public (so static build sync & public preview can read them);
+    // drafts, pending review items, and archived posts are strictly restricted to authorized blog staff/owners.
+    // Staff with 'blog' permission may only save 'draft' or 'pending'; only owners may approve/publish/archive/delete.
+    match /blogPosts/{postId} {
+      allow read: if resource.data.status == 'published' || hasPermission('blog');
+      allow create, update: if hasPermission('blog')
+        && (isOwner() || request.resource.data.status in ['draft', 'pending']);
+      allow delete: if isOwner();
+    }
   }
 }

@@ -10,6 +10,7 @@
     "lint": "next lint",
     "update-data": "node fetch_data.cjs",
     "update-prime": "node fetch_prime_rate.cjs",
+    "sync-blog": "node sync_blog_posts.cjs",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d out -b dreamhost-build -t -m \"Build of master\""
   },

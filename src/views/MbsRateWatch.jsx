@@ -748,7 +748,7 @@ export default function MbsRateWatch() {
             </div>
 
             <div className="lb-advisory-actions">
-              <Link href="/home-v8#contact" className="lb-btn-gold">
+              <Link href="/#contact" className="lb-btn-gold">
                 Request a Rate Lock Review →
               </Link>
               <Link href="/geek-out/yield-curve" className="lb-btn-outline">

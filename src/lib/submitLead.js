@@ -11,11 +11,6 @@ const GOOGLE_SCRIPT_WEBHOOK_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || '
 
 const ROUTE_LABELS = {
   '/': 'Homepage (Home V6)',
-  '/home-v2': 'Home V2',
-  '/home-v4': 'Home V4',
-  '/home-v5': 'Home V5',
-  '/home-v6': 'Home V6',
-  '/home-v7': 'Home V7',
   '/home-v8': 'Home V8',
   '/home-with-dog': 'Home (Surfing Dog)',
   '/home-backup': 'Home (Backup)',

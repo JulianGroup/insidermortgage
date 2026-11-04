@@ -12,42 +12,14 @@ export const metadata = {
 // Curated descriptions & titles for known routes; any new page automatically falls back to its page.jsx metadata or formatted slug
 const KNOWN_PAGE_METADATA = {
   '/': {
-    title: 'Primary Homepage (Current Root)',
-    description: 'The main live root page of Insider Mortgage.',
+    title: 'Primary Homepage (Current Root — V6)',
+    description: 'The main live root page of Insider Mortgage (powered by HomeV6 / HeroV6).',
     category: 'homepages'
   },
   '/home-v8': {
     title: 'Home V8 — Land-book Editorial Redesign',
     description: 'Editorial split-screen advisory hero, framed surfing dog showcase, Bento specialty grid, and full-page Land-book redesign.',
     highlight: 'NEW • V8',
-    category: 'homepages'
-  },
-  '/home-v7': {
-    title: 'Home V7 — Splash Page (Plain Text Specialties & Gold Bullets)',
-    description: 'Aspect-ratio locked surfing dog splash page with plain text specialties and round gold bullet separators in the footer band.',
-    highlight: 'V7',
-    category: 'homepages'
-  },
-  '/home-v6': {
-    title: 'Home V6 — Splash Page (5 Gold Specialty Pill Buttons)',
-    description: 'Aspect-ratio locked surfing dog splash page with 5 gold pill buttons including Borrowers with Complicated Scenarios.',
-    highlight: 'V6',
-    category: 'homepages'
-  },
-  '/home-v5': {
-    title: 'Home V5 — Splash Page (Tool & Strategy Cards + 5 Pills)',
-    description: 'Surfing dog splash page featuring the TOOL / STRATEGY left cards, custom headline graphic, and Team Insider bio header.',
-    highlight: 'V5',
-    category: 'homepages'
-  },
-  '/home-v4': {
-    title: 'Home V4 — Splash Page V4',
-    description: 'Earlier splash page iteration using SplashPageV4 artwork.',
-    category: 'homepages'
-  },
-  '/home-v2': {
-    title: 'Home V2 — Surfing Dog V2',
-    description: 'Earlier surfing dog hero with horizontal Purchase Pre-Approval, Refinance, and Request Consultation buttons.',
     category: 'homepages'
   },
   '/home-with-dog': {

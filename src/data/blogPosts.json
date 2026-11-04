@@ -14,7 +14,7 @@
     "videoPlaceholderNote": "",
     "categories": [],
     "specificRoutes": ["refinance"],
-    "calculators": ["calc-weighted-avg"],
+    "calculators": ["calc-weighted-avg", "calc-prime-rate"],
     "bioTags": [],
     "sections": [
       {

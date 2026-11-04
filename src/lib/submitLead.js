@@ -28,7 +28,8 @@ const ROUTE_LABELS = {
   '/mortgage-for-realtors': 'Mortgages for Realtors',
   '/mortgage-for-scorp': 'Mortgages for S-Corps',
   '/mortgage-for-small-business': 'Mortgages for Small Business Owners',
-  '/CAprop-19-calculator': 'CA Prop 19 Calculator'
+  '/CAprop-19-calculator': 'CA Prop 19 Calculator',
+  '/geek-out/prime-rate-history': 'U.S. Prime Rate History'
 };
 
 function getPageContext(defaultSource) {

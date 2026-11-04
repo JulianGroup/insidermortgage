@@ -191,6 +191,15 @@ export const CALCULATOR_TAGS = [
       'Watch live UMBS 30-Year coupon pricing and 10-Year Treasury basis-point movements.',
     ctaLabel: 'View Live MBS Rate Watch',
   },
+  {
+    id: 'calc-prime-rate',
+    label: 'U.S. Prime Rate & 10-Year History',
+    shortLabel: 'Prime Rate History',
+    route: '/geek-out/prime-rate-history',
+    description:
+      'Track the current U.S. Prime Rate, FOMC rate vote summaries, and every Prime Rate change over the last 10 years.',
+    ctaLabel: 'View 10-Year Prime Rate History',
+  },
 ];
 
 export const BIO_TAGS = [

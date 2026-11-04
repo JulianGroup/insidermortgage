@@ -1,0 +1,79 @@
+name: Auto-Update Prime Rate After FOMC & Deploy
+
+on:
+  schedule:
+    # FOMC votes conclude on scheduled Wednesdays at 2:00 PM ET.
+    # Ping FRED Thursday morning & afternoon (the day after FOMC votes) and Friday afternoon (H.15 confirmation):
+    - cron: '0 14,20 * * 4'
+    - cron: '0 21 * * 5'
+  workflow_dispatch: # Allows manual trigger anytime from GitHub Actions
+
+permissions:
+  contents: write
+
+jobs:
+  update-prime-rate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch Latest FRED Prime Rate & FOMC Target Range
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: npm run update-prime
+
+      - name: Check for Prime Rate or FOMC Changes
+        id: check_diff
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/primeRateData.json
+          if git diff --staged --quiet; then
+            echo "Prime Rate & FOMC status already up to date — skipping rebuild."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "chore(data): auto-update U.S. Prime Rate & FOMC status [skip ci]"
+            git push origin master
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build Static Site
+        if: steps.check_diff.outputs.changed == 'true'
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Check the export is built for the domain root
+        if: steps.check_diff.outputs.changed == 'true'
+        run: |
+          test -f out/index.html
+          if grep -q '/insidermortgage/' out/index.html; then
+            echo "::error::out/index.html still uses the /insidermortgage basePath; remove basePath from next.config.mjs"
+            exit 1
+          fi
+
+      - name: Publish to the dreamhost-build branch
+        if: steps.check_diff.outputs.changed == 'true'
+        working-directory: out
+        run: |
+          MASTER_SHA=$(git -C .. rev-parse --short=8 HEAD)
+          git init -q -b dreamhost-build
+          git add -A
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -q -m "Build of master ${MASTER_SHA}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" HEAD:dreamhost-build

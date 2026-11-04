@@ -109,6 +109,13 @@ const Header = () => {
                 • MBS &amp; Treasury Rate Watch
               </Link>
               <Link
+                href="/geek-out/prime-rate-history"
+                className="mobile-sublink"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                • U.S. Prime Rate History
+              </Link>
+              <Link
                 href="/geek-out/weighted-average"
                 className="mobile-sublink"
                 onClick={() => setMobileMenuOpen(false)}

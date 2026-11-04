@@ -113,6 +113,12 @@ const KNOWN_PAGE_METADATA = {
     highlight: 'NEW • LIVE',
     category: 'calculators'
   },
+  '/geek-out/prime-rate-history': {
+    title: 'U.S. Prime Rate History (Last 10 Years)',
+    description: 'Current U.S. Prime Rate, FOMC interest rate vote summaries, and 10-year Prime Rate change history sorted newest to oldest.',
+    highlight: 'NEW • FOMC',
+    category: 'calculators'
+  },
   '/big-picture': {
     title: 'The Big Picture (Economic & Rate Insights)',
     description: 'Macroeconomic perspective and interest rate cycle analysis.',

@@ -1,9 +1,9 @@
 {
-  "lastChecked": "2026-11-04",
-  "currentPrimeRate": 7.0,
+  "lastChecked": "2026-11-05",
+  "currentPrimeRate": 7,
   "currentEffectiveDate": "2026-09-17",
   "fedFundsTargetLower": 3.75,
-  "fedFundsTargetUpper": 4.0,
+  "fedFundsTargetUpper": 4,
   "lastFomcMeeting": {
     "date": "2026-10-28",
     "action": "maintained",
@@ -28,36 +28,191 @@
     "2027-12-08"
   ],
   "changes": [
-    { "date": "2026-09-17", "rate": 7.0, "previousRate": 6.75, "change": 0.25 },
-    { "date": "2025-12-11", "rate": 6.75, "previousRate": 7.0, "change": -0.25 },
-    { "date": "2025-10-30", "rate": 7.0, "previousRate": 7.25, "change": -0.25 },
-    { "date": "2025-09-18", "rate": 7.25, "previousRate": 7.5, "change": -0.25 },
-    { "date": "2024-12-19", "rate": 7.5, "previousRate": 7.75, "change": -0.25 },
-    { "date": "2024-11-08", "rate": 7.75, "previousRate": 8.0, "change": -0.25 },
-    { "date": "2024-09-19", "rate": 8.0, "previousRate": 8.5, "change": -0.5 },
-    { "date": "2023-07-27", "rate": 8.5, "previousRate": 8.25, "change": 0.25 },
-    { "date": "2023-05-04", "rate": 8.25, "previousRate": 8.0, "change": 0.25 },
-    { "date": "2023-03-23", "rate": 8.0, "previousRate": 7.75, "change": 0.25 },
-    { "date": "2023-02-02", "rate": 7.75, "previousRate": 7.5, "change": 0.25 },
-    { "date": "2022-12-15", "rate": 7.5, "previousRate": 7.0, "change": 0.5 },
-    { "date": "2022-11-03", "rate": 7.0, "previousRate": 6.25, "change": 0.75 },
-    { "date": "2022-09-22", "rate": 6.25, "previousRate": 5.5, "change": 0.75 },
-    { "date": "2022-07-28", "rate": 5.5, "previousRate": 4.75, "change": 0.75 },
-    { "date": "2022-06-16", "rate": 4.75, "previousRate": 4.0, "change": 0.75 },
-    { "date": "2022-05-05", "rate": 4.0, "previousRate": 3.5, "change": 0.5 },
-    { "date": "2022-03-17", "rate": 3.5, "previousRate": 3.25, "change": 0.25 },
-    { "date": "2020-03-16", "rate": 3.25, "previousRate": 4.25, "change": -1.0 },
-    { "date": "2020-03-04", "rate": 4.25, "previousRate": 4.75, "change": -0.5 },
-    { "date": "2019-10-31", "rate": 4.75, "previousRate": 5.0, "change": -0.25 },
-    { "date": "2019-09-19", "rate": 5.0, "previousRate": 5.25, "change": -0.25 },
-    { "date": "2019-08-01", "rate": 5.25, "previousRate": 5.5, "change": -0.25 },
-    { "date": "2018-12-20", "rate": 5.5, "previousRate": 5.25, "change": 0.25 },
-    { "date": "2018-09-27", "rate": 5.25, "previousRate": 5.0, "change": 0.25 },
-    { "date": "2018-06-14", "rate": 5.0, "previousRate": 4.75, "change": 0.25 },
-    { "date": "2018-03-22", "rate": 4.75, "previousRate": 4.5, "change": 0.25 },
-    { "date": "2017-12-14", "rate": 4.5, "previousRate": 4.25, "change": 0.25 },
-    { "date": "2017-06-15", "rate": 4.25, "previousRate": 4.0, "change": 0.25 },
-    { "date": "2017-03-16", "rate": 4.0, "previousRate": 3.75, "change": 0.25 },
-    { "date": "2016-12-15", "rate": 3.75, "previousRate": 3.5, "change": 0.25 }
+    {
+      "date": "2026-09-17",
+      "rate": 7,
+      "previousRate": 6.75,
+      "change": 0.25
+    },
+    {
+      "date": "2025-12-11",
+      "rate": 6.75,
+      "previousRate": 7,
+      "change": -0.25
+    },
+    {
+      "date": "2025-10-30",
+      "rate": 7,
+      "previousRate": 7.25,
+      "change": -0.25
+    },
+    {
+      "date": "2025-09-17",
+      "rate": 7.25,
+      "previousRate": 7.5,
+      "change": -0.25
+    },
+    {
+      "date": "2024-12-19",
+      "rate": 7.5,
+      "previousRate": 7.75,
+      "change": -0.25
+    },
+    {
+      "date": "2024-11-08",
+      "rate": 7.75,
+      "previousRate": 8,
+      "change": -0.25
+    },
+    {
+      "date": "2024-09-19",
+      "rate": 8,
+      "previousRate": 8.5,
+      "change": -0.5
+    },
+    {
+      "date": "2023-07-27",
+      "rate": 8.5,
+      "previousRate": 8.25,
+      "change": 0.25
+    },
+    {
+      "date": "2023-05-04",
+      "rate": 8.25,
+      "previousRate": 8,
+      "change": 0.25
+    },
+    {
+      "date": "2023-03-23",
+      "rate": 8,
+      "previousRate": 7.75,
+      "change": 0.25
+    },
+    {
+      "date": "2023-02-02",
+      "rate": 7.75,
+      "previousRate": 7.5,
+      "change": 0.25
+    },
+    {
+      "date": "2022-12-15",
+      "rate": 7.5,
+      "previousRate": 7,
+      "change": 0.5
+    },
+    {
+      "date": "2022-11-03",
+      "rate": 7,
+      "previousRate": 6.25,
+      "change": 0.75
+    },
+    {
+      "date": "2022-09-22",
+      "rate": 6.25,
+      "previousRate": 5.5,
+      "change": 0.75
+    },
+    {
+      "date": "2022-07-28",
+      "rate": 5.5,
+      "previousRate": 4.75,
+      "change": 0.75
+    },
+    {
+      "date": "2022-06-16",
+      "rate": 4.75,
+      "previousRate": 4,
+      "change": 0.75
+    },
+    {
+      "date": "2022-05-05",
+      "rate": 4,
+      "previousRate": 3.5,
+      "change": 0.5
+    },
+    {
+      "date": "2022-03-17",
+      "rate": 3.5,
+      "previousRate": 3.25,
+      "change": 0.25
+    },
+    {
+      "date": "2020-03-16",
+      "rate": 3.25,
+      "previousRate": 4.25,
+      "change": -1
+    },
+    {
+      "date": "2020-03-04",
+      "rate": 4.25,
+      "previousRate": 4.75,
+      "change": -0.5
+    },
+    {
+      "date": "2019-10-31",
+      "rate": 4.75,
+      "previousRate": 5,
+      "change": -0.25
+    },
+    {
+      "date": "2019-09-19",
+      "rate": 5,
+      "previousRate": 5.25,
+      "change": -0.25
+    },
+    {
+      "date": "2019-08-01",
+      "rate": 5.25,
+      "previousRate": 5.5,
+      "change": -0.25
+    },
+    {
+      "date": "2018-12-20",
+      "rate": 5.5,
+      "previousRate": 5.25,
+      "change": 0.25
+    },
+    {
+      "date": "2018-09-27",
+      "rate": 5.25,
+      "previousRate": 5,
+      "change": 0.25
+    },
+    {
+      "date": "2018-06-14",
+      "rate": 5,
+      "previousRate": 4.75,
+      "change": 0.25
+    },
+    {
+      "date": "2018-03-22",
+      "rate": 4.75,
+      "previousRate": 4.5,
+      "change": 0.25
+    },
+    {
+      "date": "2017-12-14",
+      "rate": 4.5,
+      "previousRate": 4.25,
+      "change": 0.25
+    },
+    {
+      "date": "2017-06-15",
+      "rate": 4.25,
+      "previousRate": 4,
+      "change": 0.25
+    },
+    {
+      "date": "2017-03-16",
+      "rate": 4,
+      "previousRate": 3.75,
+      "change": 0.25
+    },
+    {
+      "date": "2016-12-15",
+      "rate": 3.75,
+      "previousRate": 3.5,
+      "change": 0.25
+    }
   ]
 }

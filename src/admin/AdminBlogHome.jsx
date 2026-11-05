@@ -16,6 +16,7 @@ import AdminGuard from './AdminGuard';
 import { useAdminAuth } from './AuthContext';
 import SectionEditor from './blog/SectionEditor';
 import ShareKitPanel from './blog/ShareKitPanel';
+import AiFormatterPanel from './blog/AiFormatterPanel';
 import BlogPostView from '../views/BlogPostView';
 import seedPosts from '../data/blogPosts.json';
 import {
@@ -320,6 +321,29 @@ function BlogStudioInner() {
       ? arr.filter((v) => v !== itemValue)
       : [...arr, itemValue];
     updateDraft({ [field]: next });
+  };
+
+  const applyAiFormattedDraft = (formatted) => {
+    setEditingPost((prev) => ({
+      ...prev,
+      title: formatted.title || prev.title,
+      slug: !slugTouched || !prev.slug ? formatted.slug : prev.slug,
+      topicBadge: formatted.topicBadge || prev.topicBadge,
+      excerpt: formatted.excerpt || prev.excerpt,
+      readTimeMinutes: formatted.readTimeMinutes || prev.readTimeMinutes,
+      categories: formatted.categories,
+      specificRoutes: formatted.specificRoutes,
+      calculators: formatted.calculators,
+      bioTags: formatted.bioTags,
+      sections: formatted.sections,
+      keyTakeawayTitle: formatted.keyTakeawayTitle || prev.keyTakeawayTitle,
+      keyTakeaway: formatted.keyTakeaway || prev.keyTakeaway,
+    }));
+    setDirty(true);
+    setBanner({
+      type: 'success',
+      text: '✨ AI formatted and filled the form! Review and tweak any section below (or check "2. Live Website Preview"), then click Save Draft or Approve & Publish.',
+    });
   };
 
   const saveWithStatus = async (targetStatus, autoRebuild = false) => {
@@ -732,6 +756,15 @@ function BlogStudioInner() {
 
         {activeTab === 'edit' && (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.35rem' }}>
+            {/* AI Draft Formatter Panel */}
+            <AiFormatterPanel
+              key={editingPost.id}
+              isNewPost={isNewPost}
+              editingPost={editingPost}
+              onChangeAuthor={(authorId) => updateDraft({ authorId })}
+              onApplyFormattedDraft={applyAiFormattedDraft}
+            />
+
             {/* Core Metadata Card */}
             <div
               style={{

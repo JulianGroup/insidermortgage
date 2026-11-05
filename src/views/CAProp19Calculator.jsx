@@ -7,10 +7,10 @@ import RelatedInsights from '../components/blog/RelatedInsights';
 
 export default function CAProp19Calculator() {
   const [address, setAddress] = useState('');
-  const [netTaxableValue, setNetTaxableValue] = useState('1154400');
+  const [netTaxableValue, setNetTaxableValue] = useState('');
 
-  const [salePrice, setSalePrice] = useState('1350000');
-  const [purchasePrice, setPurchasePrice] = useState('1500000');
+  const [salePrice, setSalePrice] = useState('');
+  const [purchasePrice, setPurchasePrice] = useState('');
   const [timingMultiplier, setTimingMultiplier] = useState(1.05);
   const [taxRate, setTaxRate] = useState('1.15');
 
@@ -148,7 +148,7 @@ export default function CAProp19Calculator() {
                     type="text"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    placeholder="e.g. 16557 4S Ranch Pkwy, San Diego, CA 92127"
+                    placeholder="e.g. 123 Main St, San Diego, CA"
                     style={{
                       flex: '1 1 240px',
                       padding: '11px 14px',
@@ -187,44 +187,19 @@ export default function CAProp19Calculator() {
               </div>
 
               {/* Single Net Taxable Value Input */}
-              <div style={{ marginBottom: '1.25rem' }}>
+              <div>
                 <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#1e293b', marginBottom: '6px' }}>
                   Current Net Taxable Value ($)
                 </label>
                 <CurrencyInput
                   value={netTaxableValue}
                   onChange={setNetTaxableValue}
-                  placeholder="e.g. $1,154,400"
+                  placeholder="$0"
                   style={{ width: '100%', padding: '11px 14px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '1rem', fontWeight: 600 }}
                 />
-                <p style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '6px' }}>
+                <p style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '6px', marginBottom: 0 }}>
                   Enter your current Net Taxable Value from your county property tax bill (or assessor portal). This is the protected base amount that transfers under Prop 19.
                 </p>
-              </div>
-
-              {/* Net Base Callout */}
-              <div style={{
-                backgroundColor: '#ecfdf5',
-                border: '1px solid #a7f3d0',
-                borderRadius: '10px',
-                padding: '14px 18px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '10px'
-              }}>
-                <div>
-                  <span style={{ fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', color: '#065f46', letterSpacing: '0.04em' }}>
-                    Net Factored Base Value (Transfers under Prop 19)
-                  </span>
-                  <div style={{ fontSize: '1.45rem', fontWeight: 800, color: '#065f46' }}>
-                    {currencyFmt.format(calculations.originalBase)}
-                  </div>
-                </div>
-                <span style={{ padding: '4px 10px', backgroundColor: '#d1fae5', color: '#065f46', borderRadius: '6px', fontSize: '0.8rem', fontWeight: 600 }}>
-                  Current Tax Base
-                </span>
               </div>
             </div>
 
@@ -268,11 +243,7 @@ export default function CAProp19Calculator() {
                   <CurrencyInput
                     value={salePrice}
                     onChange={setSalePrice}
-                    placeholder={
-                      timingMultiplier > 1.0
-                        ? (streetName ? `Expected sales price for ${streetName}` : 'Expected Sales Price')
-                        : (streetName ? `Sales price for ${streetName}` : 'Original Home Sale Price')
-                    }
+                    placeholder="$0"
                     style={{ width: '100%', padding: '11px 14px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '0.95rem' }}
                   />
                 </div>
@@ -285,11 +256,7 @@ export default function CAProp19Calculator() {
                   <CurrencyInput
                     value={purchasePrice}
                     onChange={setPurchasePrice}
-                    placeholder={
-                      timingMultiplier > 1.0
-                        ? 'Expected Replacement Purchase Price'
-                        : 'New Replacement Purchase Price'
-                    }
+                    placeholder="$0"
                     style={{ width: '100%', padding: '11px 14px', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '0.95rem' }}
                   />
                 </div>

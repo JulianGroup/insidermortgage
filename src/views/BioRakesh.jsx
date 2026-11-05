@@ -39,6 +39,9 @@ const BioRakesh = () => {
               <p>
                 When you partner with Insider Mortgage, you get the combined elite expertise of Rakesh and his partner, David Sider. Together, they break through the traditional corporate red tape to deliver a highly responsive, boutique lending experience built on daily transparency, quick 21-day average closings, and a genuine care for your family's future.
               </p>
+              <p>
+                Outside of work, Rakesh stays active through golf, skiing, and stand-up paddle boarding. He is also currently studying for his mortgage broker license and exploring practical applications of AI to better serve clients.
+              </p>
               <div>
                 <strong style={{ color: 'var(--primary)' }}>Licensed to Serve You In:</strong>
                 <ul style={{ listStyleType: 'none', paddingLeft: 0, marginTop: '0.5rem' }}>

@@ -26,6 +26,8 @@ export async function generateMetadata({ params }) {
     title: `${post.title} | Insider Mortgage`,
     description: post.excerpt,
     authors: [{ name: author.name }],
+    // Draft-sample posts stay out of Google until finalized.
+    ...(post.isDraftSample ? { robots: { index: false, follow: false } } : {}),
     openGraph: {
       title: post.title,
       description: post.excerpt,

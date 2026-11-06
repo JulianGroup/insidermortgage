@@ -5,6 +5,7 @@ import { seoPages } from '../../src/data/seoPages';
 import { getAllPublishedPosts, getAuthorForPost } from '../../src/lib/blog';
 
 export const metadata = {
+  robots: { index: false, follow: false },
   title: 'Table of Contents | Insider Mortgage',
   description: 'Auto-updating categorized directory of all published pages on Insider Mortgage.',
 };

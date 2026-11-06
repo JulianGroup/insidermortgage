@@ -5,6 +5,19 @@ import ScheduleCallForm from '../components/ScheduleCallForm';
 import CurrencyInput from '../components/CurrencyInput';
 import RelatedInsights from '../components/blog/RelatedInsights';
 
+const COUNTY_BOE19B_LINKS = [
+  { name: 'Alameda County', url: 'https://www.capropeforms.org/counties/alameda/form/BOE-19-B/2026' },
+  { name: 'Contra Costa County', url: 'https://www.capropeforms.org/counties/contra_costa/form/BOE-19-B/2026' },
+  { name: 'Fresno County', url: 'https://www.capropeforms.org/counties/fresno/form/BOE-19-B/2026' },
+  { name: 'Los Angeles County', url: 'https://res.cloudinary.com/los-angeles-county-assessor/image/upload/v1624341176/Form/BOE-19-B.pdf' },
+  { name: 'Orange County', url: 'https://www.capropeforms.org/counties/orange/form/BOE-19-B/2026' },
+  { name: 'Riverside County', url: 'https://www.rivcoacr.org/Proposition19' },
+  { name: 'Sacramento County', url: 'https://www.capropeforms.org/counties/sacramento/form/BOE-19-B/2026' },
+  { name: 'San Bernardino County', url: 'https://arc.sbcounty.gov/prop19/' },
+  { name: 'San Diego County', url: 'https://www.sdarcc.gov/content/dam/arcc/assessor/forms/property-tax-exemption-and-exclusion-forms/19BSeniorExcl.pdf' },
+  { name: 'Santa Clara County', url: 'https://www.capropeforms.org/counties/santa_clara/form/BOE-19-B/2026' }
+];
+
 export default function CAProp19Calculator() {
   const [address, setAddress] = useState('');
   const [netTaxableValue, setNetTaxableValue] = useState('');
@@ -13,6 +26,7 @@ export default function CAProp19Calculator() {
   const [purchasePrice, setPurchasePrice] = useState('');
   const [timingMultiplier, setTimingMultiplier] = useState(1.05);
   const [taxRate, setTaxRate] = useState('1.15');
+  const [selectedCountyUrl, setSelectedCountyUrl] = useState('');
 
   // Extract street address from user's entered address (e.g. "123 Main St, San Diego" -> "123 Main St")
   const streetName = useMemo(() => {
@@ -288,24 +302,84 @@ export default function CAProp19Calculator() {
                 Official California Prop 19 Claim Filing
               </h3>
               <p style={{ marginBottom: '1rem', lineHeight: 1.6 }}>
-                To claim your tax transfer, you must file <strong>Form BOE-19-B</strong> (<em>Claim for Transfer of Base Year Value to Replacement Primary Residence for Persons at Least Age 55 Years</em>) with your county assessor within 3 years of purchasing the replacement home.
+                To claim your tax transfer, you must file <strong>Form BOE-19-B</strong> (<em>Claim for Transfer of Base Year Value to Replacement Primary Residence for Persons at Least Age 55 Years</em>) with the county assessor where your replacement home is located within 3 years of purchase.
               </p>
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <a
-                  href="https://www.boe.ca.gov/proptaxes/pdf/boe19b.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    color: '#060a2d',
-                    fontWeight: 700,
-                    textDecoration: 'underline'
-                  }}
+              <div>
+                <label
+                  htmlFor="prop19-county-select"
+                  style={{ display: 'block', fontSize: '0.88rem', fontWeight: 600, color: '#1e293b', marginBottom: '6px' }}
                 >
-                  Download Official State Form BOE-19-B (PDF) ↗
-                </a>
+                  Replacement Home County (Form BOE-19-B)
+                </label>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  <select
+                    id="prop19-county-select"
+                    value={selectedCountyUrl}
+                    onChange={(e) => setSelectedCountyUrl(e.target.value)}
+                    style={{
+                      flex: '1 1 210px',
+                      padding: '11px 14px',
+                      border: '1px solid #cbd5e1',
+                      borderRadius: '8px',
+                      fontSize: '0.95rem',
+                      backgroundColor: '#ffffff',
+                      color: '#0f172a'
+                    }}
+                  >
+                    <option value="">Select a county...</option>
+                    {COUNTY_BOE19B_LINKS.map((county) => (
+                      <option key={county.name} value={county.url}>
+                        {county.name}
+                      </option>
+                    ))}
+                  </select>
+                  {selectedCountyUrl ? (
+                    <a
+                      href={selectedCountyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        whiteSpace: 'nowrap',
+                        padding: '10px 16px',
+                        backgroundColor: '#060a2d',
+                        color: '#ffffff',
+                        borderRadius: '8px',
+                        fontWeight: 600,
+                        fontSize: '0.88rem',
+                        textDecoration: 'none',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                      Open Form BOE-19-B ↗
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      disabled
+                      style={{
+                        whiteSpace: 'nowrap',
+                        padding: '10px 16px',
+                        backgroundColor: '#cbd5e1',
+                        color: '#64748b',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontWeight: 600,
+                        fontSize: '0.88rem',
+                        cursor: 'not-allowed',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}
+                    >
+                      Open Form BOE-19-B ↗
+                    </button>
+                  )}
+                </div>
+                <p style={{ fontSize: '0.78rem', color: '#64748b', marginTop: '8px', marginBottom: 0 }}>
+                  Purchasing in another California county? Contact that county assessor’s office directly for their version of Form BOE-19-B.
+                </p>
               </div>
             </div>
 

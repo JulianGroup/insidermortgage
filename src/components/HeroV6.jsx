@@ -251,17 +251,25 @@ const HeroV6 = () => {
 
       <style dangerouslySetInnerHTML={{ __html: `
         .hero-v6-wrapper {
+          --hero-stage-max-w: min(1480px, max(680px, calc((100vh - 210px) * 16 / 9)));
           width: 100%;
           background-color: #041E3A;
           overflow: hidden;
         }
 
+        @supports (height: 100dvh) {
+          .hero-v6-wrapper {
+            --hero-stage-max-w: min(1480px, max(680px, calc((100dvh - 210px) * 16 / 9)));
+          }
+        }
+
         .hero-v6-stage {
           position: relative;
           width: 100%;
-          max-width: 1600px;
+          max-width: var(--hero-stage-max-w);
           margin: 0 auto;
           aspect-ratio: 16 / 9;
+          container-type: inline-size;
           overflow: hidden;
           background-color: #041E3A;
         }
@@ -293,7 +301,7 @@ const HeroV6 = () => {
         }
 
         .hero-v6-headline-img {
-          width: 100%;
+          width: 86.5%;
           max-width: 1050px;
           height: auto;
           display: block;
@@ -301,10 +309,10 @@ const HeroV6 = () => {
         }
 
         .hero-v6-subtitle {
-          margin: 0.35vw 0 0 0.2vw;
+          margin: 0.4cqw 0 0 0.25cqw;
           font-family: 'Montserrat', sans-serif;
           font-weight: 700;
-          font-size: clamp(1.05rem, 2.05vw, 2.05rem);
+          font-size: clamp(0.92rem, 2.15cqw, 2.05rem);
           color: #FFFFFF;
           letter-spacing: -0.3px;
           text-shadow: 0 3px 10px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.95);
@@ -343,26 +351,27 @@ const HeroV6 = () => {
         .hero-v6-wave-svg {
           display: block;
           width: 100%;
-          height: clamp(45px, 6.8vw, 98px);
+          height: clamp(34px, 6.2cqw, 98px);
         }
 
         .hero-v6-specializations-band {
           background-color: #041E3A;
-          padding: 0.25rem 3.8% 2.5rem 3.8%;
+          padding: 0.2rem 2% 1.25rem 2%;
           position: relative;
           z-index: 3;
         }
 
         .hero-v6-spec-inner {
-          max-width: 1520px;
+          max-width: min(94vw, max(900px, calc(var(--hero-stage-max-w) * 0.96)));
           margin: 0 auto;
         }
 
         .hero-v6-spec-heading {
-          margin: 0 0 1.1rem 0;
+          margin: 0 0 0.65rem 0;
           font-family: 'Montserrat', sans-serif;
           font-weight: 500;
-          font-size: clamp(1.3rem, 2.1vw, 1.95rem);
+          font-size: clamp(1.05rem, 1.45vw, 1.55rem);
+          line-height: 1.25;
           color: #F4F7FB;
         }
 
@@ -373,8 +382,8 @@ const HeroV6 = () => {
 
         .hero-v6-spec-pills {
           display: grid;
-          grid-template-columns: 1fr 0.88fr 1.12fr 0.86fr 1.32fr;
-          gap: 1rem;
+          grid-template-columns: 1fr 0.88fr 1.14fr 0.86fr 1.36fr;
+          gap: 0.75rem;
           width: 100%;
         }
 
@@ -384,16 +393,16 @@ const HeroV6 = () => {
           justify-content: space-between;
           background-color: #F2C230;
           color: #0A2342;
-          padding: 0.75rem 1rem;
-          border-radius: 15px;
+          padding: 0.5rem 0.75rem;
+          border-radius: 12px;
           text-decoration: none;
           font-family: 'Montserrat', sans-serif;
           font-weight: 700;
-          font-size: clamp(0.9rem, 1.15vw, 1.15rem);
+          font-size: clamp(0.8rem, 0.95vw, 1.02rem);
           box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
           transition: transform 0.2s ease, background-color 0.2s ease;
-          gap: 0.5rem;
-          min-height: 64px;
+          gap: 0.4rem;
+          min-height: 54px;
         }
 
         .hero-v6-spec-pill:hover {
@@ -408,6 +417,11 @@ const HeroV6 = () => {
           flex-shrink: 0;
         }
 
+        .hero-v6-spec-pill-icon svg {
+          width: clamp(22px, 1.7vw, 28px);
+          height: auto;
+        }
+
         .hero-v6-spec-pill-label {
           flex: 1;
           text-align: center;
@@ -418,8 +432,8 @@ const HeroV6 = () => {
         .hero-v6-spec-pill-twoline .hero-v6-spec-pill-label {
           text-align: left;
           line-height: 1.18;
-          font-size: clamp(0.82rem, 1vw, 1.02rem);
-          padding-left: 0.2rem;
+          font-size: clamp(0.74rem, 0.85vw, 0.92rem);
+          padding-left: 0.15rem;
         }
 
         .hero-v6-spec-pill-chevron {
@@ -429,7 +443,12 @@ const HeroV6 = () => {
           flex-shrink: 0;
         }
 
-        @media (max-width: 1180px) {
+        .hero-v6-spec-pill-chevron svg {
+          width: clamp(14px, 1.1vw, 18px);
+          height: auto;
+        }
+
+        @media (max-width: 940px) {
           .hero-v6-spec-pills {
             grid-template-columns: repeat(3, minmax(0, 1fr));
           }
@@ -437,12 +456,18 @@ const HeroV6 = () => {
 
         @media (max-width: 768px) {
           .hero-v6-stage {
+            max-width: 100%;
+            container-type: normal;
             aspect-ratio: auto;
             min-height: 440px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             padding: 1.75rem 5% 4.5rem 5%;
+          }
+
+          .hero-v6-headline-img {
+            width: 100%;
           }
 
           .hero-v6-bg-img {
@@ -458,7 +483,12 @@ const HeroV6 = () => {
           }
 
           .hero-v6-subtitle {
-            margin-top: 0.5rem;
+            margin: 0.5rem 0 0 0;
+            font-size: clamp(1.05rem, 4.2vw, 1.4rem);
+          }
+
+          .hero-v6-wave-svg {
+            height: clamp(45px, 6.8vw, 98px);
           }
 
           .hero-v6-wave-callout {
@@ -469,8 +499,17 @@ const HeroV6 = () => {
             margin: 12rem auto 0 auto;
           }
 
+          .hero-v6-specializations-band {
+            padding: 0.25rem 5% 2rem 5%;
+          }
+
+          .hero-v6-spec-inner {
+            max-width: 100%;
+          }
+
           .hero-v6-spec-heading {
             text-align: center;
+            font-size: 1.25rem;
           }
 
           .hero-v6-spec-pills {

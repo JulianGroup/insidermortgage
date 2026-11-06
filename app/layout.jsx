@@ -5,7 +5,7 @@ import Footer from '../src/components/Footer';
 export const metadata = {
   metadataBase: new URL('https://insidermortgage.com'),
   alternates: { canonical: './' },
-  verification: { google: 'RY_4PE2t2wnYtX13dCYwn16HIayjmpHfs9jL2d_4wYA' },
+  verification: { google: 'HFFShjVLJzamyLU8m8MXP--GugsvWFt-WH545nQ3Um8' },
   title: 'Insider Mortgage | Trusted Mortgage Experts',
   description: 'San Diego Mortgage Experts helping self-employed, first-time buyers, and real estate investors.',
 };

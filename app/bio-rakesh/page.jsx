@@ -2,7 +2,7 @@ import BioRakesh from '../../src/views/BioRakesh';
 
 export const metadata = {
   title: 'Rakesh Jain | Insider Mortgage',
-  description: 'Managing Partner / Broker at Insider Mortgage',
+  description: 'Mortgage Loan Officer at Insider Mortgage',
 };
 
 // Conservative Person schema: no license numbers or credential claims.

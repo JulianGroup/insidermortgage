@@ -6,8 +6,33 @@ export const metadata = {
   metadataBase: new URL('https://insidermortgage.com'),
   alternates: { canonical: './' },
   verification: { google: 'HFFShjVLJzamyLU8m8MXP--GugsvWFt-WH545nQ3Um8' },
-  title: 'Insider Mortgage | Trusted Mortgage Experts',
-  description: 'San Diego Mortgage Experts helping self-employed, first-time buyers, and real estate investors.',
+  title: 'Insider Mortgage | San Diego Self-Employed & Investor Loans',
+  description:
+    'San Diego mortgage experts helping self-employed borrowers, first-time buyers, retirees, and real estate investors. Schedule a consultation.',
+  openGraph: {
+    title: 'Insider Mortgage | San Diego Mortgage Broker',
+    description:
+      'San Diego mortgage specialists helping self-employed borrowers, 1099 contractors, first-time home buyers, retirees, and real estate investors.',
+    url: 'https://insidermortgage.com/',
+    siteName: 'Insider Mortgage',
+    images: [
+      {
+        url: '/og-preview.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Insider Mortgage - Trusted Mortgage Experts',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Insider Mortgage | San Diego Mortgage Broker',
+    description:
+      'San Diego mortgage specialists helping self-employed borrowers, 1099 contractors, first-time home buyers, retirees, and real estate investors.',
+    images: ['/og-preview.jpg'],
+  },
 };
 
 // Conservative organization schema: no license numbers, ratings or rate claims.

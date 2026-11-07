@@ -102,9 +102,12 @@ const HeroV6 = () => {
           {/* Top Headline & Subtitle Block */}
           <div className="hero-v6-header">
             <h1 className="hero-v6-title-h1">
+              <span className="sr-only">
+                San Diego Mortgage Broker &amp; Loan Specialists - Trusted Mortgage Experts
+              </span>
               <img
                 src="/headline-graphic.png"
-                alt="TRUSTED MORTGAGE EXPERTS"
+                alt="Trusted Mortgage Experts - San Diego Mortgage Broker"
                 className="hero-v6-headline-img"
               />
             </h1>

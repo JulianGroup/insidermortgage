@@ -12,6 +12,9 @@ const personSchema = {
   name: 'David Sider',
   jobTitle: 'Mortgage Broker',
   url: 'https://insidermortgage.com/bio-david/',
+  sameAs: [
+    'https://www.linkedin.com/in/david-sider-010701b/'
+  ],
   image: 'https://insidermortgage.com/david-sider.jpg',
   worksFor: {
     '@type': 'MortgageBroker',

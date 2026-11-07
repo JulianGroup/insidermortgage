@@ -97,6 +97,9 @@ const HeroV6 = () => {
             src="/splash-bg.jpg"
             alt="Surfing dog riding the interest rate wave"
             className="hero-v6-bg-img"
+            width={1920}
+            height={1080}
+            fetchPriority="high"
           />
 
           {/* Top Headline & Subtitle Block */}
@@ -109,6 +112,9 @@ const HeroV6 = () => {
                 src="/headline-graphic.png"
                 alt="Trusted Mortgage Experts - San Diego Mortgage Broker"
                 className="hero-v6-headline-img"
+                width={1297}
+                height={134}
+                fetchPriority="high"
               />
             </h1>
 
@@ -126,6 +132,8 @@ const HeroV6 = () => {
               src="/wave-quote-graphic.png"
               alt="I'm riding the interest rate wave"
               className="hero-v6-wave-quote-img"
+              width={325}
+              height={138}
             />
           </div>
 
@@ -232,7 +240,7 @@ const HeroV6 = () => {
           
           <div className="partners-section" style={{ marginTop: '0' }}>
             <div className="partner-card">
-              <img src="/david-sider.jpg" alt="David Sider" className="partner-bg-image" />
+              <img src="/david-sider.jpg" alt="David Sider" className="partner-bg-image" width={1000} height={666} loading="lazy" />
               <div className="partner-info">
                 <h3>David Sider</h3>
                 <p className="partner-title">Managing Partner / Broker</p>
@@ -241,7 +249,7 @@ const HeroV6 = () => {
             </div>
 
             <div className="partner-card">
-              <img src="/rakesh-jain.jpg" alt="Rakesh Jain" className="partner-bg-image" />
+              <img src="/rakesh-jain.jpg" alt="Rakesh Jain" className="partner-bg-image" width={332} height={336} loading="lazy" />
               <div className="partner-info">
                 <h3>Rakesh Jain</h3>
                 <p className="partner-title">Managing Partner / Broker</p>

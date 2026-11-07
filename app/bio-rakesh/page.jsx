@@ -12,6 +12,9 @@ const personSchema = {
   name: 'Rakesh Jain',
   jobTitle: 'Mortgage Loan Officer',
   url: 'https://insidermortgage.com/bio-rakesh/',
+  sameAs: [
+    'https://www.linkedin.com/in/rakeshjainprofile/'
+  ],
   image: 'https://insidermortgage.com/rakesh-jain.jpg',
   worksFor: {
     '@type': 'MortgageBroker',

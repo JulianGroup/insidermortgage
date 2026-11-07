@@ -21,7 +21,17 @@ const Footer = () => {
           <Link href="/privacy-policy" style={{ color: 'white', textDecoration: 'underline' }}>Privacy Policy</Link>
         </div>
         <p>Expert Mortgage Brokerage Services. Equal Housing Lender.</p>
-        <p style={{ fontSize: '0.875rem' }}>12230 El Camino Real #100, San Diego, CA 92130</p>
+        <p style={{ fontSize: '0.875rem' }}>
+          <a
+            href="https://maps.app.goo.gl/YNzoKE4J1ywzhySE8"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'rgba(255, 255, 255, 0.9)', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '5px' }}
+          >
+            <span>📍 12230 El Camino Real #100, San Diego, CA 92130</span>
+            <span style={{ fontSize: '0.75rem', opacity: 0.8 }}>(View on Google Maps ↗)</span>
+          </a>
+        </p>
         
         <div style={{ width: '100%', maxWidth: '700px', margin: 'var(--space-6) 0', padding: 'var(--space-6)', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-lg)', textAlign: 'left', fontSize: '0.8rem', lineHeight: '1.6' }}>
           <h4 style={{ color: 'white', marginBottom: 'var(--space-4)', fontSize: '0.9rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: 'var(--space-2)' }}>Licensing & Disclosures</h4>

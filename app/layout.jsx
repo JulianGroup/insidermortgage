@@ -21,6 +21,7 @@ const organizationSchema = {
   image: 'https://insidermortgage.com/C2-IMCv2.jpg',
   telephone: '+1-858-848-5653',
   email: 'Rjain@insidermtg.com',
+  hasMap: 'https://maps.app.goo.gl/YNzoKE4J1ywzhySE8',
   address: {
     '@type': 'PostalAddress',
     streetAddress: '12230 El Camino Real #100',

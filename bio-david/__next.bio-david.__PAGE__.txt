@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[86345,["/_next/static/chunks/1w8hvrg9n9ekv.js","/_next/static/chunks/1-8s9_t85wwr4.js","/_next/static/chunks/1puaun96pf0k7.js"],"default"]
+3:I[97367,["/_next/static/chunks/1w8hvrg9n9ekv.js","/_next/static/chunks/1-8s9_t85wwr4.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"Person\",\"name\":\"David Sider\",\"jobTitle\":\"Mortgage Broker\",\"url\":\"https://insidermortgage.com/bio-david/\",\"sameAs\":[\"https://www.linkedin.com/in/david-sider-010701b/\"],\"image\":\"https://insidermortgage.com/david-sider.jpg\",\"worksFor\":{\"@type\":\"MortgageBroker\",\"name\":\"Insider Mortgage\",\"url\":\"https://insidermortgage.com/\"}}"}}],["$","$L2",null,{}]],[["$","script","script-0",{"src":"/_next/static/chunks/1puaun96pf0k7.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"DtZkhNhoVUh096_pvK1I-"}
+5:null

@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[65347,["/_next/static/chunks/1w8hvrg9n9ekv.js","/_next/static/chunks/1-8s9_t85wwr4.js","/_next/static/chunks/2pc1jckeo2cwl.js"],"default"]
+3:I[97367,["/_next/static/chunks/1w8hvrg9n9ekv.js","/_next/static/chunks/1-8s9_t85wwr4.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"rsc":["$","$1","c",{"children":[[["$","script",null,{"type":"application/ld+json","dangerouslySetInnerHTML":{"__html":"{\"@context\":\"https://schema.org\",\"@type\":\"Person\",\"name\":\"Rakesh Jain\",\"jobTitle\":\"Mortgage Loan Officer\",\"url\":\"https://insidermortgage.com/bio-rakesh/\",\"sameAs\":[\"https://www.linkedin.com/in/rakeshjainprofile/\"],\"image\":\"https://insidermortgage.com/rakesh-jain.jpg\",\"worksFor\":{\"@type\":\"MortgageBroker\",\"name\":\"Insider Mortgage\",\"url\":\"https://insidermortgage.com/\"}}"}}],["$","$L2",null,{}]],[["$","script","script-0",{"src":"/_next/static/chunks/2pc1jckeo2cwl.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"DtZkhNhoVUh096_pvK1I-"}
+5:null

@@ -1,0 +1,14 @@
+{
+  "_comment": "Manage headline, pinned reviews (kept at the top in this exact order), hidden reviews, and filter rules. You can edit this file directly or use admin.html.",
+  "businessName": "Insider Mortgage",
+  "showHeading": true,
+  "heading": "The Word on the Street",
+  "writeReviewUrl": "https://search.google.com/local/writereview?placeid=ChIJveC1LxQH3IARnyqTS4mmz80",
+  "minRating": 5,
+  "pinnedReviews": [
+    "rev_garen_doyle",
+    "rev_sudha_ram",
+    "rev_denise_mancillas"
+  ],
+  "hiddenReviews": []
+}

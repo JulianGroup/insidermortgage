@@ -682,7 +682,7 @@ const HomeV8 = () => {
             </div>
 
             <div className="v8-contact-right">
-              <h3>Request a Consultation</h3>
+              <h3>Request a Consultation with David and Rakesh</h3>
 
               <form onSubmit={handleSubmit} className="v8-form" noValidate>
                 <h4 className="v8-schedule-heading">When is a good time to connect?</h4>

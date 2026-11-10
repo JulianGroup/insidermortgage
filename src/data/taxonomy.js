@@ -87,21 +87,8 @@ export const WHO_WE_SERVE_CATEGORIES = [
     status: 'active',
   },
   {
-    id: 'cat-retirees',
-    label: 'Retirees',
-    shortLabel: 'Retirees & 55+',
-    icon: '🌅',
-    description:
-      'Unlock the equity in your home or qualify for a new purchase using your hard-earned retirement assets, even without traditional employment income.',
-    highlights: ['Asset Depletion Programs', 'Reverse Mortgages', 'Retirement Account Qualifying'],
-    route: '/retirees',
-    matchingSlugs: ['retirees'],
-    showOnHomepageWhoWeServe: true,
-    status: 'active',
-  },
-  {
     id: 'cat-investors',
-    label: 'Rental Property Financing',
+    label: 'Investment Properties',
     shortLabel: 'Investors & DSCR',
     icon: '🏢',
     description:
@@ -122,6 +109,19 @@ export const WHO_WE_SERVE_CATEGORIES = [
     highlights: ['Low Down Payment', 'Down Payment Assistance', 'Educational Roadmap'],
     route: '/first-time',
     matchingSlugs: ['first-time'],
+    showOnHomepageWhoWeServe: true,
+    status: 'active',
+  },
+  {
+    id: 'cat-retirees',
+    label: 'Retirees',
+    shortLabel: 'Retirees & 55+',
+    icon: '🌅',
+    description:
+      'Unlock the equity in your home or qualify for a new purchase using your hard-earned retirement assets, even without traditional employment income.',
+    highlights: ['Asset Depletion Programs', 'Reverse Mortgages', 'Retirement Account Qualifying'],
+    route: '/retirees',
+    matchingSlugs: ['retirees'],
     showOnHomepageWhoWeServe: true,
     status: 'active',
   },

@@ -1,30 +1,107 @@
 export const seoPages = [
   {
     slug: 'self-employed-programs',
-    title: 'Self-Employed Mortgage Programs',
-    seoTitle: 'Mortgage for Self-Employed Borrower | Insider Mortgage',
-    seoDescription: 'Discover flexible alternative documentation mortgage programs tailored specifically for self-employed borrowers, freelancers, and entrepreneurs.',
-    heroSubtitle: 'You run your business your way. We think your mortgage should be just as flexible. Discover the premier mortgage for self-employed borrower scenarios tailored specifically for entrepreneurs.',
-    introHeader: 'Finding Your Best Option',
-    introText: 'Our first step is always to comprehensively review your financial situation. If we can secure the absolute best deal for you using a standard, full-documentation loan, that is our primary goal. But a common question we get is: "How do lenders calculate self-employed income?" Usually, they look at two years of tax returns, which can hurt you if you took smart write-offs. That\'s when we pivot to our alternative documentation options below.',
-    gridCards: [
-      {
-        title: '📉 Overcoming Declining Income',
-        text: 'Often borrowers ask, "Can I qualify for a mortgage with declining income?" With traditional banks, it is incredibly difficult. With our alternative programs, we look at current cash flow, bypassing past tax years.'
-      },
-      {
-        title: '📊 P&L (Profit and Loss) Loans',
-        text: 'Instead of tax returns, we use a 12-month P&L statement prepared by a tax professional. We even have options available that do not require a tax professional to prepare your statements!'
-      },
-      {
-        title: '📈 Asset Utilization Loans',
-        text: 'This program reviews your overall financial health and liquid assets (like stocks, bonds, and retirement accounts) to calculate qualifying income rather than relying strictly on monthly revenue.'
-      },
-      {
-        title: '📝 1099 Expense Ratio Loans',
-        text: 'Tailored for independent contractors. By relying directly on your 1099 forms and applying a standard expense ratio, we can determine your earning power without complex tax documentation.'
-      }
-    ],
+    title: 'Self-Employed Borrowers',
+    heroSubheadline: 'Mortgage Qualification & Alternative Income Documentation Strategies',
+    seoTitle: 'Self-Employed Borrowers | Mortgage Qualification & Alternative Income Strategies | Insider Mortgage',
+    seoDescription: 'Being self-employed can create unexpected mortgage challenges. Discover traditional and alternative income documentation strategies tailored for business owners, entrepreneurs, freelancers, and independent contractors.',
+    heroSubtitle: 'Being self-employed can offer tremendous financial opportunities, but when it comes to getting a mortgage, it can also create some unexpected challenges. For business owners, entrepreneurs, freelancers, and independent contractors, income often works differently. Even highly successful borrowers with excellent credit, substantial assets, and strong cash flow can find themselves struggling to qualify for a traditional mortgage.',
+    introHeader: 'START WITH YOUR TAX RETURNS',
+    introText: 'Our first step is always to comprehensively review your financial situation. We will see if we can use standard “full-documentation” underwriting using one or two years of your tax returns so we can get you the best priced rates out there. However, if your situation falls within these coming Self-Employed challenges, we have solutions.',
+    commonIssuesSection: {
+      heading: 'COMMON ISSUES FOR SELF-EMPLOYED BORROWERS',
+      subtitle: 'Below are the most common reasons Self-Employed borrowers have trouble qualifying for a traditional mortgage.',
+      cards: [
+        {
+          title: '1. Aggressive Tax Deductions Reduce Qualifying Income (I write everything off)',
+          preview: 'One of the greatest ironies of self-employment is that strategies used to minimize taxes can also reduce mortgage borrowing power. Business owners routinely deduct legitimate expenses such as vehicles, travel, equipment, office costs, and other operating expenses to reduce their taxable income.',
+          moreParagraphs: [
+            'Sometimes one-time expenses are placed on tax returns with no indication that they are a one-time expense. Traditional mortgage lenders generally focus on net income reported on tax returns with little regard to gross revenue and cashflow or expense management. Some noncash expenses, including certain depreciation, may be added back, but many deductions reduce the income available for qualification. Consequently, a borrower generating substantial business revenue may show relatively little qualifying income on paper, making it difficult to obtain the mortgage they can comfortably afford.'
+          ]
+        },
+        {
+          title: '2. Variable Income',
+          preview: 'Unlike salaried employees who receive a predictable paycheck, self-employed borrowers often experience significant fluctuations in income from month to month or year to year. A real estate professional, for example, might earn most of their annual income from a handful of large transactions, while a business owner may experience seasonal revenue cycles.',
+          moreParagraphs: [
+            "Traditional lenders generally want to establish a stable, predictable income stream and often rely on historical averages rather than the borrower's current earning capacity. As a result, someone having an exceptionally strong year may still qualify based on substantially less income than they are currently earning."
+          ]
+        },
+        {
+          title: '3. Declining Income',
+          preview: "Even a temporary decline in income can create challenges when applying for a mortgage. Conventional lenders typically evaluate income trends over the previous two years, and when earnings decline, they may use the most recent year's lower income rather than a two-year average.",
+          moreParagraphs: [
+            'In some situations, a significant decline raises questions about whether the income is sustainable at all. This can be particularly frustrating for business owners who intentionally reinvest profits, experience temporary industry slowdowns, or incur unusual one-time expenses. Even when business performance has recovered, traditional underwriting may not fully recognize that improvement.'
+          ]
+        },
+        {
+          title: '4. Not Enough Time Being Self-Employed or Transitioning from W-2 Employment to Self-Employment',
+          preview: 'Traditional mortgage lenders generally prefer to see at least two years of established self-employment income. This creates a challenge for newer business owners, even those whose businesses are already profitable and growing rapidly.',
+          moreParagraphs: [
+            "A professional who launches a consulting firm, purchases an established business, or begins working independently may have strong revenues, substantial savings, and excellent credit but still lack the operating history lenders prefer. Although exceptions exist for borrowers with relevant prior experience and sufficient documented income, newer businesses often face greater scrutiny. The result is that a financially successful entrepreneur may have difficulty obtaining financing simply because the business hasn't been operating long enough.",
+            "Moving from salaried employment to independent consulting, contract work, or business ownership can create an unexpected mortgage qualification problem—even when the transition results in substantially higher earnings. Traditional lenders may have difficulty recognizing the new income until the borrower establishes an acceptable history of self-employment. Signed contracts, strong client relationships, and significant current earnings don't always overcome the documentation requirements.",
+            "Even former Federal Reserve Chairman Ben Bernanke encountered this problem. After leaving the Federal Reserve in 2014, Bernanke began earning income through activities including speaking engagements and a major book deal. When he informally inquired about refinancing his mortgage, he was told the bank likely couldn't help because he had been self-employed for only six months and couldn't provide two years of self-employment tax returns. Here was one of the world's leading financial experts, with substantial earning potential, encountering the same lending obstacles faced by everyday entrepreneurs. His experience illustrates how traditional mortgage underwriting can sometimes fail to accommodate otherwise financially qualified borrowers."
+          ]
+        },
+        {
+          title: '5. Complicated or multiple Business Ownership and Income Structures',
+          preview: 'Many successful entrepreneurs earn income through multiple businesses, partnerships, LLCs, or S-corporations. Their compensation may include W-2 wages, business distributions, K-1 income, and profits retained within their companies.',
+          moreParagraphs: [
+            'Traditional lenders must analyze these different income sources and determine how much is actually available to the borrower without compromising the financial health of the business. Income that appears substantial on a tax return may not be fully usable for mortgage qualification, particularly when earnings are retained in a business or ownership arrangements are complex. The more complicated the financial structure, the more difficult the underwriting process can become.'
+          ]
+        },
+        {
+          title: '6. Significant Business Debt or Use of Business Assets',
+          preview: "Business owners frequently use credit lines, equipment loans, business credit cards, and other financing to grow and operate their companies. Depending on how these obligations are structured and documented, certain business debts may affect the borrower's personal debt-to-income ratio.",
+          moreParagraphs: [
+            'Similarly, using funds from a business account for a down payment can create additional underwriting requirements. Lenders may need to establish that withdrawing those funds will not adversely affect business operations. A borrower can therefore have substantial assets and a healthy business while still encountering obstacles when trying to use those resources to qualify for a mortgage.'
+          ]
+        }
+      ]
+    },
+    goodNewsSection: {
+      title: 'The Good News: There Are More Ways to Qualify',
+      paragraphs: [
+        "Not fitting conventional mortgage guidelines doesn't necessarily mean you can't qualify for a mortgage.",
+        'At Insider Mortgage, we understand that the financial lives of business owners and self-employed professionals rarely fit into a simple box. Beyond traditional financing, specialized mortgage programs may allow qualified borrowers to document income through business or personal bank statements, 1099 earnings, profit-and-loss statements, or other acceptable methods.',
+        'The key is understanding how your income is earned, how your business operates, and which mortgage programs are best suited to your financial circumstances.',
+        "You don't necessarily need to change the way you earn a living to qualify for a mortgage. You may simply need a different lending strategy."
+      ],
+      ctaText: 'Schedule a Call with Team Insider to explore your options.'
+    },
+    solutionsSection: {
+      heading: 'QUALIFYING INCOME SOLUTIONS',
+      cards: [
+        {
+          title: '1. Bank Statement Loans',
+          preview: 'Instead of relying on tax returns, these programs typically evaluate 12 or 24 months of personal or business bank statements. Lenders analyze eligible monthly deposits to calculate the businesses monthly gross revenue.',
+          moreParagraphs: [
+            'Then, depending on the type of business, the lender applies an appropriate business expense factor to determine qualifying net income. This can be an excellent option for business owners with strong cash flow but significant tax deductions.'
+          ]
+        },
+        {
+          title: '2. 1099 Income Loans',
+          preview: 'Designed for independent contractors, consultants, and commission-based professionals, these programs typically use one or two years of 1099 forms rather than tax returns.',
+          moreParagraphs: [
+            'Lenders calculate qualifying income by applying an allowable expense factor to reported earnings. This approach may recognize substantially more income than traditional tax-return underwriting.'
+          ]
+        },
+        {
+          title: '3. Profit & Loss (P&L) Statement Loans',
+          preview: 'Certain lenders allow self-employed borrowers to qualify using a business profit-and-loss statement over the most recent 12 months versus relying on the previous year’s tax return. The P&L is often prepared or verified by a CPA or qualified tax professional.',
+          moreParagraphs: [
+            'This solution is also useful for the business owner who receives periodic but not standard income. The revenues will appear on a financial statement without underwriters having to scrutinize the deposits that would be reflected on bank statements.'
+          ]
+        },
+        {
+          title: '4. Asset Utilization Loans',
+          preview: 'For borrowers with substantial savings, investments, or retirement assets, some programs allow qualifying income to be calculated from eligible assets rather than employment earnings.',
+          moreParagraphs: [
+            'Lenders use a formula to convert those assets into an equivalent monthly income. This can be particularly useful for supplementing business income.'
+          ]
+        }
+      ]
+    },
+    gridCards: [],
     formSubtitle: 'Fill out the form below and an alternative-doc expert will reach out to discuss which program fits your unique cash flow.',
     leadCategory: 'Self-Employed Borrower',
     reviews: [

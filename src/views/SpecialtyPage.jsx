@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { seoPages } from '../data/seoPages';
 import ReviewCard from '../components/ReviewCard';
@@ -7,15 +7,60 @@ import ScheduleCallForm from '../components/ScheduleCallForm';
 import RelatedInsights from '../components/blog/RelatedInsights';
 import './SelfEmployed.css';
 
+const ExpandableCard = ({ card, accentColor = 'var(--secondary)' }) => {
+  const [expanded, setExpanded] = useState(false);
+  const hasMore = Array.isArray(card.moreParagraphs) && card.moreParagraphs.length > 0;
+
+  return (
+    <div
+      className="program-card expandable-card"
+      style={{
+        borderLeftColor: accentColor,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      <div>
+        <h3>{card.title}</h3>
+        <p style={{ marginBottom: expanded && hasMore ? '1rem' : '0.75rem' }}>{card.preview}</p>
+        {expanded &&
+          hasMore &&
+          card.moreParagraphs.map((para, idx) => (
+            <p
+              key={idx}
+              style={{
+                marginBottom: idx < card.moreParagraphs.length - 1 ? '1rem' : '0.75rem',
+              }}
+            >
+              {para}
+            </p>
+          ))}
+      </div>
+      {hasMore && (
+        <button
+          type="button"
+          onClick={() => setExpanded((prev) => !prev)}
+          className="expand-card-btn"
+          aria-expanded={expanded}
+        >
+          {expanded ? 'Show Less ▲' : 'Read More ▼'}
+        </button>
+      )}
+    </div>
+  );
+};
+
 const SpecialtyPage = ({ data }) => {
   return (
     <>
-      
-      
       <main>
         <section className="se-hero animate-fade-in">
           <div className="container">
             <h1>{data.title}</h1>
+            {data.heroSubheadline && (
+              <h2 className="se-hero-subheadline">{data.heroSubheadline}</h2>
+            )}
             <p>{data.heroSubtitle}</p>
           </div>
         </section>
@@ -31,14 +76,106 @@ const SpecialtyPage = ({ data }) => {
 
         <section className="section bg-color">
           <div className="container">
-            <div className="programs-grid">
-              {data.gridCards.map((card, idx) => (
-                <div className="program-card" key={idx}>
-                  <h3>{card.title}</h3>
-                  <p>{card.text}</p>
+            {data.commonIssuesSection && (
+              <div style={{ marginBottom: '4rem' }}>
+                <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 2.5rem' }}>
+                  <h2 style={{ color: 'var(--primary)', marginBottom: '0.75rem' }}>
+                    {data.commonIssuesSection.heading}
+                  </h2>
+                  {data.commonIssuesSection.subtitle && (
+                    <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      {data.commonIssuesSection.subtitle}
+                    </p>
+                  )}
                 </div>
-              ))}
-            </div>
+                <div className="programs-grid" style={{ marginTop: 0 }}>
+                  {data.commonIssuesSection.cards.map((card, idx) => (
+                    <ExpandableCard key={idx} card={card} accentColor="var(--secondary)" />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {data.goodNewsSection && (
+              <div
+                style={{
+                  marginBottom: '4rem',
+                  padding: 'clamp(1.75rem, 4vw, 3rem)',
+                  backgroundColor: 'white',
+                  borderRadius: 'var(--radius-lg)',
+                  boxShadow: 'var(--shadow-md)',
+                  borderTop: '4px solid var(--accent)',
+                  maxWidth: '900px',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}
+              >
+                <h2 style={{ color: 'var(--primary)', marginBottom: '1.5rem', textAlign: 'center' }}>
+                  {data.goodNewsSection.title}
+                </h2>
+                {data.goodNewsSection.paragraphs.map((p, i) => (
+                  <p
+                    key={i}
+                    style={{
+                      color: 'var(--text-secondary)',
+                      marginBottom: '1.1rem',
+                      fontSize: '1.1rem',
+                      lineHeight: 1.7,
+                    }}
+                  >
+                    {p}
+                  </p>
+                ))}
+                {data.goodNewsSection.ctaText && (
+                  <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                    <a
+                      href="#schedule-call"
+                      className="btn btn-primary"
+                      style={{
+                        display: 'inline-block',
+                        padding: '0.9rem 1.75rem',
+                        fontSize: '1.05rem',
+                        fontWeight: 700,
+                        textDecoration: 'none',
+                      }}
+                    >
+                      {data.goodNewsSection.ctaText}
+                    </a>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {data.solutionsSection && (
+              <div style={{ marginBottom: '4rem' }}>
+                <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 2.5rem' }}>
+                  <h2 style={{ color: 'var(--primary)', marginBottom: '0.75rem' }}>
+                    {data.solutionsSection.heading}
+                  </h2>
+                  {data.solutionsSection.subtitle && (
+                    <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+                      {data.solutionsSection.subtitle}
+                    </p>
+                  )}
+                </div>
+                <div className="programs-grid" style={{ marginTop: 0 }}>
+                  {data.solutionsSection.cards.map((card, idx) => (
+                    <ExpandableCard key={idx} card={card} accentColor="var(--accent)" />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {data.gridCards && data.gridCards.length > 0 && (
+              <div className="programs-grid">
+                {data.gridCards.map((card, idx) => (
+                  <div className="program-card" key={idx}>
+                    <h3>{card.title}</h3>
+                    <p>{card.text}</p>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {data.extraSection && (
               <div style={{ marginTop: '4rem', padding: '3rem', backgroundColor: 'white', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)' }}>
@@ -106,7 +243,7 @@ const SpecialtyPage = ({ data }) => {
           background="#FFFFFF"
         />
 
-        <section className="se-contact-section">
+        <section id="schedule-call" className="se-contact-section">
           <div className="container" style={{ maxWidth: '600px' }}>
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
               <h2>Speak with a Specialist</h2>
@@ -124,4 +261,3 @@ const SpecialtyPage = ({ data }) => {
 };
 
 export default SpecialtyPage;
-

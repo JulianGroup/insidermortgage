@@ -82,6 +82,89 @@
   color: #ffffff;
 }
 
+/* Wide golden button with David & Rakesh headshots */
+.se-gold-headshot-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.85rem 2.25rem 0.85rem 1.35rem;
+  font-size: clamp(1rem, 2vw, 1.12rem);
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(239, 181, 30, 0.35);
+  max-width: 100%;
+}
+
+.se-btn-avatars {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.se-btn-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+  background-color: #060A2D;
+}
+
+.se-btn-avatar-overlap {
+  margin-left: -12px;
+}
+
+/* Partner badges above the consultation form */
+.se-partner-contact-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.se-partner-card-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 999px;
+  padding: 0.45rem 1.15rem 0.45rem 0.5rem;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+  text-align: left;
+}
+
+.se-partner-photo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  border: 2px solid var(--accent, #EFB51E);
+  flex-shrink: 0;
+}
+
+.se-partner-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.se-partner-info strong {
+  color: var(--primary, #060A2D);
+  font-size: 0.96rem;
+}
+
+.se-partner-info span {
+  color: var(--text-secondary, #475569);
+  font-size: 0.8rem;
+}
+
 .se-contact-section {
   background-color: var(--surface);
   padding: var(--space-16) 0;

@@ -127,19 +127,26 @@ const SpecialtyPage = ({ data }) => {
                   </p>
                 ))}
                 {data.goodNewsSection.ctaText && (
-                  <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                  <div style={{ textAlign: 'center', marginTop: '2.25rem' }}>
                     <a
                       href="#schedule-call"
-                      className="btn btn-primary"
-                      style={{
-                        display: 'inline-block',
-                        padding: '0.9rem 1.75rem',
-                        fontSize: '1.05rem',
-                        fontWeight: 700,
-                        textDecoration: 'none',
-                      }}
+                      className="btn btn-primary se-gold-headshot-btn"
                     >
-                      {data.goodNewsSection.ctaText}
+                      {data.goodNewsSection.showHeadshotsInCta && (
+                        <span className="se-btn-avatars">
+                          <img
+                            src="/david-sider.jpg"
+                            alt="David Sider"
+                            className="se-btn-avatar"
+                          />
+                          <img
+                            src="/rakesh-jain.jpg"
+                            alt="Rakesh Jain"
+                            className="se-btn-avatar se-btn-avatar-overlap"
+                          />
+                        </span>
+                      )}
+                      <span>{data.goodNewsSection.ctaText}</span>
                     </a>
                   </div>
                 )}
@@ -244,12 +251,40 @@ const SpecialtyPage = ({ data }) => {
         />
 
         <section id="schedule-call" className="se-contact-section">
-          <div className="container" style={{ maxWidth: '600px' }}>
-            <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-              <h2>Speak with a Specialist</h2>
-              <p style={{ color: 'var(--text-secondary)' }}>
+          <div className="container" style={{ maxWidth: '680px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '2.25rem' }}>
+              {data.showPartnerHeaderInForm && (
+                <div className="se-partner-contact-header">
+                  <div className="se-partner-card-pill">
+                    <img src="/david-sider.jpg" alt="David Sider" className="se-partner-photo" />
+                    <div className="se-partner-info">
+                      <strong>David Sider</strong>
+                      <span>Managing Partner</span>
+                    </div>
+                  </div>
+                  <div className="se-partner-card-pill">
+                    <img src="/rakesh-jain.jpg" alt="Rakesh Jain" className="se-partner-photo" />
+                    <div className="se-partner-info">
+                      <strong>Rakesh Jain</strong>
+                      <span>Senior Loan Officer &amp; Partner</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <h2 style={{ color: 'var(--primary)', marginBottom: '0.85rem' }}>
+                {data.formTitle || 'Speak with David & Rakesh'}
+              </h2>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', lineHeight: 1.65, maxWidth: '620px', margin: '0 auto' }}>
                 {data.formSubtitle}
               </p>
+              {data.showPartnerHeaderInForm && (
+                <p style={{ marginTop: '0.85rem', fontSize: '0.98rem', color: 'var(--primary)', fontWeight: 600 }}>
+                  Prefer to call or text us right now? Reach us directly at{' '}
+                  <a href="tel:8588485653" style={{ color: 'var(--secondary, #0468E9)', textDecoration: 'underline' }}>
+                    (858) 848-5653
+                  </a>
+                </p>
+              )}
             </div>
 
             <ScheduleCallForm source={data.title || data.leadCategory} />

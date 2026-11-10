@@ -66,7 +66,8 @@ export const seoPages = [
         'The key is understanding how your income is earned, how your business operates, and which mortgage programs are best suited to your financial circumstances.',
         "You don't necessarily need to change the way you earn a living to qualify for a mortgage. You may simply need a different lending strategy."
       ],
-      ctaText: 'Schedule a Call with Team Insider to explore your options.'
+      ctaText: 'Schedule a call with David and Rakesh to explore your options',
+      showHeadshotsInCta: true
     },
     solutionsSection: {
       heading: 'QUALIFYING INCOME SOLUTIONS',
@@ -102,7 +103,9 @@ export const seoPages = [
       ]
     },
     gridCards: [],
-    formSubtitle: 'Fill out the form below and an alternative-doc expert will reach out to discuss which program fits your unique cash flow.',
+    formTitle: 'Talk Directly with David & Rakesh About Your Self-Employed Scenario',
+    formSubtitle: 'You will never be handed off to a junior loan officer or call center. Schedule a one-on-one call with David Sider and Rakesh Jain to walk through your tax returns, bank statements, 1099s, or business structure and see which mortgage strategy gives you the strongest buying power.',
+    showPartnerHeaderInForm: true,
     leadCategory: 'Self-Employed Borrower',
     reviews: [
       {

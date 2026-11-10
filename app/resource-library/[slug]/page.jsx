@@ -56,12 +56,16 @@ export default async function BlogArticlePage({ params }) {
     datePublished: post.publishedAt,
     author: {
       '@type': 'Person',
+      ...(author.bioRoute ? { '@id': `https://insidermortgage.com${author.bioRoute}/#person` } : {}),
       name: author.name,
       jobTitle: author.role,
+      ...(author.bioRoute ? { url: `https://insidermortgage.com${author.bioRoute}/` } : {}),
     },
     publisher: {
-      '@type': 'Organization',
+      '@type': ['MortgageBroker', 'Organization'],
+      '@id': 'https://insidermortgage.com/#organization',
       name: 'Insider Mortgage (C2 Financial Corporation)',
+      url: 'https://insidermortgage.com/',
     },
     ...(youtubeId
       ? {

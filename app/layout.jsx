@@ -35,30 +35,63 @@ export const metadata = {
   },
 };
 
-// Conservative organization schema: no license numbers, ratings or rate claims.
-const organizationSchema = {
+// Identity Schema (Entity Graph) for Google Knowledge Graph & E-E-A-T
+const identitySchema = {
   '@context': 'https://schema.org',
-  '@type': 'MortgageBroker',
-  name: 'Insider Mortgage',
-  legalName: 'C2 Financial Corporation',
-  url: 'https://insidermortgage.com/',
-  logo: 'https://insidermortgage.com/C2-IMCv2.jpg',
-  image: 'https://insidermortgage.com/C2-IMCv2.jpg',
-  telephone: '+1-858-848-5653',
-  email: 'Rjain@insidermtg.com',
-  hasMap: 'https://maps.app.goo.gl/YNzoKE4J1ywzhySE8',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: '12230 El Camino Real #100',
-    addressLocality: 'San Diego',
-    addressRegion: 'CA',
-    postalCode: '92130',
-    addressCountry: 'US',
-  },
-  areaServed: {
-    '@type': 'State',
-    name: 'California',
-  },
+  '@graph': [
+    {
+      '@type': ['MortgageBroker', 'FinancialService'],
+      '@id': 'https://insidermortgage.com/#organization',
+      name: 'Insider Mortgage',
+      legalName: 'C2 Financial Corporation',
+      alternateName: 'Insider Mortgage powered by C2 Financial',
+      url: 'https://insidermortgage.com/',
+      logo: 'https://insidermortgage.com/C2-IMCv2.jpg',
+      image: 'https://insidermortgage.com/C2-IMCv2.jpg',
+      telephone: '+1-858-848-5653',
+      email: 'Rjain@insidermtg.com',
+      priceRange: '$$',
+      hasMap: 'https://maps.app.goo.gl/YNzoKE4J1ywzhySE8',
+      sameAs: [
+        'https://maps.app.goo.gl/YNzoKE4J1ywzhySE8',
+        'https://www.linkedin.com/in/rakeshjainprofile/',
+        'https://www.linkedin.com/in/david-sider-010701b/',
+      ],
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '12230 El Camino Real #100',
+        addressLocality: 'San Diego',
+        addressRegion: 'CA',
+        postalCode: '92130',
+        addressCountry: 'US',
+      },
+      areaServed: [
+        { '@type': 'State', name: 'California' },
+        { '@type': 'State', name: 'Arizona' },
+        { '@type': 'State', name: 'Florida' },
+        { '@type': 'State', name: 'Utah' },
+        { '@type': 'State', name: 'Washington' },
+      ],
+      founder: [
+        {
+          '@type': 'Person',
+          '@id': 'https://insidermortgage.com/bio-david/#person',
+          name: 'David Sider',
+          jobTitle: 'Managing Partner / Broker',
+          url: 'https://insidermortgage.com/bio-david/',
+          sameAs: 'https://www.linkedin.com/in/david-sider-010701b/',
+        },
+        {
+          '@type': 'Person',
+          '@id': 'https://insidermortgage.com/bio-rakesh/#person',
+          name: 'Rakesh Jain',
+          jobTitle: 'Senior Loan Officer & Partner',
+          url: 'https://insidermortgage.com/bio-rakesh/',
+          sameAs: 'https://www.linkedin.com/in/rakeshjainprofile/',
+        },
+      ],
+    },
+  ],
 };
 
 export default function RootLayout({ children }) {
@@ -68,7 +101,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(identitySchema) }}
         />
       </head>
       <body>

@@ -5,12 +5,13 @@ export const metadata = {
   description: 'Managing Partner / Broker at Insider Mortgage',
 };
 
-// Conservative Person schema: no license numbers or credential claims.
+// Person schema linked to central organization entity graph
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': 'https://insidermortgage.com/bio-david/#person',
   name: 'David Sider',
-  jobTitle: 'Mortgage Broker',
+  jobTitle: 'Managing Partner / Broker',
   url: 'https://insidermortgage.com/bio-david/',
   sameAs: [
     'https://www.linkedin.com/in/david-sider-010701b/'
@@ -18,6 +19,7 @@ const personSchema = {
   image: 'https://insidermortgage.com/david-sider.jpg',
   worksFor: {
     '@type': 'MortgageBroker',
+    '@id': 'https://insidermortgage.com/#organization',
     name: 'Insider Mortgage',
     url: 'https://insidermortgage.com/',
   },

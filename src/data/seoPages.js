@@ -191,8 +191,8 @@ export const seoPages = [
           text: 'Instead of confusing mortgage jargon or a 20-attachment email chain, we record personalized screen-share videos walking through your exact Loan Estimate and payment scenarios. You can watch, pause, and review your monthly payment, cash to close, and point/credit break-even math at your own pace.'
         },
         {
-          title: '3. Gift Funds, Seller Credits & Cash-to-Close Optimization',
-          text: 'We help you keep healthy post-closing cash reserves by strategically structuring family gift funds, seller closing-cost credits, lender credits, and eligible down payment assistance programs—minimizing the out-of-pocket cash you need to bring to the closing table.'
+          title: '3. Family Support, Down Payment Gifts & Co-Borrowers',
+          text: 'For many first-time buyers, family participation can make homeownership possible. Parents may help with down payment gift funds, join the mortgage as co-borrowers (non-occupant co-signers) to strengthen qualifying income, or both. We guide families through structuring these arrangements cleanly—ensuring gift letters and underwriting guidelines are satisfied while helping you navigate the important financial and legal considerations of protecting family contributions.'
         },
         {
           title: '4. Thorough Pre-Approval & Custom Offer Worksheets',

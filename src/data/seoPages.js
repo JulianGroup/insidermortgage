@@ -116,30 +116,94 @@ export const seoPages = [
   {
     slug: 'first-time',
     title: 'First-Time Home Buyers',
-    seoTitle: 'First-Time Home Buyer Mortgage Programs | Insider Mortgage',
-    seoDescription: 'Navigate the home buying process with confidence. We provide a step-by-step roadmap and low-down-payment options to get you into your first home.',
-    heroSubtitle: 'Navigate the home buying process with confidence. We provide a step-by-step roadmap and low-down-payment options.',
-    introHeader: 'Your Path to Homeownership',
-    introText: 'Buying your first home is incredibly exciting, but the mortgage process can feel overwhelming. We specialize in educating first-time buyers, breaking down the numbers, and finding the perfect loan program to fit your budget and long-term goals. We do not just process your loan; we provide a complete educational roadmap.',
-    gridCards: [
-      {
-        title: '💰 Low Down Payment Options',
-        text: 'You don\'t need 20% down. We offer Conventional loans with as little as 3% down and FHA loans starting at 3.5% down to help you keep cash in your pocket.'
-      },
-      {
-        title: '🤝 Down Payment Assistance',
-        text: 'Depending on your income and location, we can connect you with local down payment assistance programs and grants to cover your upfront costs.'
-      },
-      {
-        title: '📊 Educational Approach',
-        text: 'We record custom video breakdowns of your loan estimates so you understand exactly where every dollar is going. No hidden fees, no surprises.'
-      },
-      {
-        title: '🏡 Future Planning',
-        text: 'We help you plan for the future, showing you how and when you can refinance later to drop your Private Mortgage Insurance (PMI) and lower your payments.'
-      }
-    ],
-    formSubtitle: 'Ready to stop renting and start building equity? Let\'s build your custom home-buying roadmap today.',
+    heroSubheadline: 'Step-by-Step Mortgage Guidance, Low-Down-Payment Strategies & Clear Numbers',
+    seoTitle: 'First-Time Home Buyer Mortgage Programs & Roadmap | Insider Mortgage',
+    seoDescription: 'Navigate your first home purchase with confidence. Get a step-by-step roadmap, low-down-payment strategies, custom video breakdowns, and direct guidance from David Sider and Rakesh Jain.',
+    heroSubtitle: 'Buying your first home is an exciting milestone, but navigating interest rates, down payment myths, closing costs, and competitive offers can quickly feel overwhelming. Even buyers with strong incomes and solid savings often wonder how much home they can truly afford without stretching their monthly budget—or where to start before talking to a real estate agent.',
+    introHeader: 'START WITH CLARITY, NOT GUESSWORK',
+    introText: 'Our first step is always an honest, no-pressure review of your financial picture—even if you are months away from house hunting. We break down your comfortable monthly payment, cash-to-close options, and side-by-side loan programs on a clear spreadsheet so you know your exact buying power. And if you are running into any of these common first-time buyer challenges, we have solutions.',
+    commonIssuesSection: {
+      heading: 'COMMON CHALLENGES',
+      cards: [
+        {
+          title: '1. The 20% Down Payment Myth & Cash Reserve Anxiety',
+          preview: 'Many qualified renters stay on the sidelines for years believing they must save a full 20% down payment plus closing costs before speaking with a lender. Meanwhile, modest annual home price appreciation can move the finish line faster than you can save.',
+          moreParagraphs: [
+            'In reality, many first-time buyers purchase with 3% to 10% down—and draining every last dollar of your savings just to hit 20% down can leave you "house poor" without an emergency fund after move-in. Traditional bank calculators rarely show you the side-by-side math of keeping healthy cash reserves in your bank account while pairing a smaller down payment with a smart Private Mortgage Insurance (PMI) exit strategy.'
+          ]
+        },
+        {
+          title: '2. Monthly Payment Shock & Hidden Ownership Costs',
+          preview: 'Online mortgage calculators often show an artificially low monthly payment because they only calculate principal and interest—leaving out property taxes, homeowners insurance, HOA dues, Mello-Roos or special assessments, and mortgage insurance.',
+          moreParagraphs: [
+            'First-time buyers are frequently caught off guard when their true "PITIA" (Principal, Interest, Taxes, Insurance, and Association dues) payment comes in hundreds of dollars higher than an app estimate suggested. Furthermore, maximum lender pre-approval amounts are based on gross pre-tax income rather than your real take-home budget. At Insider Mortgage, we build your pre-approval around the monthly payment you actually feel comfortable making—factoring in property-specific tax rates and HOA dues upfront.'
+          ]
+        },
+        {
+          title: '3. Confusing Rate Quotes, Discount Points & Closing Costs',
+          preview: 'When shopping for your first mortgage, advertised teaser rates online almost always hide thousands of dollars in upfront discount points and origination fees buried in the fine print of a Loan Estimate.',
+          moreParagraphs: [
+            'Paying upfront points to buy down an interest rate only makes financial sense if you keep that exact mortgage past the monthly break-even point. Conversely, taking a par rate—or even a slightly higher rate with a lender credit—can offset your out-of-pocket closing costs and preserve your cash at closing. Without an advisor walking you through the break-even math down to the dollar, it is easy to overpay upfront for a loan you may refinance when rates shift.'
+          ]
+        },
+        {
+          title: '4. Student Loans, Credit Nuances & Variable Bonus or RSU Income',
+          preview: 'Even buyers with strong earnings and good credit can hit unexpected underwriting roadblocks when their compensation includes bonuses, overtime, commissions, RSUs, or when student loans and limited credit history factor into their debt-to-income (DTI) ratio.',
+          moreParagraphs: [
+            'Conventional, FHA, and portfolio loan programs apply very different rules to income-driven student loan payments, deferred balances, job transitions, and variable pay. A traditional retail bank might conservatively exclude your bonus income or apply an inflated monthly calculation to student loans—unnecessarily shrinking your qualifying budget when a smarter guideline choice or simple credit optimization step would unlock your full buying power.'
+          ]
+        },
+        {
+          title: '5. Competing Against Experienced Buyers in Fast-Moving Markets',
+          preview: 'In competitive neighborhoods, listing agents and sellers do not just look at the offer price—they closely evaluate the strength of your financing and the reputation of your lender to be sure escrow will close on time.',
+          moreParagraphs: [
+            'Generic "pre-qualification" letters generated by big-box banks or online call centers often carry little weight with sellers because no experienced loan officer has thoroughly vetted your documentation, and listing agents know large retail banks frequently miss contingency deadlines. First-time buyers need a fully underwritten, rock-solid pre-approval and a proactive lending team who personally calls the listing agent to vouch for their offer.'
+          ]
+        },
+        {
+          title: '6. Navigating Escrow, Contingencies & Inspections for the First Time',
+          preview: 'Once your offer is accepted, the clock starts ticking on earnest money deposits, home inspections, appraisal contingencies, loan disclosures, and underwriting conditions—often compressed into a 21-to-30-day window.',
+          moreParagraphs: [
+            'Without clear guidance, first-time buyers can feel overwhelmed by the difference between a physical home inspection and a lender appraisal, how seller repair credits work, or what financial moves to avoid during escrow (such as opening new credit accounts or moving funds between banks). Having a dedicated mortgage team who quarterbacks every milestone alongside your real estate agent keeps your closing calm, transparent, and on schedule.'
+          ]
+        }
+      ]
+    },
+    goodNewsSection: {
+      title: 'The Good News: Your First Home Should Come With a Clear Roadmap',
+      paragraphs: [
+        "Buying your first home doesn't mean you have to figure everything out on your own—or stretch yourself thin just to get your foot in the door.",
+        'At Insider Mortgage, we treat your first home purchase as the foundation of your long-term wealth strategy. Instead of handing you a generic rate quote, David and Rakesh walk you through custom spreadsheets and personalized video breakdowns comparing your down payment options, closing cost credits, and future refinance opportunities.',
+        'Whether you are ready to tour homes this weekend or planning 6 to 12 months ahead, our goal is to make sure you understand every number on the screen before you ever make a commitment.'
+      ],
+      ctaText: 'Schedule a call with David and Rakesh to explore your options',
+      showHeadshotsInCta: true
+    },
+    solutionsSection: {
+      heading: 'INSIDER SOLUTIONS',
+      cards: [
+        {
+          title: '1. Low Down Payment & PMI Exit Strategies',
+          text: "You don't need 20% down to buy a great home. We structure Conventional loans starting at 3%–5% down and FHA programs at 3.5% down, comparing total monthly payments side-by-side. Better yet, we map out a clear Day-1 plan showing how and when you can eliminate Private Mortgage Insurance (PMI) as you build equity or refinance."
+        },
+        {
+          title: '2. Custom Video & Spreadsheet Breakdowns',
+          text: 'Instead of confusing mortgage jargon or a 20-attachment email chain, we record personalized screen-share videos walking through your exact Loan Estimate and payment scenarios. You can watch, pause, and review your monthly payment, cash to close, and point/credit break-even math at your own pace.'
+        },
+        {
+          title: '3. Gift Funds, Seller Credits & Cash-to-Close Optimization',
+          text: 'We help you keep healthy post-closing cash reserves by strategically structuring family gift funds, seller closing-cost credits, lender credits, and eligible down payment assistance programs—minimizing the out-of-pocket cash you need to bring to the closing table.'
+        },
+        {
+          title: '4. Listing-Agent-Ready Pre-Approval & 21-Day Closings',
+          text: 'Before you write an offer, we thoroughly verify your income, assets, and credit so your pre-approval is rock-solid. When you submit an offer, we proactively call the seller’s listing agent to confirm your financial strength and our ability to close smoothly in as little as 21 days.'
+        }
+      ]
+    },
+    gridCards: [],
+    formTitle: 'Build Your First-Time Buyer Game Plan with David & Rakesh',
+    formSubtitle: 'Whether you are ready to make offers now or just starting to plan for the months ahead, schedule a one-on-one call with David Sider and Rakesh Jain. We will walk through your budget, down payment options, and questions with zero pressure.',
+    showPartnerHeaderInForm: true,
     leadCategory: 'First-Time Buyer Lead',
     reviews: [
       {

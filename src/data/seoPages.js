@@ -44,17 +44,19 @@ export const seoPages = [
           ]
         },
         {
-          title: '5. Complicated or multiple Business Ownership and Income Structures',
-          preview: 'Many successful entrepreneurs earn income through multiple businesses, partnerships, LLCs, or S-corporations. Their compensation may include W-2 wages, business distributions, K-1 income, and profits retained within their companies.',
+          title: '5. Complex Business & Income Structures',
+          preview: 'Successful entrepreneurs often earn income through multiple businesses, partnerships, LLCs, or S-corporations. Their compensation may include W-2 wages, partnership distributions, Schedule K-1 income, and profits retained within their companies.',
           moreParagraphs: [
-            'Traditional lenders must analyze these different income sources and determine how much is actually available to the borrower without compromising the financial health of the business. Income that appears substantial on a tax return may not be fully usable for mortgage qualification, particularly when earnings are retained in a business or ownership arrangements are complex. The more complicated the financial structure, the more difficult the underwriting process can become.'
+            "Traditional mortgage lenders must evaluate these different income sources to determine how much can be used for qualification. Income reflected on a tax return isn't necessarily available to the borrower, particularly when profits remain within a business or accessing those funds could affect its financial stability. Multiple ownership interests, intercompany transactions, and different methods of compensation can further complicate the analysis.",
+            "As a result, a borrower with substantial income and considerable net worth may face unexpected difficulties qualifying for a mortgage simply because their financial picture doesn't fit neatly into traditional underwriting guidelines."
           ]
         },
         {
-          title: '6. Significant Business Debt or Use of Business Assets',
-          preview: "Business owners frequently use credit lines, equipment loans, business credit cards, and other financing to grow and operate their companies. Depending on how these obligations are structured and documented, certain business debts may affect the borrower's personal debt-to-income ratio.",
+          title: '6. Business Debt & Access to Business Funds',
+          preview: "Business owners frequently rely on credit lines, equipment financing, business credit cards, and other forms of borrowing to operate and grow their companies. Although these obligations may be paid entirely by the business, certain debts can still affect the owner's personal debt-to-income ratio, particularly when the borrower is personally liable or the business payment history isn't adequately documented.",
           moreParagraphs: [
-            'Similarly, using funds from a business account for a down payment can create additional underwriting requirements. Lenders may need to establish that withdrawing those funds will not adversely affect business operations. A borrower can therefore have substantial assets and a healthy business while still encountering obstacles when trying to use those resources to qualify for a mortgage.'
+            "Similarly, having substantial cash reserves in a business account doesn't necessarily mean those funds can be freely used for a mortgage down payment or closing costs. Traditional lenders may require additional documentation to verify that withdrawing the funds won't negatively affect the company's operations or financial stability.",
+            'Consequently, a borrower may own a financially healthy business with significant assets and manageable debt, yet encounter unexpected obstacles when attempting to use those resources to qualify for a mortgage.'
           ]
         }
       ]

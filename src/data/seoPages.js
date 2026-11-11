@@ -7,10 +7,9 @@ export const seoPages = [
     seoDescription: 'Being self-employed can create unexpected mortgage challenges. Discover traditional and alternative income documentation strategies tailored for business owners, entrepreneurs, freelancers, and independent contractors.',
     heroSubtitle: 'Being self-employed can offer tremendous financial opportunities, but when it comes to getting a mortgage, it can also create some unexpected challenges. For business owners, entrepreneurs, freelancers, and independent contractors, income often works differently. Even highly successful borrowers with excellent credit, substantial assets, and strong cash flow can find themselves struggling to qualify for a traditional mortgage.',
     introHeader: 'START WITH YOUR TAX RETURNS',
-    introText: 'Our first step is always to comprehensively review your financial situation. We will see if we can use standard “full-documentation” underwriting using one or two years of your tax returns so we can get you the best priced rates out there. However, if your situation falls within these coming Self-Employed challenges, we have solutions.',
+    introText: 'Our first step is always to comprehensively review your financial situation. We will see if we can use standard “full-documentation” underwriting using one or two years of your tax returns so we can get you the best priced rates out there. However, if your self-employed situation has one or more of these income qualifying challenges, we have solutions.',
     commonIssuesSection: {
-      heading: 'COMMON ISSUES FOR SELF-EMPLOYED BORROWERS',
-      subtitle: 'Below are the most common reasons Self-Employed borrowers have trouble qualifying for a traditional mortgage.',
+      heading: 'COMMON CHALLENGES',
       cards: [
         {
           title: '1. Aggressive Tax Deductions Reduce Qualifying Income (I write everything off)',
@@ -70,7 +69,7 @@ export const seoPages = [
       showHeadshotsInCta: true
     },
     solutionsSection: {
-      heading: 'QUALIFYING INCOME SOLUTIONS',
+      heading: 'INSIDER SOLUTIONS',
       cards: [
         {
           title: '1. Bank Statement Loans',

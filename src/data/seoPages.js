@@ -147,10 +147,10 @@ export const seoPages = [
           ]
         },
         {
-          title: '4. Student Loans, Credit Nuances & Variable Bonus or RSU Income',
-          preview: 'Even buyers with strong earnings and good credit can hit unexpected underwriting roadblocks when their compensation includes bonuses, overtime, commissions, RSUs, or when student loans and limited credit history factor into their debt-to-income (DTI) ratio.',
+          title: '4. Boosting Buying Power With Overtime, Bonus & RSU Income',
+          preview: 'Many homebuyers earn a significant portion of their total compensation through incentive pay—such as overtime, annual or quarterly bonuses, commissions, or Restricted Stock Units (RSUs). However, traditional lenders often default to qualifying you on base salary alone if your variable compensation is not documented and calculated properly.',
           moreParagraphs: [
-            'Conventional, FHA, and portfolio loan programs apply very different rules to income-driven student loan payments, deferred balances, job transitions, and variable pay. A traditional retail bank might conservatively exclude your bonus income or apply an inflated monthly calculation to student loans—unnecessarily shrinking your qualifying budget when a smarter guideline choice or simple credit optimization step would unlock your full buying power.'
+            'Underwriting rules for overtime, bonuses, and vesting RSUs vary across loan programs. While lenders typically review a 12-to-24-month history of incentive pay, details like employer verification of continuance, RSU vesting schedules, and recent job promotions can determine whether that income is counted or excluded. By analyzing your paystubs, W-2s, and stock vesting statements upfront, we make sure every eligible dollar of your overtime, bonus, and RSU income is used to maximize your qualifying buying power.'
           ]
         },
         {

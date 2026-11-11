@@ -23,7 +23,9 @@ const ExpandableCard = ({ card, accentColor = 'var(--secondary)' }) => {
     >
       <div>
         <h3>{card.title}</h3>
-        <p style={{ marginBottom: expanded && hasMore ? '1rem' : '0.75rem' }}>{card.preview}</p>
+        <p style={{ marginBottom: expanded && hasMore ? '1rem' : hasMore ? '0.75rem' : 0 }}>
+          {card.text || card.preview}
+        </p>
         {expanded &&
           hasMore &&
           card.moreParagraphs.map((para, idx) => (

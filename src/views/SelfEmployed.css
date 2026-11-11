@@ -32,7 +32,7 @@
   display: grid;
   gap: var(--space-8);
   margin-top: var(--space-12);
-  align-items: start;
+  align-items: stretch;
 }
 
 @media (min-width: 768px) {
@@ -47,6 +47,7 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   border-left: 4px solid var(--secondary);
+  height: 100%;
 }
 
 .program-card h3 {

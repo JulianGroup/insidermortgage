@@ -75,31 +75,19 @@ export const seoPages = [
       cards: [
         {
           title: '1. Bank Statement Loans',
-          preview: 'Instead of relying on tax returns, these programs typically evaluate 12 or 24 months of personal or business bank statements. Lenders analyze eligible monthly deposits to calculate the businesses monthly gross revenue.',
-          moreParagraphs: [
-            'Then, depending on the type of business, the lender applies an appropriate business expense factor to determine qualifying net income. This can be an excellent option for business owners with strong cash flow but significant tax deductions.'
-          ]
+          text: 'Instead of relying on tax returns, these programs typically evaluate 12 or 24 months of personal or business bank statements. Lenders analyze eligible monthly deposits to calculate the businesses monthly gross revenue. Then, depending on the type of business, the lender applies an appropriate business expense factor to determine qualifying net income. This can be an excellent option for business owners with strong cash flow but significant tax deductions.'
         },
         {
           title: '2. 1099 Income Loans',
-          preview: 'Designed for independent contractors, consultants, and commission-based professionals, these programs typically use one or two years of 1099 forms rather than tax returns.',
-          moreParagraphs: [
-            'Lenders calculate qualifying income by applying an allowable expense factor to reported earnings. This approach may recognize substantially more income than traditional tax-return underwriting.'
-          ]
+          text: 'Designed for independent contractors, consultants, and commission-based professionals, these programs typically use one or two years of 1099 forms rather than tax returns. Lenders calculate qualifying income by applying an allowable expense factor to reported earnings. This approach may recognize substantially more income than traditional tax-return underwriting.'
         },
         {
           title: '3. Profit & Loss (P&L) Loans',
-          preview: 'Certain lenders allow self-employed borrowers to qualify using a business profit-and-loss statement over the most recent 12 months versus relying on the previous year’s tax return. The P&L is often prepared or verified by a CPA or qualified tax professional.',
-          moreParagraphs: [
-            'This solution is also useful for the business owner who receives periodic but not standard income. The revenues will appear on a financial statement without underwriters having to scrutinize the deposits that would be reflected on bank statements.'
-          ]
+          text: 'Certain lenders allow self-employed borrowers to qualify using a business profit-and-loss statement over the most recent 12 months versus relying on the previous year’s tax return. The P&L is often prepared or verified by a qualified tax professional. This solution is also useful for the business owner who receives periodic but not standard income. The revenues will appear on a financial statement without underwriters having to scrutinize the deposits that would be reflected on bank statements.'
         },
         {
           title: '4. Asset Utilization Loans',
-          preview: 'For borrowers with substantial savings, investments, or retirement assets, some programs allow qualifying income to be calculated from eligible assets rather than employment earnings.',
-          moreParagraphs: [
-            'Lenders use a formula to convert those assets into an equivalent monthly income. This can be particularly useful for supplementing business income.'
-          ]
+          text: 'For borrowers with substantial savings, investments, or retirement assets, some programs allow qualifying income to be calculated from eligible assets rather than employment earnings. Lenders use a formula to convert those assets into an equivalent monthly income. This can be particularly useful for supplementing business income.'
         }
       ]
     },

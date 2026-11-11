@@ -120,8 +120,8 @@ export const seoPages = [
     seoTitle: 'First-Time Home Buyer Mortgage Programs & Roadmap | Insider Mortgage',
     seoDescription: 'Navigate your first home purchase with confidence. Get a step-by-step roadmap, low-down-payment strategies, custom video breakdowns, and direct guidance from David Sider and Rakesh Jain.',
     heroSubtitle: 'Buying your first home is an exciting milestone, but navigating interest rates, down payment myths, closing costs, and competitive offers can quickly feel overwhelming. Even buyers with strong incomes and solid savings often wonder how much home they can truly afford without stretching their monthly budget—or where to start before talking to a real estate agent.',
-    introHeader: 'START WITH CLARITY, NOT GUESSWORK',
-    introText: 'Our first step is always an honest, no-pressure review of your financial picture—even if you are months away from house hunting. We break down your comfortable monthly payment, cash-to-close options, and side-by-side loan programs on a clear spreadsheet so you know your exact buying power. And if you are running into any of these common first-time buyer challenges, we have solutions.',
+    introHeader: 'START BY GETTING PRE-APPROVED',
+    introText: 'Getting pre-approved is the most important first step before you begin house hunting. This process includes reviewing your income, assets, credit scores, and liabilities so your financing is rock-solid from day one. Before you make an offer, we will prepare custom worksheets so you know what to financially expect for your cash to close and monthly payment. However, if your situation involves any of these common first-time buyer challenges, we have solutions.',
     commonIssuesSection: {
       heading: 'COMMON CHALLENGES',
       cards: [
@@ -195,8 +195,8 @@ export const seoPages = [
           text: 'We help you keep healthy post-closing cash reserves by strategically structuring family gift funds, seller closing-cost credits, lender credits, and eligible down payment assistance programs—minimizing the out-of-pocket cash you need to bring to the closing table.'
         },
         {
-          title: '4. Listing-Agent-Ready Pre-Approval & 21-Day Closings',
-          text: 'Before you write an offer, we thoroughly verify your income, assets, and credit so your pre-approval is rock-solid. When you submit an offer, we proactively call the seller’s listing agent to confirm your financial strength and our ability to close smoothly in as little as 21 days.'
+          title: '4. Thorough Pre-Approval & Custom Offer Worksheets',
+          text: 'Our pre-approval process includes thoroughly reviewing your income, assets, credit scores, and liabilities upfront. Before you make an offer, we prepare custom worksheets tailored to that home so you know exactly what to financially expect for your cash to close and monthly payment—and we call the listing agent to vouch for your offer.'
         }
       ]
     },

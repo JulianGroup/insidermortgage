@@ -12,10 +12,10 @@ export const seoPages = [
       heading: 'COMMON CHALLENGES',
       cards: [
         {
-          title: '1. Aggressive Tax Deductions Reduce Qualifying Income (I write everything off)',
-          preview: 'One of the greatest ironies of self-employment is that strategies used to minimize taxes can also reduce mortgage borrowing power. Business owners routinely deduct legitimate expenses such as vehicles, travel, equipment, office costs, and other operating expenses to reduce their taxable income.',
+          title: '1. Tax Write-Offs Reduce Qualifying Income',
+          preview: 'One of the greatest ironies of self-employment is that strategies used to minimize taxes can also reduce mortgage borrowing power. Business owners routinely deduct legitimate expenses such as vehicles, travel, equipment, office costs, and other business expenditures. While these deductions can substantially reduce their tax liability, they may also reduce the income traditional mortgage lenders recognize when determining how much a borrower can qualify for.',
           moreParagraphs: [
-            'Sometimes one-time expenses are placed on tax returns with no indication that they are a one-time expense. Traditional mortgage lenders generally focus on net income reported on tax returns with little regard to gross revenue and cashflow or expense management. Some noncash expenses, including certain depreciation, may be added back, but many deductions reduce the income available for qualification. Consequently, a borrower generating substantial business revenue may show relatively little qualifying income on paper, making it difficult to obtain the mortgage they can comfortably afford.'
+            "Traditional lenders generally rely heavily on net income reported on tax returns rather than gross revenue or overall business cash flow. Certain expenses, such as eligible depreciation and other noncash or one-time expenses, may be added back when calculating qualifying income, but many deductions cannot. Furthermore, unusual or nonrecurring expenses aren't always clearly identified on tax returns, potentially understating the borrower's ongoing earning capacity. As a result, a financially successful business owner with substantial revenues and strong cash flow may appear to have surprisingly little qualifying income on paper, making it difficult to obtain a mortgage they can comfortably afford. Insider Mortgage consults with your tax advisor with strategies on how to document various expenses on your tax return that helps with lender underwriting."
           ]
         },
         {

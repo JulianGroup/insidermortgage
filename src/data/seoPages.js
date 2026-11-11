@@ -166,6 +166,13 @@ export const seoPages = [
           moreParagraphs: [
             'Even a 20-to-40-point bump into the next credit tier can save you hundreds of dollars a month on your payment and mortgage insurance. During our pre-approval review, we analyze the exact factors affecting your credit report and coach you on actionable steps to improve your credit scores—such as paying down specific revolving credit card balances to optimal utilization thresholds—so you qualify for the best possible loan terms.'
           ]
+        },
+        {
+          title: '7. Purchasing Together: Unmarried Partners, Friends & Family Co-Buying',
+          preview: 'With today’s home prices, many first-time buyers decide to purchase together—whether as unmarried couples, siblings, friends, or multi-generational family members—to combine incomes, savings, and purchasing power.',
+          moreParagraphs: [
+            'While pooling resources can make buying a home possible much sooner, these arrangements require careful planning around how title and vesting are structured (such as Joint Tenancy vs. Tenancy in Common). Co-buyers must navigate how unequal down payment contributions or monthly payment splits are protected, how debt-to-income ratios and credit scores are evaluated across both borrowers, and what legal mechanisms are in place if one party needs to relocate, sell, or refinance down the road. We help co-buyers understand the mortgage underwriting rules and align their financing strategy so everyone enters escrow with total clarity.'
+          ]
         }
       ]
     },

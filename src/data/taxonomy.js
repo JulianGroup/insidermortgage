@@ -88,12 +88,12 @@ export const WHO_WE_SERVE_CATEGORIES = [
   },
   {
     id: 'cat-investors',
-    label: 'Investment Properties',
+    label: 'Investors',
     shortLabel: 'Investors & DSCR',
     icon: '🏢',
     description:
       'Expand your real estate portfolio without the red tape. Qualify strictly based on the cash flow of the property, not your personal income.',
-    highlights: ['DSCR Loans', 'No Personal Income Limits', 'Portfolio Expansion'],
+    highlights: ['DSCR Loans', 'No Personal Income Limits', '2nd mortgages'],
     route: '/dscr-loans',
     matchingSlugs: ['dscr-loans'],
     showOnHomepageWhoWeServe: true,

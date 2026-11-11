@@ -86,7 +86,7 @@ export const seoPages = [
           ]
         },
         {
-          title: '3. Profit & Loss (P&L) Statement Loans',
+          title: '3. Profit & Loss (P&L) Loans',
           preview: 'Certain lenders allow self-employed borrowers to qualify using a business profit-and-loss statement over the most recent 12 months versus relying on the previous year’s tax return. The P&L is often prepared or verified by a CPA or qualified tax professional.',
           moreParagraphs: [
             'This solution is also useful for the business owner who receives periodic but not standard income. The revenues will appear on a financial statement without underwriters having to scrutinize the deposits that would be reflected on bank statements.'

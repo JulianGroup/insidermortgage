@@ -161,10 +161,10 @@ export const seoPages = [
           ]
         },
         {
-          title: '6. Navigating Escrow, Contingencies & Inspections for the First Time',
-          preview: 'Once your offer is accepted, the clock starts ticking on earnest money deposits, home inspections, appraisal contingencies, loan disclosures, and underwriting conditions—often compressed into a 21-to-30-day window.',
+          title: '6. Credit Score Nuances & Strategic Credit Coaching',
+          preview: 'Your credit score plays a major role in both your mortgage qualification and the interest rate and Private Mortgage Insurance (PMI) pricing you receive. Yet the scores shown on free consumer credit apps often differ from the tri-merge FICO mortgage scores lenders actually evaluate.',
           moreParagraphs: [
-            'Without clear guidance, first-time buyers can feel overwhelmed by the difference between a physical home inspection and a lender appraisal, how seller repair credits work, or what financial moves to avoid during escrow (such as opening new credit accounts or moving funds between banks). Having a dedicated mortgage team who quarterbacks every milestone alongside your real estate agent keeps your closing calm, transparent, and on schedule.'
+            'Even a 20-to-40-point bump into the next credit tier can save you hundreds of dollars a month on your payment and mortgage insurance. During our pre-approval review, we analyze the exact factors affecting your credit report and coach you on actionable steps to improve your credit scores—such as paying down specific revolving credit card balances to optimal utilization thresholds—so you qualify for the best possible loan terms.'
           ]
         }
       ]

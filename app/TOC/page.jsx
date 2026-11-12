@@ -83,9 +83,9 @@ const KNOWN_PAGE_METADATA = {
     description: 'Low down payment options, educational video breakdowns, and step-by-step guidance.',
     category: 'borrower-programs'
   },
-  '/dscr-loans': {
-    title: 'DSCR Investment Property Loans',
-    description: 'Cash-flow based rental property financing with no personal income verification and LLC vesting.',
+  '/investor-loans': {
+    title: 'Investment Property Loans',
+    description: 'Cash-flow based rental property financing, portfolio scaling, and consultative mortgage structuring.',
     category: 'borrower-programs'
   },
   '/retirees': {

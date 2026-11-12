@@ -391,13 +391,31 @@ export const seoPages = [
     leadCategory: 'S-Corp Owner Mortgage Lead'
   },
   {
-    slug: 'dscr-loans',
-    title: 'DSCR Investment Property Loans',
-    seoTitle: 'DSCR Loan vs Conventional Loan | Insider Mortgage',
-    seoDescription: 'Learn about DSCR loans and the differences between a DSCR loan vs conventional loan. Invest in real estate with no personal income verification.',
-    heroSubtitle: 'Scale your real estate portfolio without personal income limits. Discover why investors prefer DSCR loans.',
-    introHeader: 'START WITH YOUR PURPOSE',
-    introText: 'Our consultative approach focuses investors to establish their true purpose of owning investment real estate. The realities of owning investment real estate is that it is more like owning a business, and is not just a passive investment.',
+    slug: 'investor-loans',
+    title: 'START WITH YOUR PURPOSE',
+    seoTitle: 'Investment Property Loans & Financing Strategies | Insider Mortgage',
+    seoDescription: 'Financing strategies for residential investment properties, 1-4 units, and condominiums. Consultative mortgage structuring from David Sider and Rakesh Jain.',
+    heroSubtitle: 'Our consultative approach focuses investors to establish their true purpose of owning investment real estate. The realities of owning investment real estate is that it is more like owning a business, and is not just a passive investment.',
+    contentSections: [
+      {
+        heading: 'Think Beyond Owning Just One Property',
+        paragraphs: [
+          'For some investors, owning a single rental property may provide worthwhile income, appreciation potential, and tax benefits. For others, the financial returns may not justify the capital commitment, ongoing responsibilities, and occasional headaches associated with managing one property.',
+          'This is why we encourage investors to consider the bigger picture.',
+          'Is the goal to own one rental property for long-term appreciation or to gradually build a portfolio of income-producing properties? Will the anticipated returns justify the time, risk, and capital invested? How will future acquisitions be financed? And how does real estate ownership fit alongside other investments and retirement plans?',
+          'Building a portfolio may create opportunities for greater diversification, more efficient management, and long-term wealth accumulation. However, acquiring additional properties also introduces greater financial commitments and operational complexity.',
+          'At Insider Mortgage, we encourage investors to understand both the opportunities and responsibilities of property ownership. Our goal is to help develop financing strategies that support the investor\'s broader financial objectives, whether acquiring a first rental property or expanding an established portfolio.'
+        ]
+      },
+      {
+        heading: 'FINANCING INVESTMENT PROPERTIES',
+        paragraphs: [
+          'Residential investment properties include single-family rental homes, 2-4 unit properties and condominiums.',
+          'Financing investment properties involves more than simply comparing interest rates. The investor\'s personal income, available assets, existing real estate holdings, desired ownership structure, and the property\'s rental income can all influence which financing program makes the most sense. Condominiums are especially challenging since in addition to the property and the borrower being approved, the health of the HOA and the HOA management company must be approved as well.',
+          'At Insider Mortgage, we evaluate various financing approaches, ranging from traditional income qualification to alternative documentation and property-based lending.'
+        ]
+      }
+    ],
     gridCards: [
       {
         title: '🏢 No Personal Income Used',
@@ -416,15 +434,10 @@ export const seoPages = [
         text: 'While many programs look for the Gross Rent to cover the Mortgage Payment (PITIA), we also work with specialized investors who do not have a minimum DSCR requirement at all, giving you ultimate flexibility.'
       }
     ],
-    extraSection: {
-      title: 'DSCR Loan vs Conventional Loan',
-      paragraphs: [
-        'When financing an investment property, you are often stuck comparing a DSCR loan vs conventional loan. Conventional loans require extensive DTI checks, tax returns, and personal income verification. A DSCR (Debt Service Coverage Ratio) loan ignores your personal income entirely.',
-        'Approval is based strictly on whether the property\'s rental income covers the monthly mortgage payment, giving real estate investors the freedom to scale their portfolio without personal income roadblocks.'
-      ]
-    },
-    formSubtitle: 'Ready to scale your portfolio? Use our interactive DSCR Calculator to see if your property qualifies, or request a custom quote below.',
-    leadCategory: 'DSCR Loan Lead',
+    formSubtitle: 'Ready to scale your portfolio? Connect with David and Rakesh to discuss your investment property financing strategy.',
+    leadCategory: 'Investor Loan Lead',
+    formSource: 'Investor Loans Page',
+    insightsTitle: 'Investment Property Insights & Breakdowns',
     reviews: [
       {
         name: 'Tamara Thompson',

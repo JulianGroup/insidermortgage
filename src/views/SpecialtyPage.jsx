@@ -67,14 +67,50 @@ const SpecialtyPage = ({ data }) => {
           </div>
         </section>
 
-        <section className="section" style={{ paddingBottom: '2rem', paddingTop: 'var(--space-12)' }}>
-          <div className="container" style={{ maxWidth: '800px', textAlign: 'center' }}>
-            <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>{data.introHeader}</h2>
-            <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.7, padding: 'var(--space-6)', backgroundColor: 'white', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-sm)' }}>
-              {data.introText}
-            </p>
-          </div>
-        </section>
+        {data.contentSections ? (
+          <section className="section" style={{ paddingBottom: '2rem', paddingTop: 'var(--space-12)' }}>
+            <div className="container" style={{ maxWidth: '850px' }}>
+              {data.contentSections.map((sec, sIdx) => (
+                <div
+                  key={sIdx}
+                  style={{
+                    marginBottom: sIdx < data.contentSections.length - 1 ? '3rem' : '1.5rem',
+                    padding: 'clamp(1.75rem, 4vw, 2.75rem)',
+                    backgroundColor: 'white',
+                    borderRadius: 'var(--radius-lg)',
+                    boxShadow: 'var(--shadow-sm)',
+                  }}
+                >
+                  <h2 style={{ color: 'var(--primary)', marginBottom: '1.25rem', textAlign: 'center' }}>
+                    {sec.heading}
+                  </h2>
+                  {sec.paragraphs.map((p, pIdx) => (
+                    <p
+                      key={pIdx}
+                      style={{
+                        color: 'var(--text-secondary)',
+                        fontSize: '1.15rem',
+                        lineHeight: 1.7,
+                        marginBottom: pIdx < sec.paragraphs.length - 1 ? '1.15rem' : 0,
+                      }}
+                    >
+                      {p}
+                    </p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : data.introHeader ? (
+          <section className="section" style={{ paddingBottom: '2rem', paddingTop: 'var(--space-12)' }}>
+            <div className="container" style={{ maxWidth: '800px', textAlign: 'center' }}>
+              <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>{data.introHeader}</h2>
+              <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.7, padding: 'var(--space-6)', backgroundColor: 'white', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-sm)' }}>
+                {data.introText}
+              </p>
+            </div>
+          </section>
+        ) : null}
 
         <section className="section bg-color">
           <div className="container">
@@ -247,7 +283,7 @@ const SpecialtyPage = ({ data }) => {
 
         <RelatedInsights
           routeSlug={data.slug}
-          title={`${data.title} — Insights & Breakdowns`}
+          title={data.insightsTitle || `${data.title} — Insights & Breakdowns`}
           subtitle="Real-world mortgage math and scenario walkthroughs by David Sider and Rakesh Jain."
           background="#FFFFFF"
         />
@@ -289,7 +325,7 @@ const SpecialtyPage = ({ data }) => {
               )}
             </div>
 
-            <ScheduleCallForm source={data.title || data.leadCategory} />
+            <ScheduleCallForm source={data.formSource || data.title || data.leadCategory} />
           </div>
         </section>
       </main>

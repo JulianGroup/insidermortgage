@@ -88,14 +88,14 @@ export const WHO_WE_SERVE_CATEGORIES = [
   },
   {
     id: 'cat-investors',
-    label: 'Investors',
+    label: 'Investment Properties',
     shortLabel: 'Investors & DSCR',
     icon: '🏢',
     description:
       'Expand your real estate portfolio without the red tape. Qualify strictly based on the cash flow of the property, not your personal income.',
     highlights: ['DSCR Loans', 'No Personal Income Limits', '2nd mortgages'],
-    route: '/dscr-loans',
-    matchingSlugs: ['dscr-loans'],
+    route: '/investor-loans',
+    matchingSlugs: ['investor-loans', 'dscr-loans'],
     showOnHomepageWhoWeServe: true,
     status: 'active',
   },
@@ -230,6 +230,6 @@ export const SPECIFIC_ROUTE_OPTIONS = [
   { slug: 'first-time', label: 'First-Time Home Buyers (/first-time)' },
   { slug: 'pre-approval', label: 'Purchase Pre-Approval (/pre-approval)' },
   { slug: 'refinance', label: 'Refinance & Home Equity (/refinance)' },
-  { slug: 'dscr-loans', label: 'DSCR Investor Loans (/dscr-loans)' },
+  { slug: 'investor-loans', label: 'Investor Loans (/investor-loans)' },
   { slug: 'retirees', label: 'Retirees & 55+ (/retirees)' },
 ];

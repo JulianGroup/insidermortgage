@@ -13,7 +13,7 @@
     "youtubeUrl": "",
     "videoPlaceholderNote": "",
     "categories": ["cat-investors"],
-    "specificRoutes": ["dscr-loans"],
+    "specificRoutes": ["investor-loans", "dscr-loans"],
     "calculators": ["calc-interactive", "calc-loan-limits"],
     "bioTags": ["bio-david"],
     "sections": [
@@ -72,7 +72,7 @@
     "youtubeUrl": "",
     "videoPlaceholderNote": "",
     "categories": ["cat-investors"],
-    "specificRoutes": ["dscr-loans"],
+    "specificRoutes": ["investor-loans", "dscr-loans"],
     "calculators": ["calc-interactive"],
     "bioTags": ["bio-david"],
     "sections": [
@@ -512,7 +512,7 @@
     "youtubeUrl": "",
     "videoPlaceholderNote": "",
     "categories": ["cat-investors"],
-    "specificRoutes": ["dscr-loans"],
+    "specificRoutes": ["investor-loans", "dscr-loans"],
     "calculators": ["calc-interactive"],
     "bioTags": [],
     "sections": [
@@ -547,7 +547,7 @@
     "youtubeUrl": "",
     "videoPlaceholderNote": "Optional YouTube spreadsheet walkthrough video.",
     "categories": ["cat-investors"],
-    "specificRoutes": ["dscr-loans"],
+    "specificRoutes": ["investor-loans", "dscr-loans"],
     "calculators": ["calc-loan-limits", "calc-yield-curve"],
     "bioTags": [],
     "sections": [

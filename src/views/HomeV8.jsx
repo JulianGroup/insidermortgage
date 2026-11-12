@@ -25,7 +25,7 @@ const specialtiesBento = [
     tag: 'PORTFOLIO GROWTH',
     title: 'Investors',
     shortDesc: 'DSCR cash-flow loans with no personal income limits.',
-    route: '/dscr-loans',
+    route: '/investor-loans',
     icon: (
       <svg viewBox="0 0 28 28" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 24h22" />
@@ -110,7 +110,7 @@ const solutionPrograms = [
       'Long-Term & Short-Term Rental Options',
       'Portfolio & Cross-Collateral Strategies'
     ],
-    route: '/dscr-loans',
+    route: '/investor-loans',
     span: 'normal'
   },
   {

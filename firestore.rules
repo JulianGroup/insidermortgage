@@ -42,6 +42,12 @@ service cloud.firestore {
       allow write: if isOwner();
     }
 
+    // Portal settings (e.g. Gemini AI key, team integrations)
+    match /settings/{settingId} {
+      allow read: if hasPermission('blog');
+      allow write: if isOwner();
+    }
+
     // Blog Studio: published posts are public (so static build sync & public preview can read them);
     // drafts, pending review items, and archived posts are strictly restricted to authorized blog staff/owners.
     // Staff with 'blog' permission may only save 'draft' or 'pending'; only owners may approve/publish/archive/delete.

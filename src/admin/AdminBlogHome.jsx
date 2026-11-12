@@ -761,6 +761,8 @@ function BlogStudioInner() {
               key={editingPost.id}
               isNewPost={isNewPost}
               editingPost={editingPost}
+              isOwner={isOwner}
+              db={db}
               onChangeAuthor={(authorId) => updateDraft({ authorId })}
               onApplyFormattedDraft={applyAiFormattedDraft}
             />

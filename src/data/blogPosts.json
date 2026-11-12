@@ -1,5 +1,104 @@
 [
   {
+    "id": "post-inv-david-goals",
+    "slug": "what-do-you-want-your-investment-to-accomplish",
+    "title": "What Do You Want Your Investment to Accomplish?",
+    "topicBadge": "🏢 Real Estate Investing",
+    "excerpt": "Before selecting a property, determining an ownership structure, or choosing a mortgage program, investors should clarify their primary objectives: tax benefits, cash flow, equity growth, or portfolio diversification.",
+    "authorId": "david",
+    "publishedAt": "2026-11-11",
+    "readTimeMinutes": 4,
+    "status": "published",
+    "isDraftSample": false,
+    "youtubeUrl": "",
+    "videoPlaceholderNote": "",
+    "categories": ["cat-investors"],
+    "specificRoutes": ["dscr-loans"],
+    "calculators": ["calc-interactive", "calc-loan-limits"],
+    "bioTags": ["bio-david"],
+    "sections": [
+      {
+        "paragraphs": [
+          "Before selecting a property, determining an ownership structure, or choosing a mortgage program, we believe investors should identify their primary investment objectives."
+        ]
+      },
+      {
+        "dividerAbove": true,
+        "heading": "1. Tax Benefits and Depreciation Strategies",
+        "paragraphs": [
+          "Investment real estate may offer valuable tax-planning opportunities, including depreciation deductions, certain accelerated depreciation strategies, and other deductions associated with income-producing properties.",
+          "The potential benefits depend on the investor's individual tax circumstances, property type, and applicable tax laws. Working with a knowledgeable CPA can be particularly important when evaluating these strategies."
+        ]
+      },
+      {
+        "dividerAbove": true,
+        "heading": "2. Cash Flow and Rental Income",
+        "paragraphs": [
+          "For investors focused on generating recurring income, the relationship between rental revenue, operating expenses, financing costs, and cash flow is critical.",
+          "Mortgage structure, interest rates, property management expenses, maintenance reserves, and anticipated vacancies can all influence the investment's financial performance."
+        ]
+      },
+      {
+        "dividerAbove": true,
+        "heading": "3. Long-Term Appreciation and Equity Growth",
+        "paragraphs": [
+          "Some investors are primarily interested in acquiring properties they believe will appreciate over time. In addition to potential appreciation, mortgage principal reduction can gradually increase an investor's equity.",
+          "Real estate markets fluctuate, making the investor's anticipated holding period, liquidity, and ability to withstand changing market conditions important considerations."
+        ]
+      },
+      {
+        "dividerAbove": true,
+        "heading": "4. Portfolio Diversification and Wealth Building",
+        "paragraphs": [
+          "Investment real estate may also provide opportunities to diversify wealth beyond stocks, bonds, retirement accounts, and business interests.",
+          "For investors planning to acquire multiple properties, financing decisions should consider not only the current purchase but also how the investment fits into a longer-term portfolio strategy."
+        ]
+      }
+    ],
+    "keyTakeawayTitle": "Strategic Takeaway",
+    "keyTakeaway": "Aligning your mortgage financing structure—whether conventional investment or DSCR—with your primary objective ensures your loan supports your long-term wealth strategy rather than restricting it."
+  },
+  {
+    "id": "post-inv-david-realities",
+    "slug": "the-realities-of-owning-investment-real-estate",
+    "title": "The Realities of Owning Investment Real Estate",
+    "topicBadge": "🏢 Real Estate Investing",
+    "excerpt": "Investment property ownership is a business, not just a passive investment. Here is how repairs, vacancies, tenant management, liability, and property oversight impact your bottom line.",
+    "authorId": "david",
+    "publishedAt": "2026-11-11",
+    "readTimeMinutes": 4,
+    "status": "published",
+    "isDraftSample": false,
+    "youtubeUrl": "",
+    "videoPlaceholderNote": "",
+    "categories": ["cat-investors"],
+    "specificRoutes": ["dscr-loans"],
+    "calculators": ["calc-interactive"],
+    "bioTags": ["bio-david"],
+    "sections": [
+      {
+        "heading": "Investment Property Ownership Is a Business, Not Just an Investment",
+        "paragraphs": [
+          "Owning investment real estate can be an excellent way to generate income and build long-term wealth. However, unlike many passive investments, real estate requires ongoing management, financial oversight, and attention to unexpected challenges.",
+          "Even when an investor hires a professional property management company to handle day-to-day operations, the owner remains responsible for the investment's overall performance and many of its financial and legal obligations."
+        ]
+      },
+      {
+        "dividerAbove": true,
+        "heading": "Five Realities Every Investor Must Plan For",
+        "bullets": [
+          "**Repairs and Maintenance:** Properties require regular upkeep, and unexpected expenses involving roofing, plumbing, heating, appliances, or other major systems can significantly affect cash flow.",
+          "**Vacancies and Lost Rental Income:** Rental income is not guaranteed. Periods between tenants and changing market conditions can create financial pressure while mortgage payments, property taxes, insurance, and other expenses continue.",
+          "**Tenant-Related Challenges:** Late payments, property damage, lease violations, disputes, and potential eviction proceedings can create additional expenses and management responsibilities.",
+          "**Liability and Insurance Considerations:** Investment property ownership involves potential liability exposure. Appropriate insurance coverage, ownership structures, and risk management are important considerations.",
+          "**Property Management and Oversight:** Hiring a property manager can reduce the daily workload, but it also creates an additional expense. Owners must still monitor performance, approve major expenditures, and make important financial decisions."
+        ]
+      }
+    ],
+    "keyTakeawayTitle": "The Bottom Line",
+    "keyTakeaway": "Factoring in healthy liquidity reserves, realistic vacancy rates, and proper management costs upfront is what turns real estate from a stressful side venture into a resilient, profitable business."
+  },
+  {
     "id": "post-heloc-rakesh-how-to-shop",
     "slug": "how-to-shop-for-a-heloc",
     "title": "How to Shop for a HELOC",

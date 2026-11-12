@@ -1,5 +1,4 @@
-import { getAI, getGenerativeModel, GoogleAIBackend, Schema } from 'firebase/ai';
-import { app } from '../../lib/firebase';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import {
   AUTHORS,
   WHO_WE_SERVE_CATEGORIES,
@@ -13,121 +12,150 @@ const VALID_CALC_IDS = new Set(CALCULATOR_TAGS.map((c) => c.id));
 const VALID_BIO_IDS = new Set(BIO_TAGS.map((b) => b.id));
 const VALID_ROUTE_SLUGS = new Set(SPECIFIC_ROUTE_OPTIONS.map((r) => r.slug));
 
-// Candidate Gemini models via Firebase AI Logic (GoogleAIBackend)
-const MODEL_CANDIDATES = ['gemini-2.5-flash', 'gemini-2.0-flash'];
+// Preferred Gemini models on Google AI Studio
+const MODEL_CANDIDATES = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
 
-const formattedArticleSchema = Schema.object({
+export const formattedArticleJsonSchema = {
+  type: 'OBJECT',
   properties: {
-    title: Schema.string({
+    title: {
+      type: 'STRING',
       description: 'Clear, compelling article headline (no clickbait, 5 to 12 words).',
-    }),
-    topicBadge: Schema.string({
+    },
+    topicBadge: {
+      type: 'STRING',
       description:
         'Short 2-3 word badge above the title (e.g., "First-Time Buyers", "HELOC Strategy", "Self-Employed", "Investor DSCR", "55+ & Prop 19").',
-    }),
-    excerpt: Schema.string({
+    },
+    excerpt: {
+      type: 'STRING',
       description:
         '1 to 2 crisp sentences (140-210 characters) summarizing the article value for blog cards and Google SEO meta description.',
-    }),
-    categories: Schema.array({
+    },
+    categories: {
+      type: 'ARRAY',
       description: 'Matching Who-We-Serve category IDs (0 to 2 most relevant).',
-      items: Schema.string(),
-    }),
-    specificRoutes: Schema.array({
-      description: 'Matching website loan-program page slugs where this article should appear in Related Insights (1 to 4 most relevant).',
-      items: Schema.string(),
-    }),
-    calculators: Schema.array({
+      items: { type: 'STRING' },
+    },
+    specificRoutes: {
+      type: 'ARRAY',
+      description:
+        'Matching website loan-program page slugs where this article should appear in Related Insights (1 to 4 most relevant).',
+      items: { type: 'STRING' },
+    },
+    calculators: {
+      type: 'ARRAY',
       description: 'Matching Geeky Calculator IDs if relevant to the article topic (0 to 2).',
-      items: Schema.string(),
-    }),
-    sections: Schema.array({
+      items: { type: 'STRING' },
+    },
+    sections: {
+      type: 'ARRAY',
       description: 'Structured body sections (typically 3 to 6 rich sections).',
-      items: Schema.object({
+      items: {
+        type: 'OBJECT',
         properties: {
-          heading: Schema.string({
+          heading: {
+            type: 'STRING',
             description: 'Clear section heading.',
-          }),
-          paragraphs: Schema.array({
+          },
+          paragraphs: {
+            type: 'ARRAY',
             description:
               'Introductory or explanatory paragraphs for this section. Use **bold** for key phrases and [anchor](https://insidermortgage.com/...) for internal links when appropriate.',
-            items: Schema.string(),
-          }),
-          bullets: Schema.array({
+            items: { type: 'STRING' },
+          },
+          bullets: {
+            type: 'ARRAY',
             description:
               'Optional bullet points. Format each bullet with a bold lead-in phrase like "**Lead-in concept:** Clear explanation..."',
-            items: Schema.string(),
-          }),
-          numberedItems: Schema.array({
+            items: { type: 'STRING' },
+          },
+          numberedItems: {
+            type: 'ARRAY',
             description:
               'Optional numbered checklist items, questions to ask, or sequential action steps.',
-            items: Schema.object({
+            items: {
+              type: 'OBJECT',
               properties: {
-                title: Schema.string({ description: 'Short bold step or question title.' }),
-                text: Schema.string({ description: '1-3 sentence actionable explanation.' }),
+                title: { type: 'STRING', description: 'Short bold step or question title.' },
+                text: { type: 'STRING', description: '1-3 sentence actionable explanation.' },
               },
-            }),
-          }),
-          table: Schema.object({
+              required: ['title', 'text'],
+            },
+          },
+          table: {
+            type: 'OBJECT',
             description:
               'Optional structured comparison table when comparing options, features, fees, or roles (e.g. Inspection vs Appraisal, Loan A vs Loan B).',
             properties: {
-              headers: Schema.array({
-                description: 'Column headers (2 to 4 columns, e.g., ["Feature", "Home Inspection", "Lender Appraisal"]).',
-                items: Schema.string(),
-              }),
-              rows: Schema.array({
+              headers: {
+                type: 'ARRAY',
+                description:
+                  'Column headers (2 to 4 columns, e.g., ["Feature", "Home Inspection", "Lender Appraisal"]).',
+                items: { type: 'STRING' },
+              },
+              rows: {
+                type: 'ARRAY',
                 description: 'Table rows, each containing cells matching headers length.',
-                items: Schema.object({
+                items: {
+                  type: 'OBJECT',
                   properties: {
-                    cells: Schema.array({
-                      items: Schema.string(),
-                    }),
+                    cells: {
+                      type: 'ARRAY',
+                      items: { type: 'STRING' },
+                    },
                   },
-                }),
-              }),
+                  required: ['cells'],
+                },
+              },
             },
-          }),
-          formula: Schema.string({
+            required: ['headers', 'rows'],
+          },
+          formula: {
+            type: 'STRING',
             description:
               'Optional short formula callout box if a calculation applies (e.g. "Your Rate = U.S. Prime Rate + Lender Margin"). Leave empty if none.',
-          }),
-          comparisonColumns: Schema.array({
+          },
+          comparisonColumns: {
+            type: 'ARRAY',
             description:
               'Optional 2 side-by-side comparison cards (e.g. Draw Period vs Repayment Period, Option A vs Option B).',
-            items: Schema.object({
+            items: {
+              type: 'OBJECT',
               properties: {
-                title: Schema.string(),
-                subtitle: Schema.string(),
-                bullets: Schema.array({ items: Schema.string() }),
+                title: { type: 'STRING' },
+                subtitle: { type: 'STRING' },
+                bullets: {
+                  type: 'ARRAY',
+                  items: { type: 'STRING' },
+                },
               },
-              optionalProperties: ['subtitle'],
-            }),
-          }),
+              required: ['title', 'bullets'],
+            },
+          },
         },
-        optionalProperties: [
-          'bullets',
-          'numberedItems',
-          'table',
-          'formula',
-          'comparisonColumns',
-        ],
-      }),
-    }),
-    keyTakeawayTitle: Schema.string({
+        required: ['heading', 'paragraphs'],
+      },
+    },
+    keyTakeawayTitle: {
+      type: 'STRING',
       description: 'Short title for the closing summary callout box (e.g., "Bottom-Line Takeaway").',
-    }),
-    keyTakeaway: Schema.string({
+    },
+    keyTakeaway: {
+      type: 'STRING',
       description: '2 to 3 sentence bottom-line summary wrapping up the practical advice.',
-    }),
+    },
   },
-});
+  required: ['title', 'excerpt', 'sections', 'keyTakeaway'],
+};
 
 function buildSystemInstruction(authorId) {
   const author = AUTHORS[authorId] || AUTHORS.rakesh;
   const categoriesList = WHO_WE_SERVE_CATEGORIES.map((c) => `- "${c.id}": ${c.label}`).join('\n');
   const routesList = SPECIFIC_ROUTE_OPTIONS.map((r) => `- "${r.slug}": ${r.label}`).join('\n');
-  const calcsList = CALCULATOR_TAGS.map((c) => `- "${c.id}": ${c.label} (https://insidermortgage.com${c.route}/)`).join('\n');
+  const calcsList = CALCULATOR_TAGS.map(
+    (c) => `- "${c.id}": ${c.label} (https://insidermortgage.com${c.route}/)`
+  ).join('\n');
 
   return `You are an expert mortgage editorial assistant formatting articles for ${author.name} (${author.role}) at Insider Mortgage (C2 Financial Corporation).
 
@@ -277,19 +305,75 @@ function normalizeFormattedDraft(raw, authorId) {
 }
 
 /**
- * Uses Firebase AI Logic (Gemini Developer API backend) to convert raw notes/text
- * into a structured Blog Studio article object ready for Rakesh/David to review & edit.
+ * Retrieves the stored Gemini API key from Firestore (shared team setting)
+ * or local device storage.
+ */
+export async function getStoredApiKey(db) {
+  if (typeof window !== 'undefined') {
+    const local = localStorage.getItem('imc_gemini_api_key');
+    if (local && local.trim()) return local.trim();
+  }
+  if (db) {
+    try {
+      const snap = await getDoc(doc(db, 'settings', 'ai'));
+      if (snap.exists() && snap.data()?.geminiApiKey) {
+        const key = snap.data().geminiApiKey.trim();
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('imc_gemini_api_key', key);
+        }
+        return key;
+      }
+    } catch {
+      // Gracefully fall through on unauthenticated / permission checks
+    }
+  }
+  return '';
+}
+
+/**
+ * Saves the Gemini API key locally and optionally into Firestore so all staff share it.
+ */
+export async function saveStoredApiKey(db, apiKey, saveToTeam = true) {
+  const cleanKey = (apiKey || '').trim();
+  if (typeof window !== 'undefined') {
+    if (cleanKey) {
+      localStorage.setItem('imc_gemini_api_key', cleanKey);
+    } else {
+      localStorage.removeItem('imc_gemini_api_key');
+    }
+  }
+  if (saveToTeam && db && cleanKey) {
+    try {
+      await setDoc(
+        doc(db, 'settings', 'ai'),
+        { geminiApiKey: cleanKey, updatedAt: serverTimestamp() },
+        { merge: true }
+      );
+    } catch (err) {
+      console.warn('Could not save API key to team settings (saved locally):', err.message);
+    }
+  }
+}
+
+/**
+ * Direct Gemini API call using user-provided API key from Google AI Studio.
+ * Bypasses Firebase App Check and reCAPTCHA completely.
  */
 export async function formatRawTextWithAI({
+  apiKey,
   rawText,
   extraInstructions = '',
   authorId = 'rakesh',
 }) {
+  if (!apiKey || !apiKey.trim()) {
+    throw new Error(
+      'Please enter your Gemini API Key first. Get a free key at aistudio.google.com/app/apikey'
+    );
+  }
   if (!rawText || !rawText.trim()) {
     throw new Error('Please paste your rough text, bullet points, or draft notes first.');
   }
 
-  const ai = getAI(app, { backend: new GoogleAIBackend() });
   const systemInstruction = buildSystemInstruction(authorId);
 
   const userPrompt = [
@@ -304,44 +388,63 @@ export async function formatRawTextWithAI({
   let lastError = null;
 
   for (const modelName of MODEL_CANDIDATES) {
-    try {
-      const model = getGenerativeModel(ai, {
-        model: modelName,
-        systemInstruction,
-        generationConfig: {
-          responseMimeType: 'application/json',
-          responseSchema: formattedArticleSchema,
-          temperature: 0.35,
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey.trim()}`;
+    const payload = {
+      system_instruction: {
+        parts: [{ text: systemInstruction }],
+      },
+      contents: [
+        {
+          role: 'user',
+          parts: [{ text: userPrompt }],
         },
+      ],
+      generationConfig: {
+        response_mime_type: 'application/json',
+        response_schema: formattedArticleJsonSchema,
+        temperature: 0.35,
+      },
+    };
+
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
-      const response = await model.generateContent(userPrompt);
-      const jsonText = response.response.text();
-      const parsed = JSON.parse(jsonText);
+      const data = await res.json();
+
+      if (!res.ok) {
+        const errorMsg = data?.error?.message || `HTTP ${res.status}`;
+        // If 404 on model name, try next candidate
+        if (res.status === 404 || errorMsg.toLowerCase().includes('not found')) {
+          lastError = new Error(`Model ${modelName} not available: ${errorMsg}`);
+          continue;
+        }
+        throw new Error(errorMsg);
+      }
+
+      let text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) {
+        throw new Error('No content returned from Gemini. Please try again.');
+      }
+      text = text.trim();
+      if (text.startsWith('```')) {
+        text = text.replace(/^```[a-z]*\n?/i, '').replace(/```$/i, '').trim();
+      }
+
+      const parsed = JSON.parse(text);
       return normalizeFormattedDraft(parsed, authorId);
     } catch (err) {
       lastError = err;
-      const msg = String(err?.message || err || '');
-      // If Firebase AI Logic API itself is not yet enabled in Firebase Console, surface immediately
-      if (
-        err?.code === 'api-not-enabled' ||
-        msg.includes('api-not-enabled') ||
-        msg.includes('firebasevertexai.googleapis.com') ||
-        msg.includes('SERVICE_DISABLED')
-      ) {
-        const setupError = new Error(
-          'One-time Firebase AI setup needed: click "Get started" on Firebase AI Logic (Gemini Developer API) in your Firebase Console, then click Format again.'
-        );
-        setupError.setupUrl =
-          'https://console.firebase.google.com/project/imc-website-2026/ailogic';
-        throw setupError;
-      }
-      // If model name not found (404), try next candidate; otherwise rethrow
-      if (!msg.includes('404') && !msg.toLowerCase().includes('not found')) {
+      const msg = String(err?.message || '');
+      // If error is not a 404 model issue, rethrow immediately (e.g. invalid key or quota)
+      if (!msg.toLowerCase().includes('not found') && !msg.includes('404')) {
         throw err;
       }
     }
   }
 
-  throw lastError || new Error('AI formatting failed. Please try again.');
+  throw lastError || new Error('AI formatting failed. Please check your API key.');
 }

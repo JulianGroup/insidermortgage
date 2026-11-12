@@ -1,20 +1,49 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AUTHORS } from '../../data/taxonomy';
-import { formatRawTextWithAI } from './aiDraftFormatter';
+import {
+  formatRawTextWithAI,
+  getStoredApiKey,
+  saveStoredApiKey,
+} from './aiDraftFormatter';
 
 export default function AiFormatterPanel({
   isNewPost,
   editingPost,
+  isOwner = false,
+  db = null,
   onChangeAuthor,
   onApplyFormattedDraft,
 }) {
   const [expanded, setExpanded] = useState(Boolean(isNewPost));
+  const [apiKey, setApiKey] = useState('');
+  const [showKeyInput, setShowKeyInput] = useState(false);
+  const [saveToTeam, setSaveToTeam] = useState(true);
+  const [keySavedBanner, setKeySavedBanner] = useState(false);
+
   const [rawText, setRawText] = useState('');
   const [extraInstructions, setExtraInstructions] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [setupUrl, setSetupUrl] = useState(null);
+
+  // Load saved key on mount
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      const stored = await getStoredApiKey(db);
+      if (isMounted) {
+        if (stored) {
+          setApiKey(stored);
+          setShowKeyInput(false);
+        } else {
+          setShowKeyInput(true);
+        }
+      }
+    })();
+    return () => {
+      isMounted = false;
+    };
+  }, [db]);
 
   const hasExistingContent = Boolean(
     (editingPost?.title && editingPost.title.trim()) ||
@@ -27,9 +56,25 @@ export default function AiFormatterPanel({
       )
   );
 
+  const handleSaveKeyManually = async () => {
+    if (!apiKey.trim()) return;
+    await saveStoredApiKey(db, apiKey.trim(), isOwner && saveToTeam);
+    setShowKeyInput(false);
+    setKeySavedBanner(true);
+    setTimeout(() => setKeySavedBanner(false), 3500);
+  };
+
   const handleFormat = async () => {
     setError(null);
-    setSetupUrl(null);
+
+    const activeKey = apiKey.trim();
+    if (!activeKey) {
+      setError(
+        'Please enter your Gemini API Key below. (Get your free key in 30 seconds at aistudio.google.com/app/apikey)'
+      );
+      setShowKeyInput(true);
+      return;
+    }
 
     if (!rawText.trim()) {
       setError('Paste your rough text, notes, email draft, or transcript above first.');
@@ -47,7 +92,11 @@ export default function AiFormatterPanel({
 
     setLoading(true);
     try {
+      // Save key so future runs don't need re-entering
+      await saveStoredApiKey(db, activeKey, isOwner && saveToTeam);
+
       const formatted = await formatRawTextWithAI({
+        apiKey: activeKey,
         rawText,
         extraInstructions,
         authorId: editingPost?.authorId || 'rakesh',
@@ -55,10 +104,7 @@ export default function AiFormatterPanel({
       onApplyFormattedDraft(formatted);
       setExpanded(false);
     } catch (err) {
-      setError(err?.message || 'AI formatting failed. Please try again.');
-      if (err?.setupUrl) {
-        setSetupUrl(err.setupUrl);
-      }
+      setError(err?.message || 'AI formatting failed. Please verify your API key and try again.');
     } finally {
       setLoading(false);
     }
@@ -144,12 +190,155 @@ export default function AiFormatterPanel({
             borderTop: '1px solid rgba(255, 255, 255, 0.12)',
           }}
         >
+          {/* API Key Configuration Card */}
+          <div
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.06)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '10px',
+              padding: '0.85rem 1.1rem',
+              marginTop: '1rem',
+              marginBottom: '0.9rem',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '0.5rem',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#EFB51E' }}>
+                  🔑 Gemini API Key:
+                </span>
+                {apiKey ? (
+                  <span
+                    style={{
+                      fontSize: '0.86rem',
+                      fontFamily: 'monospace',
+                      backgroundColor: 'rgba(0,0,0,0.3)',
+                      padding: '0.2rem 0.5rem',
+                      borderRadius: '4px',
+                      color: '#A7F3D0',
+                    }}
+                  >
+                    ••••••••••••{apiKey.slice(-4)}
+                  </span>
+                ) : (
+                  <span style={{ fontSize: '0.85rem', color: '#FCA5A5' }}>
+                    Not entered yet
+                  </span>
+                )}
+                {keySavedBanner && (
+                  <span style={{ fontSize: '0.78rem', color: '#86EFAC', fontWeight: 700 }}>
+                    ✓ Key Saved!
+                  </span>
+                )}
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <a
+                  href="https://aistudio.google.com/app/apikey"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontSize: '0.8rem',
+                    color: '#93C5FD',
+                    textDecoration: 'underline',
+                  }}
+                >
+                  Get free key at Google AI Studio ↗
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setShowKeyInput((prev) => !prev)}
+                  style={{
+                    padding: '0.3rem 0.65rem',
+                    borderRadius: '6px',
+                    border: '1px solid rgba(255, 255, 255, 0.25)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    color: '#FFFFFF',
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {showKeyInput ? 'Hide Key Field' : apiKey ? 'Change Key' : 'Enter Key'}
+                </button>
+              </div>
+            </div>
+
+            {showKeyInput && (
+              <div style={{ marginTop: '0.8rem', paddingTop: '0.8rem', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                  <input
+                    type="password"
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    placeholder="Paste Gemini API Key (starts with AIzaSy...)"
+                    style={{
+                      flex: 1,
+                      minWidth: '260px',
+                      padding: '0.55rem 0.75rem',
+                      borderRadius: '7px',
+                      border: '1px solid rgba(255, 255, 255, 0.3)',
+                      backgroundColor: '#FFFFFF',
+                      color: '#0F172A',
+                      fontSize: '0.9rem',
+                      fontFamily: 'monospace',
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSaveKeyManually}
+                    disabled={!apiKey.trim()}
+                    style={{
+                      padding: '0.55rem 1rem',
+                      borderRadius: '7px',
+                      border: 'none',
+                      backgroundColor: '#EFB51E',
+                      color: '#060A2D',
+                      fontWeight: 800,
+                      fontSize: '0.86rem',
+                      cursor: apiKey.trim() ? 'pointer' : 'not-allowed',
+                    }}
+                  >
+                    Save Key
+                  </button>
+                </div>
+
+                {isOwner && (
+                  <label
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.45rem',
+                      fontSize: '0.8rem',
+                      color: '#CBD5E1',
+                      marginTop: '0.5rem',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={saveToTeam}
+                      onChange={(e) => setSaveToTeam(e.target.checked)}
+                    />
+                    Share key securely with team members in Firestore (so David and staff can use it without entering their own key)
+                  </label>
+                )}
+              </div>
+            )}
+          </div>
+
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
               gap: '0.9rem',
-              marginTop: '1rem',
               marginBottom: '0.9rem',
             }}
           >
@@ -261,39 +450,16 @@ export default function AiFormatterPanel({
           {error && (
             <div
               style={{
-                backgroundColor: setupUrl ? '#FEF3C7' : '#FEE2E2',
-                color: setupUrl ? '#92400E' : '#991B1B',
-                border: setupUrl ? '1px solid #FCD34D' : '1px solid #FCA5A5',
+                backgroundColor: '#FEE2E2',
+                color: '#991B1B',
+                border: '1px solid #FCA5A5',
                 borderRadius: '10px',
                 padding: '0.85rem 1rem',
                 marginBottom: '0.95rem',
                 fontSize: '0.9rem',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '0.75rem',
               }}
             >
               <span>{error}</span>
-              {setupUrl && (
-                <a
-                  href={setupUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: '0.45rem 0.9rem',
-                    borderRadius: '8px',
-                    backgroundColor: '#060A2D',
-                    color: '#EFB51E',
-                    fontWeight: 800,
-                    textDecoration: 'none',
-                    fontSize: '0.85rem',
-                  }}
-                >
-                  Enable Firebase AI Logic ↗
-                </a>
-              )}
             </div>
           )}
 

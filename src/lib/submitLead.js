@@ -28,7 +28,9 @@ const ROUTE_LABELS = {
   '/mortgage-for-scorp': 'Mortgages for S-Corps',
   '/mortgage-for-small-business': 'Mortgages for Small Business Owners',
   '/CAprop-19-calculator': 'CA Prop 19 Calculator',
-  '/geek-out/prime-rate-history': 'U.S. Prime Rate History'
+  '/geek-out/prime-rate-history': 'U.S. Prime Rate History',
+  '/tools/rental-analyzer': '1–4 Unit Rental & ADU Investment Analyzer',
+  '/admin/tools/rental-analyzer': 'Admin Rental & ADU Investment Analyzer'
 };
 
 function getPageContext(defaultSource) {
@@ -68,7 +70,20 @@ const OPTIONAL_DETAIL_LABELS = {
   notes: 'Borrower Notes / Goals',
   firstTimeBuyer: 'First-Time Home Buyer?',
   vaEligible: 'VA Loan Eligible?',
-  movingHomes: 'Selling Current Home?'
+  movingHomes: 'Selling Current Home?',
+  unitCount: 'Property Unit Count',
+  purchasePrice: 'Purchase Price',
+  downPayment: 'Down Payment / Initial Cash',
+  loanAmount: 'Estimated Loan Amount',
+  totalMonthlyRent: 'Total Monthly Scheduled Rent',
+  unitScheduleSummary: 'Unit Rent Schedule',
+  year1Noi: 'Year 1 Net Operating Income (NOI)',
+  monthlyCashFlow: 'Estimated Year 1 Monthly Cash Flow',
+  year1CashFlow: 'Estimated Year 1 Annual Cash Flow',
+  fiveYearIrr: '5-Year Projected IRR / ROI',
+  tenYearIrr: '10-Year Projected IRR / ROI',
+  selectedLoanOption: 'Selected Financing Option',
+  whatIfScenario: 'What-If Scenario (Refi / ADU)'
 };
 
 /**
@@ -208,4 +223,130 @@ export async function submitConsultationLead(formData, defaultSource = 'Website 
   if (!anySucceeded) {
     throw new Error('Submission failed across all channels');
   }
+}
+
+/**
+ * Formats and dispatches a 1–4 Unit Rental & ADU Investment Analyzer lead
+ * with complete property underwriting numbers included in both structured rows
+ * and the message/notes payload for David Sider and Rakesh Jain.
+ */
+export async function submitInvestmentAnalysisLead(leadInput) {
+  const fmtCurrency = (n) =>
+    new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    }).format(Number(n) || 0);
+
+  const fmtPct = (n, digits = 2) => `${(Number(n) || 0).toFixed(digits)}%`;
+
+  const {
+    name,
+    email,
+    phone,
+    selectedLoanOption = 'DSCR / Investment Property Loan',
+    smsConsent = false,
+    notes: userNotes = '',
+    inputs = {},
+    summary = {}
+  } = leadInput || {};
+
+  const unitScheduleSummary = Array.isArray(inputs.units)
+    ? inputs.units
+        .map(
+          (u, idx) =>
+            `${u.label || `Unit ${idx + 1}`}${u.subAddress ? ` (${u.subAddress})` : ''}: ${fmtCurrency(u.monthlyRent)}/mo`
+        )
+        .join(' | ')
+    : '';
+
+  const whatIfParts = [];
+  if (inputs.refiEnabled) {
+    whatIfParts.push(
+      `Refi in Year ${inputs.refiYear || 3} @ ${fmtPct((inputs.refiNewRate || 0.0625) * 100)} (${
+        inputs.refiReset30 ? '30-Yr Reset' : 'Remaining Term'
+      })`
+    );
+  }
+  if (inputs.aduEnabled) {
+    const aduCount = inputs.unitCount > 1 && inputs.aduCount === 2 ? 2 : 1;
+    whatIfParts.push(
+      `${aduCount} ADU(s) — Budget ${fmtCurrency((inputs.aduCost || 0) * aduCount)}, Rent ${fmtCurrency(
+        (inputs.aduRentMonthly || 0) * aduCount
+      )}/mo`
+    );
+  }
+  const whatIfScenario = whatIfParts.length > 0 ? whatIfParts.join('; ') : 'Baseline (No Refi / No ADU)';
+
+  const purchasePriceStr = fmtCurrency(inputs.purchasePrice);
+  const downPaymentDollar = (Number(inputs.purchasePrice) || 0) * (Number(inputs.downPaymentPct) || 0.25);
+  const downPaymentStr = `${fmtCurrency(downPaymentDollar)} (${fmtPct(
+    (inputs.downPaymentPct || 0.25) * 100,
+    0
+  )}) + ${fmtCurrency(inputs.makeReadyCost)} Make-Ready = ${fmtCurrency(summary.initialCashInvested)} Total Cash`;
+  const loanAmountStr = `${fmtCurrency(summary.loanAmount)} @ ${fmtPct(
+    (inputs.interestRate || 0.075) * 100,
+    3
+  )}`;
+  const piPaymentStr = `${fmtCurrency(summary.monthlyPmt)}/mo`;
+  const totalMonthlyRentStr = `${fmtCurrency(summary.totalMonthlyRent)}/mo`;
+  const year1NoiStr = `${fmtCurrency(summary.year1Noi)}/yr`;
+  const monthlyCashFlowStr = `${fmtCurrency((Number(summary.year1CashFlow) || 0) / 12)}/mo`;
+  const year1CashFlowStr = `${fmtCurrency(summary.year1CashFlow)}/yr`;
+  const fiveYearIrrStr = summary.fiveYear
+    ? `${fmtPct(summary.fiveYear.irrPct)} IRR | ${fmtPct(summary.fiveYear.totalRoiPct, 1)} Total ROI (${fmtCurrency(
+        summary.fiveYear.totalProfit
+      )} Profit)`
+    : '';
+  const tenYearIrrStr = summary.tenYear
+    ? `${fmtPct(summary.tenYear.irrPct)} IRR | ${fmtPct(summary.tenYear.totalRoiPct, 1)} Total ROI (${fmtCurrency(
+        summary.tenYear.totalProfit
+      )} Profit)`
+    : '';
+
+  const combinedNotes = [
+    userNotes ? `Borrower Note: ${userNotes}` : null,
+    `Property: ${inputs.propertyAddress || 'Not specified'} (${inputs.unitCount || 1} Unit${
+      (inputs.unitCount || 1) > 1 ? 's' : ''
+    })`,
+    `Purchase Price: ${purchasePriceStr} | Loan: ${loanAmountStr} | P&I: ${piPaymentStr}`,
+    `Initial Cash Outlay: ${downPaymentStr}`,
+    `Scheduled Rent: ${totalMonthlyRentStr} (${unitScheduleSummary})`,
+    `Year 1 NOI: ${year1NoiStr} | Monthly CF: ${monthlyCashFlowStr} | Annual CF: ${year1CashFlowStr}`,
+    `5-Yr Return: ${fiveYearIrrStr}`,
+    `10-Yr Return: ${tenYearIrrStr}`,
+    `Scenario: ${whatIfScenario}`,
+    `Financing Goal: ${selectedLoanOption}`
+  ]
+    .filter(Boolean)
+    .join(' || ');
+
+  return submitConsultationLead(
+    {
+      name,
+      email,
+      phone,
+      smsConsent,
+      category: `1–4 Unit Rental Analyzer (${selectedLoanOption})`,
+      propertyAddress: inputs.propertyAddress || 'Not specified',
+      unitCount: `${inputs.unitCount || 1} Unit${(inputs.unitCount || 1) > 1 ? 's' : ''}`,
+      purchasePrice: purchasePriceStr,
+      downPayment: downPaymentStr,
+      loanAmount: loanAmountStr,
+      interestRate: fmtPct((inputs.interestRate || 0.075) * 100, 3),
+      piPayment: piPaymentStr,
+      totalMonthlyRent: totalMonthlyRentStr,
+      unitScheduleSummary,
+      year1Noi: year1NoiStr,
+      monthlyCashFlow: monthlyCashFlowStr,
+      year1CashFlow: year1CashFlowStr,
+      fiveYearIrr: fiveYearIrrStr,
+      tenYearIrr: tenYearIrrStr,
+      selectedLoanOption,
+      whatIfScenario,
+      notes: combinedNotes,
+      message: combinedNotes
+    },
+    '1–4 Unit Rental & ADU Investment Analyzer'
+  );
 }

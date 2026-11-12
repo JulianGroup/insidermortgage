@@ -75,6 +75,16 @@ export default function GeekOut() {
       )
     },
     {
+      title: "1–4 Unit Rental & ADU Investment Analyzer",
+      description: "Underwrite Single-Family, Duplex, Triplex, and Fourplex properties with unit-level rent schedules, 10-year IRR, Refi, and ADU modeling.",
+      href: "/tools/rental-analyzer",
+      icon: (
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{width:'40px', height:'40px'}}>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
+      )
+    },
+    {
       title: "California Prop 19 Tax Transfer Calculator",
       description: "Calculate your property tax savings under Prop 19. See how seniors 55+ can transfer their low tax base when buying a replacement home.",
       href: "/CAprop-19-calculator",

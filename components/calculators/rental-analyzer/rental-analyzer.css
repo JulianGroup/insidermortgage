@@ -1,0 +1,283 @@
+/* Scoped Tailwind-compatible utility & brand stylesheet for InsiderMortgage Rental Analyzer */
+.rental-analyzer-root {
+  --im-navy: #060A2D;
+  --im-navy-light: #0C1764;
+  --im-blue: #0468E9;
+  --im-gold: #EFB51E;
+  --im-gold-hover: #D09B0F;
+  --im-bg: #F8FAFC;
+  --im-surface: #FFFFFF;
+  --im-border: #E2E8F0;
+  --im-text: #0F172A;
+  --im-muted: #64748B;
+  font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
+  color: var(--im-text);
+  background-color: var(--im-bg);
+  min-height: 100vh;
+}
+
+.rental-analyzer-root *,
+.rental-analyzer-root *::before,
+.rental-analyzer-root *::after {
+  box-sizing: border-box;
+}
+
+/* Range Sliders */
+.rental-analyzer-root input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: #CBD5E1;
+  outline: none;
+  cursor: pointer;
+}
+
+.rental-analyzer-root input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #060A2D;
+  border: 2px solid #EFB51E;
+  box-shadow: 0 2px 6px rgba(6, 10, 45, 0.25);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.rental-analyzer-root input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+}
+
+.rental-analyzer-root input[type='range']::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #060A2D;
+  border: 2px solid #EFB51E;
+  box-shadow: 0 2px 6px rgba(6, 10, 45, 0.25);
+  cursor: pointer;
+}
+
+/* Layout & Grid */
+.ra-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.ra-main-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .ra-main-grid {
+    grid-template-columns: 5fr 7fr;
+  }
+}
+
+.ra-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1rem;
+}
+
+.ra-horizon-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .ra-horizon-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.ra-two-col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .ra-two-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Cards & Surfaces */
+.ra-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);
+}
+
+.ra-card-navy {
+  background: linear-gradient(135deg, #060A2D 0%, #0C1764 100%);
+  color: #FFFFFF;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 12px 28px -6px rgba(6, 10, 45, 0.28);
+}
+
+/* Segmented Unit Selector */
+.ra-segment-group {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  background: #F1F5F9;
+  padding: 0.35rem;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+}
+
+.ra-segment-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 0.5rem;
+  border-radius: 9px;
+  border: none;
+  background: transparent;
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ra-segment-btn:hover {
+  color: #060A2D;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ra-segment-btn.active {
+  background: #060A2D;
+  color: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(6, 10, 45, 0.2);
+}
+
+.ra-segment-btn.active .ra-segment-sub {
+  color: #EFB51E;
+}
+
+.ra-segment-sub {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+/* Inputs */
+.ra-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #CBD5E1;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #0F172A;
+  background: #FFFFFF;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ra-input:focus {
+  outline: none;
+  border-color: #0468E9;
+  box-shadow: 0 0 0 3px rgba(4, 104, 233, 0.12);
+}
+
+/* Pro-forma table */
+.ra-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+}
+
+.ra-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  white-space: nowrap;
+}
+
+.ra-table th {
+  background: #060A2D;
+  color: #FFFFFF;
+  font-weight: 600;
+  text-align: right;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ra-table th:first-child,
+.ra-table td:first-child {
+  text-align: left;
+  position: sticky;
+  left: 0;
+}
+
+.ra-table th:first-child {
+  background: #060A2D;
+  z-index: 2;
+}
+
+.ra-table td {
+  padding: 0.7rem 0.85rem;
+  text-align: right;
+  border-bottom: 1px solid #E2E8F0;
+  background: #FFFFFF;
+}
+
+.ra-table tr:nth-child(even) td {
+  background: #F8FAFC;
+}
+
+.ra-table tr:hover td {
+  background: #EFF6FF;
+}
+
+.ra-table tr.ra-highlight-row td {
+  background: #FEFCE8;
+  font-weight: 600;
+}
+
+/* Blur gate overlay */
+.ra-locked-blur {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Print / PDF Styles */
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+  .rental-analyzer-root {
+    background: #FFFFFF !important;
+  }
+  .ra-main-grid {
+    display: block !important;
+  }
+  .ra-card {
+    box-shadow: none !important;
+    border: 1px solid #CBD5E1 !important;
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+}

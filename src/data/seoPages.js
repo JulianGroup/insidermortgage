@@ -396,8 +396,8 @@ export const seoPages = [
     seoTitle: 'DSCR Loan vs Conventional Loan | Insider Mortgage',
     seoDescription: 'Learn about DSCR loans and the differences between a DSCR loan vs conventional loan. Invest in real estate with no personal income verification.',
     heroSubtitle: 'Scale your real estate portfolio without personal income limits. Discover why investors prefer DSCR loans.',
-    introHeader: 'DSCR Loan vs Conventional Loan',
-    introText: 'When financing an investment property, you are often stuck comparing a DSCR loan vs conventional loan. Conventional loans require extensive DTI checks, tax returns, and personal income verification. A DSCR (Debt Service Coverage Ratio) loan ignores your personal income entirely. Approval is based strictly on whether the property\'s rental income covers the monthly mortgage payment.',
+    introHeader: 'START WITH YOUR PURPOSE',
+    introText: 'Our consultative approach focuses investors to establish their true purpose of owning investment real estate. The realities of owning investment real estate is that it is more like owning a business, and is not just a passive investment.',
     gridCards: [
       {
         title: '🏢 No Personal Income Used',
@@ -416,6 +416,13 @@ export const seoPages = [
         text: 'While many programs look for the Gross Rent to cover the Mortgage Payment (PITIA), we also work with specialized investors who do not have a minimum DSCR requirement at all, giving you ultimate flexibility.'
       }
     ],
+    extraSection: {
+      title: 'DSCR Loan vs Conventional Loan',
+      paragraphs: [
+        'When financing an investment property, you are often stuck comparing a DSCR loan vs conventional loan. Conventional loans require extensive DTI checks, tax returns, and personal income verification. A DSCR (Debt Service Coverage Ratio) loan ignores your personal income entirely.',
+        'Approval is based strictly on whether the property\'s rental income covers the monthly mortgage payment, giving real estate investors the freedom to scale their portfolio without personal income roadblocks.'
+      ]
+    },
     formSubtitle: 'Ready to scale your portfolio? Use our interactive DSCR Calculator to see if your property qualifies, or request a custom quote below.',
     leadCategory: 'DSCR Loan Lead',
     reviews: [

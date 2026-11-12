@@ -14,6 +14,15 @@ export const ADMIN_MODULES = [
     status: 'live',
   },
   {
+    id: 'rental-analyzer',
+    title: '1–4 Unit Rental & ADU Analyzer',
+    description: 'Unrestricted 10-year pro-forma, Newton-Raphson IRR, Refinance, and ADU underwriting engine.',
+    icon: '🏘️',
+    route: '/admin/tools/rental-analyzer',
+    permission: 'rental-analyzer',
+    status: 'live',
+  },
+  {
     id: 'contacts',
     title: 'Contact Database',
     description: 'Leads and client contacts from the website forms (design coming soon).',

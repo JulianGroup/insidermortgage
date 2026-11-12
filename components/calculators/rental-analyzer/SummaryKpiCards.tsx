@@ -24,8 +24,14 @@ export default function SummaryKpiCards({
 }: SummaryKpiCardsProps) {
   const monthlyCashFlow = summary.year1CashFlow / 12;
   const monthlyNoi = summary.year1Noi / 12;
-  const dscr =
-    summary.monthlyPmt > 0 ? monthlyNoi / summary.monthlyPmt : 0;
+  const monthlyPi = summary.monthlyPmt;
+  const monthlyPropertyTax = (inputs.purchasePrice * inputs.propertyTaxRate) / 12;
+  const monthlyInsurance = (inputs.purchasePrice * inputs.insuranceRate) / 12;
+  const monthlyHoaFee = inputs.monthlyHoa || 0;
+  const totalMonthlyPitia =
+    monthlyPi + monthlyPropertyTax + monthlyInsurance + monthlyHoaFee;
+  // DSCR Loan Convention: Gross Monthly Rent / Total Monthly PITIA
+  const dscr = totalMonthlyPitia > 0 ? summary.totalMonthlyRent / totalMonthlyPitia : 0;
   const capRate =
     inputs.purchasePrice > 0 ? (summary.year1Noi / inputs.purchasePrice) * 100 : 0;
 
@@ -89,7 +95,7 @@ export default function SummaryKpiCards({
                 color: '#E2E8F0',
               }}
             >
-              DSCR (NOI/P&amp;I): <strong style={{ color: '#EFB51E' }}>{dscr.toFixed(2)}x</strong>
+              DSCR (Rent/PITIA): <strong style={{ color: '#EFB51E' }}>{dscr.toFixed(2)}x</strong>
             </span>
           </div>
         </div>

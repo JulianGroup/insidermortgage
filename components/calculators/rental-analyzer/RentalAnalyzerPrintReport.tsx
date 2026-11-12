@@ -48,7 +48,8 @@ export default function RentalAnalyzerPrintReport({
   const monthlyNoi = summary.year1Noi / 12;
   const monthlyCf = summary.year1CashFlow / 12;
   const capRate = price > 0 ? (summary.year1Noi / price) * 100 : 0;
-  const dscr = summary.monthlyPmt > 0 ? monthlyNoi / summary.monthlyPmt : 0;
+  // Standard Residential DSCR Loan Convention: Gross Monthly Rent / Total Monthly PITIA
+  const dscr = totalMonthlyPitia > 0 ? summary.totalMonthlyRent / totalMonthlyPitia : 0;
   const cashOnCashYr1 =
     summary.initialCashInvested > 0
       ? (summary.year1CashFlow / summary.initialCashInvested) * 100
@@ -337,7 +338,7 @@ export default function RentalAnalyzerPrintReport({
               </span>
               <span className="ra-print-dot-sep">·</span>
               <span>
-                DSCR (NOI / P&amp;I): <strong>{dscr.toFixed(2)}x</strong>
+                DSCR (Rent / PITIA): <strong>{dscr.toFixed(2)}x</strong>
               </span>
               <span className="ra-print-dot-sep">·</span>
               <span>
@@ -352,7 +353,7 @@ export default function RentalAnalyzerPrintReport({
             <div className="ra-print-kpi-box light accent-green">
               <div className="ra-print-kpi-label dark">Year 1 Net Operating Income (NOI)</div>
               <div className="ra-print-kpi-val green">{currencyFmt.format(Math.round(summary.year1Noi))}/yr</div>
-              <div className="ra-print-kpi-sub dark">{currencyFmt.format(Math.round(monthlyNoi))}/mo net of operating expenses</div>
+              <div className="ra-print-kpi-sub dark">{currencyFmt.format(Math.round(monthlyNoi))}/mo after mgmt, maintenance (${inputs.monthlyMaintenance ?? 200}/mo), taxes &amp; ins</div>
             </div>
 
             {/* Col 2, Row 1: Annual Debt Service */}
@@ -472,15 +473,27 @@ export default function RentalAnalyzerPrintReport({
           <div className="ra-print-assumptions-row">
             <span className="ra-print-assumptions-title">ENGINE ASSUMPTIONS:</span>
             <span className="ra-print-assumptions-text">
-              Annual Rent Growth: <strong>{(inputs.annualRentGrowth * 100).toFixed(1)}%/yr</strong>
+              Rent Growth: <strong>{(inputs.annualRentGrowth * 100).toFixed(1)}%/yr</strong>
             </span>
             <span className="ra-print-dot-sep">·</span>
             <span className="ra-print-assumptions-text">
-              Property Appreciation: <strong>{(inputs.annualAppreciation * 100).toFixed(1)}%/yr</strong>
+              Appreciation: <strong>{(inputs.annualAppreciation * 100).toFixed(1)}%/yr</strong>
             </span>
             <span className="ra-print-dot-sep">·</span>
             <span className="ra-print-assumptions-text">
-              Exit Selling Friction: <strong>{(inputs.sellingCostPct * 100).toFixed(1)}%</strong>
+              Tax Escalation: <strong>{((inputs.propertyTaxGrowthRate ?? 0.02) * 100).toFixed(0)}%/yr</strong>
+            </span>
+            <span className="ra-print-dot-sep">·</span>
+            <span className="ra-print-assumptions-text">
+              Ins Escalation: <strong>{((inputs.insuranceGrowthRate ?? 0.05) * 100).toFixed(0)}%/yr</strong>
+            </span>
+            <span className="ra-print-dot-sep">·</span>
+            <span className="ra-print-assumptions-text">
+              Maintenance: <strong>${inputs.monthlyMaintenance ?? 200}/mo</strong>
+            </span>
+            <span className="ra-print-dot-sep">·</span>
+            <span className="ra-print-assumptions-text">
+              Exit Friction: <strong>{(inputs.sellingCostPct * 100).toFixed(1)}%</strong>
             </span>
           </div>
           {(inputs.refiEnabled || inputs.aduEnabled) && (
@@ -532,7 +545,7 @@ export default function RentalAnalyzerPrintReport({
           <div className="ra-print-section-title">
             <span>10-Year Annual Operating &amp; Equity Pro-Forma Schedule</span>
             <span className="ra-print-section-sub">
-              Compounding {(inputs.annualRentGrowth * 100).toFixed(1)}% rent growth &amp; {(inputs.annualAppreciation * 100).toFixed(1)}% appreciation
+              Compounding {(inputs.annualRentGrowth * 100).toFixed(1)}% rent, {(inputs.annualAppreciation * 100).toFixed(1)}% apprec, {((inputs.propertyTaxGrowthRate ?? 0.02) * 100).toFixed(0)}% tax &amp; {((inputs.insuranceGrowthRate ?? 0.05) * 100).toFixed(0)}% ins escalation
             </span>
           </div>
 
@@ -624,11 +637,16 @@ export default function RentalAnalyzerPrintReport({
                   {currencyFmt.format(Math.round(monthlyCf))}/mo
                 </strong>{' '}
                 ({currencyFmt.format(Math.round(summary.year1CashFlow))}/yr) with a{' '}
-                <strong>{dscr.toFixed(2)}x NOI-to-P&amp;I coverage ratio</strong> (
+                <strong>{dscr.toFixed(2)}x DSCR (Gross Rent ÷ Monthly PITIA)</strong> (
                 {cashOnCashYr1.toFixed(1)}% Year 1 Cash-on-Cash return).{' '}
+                {dscr >= 1.25
+                  ? 'Strong debt service coverage exceeding prime 1.20x–1.25x investor loan qualification standards.'
+                  : dscr >= 1.0
+                  ? 'Satisfies standard 1.00x DSCR break-even investor loan qualification guidelines.'
+                  : `Qualifies via liquidity reserves, blended portfolio cash flows, or specialized low-DSCR loan programs ($${currencyFmt.format(Math.round(Math.max(0, totalMonthlyPitia - summary.totalMonthlyRent)))}/mo initial deficit against PITIA).`}{' '}
                 {monthlyCf >= 0
-                  ? 'The asset is self-sustaining from Day 1, comfortably servicing debt and compounding cash flow through Year 10.'
-                  : 'At 7.50% note rate and 25% down, the property carries an initial cash-flow deficit—making it a prime candidate for a future rate-drop refinance, higher down payment, or ADU rent expansion.'}
+                  ? 'Self-sustaining from Day 1, servicing debt and compounding cash flow through Year 10.'
+                  : 'An initial operating deficit makes this a prime candidate for a future rate-drop refinance, larger down payment, or ADU rent expansion.'}
               </p>
             </div>
 

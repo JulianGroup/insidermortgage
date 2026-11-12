@@ -19,6 +19,9 @@ export interface UnderwriteInputs {
   propertyTaxRate: number;   // default 0.0125
   insuranceRate: number;     // default 0.0035
   monthlyHoa: number;        // default 0
+  monthlyMaintenance?: number; // default 200 ($/mo budget for repairs/turnover)
+  propertyTaxGrowthRate?: number; // default 0.02 (2% annual tax escalation)
+  insuranceGrowthRate?: number;   // default 0.05 (5% annual insurance escalation)
   annualRentGrowth: number;  // default 0.03
   annualAppreciation: number;// default 0.04
   sellingCostPct: number;    // default 0.05
@@ -128,6 +131,16 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
   let currentAssetVal = baseAssetValue;
   let currentMonthlyBaseRent = totalBaseMonthlyRent;
 
+  const taxGrowth = inputs.propertyTaxGrowthRate ?? 0.02;
+  const insuranceGrowth = inputs.insuranceGrowthRate ?? 0.05;
+  const baseTaxes =
+    (inputs.purchasePrice + (inputs.aduEnabled ? effectiveAduCost : 0)) *
+    inputs.propertyTaxRate;
+  const baseInsurance =
+    (inputs.purchasePrice + (inputs.aduEnabled ? effectiveAduCost : 0)) *
+    inputs.insuranceRate;
+  const baseMaintenance = (inputs.monthlyMaintenance ?? 0) * 12;
+
   const schedule: YearProForma[] = [];
   const cashFlowStream: number[] = [-totalCashInvested];
 
@@ -169,15 +182,12 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
     }
 
     const egi = annualGrossRent * (1 - inputs.vacancyRate);
-    const taxes =
-      (inputs.purchasePrice + (inputs.aduEnabled ? effectiveAduCost : 0)) *
-      inputs.propertyTaxRate;
-    const insurance =
-      (inputs.purchasePrice + (inputs.aduEnabled ? effectiveAduCost : 0)) *
-      inputs.insuranceRate;
+    const taxes = baseTaxes * Math.pow(1 + taxGrowth, yr - 1);
+    const insurance = baseInsurance * Math.pow(1 + insuranceGrowth, yr - 1);
+    const maintenance = baseMaintenance * Math.pow(1 + inputs.annualRentGrowth, yr - 1);
     const mgmt = egi * inputs.propMgmtRate;
     const hoa = inputs.monthlyHoa * 12;
-    const opex = taxes + insurance + mgmt + hoa;
+    const opex = taxes + insurance + mgmt + hoa + maintenance;
     const noi = egi - opex;
 
     for (let m = 0; m < 12; m++) {

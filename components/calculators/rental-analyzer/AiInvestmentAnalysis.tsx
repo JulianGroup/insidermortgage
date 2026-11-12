@@ -31,7 +31,16 @@ export default function AiInvestmentAnalysis({
     const monthlyNoi = summary.year1Noi / 12;
     const monthlyCf = summary.year1CashFlow / 12;
     const capRate = price > 0 ? (summary.year1Noi / price) * 100 : 0;
-    const dscr = summary.monthlyPmt > 0 ? monthlyNoi / summary.monthlyPmt : 0;
+
+    const monthlyPi = summary.monthlyPmt;
+    const monthlyPropertyTax = (price * inputs.propertyTaxRate) / 12;
+    const monthlyInsurance = (price * inputs.insuranceRate) / 12;
+    const monthlyHoaFee = inputs.monthlyHoa || 0;
+    const totalMonthlyPitia =
+      monthlyPi + monthlyPropertyTax + monthlyInsurance + monthlyHoaFee;
+    // Standard Residential DSCR Loan Convention: Gross Monthly Rent / Total Monthly PITIA
+    const dscr = totalMonthlyPitia > 0 ? summary.totalMonthlyRent / totalMonthlyPitia : 0;
+
     const cashOnCashYr1 =
       summary.initialCashInvested > 0
         ? (summary.year1CashFlow / summary.initialCashInvested) * 100
@@ -102,6 +111,7 @@ export default function AiInvestmentAnalysis({
       monthlyCf,
       capRate,
       dscr,
+      totalMonthlyPitia,
       cashOnCashYr1,
       breakEvenYear,
       refiSim,
@@ -252,8 +262,13 @@ export default function AiInvestmentAnalysis({
                   {currencyFmt.format(Math.round(analysis.monthlyCf))}/mo
                 </strong>{' '}
                 ({currencyFmt.format(Math.round(summary.year1CashFlow))}/yr) with a{' '}
-                <strong>{analysis.dscr.toFixed(2)}x NOI-to-P&amp;I coverage ratio</strong> (
+                <strong>{analysis.dscr.toFixed(2)}x DSCR (Gross Rent ÷ Monthly PITIA)</strong> (
                 {analysis.cashOnCashYr1.toFixed(1)}% Year 1 Cash-on-Cash return).{' '}
+                {analysis.dscr >= 1.25
+                  ? 'Strong debt service coverage exceeding prime 1.20x–1.25x investor loan qualification benchmarks.'
+                  : analysis.dscr >= 1.0
+                  ? 'Satisfies standard 1.00x DSCR break-even investor loan qualification guidelines.'
+                  : `Qualifies via liquidity reserves, blended portfolio cash flows, or specialized low/no-ratio investor loan programs ($${currencyFmt.format(Math.round(Math.max(0, analysis.totalMonthlyPitia - summary.totalMonthlyRent)))}/mo initial deficit against PITIA).`}{' '}
                 {analysis.monthlyCf >= 0 ? (
                   <>
                     The property is <strong>cash-flow positive from Day 1</strong>, comfortably covering all operating expenses and debt service while growing net cash flow to{' '}

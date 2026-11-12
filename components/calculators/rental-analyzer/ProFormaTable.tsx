@@ -320,8 +320,9 @@ export default function ProFormaTable({
           </div>
           <div>
             <strong style={{ color: '#060A2D' }}>Operating Expenses (OpEx):</strong> Annual Property
-            Taxes ({(inputs.propertyTaxRate * 100).toFixed(2)}%), Home Insurance (
-            {(inputs.insuranceRate * 100).toFixed(2)}%), Property Management Fee (
+            Taxes ({(inputs.propertyTaxRate * 100).toFixed(2)}%, escalating +{((inputs.propertyTaxGrowthRate ?? 0.02) * 100).toFixed(0)}%/yr), Home Insurance (
+            {(inputs.insuranceRate * 100).toFixed(2)}%, escalating +{((inputs.insuranceGrowthRate ?? 0.05) * 100).toFixed(0)}%/yr), Monthly Maintenance Budget (
+            ${inputs.monthlyMaintenance ?? 200}/mo), Property Management Fee (
             {(inputs.propMgmtRate * 100).toFixed(0)}% of EGI), and HOA dues. Excludes mortgage
             payments.
           </div>

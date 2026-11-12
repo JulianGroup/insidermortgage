@@ -50,6 +50,9 @@ const INITIAL_DUPLEX_INPUTS: UnderwriteInputs = {
   propertyTaxRate: 0.0125,
   insuranceRate: 0.0035,
   monthlyHoa: 0,
+  monthlyMaintenance: 200,
+  propertyTaxGrowthRate: 0.02,
+  insuranceGrowthRate: 0.05,
   annualRentGrowth: 0.03,
   annualAppreciation: 0.04,
   sellingCostPct: 0.05,
@@ -131,6 +134,7 @@ export default function RentalAnalyzerContainer({
       purchasePrice: 0,
       makeReadyCost: 0,
       monthlyHoa: 0,
+      monthlyMaintenance: 0,
       refiEnabled: false,
       aduEnabled: false,
     });
@@ -153,6 +157,7 @@ export default function RentalAnalyzerContainer({
         units: crawfordCache.slice(0, 1),
         purchasePrice: 989000,
         makeReadyCost: 10000,
+        monthlyMaintenance: 150,
       });
     } else if (preset === 'tam-o-shanter') {
       const tamCache: UnitInput[] = [
@@ -169,6 +174,7 @@ export default function RentalAnalyzerContainer({
         units: tamCache.slice(0, 2),
         purchasePrice: 880000,
         makeReadyCost: 50000,
+        monthlyMaintenance: 200,
       });
     } else {
       const fourplexCache: UnitInput[] = [
@@ -185,6 +191,7 @@ export default function RentalAnalyzerContainer({
         units: fourplexCache,
         purchasePrice: 1450000,
         makeReadyCost: 25000,
+        monthlyMaintenance: 400,
       });
     }
   };

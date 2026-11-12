@@ -14,6 +14,8 @@ import SummaryKpiCards from './SummaryKpiCards';
 import ProFormaTable from './ProFormaTable';
 import AiInvestmentAnalysis from './AiInvestmentAnalysis';
 import LeadCaptureModal from './LeadCaptureModal';
+import RentalAnalyzerPrintReport from './RentalAnalyzerPrintReport';
+import { getRentalReportPdfFileName, detectPropertyState } from './stateDetector';
 import './rental-analyzer.css';
 
 export interface RentalAnalyzerContainerProps {
@@ -188,9 +190,57 @@ export default function RentalAnalyzerContainer({
   };
 
   const summary = useMemo(() => runUnderwriteModel(inputs), [inputs]);
+  const stateInfo = useMemo(
+    () => detectPropertyState(inputs.propertyAddress),
+    [inputs.propertyAddress]
+  );
+
+  // Synchronize document.title to formatted PDF name during browser print
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    let savedTitle = document.title;
+
+    const handleBeforePrint = () => {
+      savedTitle = document.title;
+      document.title = getRentalReportPdfFileName(inputs.propertyAddress);
+    };
+
+    const handleAfterPrint = () => {
+      document.title = savedTitle || 'Insider Mortgage | 1–4 Unit Rental Property & ADU Investment Analyzer';
+    };
+
+    window.addEventListener('beforeprint', handleBeforePrint);
+    window.addEventListener('afterprint', handleAfterPrint);
+
+    return () => {
+      window.removeEventListener('beforeprint', handleBeforePrint);
+      window.removeEventListener('afterprint', handleAfterPrint);
+    };
+  }, [inputs.propertyAddress]);
+
+  const handlePrintReport = () => {
+    if (isLockedPublic) {
+      setIsModalOpen(true);
+      return;
+    }
+    if (typeof window !== 'undefined') {
+      const targetTitle = getRentalReportPdfFileName(inputs.propertyAddress);
+      const originalTitle = document.title;
+      document.title = targetTitle;
+      window.print();
+      setTimeout(() => {
+        document.title = originalTitle;
+      }, 1000);
+    }
+  };
 
   return (
     <div className="rental-analyzer-root" style={{ paddingBottom: '4rem' }}>
+      {/* 2-Page Executive Printable PDF Report (Hidden on Screen, Visible on Print) */}
+      <RentalAnalyzerPrintReport inputs={inputs} summary={summary} />
+
+      <div className="rental-analyzer-screen-content">
       {/* Top Hero Banner */}
       <section
         style={{
@@ -376,6 +426,27 @@ export default function RentalAnalyzerContainer({
               >
                 ✕ Clear / Enter Custom Property
               </button>
+
+              <button
+                type="button"
+                onClick={handlePrintReport}
+                style={{
+                  padding: '0.5rem 0.95rem',
+                  borderRadius: '8px',
+                  border: '1px solid #EFB51E',
+                  backgroundColor: '#060A2D',
+                  color: '#EFB51E',
+                  fontSize: '0.8rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  marginLeft: 'auto',
+                }}
+              >
+                🖨 Save PDF Report (2 Pages)
+              </button>
             </div>
           </div>
         </div>
@@ -453,8 +524,18 @@ export default function RentalAnalyzerContainer({
                   Need DSCR, Conventional Multi-Unit, or ADU Construction Financing?
                 </h4>
                 <p style={{ margin: 0, fontSize: '0.84rem', color: '#475569' }}>
-                  Speak directly with Rakesh Jain (NMLS / CA DRE #01336748) &amp; David Sider at
-                  Insider Mortgage · <strong>(858) 848-5653</strong>
+                  {stateInfo.isRakeshOnly ? (
+                    <>
+                      Speak directly with <strong>Rakesh Jain</strong> ({stateInfo.rakeshLicense} · NMLS #240594) at
+                      Insider Mortgage · <strong>(858) 848-5653</strong>
+                    </>
+                  ) : (
+                    <>
+                      Speak directly with <strong>David Sider</strong> (NMLS #254108) &amp;{' '}
+                      <strong>Rakesh Jain</strong> (NMLS #240594 / CA DRE #01336748) at
+                      Insider Mortgage · <strong>(858) 848-5653</strong>
+                    </>
+                  )}
                 </p>
               </div>
               {mode === 'public' && (
@@ -487,6 +568,7 @@ export default function RentalAnalyzerContainer({
             summary={summary}
             isLockedPublic={isLockedPublic}
             onRequestUnlock={() => setIsModalOpen(true)}
+            onPrintReport={handlePrintReport}
           />
         </div>
       </div>
@@ -502,6 +584,7 @@ export default function RentalAnalyzerContainer({
         inputs={inputs}
         summary={summary}
       />
+      </div>
     </div>
   );
 }

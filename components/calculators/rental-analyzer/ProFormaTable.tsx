@@ -8,6 +8,7 @@ interface ProFormaTableProps {
   summary: UnderwriteSummary;
   isLockedPublic?: boolean;
   onRequestUnlock?: () => void;
+  onPrintReport?: () => void;
 }
 
 const currencyFmt = new Intl.NumberFormat('en-US', {
@@ -21,6 +22,7 @@ export default function ProFormaTable({
   summary,
   isLockedPublic = false,
   onRequestUnlock,
+  onPrintReport,
 }: ProFormaTableProps) {
   const handleExportCsv = () => {
     if (isLockedPublic && onRequestUnlock) {
@@ -75,6 +77,10 @@ export default function ProFormaTable({
   const handlePrintPdf = () => {
     if (isLockedPublic && onRequestUnlock) {
       onRequestUnlock();
+      return;
+    }
+    if (onPrintReport) {
+      onPrintReport();
       return;
     }
     if (typeof window !== 'undefined') {
@@ -138,7 +144,7 @@ export default function ProFormaTable({
               cursor: 'pointer',
             }}
           >
-            {isLockedPublic ? '🔒 Print / Save PDF' : '🖨 Print / Save PDF Report'}
+            {isLockedPublic ? '🔒 Print / Save PDF' : '🖨 Print / Save 2-Page PDF'}
           </button>
         </div>
       </div>

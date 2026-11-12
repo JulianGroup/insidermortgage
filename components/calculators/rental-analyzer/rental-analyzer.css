@@ -297,23 +297,833 @@
   user-select: none;
 }
 
-/* Print / PDF Styles */
+/* Print / PDF Report (Screen: hidden, Print: exactly 2 pages) */
+.ra-print-report {
+  display: none;
+}
+
 @media print {
+  @page {
+    size: letter portrait;
+    margin: 0.32in 0.38in 0.32in 0.38in;
+  }
+
+  /* Hide entire website chrome and screen analyzer UI */
   header,
   footer,
-  .no-print {
+  nav,
+  .no-print,
+  .rental-analyzer-screen-content,
+  .ra-main-grid,
+  .ra-container > div:not(.ra-print-report),
+  .rental-analyzer-root > section {
     display: none !important;
   }
+
+  html,
+  body,
   .rental-analyzer-root {
     background: #FFFFFF !important;
+    color: #0F172A !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    font-size: 11pt;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
-  .ra-main-grid {
+
+  .ra-print-report {
     display: block !important;
+    width: 100% !important;
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
   }
-  .ra-card {
-    box-shadow: none !important;
+
+  .ra-print-page {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: #FFFFFF !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Page 1 forces break, Page 2 strictly avoids break */
+  .ra-print-page-1 {
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    height: 10.15in !important;
+    max-height: 10.2in !important;
+    overflow: hidden !important;
+  }
+
+  .ra-print-page-2 {
+    page-break-before: always !important;
+    break-before: page !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    height: 10.15in !important;
+    max-height: 10.2in !important;
+    overflow: hidden !important;
+  }
+
+  /* Print Header */
+  .ra-print-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    border-bottom: 2.5px solid #060A2D !important;
+    padding-bottom: 5px !important;
+    margin-bottom: 7px !important;
+  }
+
+  .ra-print-header.mini {
+    border-bottom: 1.5px solid #060A2D !important;
+    padding-bottom: 4px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .ra-print-brand-col {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .ra-print-logo-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+
+  .ra-print-brand-name {
+    font-size: 13pt !important;
+    font-weight: 900 !important;
+    color: #060A2D !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .ra-print-brand-tag {
+    font-size: 6.5pt !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+    background: #EFB51E !important;
+    padding: 1px 5px !important;
+    border-radius: 3px !important;
+    letter-spacing: 0.04em !important;
+    text-transform: uppercase !important;
+  }
+
+  .ra-print-report-title {
+    font-size: 8.5pt !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+    margin-top: 1px !important;
+  }
+
+  .ra-print-meta-col {
+    text-align: right !important;
+  }
+
+  .ra-print-meta-col.right {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+  }
+
+  .ra-print-address {
+    font-size: 10.5pt !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+    line-height: 1.2 !important;
+  }
+
+  .ra-print-address-sm {
+    font-size: 9pt !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+  }
+
+  .ra-print-submeta,
+  .ra-print-submeta-sm {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 5px !important;
+    font-size: 7pt !important;
+    color: #64748B !important;
+    margin-top: 2px !important;
+  }
+
+  .ra-print-meta-pill {
+    background: #060A2D !important;
+    color: #FFFFFF !important;
+    font-size: 6.5pt !important;
+    font-weight: 700 !important;
+    padding: 1px 5px !important;
+    border-radius: 3px !important;
+    text-transform: uppercase !important;
+  }
+
+  .ra-print-meta-pill.gold {
+    background: #EFB51E !important;
+    color: #060A2D !important;
+  }
+
+  .ra-print-meta-date {
+    font-weight: 600 !important;
+    color: #475569 !important;
+  }
+
+  /* 3-Column Top Grid */
+  .ra-print-grid-3 {
+    display: grid !important;
+    grid-template-columns: 1.1fr 1fr 1fr !important;
+    gap: 7px !important;
+    margin-bottom: 7px !important;
+  }
+
+  .ra-print-panel {
     border: 1px solid #CBD5E1 !important;
-    break-inside: avoid;
-    margin-bottom: 1rem;
+    border-radius: 5px !important;
+    padding: 5px 7px !important;
+    background: #FFFFFF !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  .ra-print-panel-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-size: 7.8pt !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    padding-bottom: 3px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .ra-print-num-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50% !important;
+    background: #060A2D !important;
+    color: #EFB51E !important;
+    font-size: 6.5pt !important;
+    font-weight: 800 !important;
+  }
+
+  .ra-print-num-badge.dark {
+    background: #060A2D !important;
+    color: #FFFFFF !important;
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .ra-print-mini-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 7.2pt !important;
+  }
+
+  .ra-print-mini-table td {
+    padding: 1.5px 0 !important;
+  }
+
+  .ra-print-unit-lbl {
+    color: #334155 !important;
+    font-weight: 500 !important;
+  }
+
+  .ra-print-unit-val {
+    text-align: right !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+  }
+
+  .ra-print-highlight-row td {
+    color: #92400E !important;
+    font-weight: 600 !important;
+  }
+
+  .ra-print-total-row td {
+    border-top: 1px solid #060A2D !important;
+    padding-top: 3px !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+  }
+
+  .ra-print-total-val {
+    text-align: right !important;
+    color: #060A2D !important;
+    font-size: 8pt !important;
+  }
+
+  .ra-print-panel-foot {
+    font-size: 6.6pt !important;
+    color: #64748B !important;
+    margin-top: 3px !important;
+    text-align: right !important;
+  }
+
+  .ra-print-kv-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    font-size: 7.2pt !important;
+  }
+
+  .ra-print-kv {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    color: #334155 !important;
+  }
+
+  .ra-print-kv strong {
+    font-weight: 700 !important;
+    color: #0F172A !important;
+  }
+
+  .ra-print-kv-total {
+    border-top: 1px solid #060A2D !important;
+    padding-top: 3px !important;
+    margin-top: 1px !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+  }
+
+  .ra-print-accent-text {
+    color: #0468E9 !important;
+    font-size: 8pt !important;
+  }
+
+  .ra-print-navy-text {
+    color: #060A2D !important;
+    font-size: 8pt !important;
+  }
+
+  /* Year 1 Operating Snapshot (Navy Card) */
+  .ra-print-hero-card {
+    background: #060A2D !important;
+    color: #FFFFFF !important;
+    border-radius: 6px !important;
+    padding: 6px 9px !important;
+    margin-bottom: 7px !important;
+  }
+
+  .ra-print-hero-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18) !important;
+    padding-bottom: 3px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .ra-print-hero-badge {
+    font-size: 7.2pt !important;
+    font-weight: 800 !important;
+    color: #EFB51E !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+  }
+
+  .ra-print-hero-ratios {
+    display: flex !important;
+    gap: 9px !important;
+    font-size: 7.2pt !important;
+    color: #E2E8F0 !important;
+  }
+
+  .ra-print-hero-ratios strong {
+    color: #EFB51E !important;
+  }
+
+  .ra-print-hero-kpis {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 6px !important;
+  }
+
+  .ra-print-kpi-box {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    border-radius: 4px !important;
+    padding: 4px 6px !important;
+  }
+
+  .ra-print-kpi-label {
+    font-size: 6.2pt !important;
+    color: #CBD5E1 !important;
+    text-transform: uppercase !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+  }
+
+  .ra-print-kpi-val {
+    font-size: 11pt !important;
+    font-weight: 900 !important;
+    color: #FFFFFF !important;
+    margin-top: 1px !important;
+    line-height: 1.15 !important;
+  }
+
+  .ra-print-kpi-val.pos {
+    color: #4ADE80 !important;
+  }
+
+  .ra-print-kpi-val.neg {
+    color: #F87171 !important;
+  }
+
+  .ra-print-kpi-sub {
+    font-size: 5.8pt !important;
+    color: #94A3B8 !important;
+    margin-top: 1px !important;
+  }
+
+  /* 5-Year & 10-Year Horizons */
+  .ra-print-horizons-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 7px !important;
+    margin-bottom: 7px !important;
+  }
+
+  .ra-print-horizon-card {
+    border: 1.5px solid #060A2D !important;
+    border-radius: 5px !important;
+    padding: 5px 7px !important;
+    background: #FFFFFF !important;
+  }
+
+  .ra-print-horizon-head {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    padding-bottom: 3px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .ra-print-horizon-sub {
+    font-size: 5.8pt !important;
+    font-weight: 800 !important;
+    color: #64748B !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+  }
+
+  .ra-print-horizon-title {
+    font-size: 8.5pt !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+    line-height: 1.15 !important;
+  }
+
+  .ra-print-irr-badge {
+    background: #060A2D !important;
+    color: #FFFFFF !important;
+    border-radius: 4px !important;
+    padding: 2px 6px !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    line-height: 1 !important;
+  }
+
+  .ra-print-irr-badge.gold {
+    background: #EFB51E !important;
+    color: #060A2D !important;
+  }
+
+  .ra-print-irr-num {
+    font-size: 9.5pt !important;
+    font-weight: 900 !important;
+  }
+
+  .ra-print-irr-label {
+    font-size: 5pt !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  .ra-print-horizon-body {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2.2px !important;
+    font-size: 7.2pt !important;
+  }
+
+  .ra-print-kv-highlight {
+    border-top: 1.2px solid #060A2D !important;
+    padding-top: 2.5px !important;
+    margin-top: 1px !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+
+  .ra-print-green-txt {
+    color: #15803D !important;
+    font-weight: 800 !important;
+  }
+
+  .ra-print-red-txt {
+    color: #B91C1C !important;
+    font-weight: 800 !important;
+  }
+
+  .ra-print-roi-tag {
+    font-size: 6.8pt !important;
+    color: #15803D !important;
+    font-weight: 700 !important;
+  }
+
+  .pos-txt {
+    color: #15803D !important;
+    font-weight: 700 !important;
+  }
+
+  .neg-txt {
+    color: #B91C1C !important;
+    font-weight: 700 !important;
+  }
+
+  /* Assumptions & Value-Add Footnote Strip */
+  .ra-print-assumptions-strip {
+    background: #F8FAFC !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 4px !important;
+    padding: 3.5px 7px !important;
+    font-size: 6.6pt !important;
+    color: #475569 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 5px !important;
+  }
+
+  .ra-print-strip-col {
+    display: flex !important;
+    gap: 4px !important;
+    align-items: center !important;
+  }
+
+  .ra-print-strip-col.value-add {
+    color: #92400E !important;
+    font-weight: 600 !important;
+  }
+
+  .ra-print-strip-label {
+    font-weight: 800 !important;
+    color: #060A2D !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+  }
+
+  /* Page Footer */
+  .ra-print-page-footer {
+    border-top: 1px solid #CBD5E1 !important;
+    padding-top: 3px !important;
+    font-size: 6.5pt !important;
+    color: #64748B !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  /* ---------------- PAGE 2 SPECIFIC STYLES ---------------- */
+  .ra-print-table-section {
+    margin-bottom: 7px !important;
+  }
+
+  .ra-print-section-title {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: baseline !important;
+    font-size: 8.5pt !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+    margin-bottom: 3px !important;
+  }
+
+  .ra-print-section-sub {
+    font-size: 6.5pt !important;
+    font-weight: 500 !important;
+    color: #64748B !important;
+  }
+
+  .ra-print-proforma-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 6.7pt !important;
+  }
+
+  .ra-print-proforma-table th {
+    background: #060A2D !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    padding: 2.5px 3.5px !important;
+    text-align: right !important;
+    line-height: 1.15 !important;
+    border: 1px solid #1E293B !important;
+    font-size: 6.2pt !important;
+    text-transform: uppercase !important;
+  }
+
+  .ra-print-proforma-table th:first-child {
+    text-align: left !important;
+  }
+
+  .ra-print-proforma-table td {
+    padding: 1.8px 3.5px !important;
+    text-align: right !important;
+    border: 1px solid #E2E8F0 !important;
+    white-space: nowrap !important;
+    color: #1E293B !important;
+  }
+
+  .ra-print-proforma-table tr:nth-child(even) td {
+    background: #F8FAFC !important;
+  }
+
+  .ra-print-proforma-table tr.ra-row-highlight td {
+    background: #FEFCE8 !important;
+    font-weight: 600 !important;
+  }
+
+  .ra-td-year {
+    text-align: left !important;
+    font-weight: 700 !important;
+    color: #060A2D !important;
+  }
+
+  .ra-td-bold {
+    font-weight: 700 !important;
+  }
+
+  .ra-td-neg {
+    color: #B91C1C !important;
+  }
+
+  .ra-td-pos {
+    color: #15803D !important;
+  }
+
+  /* AI Investment Underwriting Section */
+  .ra-print-ai-section {
+    margin-bottom: 7px !important;
+  }
+
+  .ra-print-ai-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 4px !important;
+  }
+
+  .ra-print-ai-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    font-size: 8pt !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+  }
+
+  .ra-print-deal-badge {
+    font-size: 6.5pt !important;
+    font-weight: 800 !important;
+    background: #EFF6FF !important;
+    color: #0468E9 !important;
+    border: 1px solid #BFDBFE !important;
+    padding: 1px 6px !important;
+    border-radius: 999px !important;
+  }
+
+  .ra-print-ai-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 5px !important;
+  }
+
+  .ra-print-ai-card {
+    background: #F8FAFC !important;
+    border-radius: 4px !important;
+    padding: 4px 6px !important;
+    border: 1px solid #E2E8F0 !important;
+    font-size: 6.6pt !important;
+    line-height: 1.35 !important;
+    color: #1E293B !important;
+  }
+
+  .ra-print-ai-card p {
+    margin: 0 !important;
+  }
+
+  .ra-print-ai-card.border-navy {
+    border-left: 3px solid #060A2D !important;
+  }
+
+  .ra-print-ai-card.border-blue {
+    border-left: 3px solid #0468E9 !important;
+  }
+
+  .ra-print-ai-card.border-green {
+    border-left: 3px solid #15803D !important;
+  }
+
+  .ra-print-ai-card.border-gold {
+    border-left: 3px solid #EFB51E !important;
+    background: #FFFBEB !important;
+  }
+
+  .ra-print-ai-card-title {
+    font-size: 6.8pt !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
+    margin-bottom: 2px !important;
+  }
+
+  .ra-print-memo-list {
+    margin: 0 !important;
+    padding-left: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5px !important;
+  }
+
+  /* Contact Information & Licensing Box */
+  .ra-print-contact-section {
+    border: 1.5px solid #060A2D !important;
+    border-radius: 5px !important;
+    background: #F8FAFC !important;
+    padding: 5px 8px !important;
+    margin-bottom: 5px !important;
+  }
+
+  .ra-print-contact-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: baseline !important;
+    border-bottom: 1px solid #CBD5E1 !important;
+    padding-bottom: 2.5px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .ra-print-contact-title {
+    font-size: 7.5pt !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  .ra-print-contact-sub {
+    font-size: 6.2pt !important;
+    color: #64748B !important;
+    font-weight: 600 !important;
+  }
+
+  .ra-print-officers-grid {
+    display: grid !important;
+    gap: 8px !important;
+  }
+
+  .ra-print-officers-grid.dual {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .ra-print-officers-grid.single {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ra-print-officer-card {
+    background: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 4px !important;
+    padding: 3.5px 6px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1px !important;
+  }
+
+  .ra-print-officer-name {
+    font-size: 9pt !important;
+    font-weight: 800 !important;
+    color: #060A2D !important;
+    line-height: 1.15 !important;
+  }
+
+  .ra-print-officer-role {
+    font-size: 6.6pt !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+  }
+
+  .ra-print-officer-licenses {
+    font-size: 6.4pt !important;
+    font-weight: 700 !important;
+    color: #0468E9 !important;
+  }
+
+  .ra-print-officer-contact {
+    display: flex !important;
+    gap: 5px !important;
+    font-size: 6.7pt !important;
+    color: #0F172A !important;
+    margin-top: 1px !important;
+  }
+
+  .ra-print-officer-contact strong {
+    color: #060A2D !important;
+  }
+
+  .ra-print-compliance-note {
+    border-top: 1px solid #E2E8F0 !important;
+    padding-top: 3px !important;
+    margin-top: 3.5px !important;
+  }
+
+  .ra-print-eho-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-size: 6pt !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+    margin-bottom: 1.5px !important;
+  }
+
+  .ra-print-eho-badge {
+    color: #060A2D !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  .ra-print-disclaimer-text {
+    font-size: 5.5pt !important;
+    color: #64748B !important;
+    line-height: 1.25 !important;
   }
 }
+

@@ -247,66 +247,15 @@ export default function InputControlPanel({
           </h2>
         </div>
 
-        {/* Vacancy Rate */}
-        <div style={{ marginBottom: '1rem' }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '0.3rem',
-            }}
-          >
-            <label style={{ fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-              Vacancy Rate (%)
-            </label>
-            <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#060A2D' }}>
-              {(inputs.vacancyRate * 100).toFixed(1)}%
-            </span>
-          </div>
-          <input
-            type="range"
-            min={0}
-            max={10}
-            step={0.5}
-            value={Number((inputs.vacancyRate * 100).toFixed(1))}
-            onChange={(e) => onChange({ vacancyRate: Number(e.target.value) / 100 })}
-          />
-        </div>
-
-        {/* Property Management Fee */}
-        <div style={{ marginBottom: '1.1rem' }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '0.3rem',
-            }}
-          >
-            <label style={{ fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-              Property Management Fee (% of EGI)
-            </label>
-            <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#060A2D' }}>
-              {(inputs.propMgmtRate * 100).toFixed(0)}%
-            </span>
-          </div>
-          <input
-            type="range"
-            min={0}
-            max={10}
-            step={1}
-            value={Math.round(inputs.propMgmtRate * 100)}
-            onChange={(e) => onChange({ propMgmtRate: Number(e.target.value) / 100 })}
-          />
-        </div>
-
-        {/* Tax Rate, Insurance Rate, HOA, Maintenance */}
+        {/* TOP HALF: Four User Entry Fields */}
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
             gap: '0.75rem',
+            paddingBottom: '1.1rem',
+            marginBottom: '1.1rem',
+            borderBottom: '1px dashed #E2E8F0',
           }}
         >
           <div>
@@ -409,6 +358,111 @@ export default function InputControlPanel({
               }
               placeholder="$200"
             />
+          </div>
+        </div>
+
+        {/* BOTTOM HALF: All Operating Expense Sliders */}
+        {/* Vacancy Rate */}
+        <div style={{ marginBottom: '1rem' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '0.3rem',
+            }}
+          >
+            <label style={{ fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+              Vacancy Rate (%)
+            </label>
+            <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#060A2D' }}>
+              {(inputs.vacancyRate * 100).toFixed(1)}%
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={10}
+            step={0.5}
+            value={Number((inputs.vacancyRate * 100).toFixed(1))}
+            onChange={(e) => onChange({ vacancyRate: Number(e.target.value) / 100 })}
+          />
+        </div>
+
+        {/* Property Management Fee */}
+        <div style={{ marginBottom: '1.1rem' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '0.3rem',
+            }}
+          >
+            <label style={{ fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+              Property Management Fee (% of EGI)
+            </label>
+            <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#060A2D' }}>
+              {(inputs.propMgmtRate * 100).toFixed(0)}%
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={10}
+            step={1}
+            value={Math.round(inputs.propMgmtRate * 100)}
+            onChange={(e) => onChange({ propMgmtRate: Number(e.target.value) / 100 })}
+          />
+        </div>
+
+        {/* Annual Tax & Insurance Escalations Sliders */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+            gap: '0.75rem',
+            paddingTop: '0.25rem',
+          }}
+        >
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+              <label style={{ fontSize: '0.78rem', fontWeight: 600, color: '#334155' }}>
+                Tax Escalation (%/yr)
+              </label>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#060A2D' }}>
+                {((inputs.propertyTaxGrowthRate ?? 0.02) * 100).toFixed(1)}%
+              </span>
+            </div>
+            <input
+              type="range"
+              min={0}
+              max={5}
+              step={0.5}
+              value={Number(((inputs.propertyTaxGrowthRate ?? 0.02) * 100).toFixed(1))}
+              onChange={(e) => onChange({ propertyTaxGrowthRate: Number(e.target.value) / 100 })}
+            />
+            <span style={{ fontSize: '0.7rem', color: '#64748B' }}>Default 2.0% (CA Prop 13)</span>
+          </div>
+
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
+              <label style={{ fontSize: '0.78rem', fontWeight: 600, color: '#334155' }}>
+                Insurance Escalation (%/yr)
+              </label>
+              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#060A2D' }}>
+                {((inputs.insuranceGrowthRate ?? 0.05) * 100).toFixed(1)}%
+              </span>
+            </div>
+            <input
+              type="range"
+              min={0}
+              max={10}
+              step={0.5}
+              value={Number(((inputs.insuranceGrowthRate ?? 0.05) * 100).toFixed(1))}
+              onChange={(e) => onChange({ insuranceGrowthRate: Number(e.target.value) / 100 })}
+            />
+            <span style={{ fontSize: '0.7rem', color: '#64748B' }}>Default 5.0% inflation</span>
           </div>
         </div>
       </div>
@@ -546,58 +600,6 @@ export default function InputControlPanel({
             value={Number((inputs.sellingCostPct * 100).toFixed(1))}
             onChange={(e) => onChange({ sellingCostPct: Number(e.target.value) / 100 })}
           />
-        </div>
-
-        {/* Annual Tax & Insurance Escalations */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-            gap: '0.75rem',
-            marginTop: '0.95rem',
-            paddingTop: '0.75rem',
-            borderTop: '1px dashed #E2E8F0',
-          }}
-        >
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
-              <label style={{ fontSize: '0.78rem', fontWeight: 600, color: '#334155' }}>
-                Tax Escalation (%/yr)
-              </label>
-              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#060A2D' }}>
-                {((inputs.propertyTaxGrowthRate ?? 0.02) * 100).toFixed(1)}%
-              </span>
-            </div>
-            <input
-              type="range"
-              min={0}
-              max={5}
-              step={0.5}
-              value={Number(((inputs.propertyTaxGrowthRate ?? 0.02) * 100).toFixed(1))}
-              onChange={(e) => onChange({ propertyTaxGrowthRate: Number(e.target.value) / 100 })}
-            />
-            <span style={{ fontSize: '0.7rem', color: '#64748B' }}>Default 2.0% (CA Prop 13)</span>
-          </div>
-
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
-              <label style={{ fontSize: '0.78rem', fontWeight: 600, color: '#334155' }}>
-                Insurance Escalation (%/yr)
-              </label>
-              <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#060A2D' }}>
-                {((inputs.insuranceGrowthRate ?? 0.05) * 100).toFixed(1)}%
-              </span>
-            </div>
-            <input
-              type="range"
-              min={0}
-              max={10}
-              step={0.5}
-              value={Number(((inputs.insuranceGrowthRate ?? 0.05) * 100).toFixed(1))}
-              onChange={(e) => onChange({ insuranceGrowthRate: Number(e.target.value) / 100 })}
-            />
-            <span style={{ fontSize: '0.7rem', color: '#64748B' }}>Default 5.0% inflation</span>
-          </div>
         </div>
       </div>
 

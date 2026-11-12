@@ -14,6 +14,8 @@
   color: var(--im-text);
   background-color: var(--im-bg);
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .rental-analyzer-root *,
@@ -61,53 +63,69 @@
   cursor: pointer;
 }
 
-/* Layout & Grid */
+/* Layout & Grid — minmax(0, ...) guarantees no column can overflow right */
 .ra-container {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 1.5rem;
 }
 
 .ra-main-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.75rem;
   align-items: start;
+  width: 100%;
+}
+
+.ra-main-grid > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 @media (min-width: 1024px) {
   .ra-main-grid {
-    grid-template-columns: 5fr 7fr;
+    grid-template-columns: minmax(0, 5.5fr) minmax(0, 6.5fr);
   }
 }
 
 .ra-kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.9rem;
+  width: 100%;
+}
+
+@media (min-width: 540px) {
+  .ra-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .ra-horizon-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.15rem;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
   .ra-horizon-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 .ra-two-col {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
+  width: 100%;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 600px) {
   .ra-two-col {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -118,6 +136,9 @@
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.06);
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .ra-card-navy {
@@ -126,17 +147,26 @@
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: 0 12px 28px -6px rgba(6, 10, 45, 0.28);
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* Segmented Unit Selector */
 .ra-segment-group {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
   background: #F1F5F9;
-  padding: 0.35rem;
+  padding: 0.4rem;
   border-radius: 12px;
   border: 1px solid #E2E8F0;
+}
+
+@media (min-width: 520px) {
+  .ra-segment-group {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .ra-segment-btn {
@@ -144,15 +174,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0.6rem 0.5rem;
+  padding: 0.65rem 0.4rem;
   border-radius: 9px;
   border: none;
   background: transparent;
   color: #475569;
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-weight: 700;
+  font-size: 0.86rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-align: center;
 }
 
 .ra-segment-btn:hover {
@@ -171,7 +202,7 @@
 }
 
 .ra-segment-sub {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 500;
   color: #64748B;
   margin-top: 2px;
@@ -199,6 +230,7 @@
 /* Pro-forma table */
 .ra-table-wrap {
   width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   border-radius: 12px;
   border: 1px solid #E2E8F0;
@@ -207,7 +239,7 @@
 .ra-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   white-space: nowrap;
 }
 
@@ -216,10 +248,10 @@
   color: #FFFFFF;
   font-weight: 600;
   text-align: right;
-  padding: 0.75rem 0.85rem;
-  font-size: 0.78rem;
+  padding: 0.7rem 0.75rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
 }
 
 .ra-table th:first-child,
@@ -235,7 +267,7 @@
 }
 
 .ra-table td {
-  padding: 0.7rem 0.85rem;
+  padding: 0.65rem 0.75rem;
   text-align: right;
   border-bottom: 1px solid #E2E8F0;
   background: #FFFFFF;

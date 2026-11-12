@@ -11,6 +11,7 @@ interface DynamicUnitScheduleProps {
   units: UnitInput[];
   onUnitChange: (index: number, updated: Partial<UnitInput>) => void;
   totalMonthlyRent: number;
+  onClearProperty?: () => void;
 }
 
 const UNIT_OPTIONS: Array<{ count: 1 | 2 | 3 | 4; title: string; subtitle: string }> = [
@@ -34,9 +35,10 @@ export default function DynamicUnitSchedule({
   units,
   onUnitChange,
   totalMonthlyRent,
+  onClearProperty,
 }: DynamicUnitScheduleProps) {
   return (
-    <div className="ra-card bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+    <div className="ra-card">
       <div
         style={{
           display: 'flex',
@@ -60,28 +62,52 @@ export default function DynamicUnitSchedule({
               color: '#EFB51E',
               fontWeight: 700,
               fontSize: '0.85rem',
+              flexShrink: 0,
             }}
           >
             1
           </span>
-          <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#060A2D', margin: 0 }}>
+          <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#060A2D', margin: 0 }}>
             Property &amp; 1–4 Unit Rent Schedule
           </h2>
         </div>
-        <span
-          style={{
-            fontSize: '0.75rem',
-            fontWeight: 700,
-            padding: '0.25rem 0.65rem',
-            borderRadius: '999px',
-            backgroundColor: 'rgba(4, 104, 233, 0.1)',
-            color: '#0468E9',
-            textTransform: 'uppercase',
-            letterSpacing: '0.04em',
-          }}
-        >
-          {unitCount === 1 ? 'SFR (1 Unit)' : `${unitCount}-Unit Multi-Family`}
-        </span>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexWrap: 'wrap' }}>
+          <span
+            style={{
+              fontSize: '0.73rem',
+              fontWeight: 700,
+              padding: '0.25rem 0.65rem',
+              borderRadius: '999px',
+              backgroundColor: 'rgba(4, 104, 233, 0.1)',
+              color: '#0468E9',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+            }}
+          >
+            {unitCount === 1 ? 'SFR (1 Unit)' : `${unitCount}-Unit Multi-Family`}
+          </span>
+
+          {onClearProperty && (
+            <button
+              type="button"
+              onClick={onClearProperty}
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                padding: '0.25rem 0.65rem',
+                borderRadius: '999px',
+                backgroundColor: '#FEE2E2',
+                color: '#B91C1C',
+                border: '1px solid #FECACA',
+                cursor: 'pointer',
+              }}
+              title="Clear preset property and start blank"
+            >
+              ✕ Clear Property
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Property Address */}
@@ -104,7 +130,7 @@ export default function DynamicUnitSchedule({
           className="ra-input"
           value={propertyAddress}
           onChange={(e) => onAddressChange(e.target.value)}
-          placeholder="e.g. 535 Tam O Shanter Dr, San Marcos, CA 92069"
+          placeholder="Enter property address (e.g. 123 Main St, San Diego, CA)"
         />
       </div>
 
@@ -155,6 +181,8 @@ export default function DynamicUnitSchedule({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '0.35rem',
             marginBottom: '0.75rem',
           }}
         >
@@ -169,7 +197,7 @@ export default function DynamicUnitSchedule({
           >
             Unit Rent Schedule ({unitCount} {unitCount === 1 ? 'Unit' : 'Units'})
           </span>
-          <span style={{ fontSize: '0.75rem', color: '#64748B' }}>
+          <span style={{ fontSize: '0.74rem', color: '#64748B' }}>
             Values preserved when switching unit count
           </span>
         </div>
@@ -180,7 +208,7 @@ export default function DynamicUnitSchedule({
               key={unit.id || `unit-${idx + 1}`}
               style={{
                 display: 'grid',
-                gridTemplateColumns: '1.3fr 1fr',
+                gridTemplateColumns: 'minmax(0, 1.35fr) minmax(0, 1fr)',
                 gap: '0.65rem',
                 alignItems: 'center',
                 backgroundColor: '#FFFFFF',
@@ -189,7 +217,7 @@ export default function DynamicUnitSchedule({
                 border: '1px solid #E2E8F0',
               }}
             >
-              <div>
+              <div style={{ minWidth: 0 }}>
                 <label
                   style={{
                     display: 'block',
@@ -207,11 +235,11 @@ export default function DynamicUnitSchedule({
                   style={{ padding: '0.45rem 0.65rem', fontSize: '0.86rem' }}
                   value={unit.label}
                   onChange={(e) => onUnitChange(idx, { label: e.target.value })}
-                  placeholder={idx === 0 ? '3 Bed / 2 Bath Main House' : `Unit ${idx + 1} Config`}
+                  placeholder={idx === 0 ? 'e.g. 3 Bed / 2 Bath Main' : `Unit ${idx + 1} Config`}
                 />
               </div>
 
-              <div>
+              <div style={{ minWidth: 0 }}>
                 <label
                   style={{
                     display: 'block',
@@ -282,7 +310,7 @@ export default function DynamicUnitSchedule({
           </div>
           <div
             style={{
-              fontSize: '1.35rem',
+              fontSize: '1.25rem',
               fontWeight: 800,
               color: '#060A2D',
               backgroundColor: 'rgba(239, 181, 30, 0.2)',
@@ -292,7 +320,7 @@ export default function DynamicUnitSchedule({
             }}
           >
             {currencyFmt.format(totalMonthlyRent)}{' '}
-            <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#475569' }}>/mo</span>
+            <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#475569' }}>/mo</span>
           </div>
         </div>
       </div>

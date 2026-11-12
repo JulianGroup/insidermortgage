@@ -148,16 +148,56 @@ export default function ProFormaTable({
           <thead>
             <tr>
               <th>Year</th>
-              <th>Gross Rent/Mo</th>
-              <th>Effective Gross (EGI)</th>
-              <th>OpEx</th>
-              <th>Net Operating Income</th>
-              <th>Debt Service</th>
-              <th>Annual Cash Flow</th>
-              <th>Monthly CF</th>
-              <th>Property Value</th>
-              <th>Loan Balance</th>
-              <th>Net Equity (after 5%)</th>
+              <th>
+                Gross Rent
+                <br />
+                <span style={{ fontWeight: 500, color: '#CBD5E1', fontSize: '0.67rem' }}>(Monthly)</span>
+              </th>
+              <th>
+                Effective
+                <br />
+                Gross (EGI)
+              </th>
+              <th>
+                Operating
+                <br />
+                Expenses
+              </th>
+              <th>
+                Net Operating
+                <br />
+                Income (NOI)
+              </th>
+              <th>
+                Annual Debt
+                <br />
+                Service
+              </th>
+              <th>
+                Annual Net
+                <br />
+                Cash Flow
+              </th>
+              <th>
+                Monthly
+                <br />
+                Cash Flow
+              </th>
+              <th>
+                Property
+                <br />
+                Value
+              </th>
+              <th>
+                Loan
+                <br />
+                Balance
+              </th>
+              <th>
+                Net Equity
+                <br />
+                <span style={{ fontWeight: 500, color: '#EFB51E', fontSize: '0.67rem' }}>(After 5%)</span>
+              </th>
             </tr>
           </thead>
           <tbody>

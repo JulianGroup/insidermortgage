@@ -415,15 +415,15 @@ export const seoPages = [
     },
     gridCards: [
       {
-        title: 'BOX 1 — Full Documentation',
+        title: 'Full Documentation',
         text: 'Our first step is always to comprehensively review your financial situation. We will see if we can use standard “full-documentation” underwriting using one or two years of your tax returns so we can get you the best priced rates out there. Full Documentation does include the rental income from the subject property being acquired but can also include Asset Utilization techniques to expand the income qualifying guidelines for those who have traditional savings, investments, or retirement accounts where lenders use a formula to convert those assets into an equivalent additional monthly income.'
       },
       {
-        title: 'BOX 2 — Alt-Doc: Bank Statements Loans',
+        title: 'Alt-Doc: Bank Statements Loans',
         text: 'For self-employed investors, instead of relying on tax returns, these programs typically evaluate 12 or 24 months of personal or business bank statements. Lenders analyze eligible monthly deposits to calculate the businesses monthly gross revenue. Then, depending on the type of business, the lender applies an appropriate business expense factor to determine qualifying net income. This can be an excellent option for business owners with strong cash flow but significant tax deductions. P&L loans and 1099 Statement Loans fall into this Alt-Doc category as well.'
       },
       {
-        title: 'BOX 3 — Debt Service Coverage Ratio (DSCR) Loans',
+        title: 'Debt Service Coverage Ratio (DSCR) Loans',
         subtitle: 'Qualifying Based on the Investment Property\'s Rental Income Rather Than Personal Income',
         isDoubleWide: true,
         paragraphs: [

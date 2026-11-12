@@ -236,39 +236,93 @@ export default function RentalAnalyzerPrintReport({
             </div>
           </div>
 
-          {/* Col 3: Operating Expenses & Monthly PITIA */}
-          <div className="ra-print-panel">
-            <div className="ra-print-panel-title">
-              <span className="ra-print-num-badge">3</span>
-              <span>Expenses &amp; Monthly PITIA</span>
+          {/* Col 3: Initial Monthly PITIA Breakdown Box */}
+          <div className="ra-print-pitia-box">
+            <div className="ra-print-pitia-head">
+              <div>
+                <div className="ra-print-pitia-sub">Monthly Housing Payment Breakdown</div>
+                <div className="ra-print-pitia-title">Initial Monthly PITIA</div>
+              </div>
+              <div className="ra-print-pitia-badge">
+                {currencyFmt.format(Math.round(totalMonthlyPitia))}
+                <span className="ra-print-pitia-mo">/mo</span>
+              </div>
             </div>
-            <div className="ra-print-kv-list">
-              <div className="ra-print-kv">
-                <span>Principal &amp; Interest (P&amp;I)</span>
+
+            {/* Color-Coded Segmented Progress Bar */}
+            {totalMonthlyPitia > 0 && (
+              <div className="ra-print-pitia-bar">
+                <div
+                  style={{
+                    width: `${(monthlyPi / totalMonthlyPitia) * 100}%`,
+                    backgroundColor: '#060A2D',
+                  }}
+                  title="P&I"
+                />
+                <div
+                  style={{
+                    width: `${(monthlyPropertyTax / totalMonthlyPitia) * 100}%`,
+                    backgroundColor: '#0468E9',
+                  }}
+                  title="Taxes"
+                />
+                <div
+                  style={{
+                    width: `${(monthlyInsurance / totalMonthlyPitia) * 100}%`,
+                    backgroundColor: '#EFB51E',
+                  }}
+                  title="Insurance"
+                />
+                {monthlyHoaFee > 0 && (
+                  <div
+                    style={{
+                      width: `${(monthlyHoaFee / totalMonthlyPitia) * 100}%`,
+                      backgroundColor: '#10B981',
+                    }}
+                    title="HOA"
+                  />
+                )}
+              </div>
+            )}
+
+            {/* 4 Line Items with Colored Dots */}
+            <div className="ra-print-pitia-items">
+              <div className="ra-print-pitia-item">
+                <span className="ra-print-pitia-item-label">
+                  <span className="ra-print-dot dot-navy" />
+                  Principal &amp; Interest (P&amp;I)
+                </span>
                 <strong>{currencyFmt.format(Math.round(monthlyPi))}/mo</strong>
               </div>
-              <div className="ra-print-kv">
-                <span>Property Taxes ({(inputs.propertyTaxRate * 100).toFixed(2)}%)</span>
+
+              <div className="ra-print-pitia-item">
+                <span className="ra-print-pitia-item-label">
+                  <span className="ra-print-dot dot-blue" />
+                  Property Taxes ({(inputs.propertyTaxRate * 100).toFixed(2)}%)
+                </span>
                 <strong>{currencyFmt.format(Math.round(monthlyPropertyTax))}/mo</strong>
               </div>
-              <div className="ra-print-kv">
-                <span>Home Insurance ({(inputs.insuranceRate * 100).toFixed(2)}%)</span>
+
+              <div className="ra-print-pitia-item">
+                <span className="ra-print-pitia-item-label">
+                  <span className="ra-print-dot dot-gold" />
+                  Home Insurance ({(inputs.insuranceRate * 100).toFixed(2)}%)
+                </span>
                 <strong>{currencyFmt.format(Math.round(monthlyInsurance))}/mo</strong>
               </div>
-              <div className="ra-print-kv">
-                <span>HOA / Association Fees</span>
+
+              <div className="ra-print-pitia-item">
+                <span className="ra-print-pitia-item-label">
+                  <span className="ra-print-dot dot-green" />
+                  HOA / Association Fees
+                </span>
                 <strong>{currencyFmt.format(monthlyHoaFee)}/mo</strong>
               </div>
-              <div className="ra-print-kv">
-                <span>Vacancy ({(inputs.vacancyRate * 100).toFixed(1)}%) &amp; Mgmt ({(inputs.propMgmtRate * 100).toFixed(0)}%)</span>
-                <strong>Reserve / EGI</strong>
-              </div>
-              <div className="ra-print-kv ra-print-kv-total">
-                <span>Initial Monthly PITIA</span>
-                <strong className="ra-print-navy-text">
-                  {currencyFmt.format(Math.round(totalMonthlyPitia))}/mo
-                </strong>
-              </div>
+            </div>
+
+            <div className="ra-print-pitia-annual">
+              <span>Annualized Total PITIA:</span>
+              <strong>{currencyFmt.format(Math.round(totalMonthlyPitia * 12))}/yr</strong>
             </div>
           </div>
         </div>
@@ -511,14 +565,17 @@ export default function RentalAnalyzerPrintReport({
           </table>
         </div>
 
-        {/* AI Investment Underwriting Analysis */}
+        {/* Section 6: AI Investment Underwriting Analysis */}
         <div className="ra-print-ai-section">
           <div className="ra-print-ai-header">
             <div className="ra-print-ai-title">
-              <span className="ra-print-num-badge dark">AI</span>
-              <span>Investment Underwriting Memo &amp; Value-Add Levers</span>
+              <span className="ra-print-num-badge dark">6</span>
+              <span>AI Investment Underwriting Analysis</span>
             </div>
             <span className="ra-print-deal-badge">✦ {badgeText}</span>
+          </div>
+          <div className="ra-print-ai-subtitle">
+            Automated deal synthesis across cash flow, DSCR coverage, 10-year equity, and value-add levers
           </div>
 
           <div className="ra-print-ai-grid">

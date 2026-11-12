@@ -63,11 +63,118 @@ const SpecialtyPage = ({ data }) => {
             {data.heroSubheadline && (
               <h2 className="se-hero-subheadline">{data.heroSubheadline}</h2>
             )}
-            <p>{data.heroSubtitle}</p>
+            {Array.isArray(data.heroSubtitle) ? (
+              data.heroSubtitle.map((para, idx) => (
+                <p key={idx} style={{ marginBottom: idx < data.heroSubtitle.length - 1 ? '1rem' : 0 }}>
+                  {para}
+                </p>
+              ))
+            ) : (
+              <p>{data.heroSubtitle}</p>
+            )}
           </div>
         </section>
 
-        {data.contentSections ? (
+        {data.firstSection && (
+          <section className="section" style={{ paddingBottom: '2rem', paddingTop: 'var(--space-12)' }}>
+            <div className="container" style={{ maxWidth: '850px' }}>
+              <div
+                style={{
+                  padding: 'clamp(1.75rem, 4vw, 2.75rem)',
+                  backgroundColor: 'white',
+                  borderRadius: 'var(--radius-lg)',
+                  boxShadow: 'var(--shadow-sm)',
+                }}
+              >
+                <h2 style={{ color: 'var(--primary)', marginBottom: '1.25rem', textAlign: 'center' }}>
+                  {data.firstSection.heading}
+                </h2>
+                {Array.isArray(data.firstSection.paragraphs) ? (
+                  data.firstSection.paragraphs.map((p, pIdx) => (
+                    <p
+                      key={pIdx}
+                      style={{
+                        color: 'var(--text-secondary)',
+                        fontSize: '1.15rem',
+                        lineHeight: 1.7,
+                        marginBottom: pIdx < data.firstSection.paragraphs.length - 1 ? '1.15rem' : 0,
+                      }}
+                    >
+                      {p}
+                    </p>
+                  ))
+                ) : (
+                  <p
+                    style={{
+                      color: 'var(--text-secondary)',
+                      fontSize: '1.15rem',
+                      lineHeight: 1.7,
+                      margin: 0,
+                    }}
+                  >
+                    {data.firstSection.body}
+                  </p>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {data.showBlogsAfterFirstSection && (
+          <RelatedInsights
+            routeSlug={data.slug}
+            title={data.insightsTitle || 'Investment Property Insights & Breakdowns'}
+            subtitle="Real-world mortgage math and scenario walkthroughs by David Sider and Rakesh Jain."
+            background="#FFFFFF"
+          />
+        )}
+
+        {data.secondSection && (
+          <section className="section" style={{ paddingBottom: '2rem', paddingTop: data.showBlogsAfterFirstSection ? '2rem' : '2.5rem' }}>
+            <div className="container" style={{ maxWidth: '850px' }}>
+              <div
+                style={{
+                  padding: 'clamp(1.75rem, 4vw, 2.75rem)',
+                  backgroundColor: 'white',
+                  borderRadius: 'var(--radius-lg)',
+                  boxShadow: 'var(--shadow-sm)',
+                }}
+              >
+                <h2 style={{ color: 'var(--primary)', marginBottom: '1.25rem', textAlign: 'center' }}>
+                  {data.secondSection.heading}
+                </h2>
+                {Array.isArray(data.secondSection.paragraphs) ? (
+                  data.secondSection.paragraphs.map((p, pIdx) => (
+                    <p
+                      key={pIdx}
+                      style={{
+                        color: 'var(--text-secondary)',
+                        fontSize: '1.15rem',
+                        lineHeight: 1.7,
+                        marginBottom: pIdx < data.secondSection.paragraphs.length - 1 ? '1.15rem' : 0,
+                      }}
+                    >
+                      {p}
+                    </p>
+                  ))
+                ) : (
+                  <p
+                    style={{
+                      color: 'var(--text-secondary)',
+                      fontSize: '1.15rem',
+                      lineHeight: 1.7,
+                      margin: 0,
+                    }}
+                  >
+                    {data.secondSection.body}
+                  </p>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {data.contentSections && !data.firstSection && (
           <section className="section" style={{ paddingBottom: '2rem', paddingTop: 'var(--space-12)' }}>
             <div className="container" style={{ maxWidth: '850px' }}>
               {data.contentSections.map((sec, sIdx) => (
@@ -101,7 +208,9 @@ const SpecialtyPage = ({ data }) => {
               ))}
             </div>
           </section>
-        ) : data.introHeader ? (
+        )}
+
+        {data.introHeader && !data.firstSection && !data.contentSections && (
           <section className="section" style={{ paddingBottom: '2rem', paddingTop: 'var(--space-12)' }}>
             <div className="container" style={{ maxWidth: '800px', textAlign: 'center' }}>
               <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>{data.introHeader}</h2>
@@ -110,7 +219,7 @@ const SpecialtyPage = ({ data }) => {
               </p>
             </div>
           </section>
-        ) : null}
+        )}
 
         <section className="section bg-color">
           <div className="container">
@@ -214,9 +323,139 @@ const SpecialtyPage = ({ data }) => {
             {data.gridCards && data.gridCards.length > 0 && (
               <div className="programs-grid">
                 {data.gridCards.map((card, idx) => (
-                  <div className="program-card" key={idx}>
+                  <div
+                    className={`program-card ${card.isDoubleWide ? 'program-card-double-wide' : ''}`}
+                    key={idx}
+                    style={card.isDoubleWide ? { gridColumn: '1 / -1' } : undefined}
+                  >
                     <h3>{card.title}</h3>
-                    <p>{card.text}</p>
+                    {card.subtitle && (
+                      <h4 style={{ color: 'var(--secondary, #0468E9)', fontSize: '1.08rem', fontWeight: 600, marginTop: '-0.25rem', marginBottom: '1.25rem', lineHeight: 1.4 }}>
+                        {card.subtitle}
+                      </h4>
+                    )}
+                    {card.paragraphs ? (
+                      card.paragraphs.map((p, pIdx) => (
+                        <p key={pIdx} style={{ marginBottom: pIdx < card.paragraphs.length - 1 ? '1rem' : 0 }}>
+                          {p}
+                        </p>
+                      ))
+                    ) : card.text ? (
+                      <p>{card.text}</p>
+                    ) : null}
+
+                    {card.subsections && card.subsections.map((sub, sIdx) => (
+                      <div
+                        key={sIdx}
+                        style={{
+                          marginTop: '2rem',
+                          paddingTop: '1.75rem',
+                          borderTop: '1px solid rgba(15, 23, 42, 0.08)',
+                        }}
+                      >
+                        <h4 style={{ color: 'var(--primary)', fontSize: '1.2rem', marginBottom: '0.85rem', fontWeight: 700 }}>
+                          {sub.title}
+                        </h4>
+                        {sub.paragraphs && sub.paragraphs.map((sp, spIdx) => (
+                          <p key={spIdx} style={{ color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: spIdx < sub.paragraphs.length - 1 ? '1rem' : 0 }}>
+                            {sp}
+                          </p>
+                        ))}
+                        {sub.formulaBox && (
+                          <div
+                            style={{
+                              margin: '1.25rem 0',
+                              padding: '1rem 1.25rem',
+                              backgroundColor: 'rgba(4, 104, 233, 0.06)',
+                              borderLeft: '4px solid var(--secondary, #0468E9)',
+                              borderRadius: 'var(--radius-md, 8px)',
+                              fontFamily: 'monospace, sans-serif',
+                              fontSize: '1.05rem',
+                              fontWeight: 700,
+                              color: 'var(--primary)',
+                            }}
+                          >
+                            {sub.formulaBox}
+                          </div>
+                        )}
+                        {sub.items && (
+                          <ul style={{ paddingLeft: '1.25rem', margin: '1rem 0', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                            {sub.items.map((it, itIdx) => (
+                              <li key={itIdx} style={{ marginBottom: '0.5rem' }}>
+                                <strong>{it.label}</strong> {it.text}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                        {sub.exampleBox && (
+                          <div
+                            style={{
+                              margin: '1.25rem 0',
+                              padding: '1.25rem',
+                              backgroundColor: '#F8FAFC',
+                              border: '1px solid #E2E8F0',
+                              borderRadius: 'var(--radius-md, 8px)',
+                              fontSize: '0.98rem',
+                              lineHeight: 1.7,
+                            }}
+                          >
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0.5rem 1.5rem', marginBottom: '0.85rem' }}>
+                              {sub.exampleBox.dataPoints.map((dp, dpIdx) => (
+                                <div key={dpIdx} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed #CBD5E1', paddingBottom: '0.25rem' }}>
+                                  <span style={{ color: 'var(--text-secondary)' }}>{dp.label}:</span>
+                                  <strong style={{ color: 'var(--primary)' }}>{dp.value}</strong>
+                                </div>
+                              ))}
+                            </div>
+                            <div
+                              style={{
+                                marginTop: '0.75rem',
+                                padding: '0.75rem 1rem',
+                                backgroundColor: 'white',
+                                borderRadius: '6px',
+                                borderLeft: '4px solid #10B981',
+                                fontWeight: 700,
+                                color: 'var(--primary)',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                flexWrap: 'wrap',
+                                gap: '0.5rem',
+                              }}
+                            >
+                              <span>{sub.exampleBox.resultFormula}</span>
+                              <span style={{ color: '#047857', fontSize: '1.1rem' }}>{sub.exampleBox.resultBadge}</span>
+                            </div>
+                            {sub.exampleBox.conclusion && (
+                              <p style={{ marginTop: '0.85rem', marginBottom: 0, color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
+                                {sub.exampleBox.conclusion}
+                              </p>
+                            )}
+                          </div>
+                        )}
+                        {sub.callout && (
+                          <div
+                            style={{
+                              marginTop: '1rem',
+                              padding: '0.85rem 1.15rem',
+                              backgroundColor: 'rgba(239, 181, 30, 0.1)',
+                              borderLeft: '4px solid var(--accent, #EFB51E)',
+                              borderRadius: '6px',
+                              fontSize: '0.95rem',
+                              color: 'var(--text-secondary)',
+                              lineHeight: 1.6,
+                            }}
+                          >
+                            {sub.callout}
+                          </div>
+                        )}
+                        {sub.closingParagraph && (
+                          <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, marginTop: '1rem', marginBottom: 0 }}>
+                            {sub.closingParagraph}
+                          </p>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
@@ -281,12 +520,14 @@ const SpecialtyPage = ({ data }) => {
           </div>
         </section>
 
-        <RelatedInsights
-          routeSlug={data.slug}
-          title={data.insightsTitle || `${data.title} — Insights & Breakdowns`}
-          subtitle="Real-world mortgage math and scenario walkthroughs by David Sider and Rakesh Jain."
-          background="#FFFFFF"
-        />
+        {!data.showBlogsAfterFirstSection && (
+          <RelatedInsights
+            routeSlug={data.slug}
+            title={data.insightsTitle || `${data.title} — Insights & Breakdowns`}
+            subtitle="Real-world mortgage math and scenario walkthroughs by David Sider and Rakesh Jain."
+            background="#FFFFFF"
+          />
+        )}
 
         <section id="schedule-call" className="se-contact-section">
           <div className="container" style={{ maxWidth: '680px' }}>

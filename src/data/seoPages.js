@@ -392,46 +392,125 @@ export const seoPages = [
   },
   {
     slug: 'investor-loans',
-    title: 'START WITH YOUR PURPOSE',
-    seoTitle: 'Investment Property Loans & Financing Strategies | Insider Mortgage',
-    seoDescription: 'Financing strategies for residential investment properties, 1-4 units, and condominiums. Consultative mortgage structuring from David Sider and Rakesh Jain.',
-    heroSubtitle: 'Our consultative approach focuses investors to establish their true purpose of owning investment real estate. The realities of owning investment real estate is that it is more like owning a business, and is not just a passive investment.',
-    contentSections: [
-      {
-        heading: 'Think Beyond Owning Just One Property',
-        paragraphs: [
-          'For some investors, owning a single rental property may provide worthwhile income, appreciation potential, and tax benefits. For others, the financial returns may not justify the capital commitment, ongoing responsibilities, and occasional headaches associated with managing one property.',
-          'This is why we encourage investors to consider the bigger picture.',
-          'Is the goal to own one rental property for long-term appreciation or to gradually build a portfolio of income-producing properties? Will the anticipated returns justify the time, risk, and capital invested? How will future acquisitions be financed? And how does real estate ownership fit alongside other investments and retirement plans?',
-          'Building a portfolio may create opportunities for greater diversification, more efficient management, and long-term wealth accumulation. However, acquiring additional properties also introduces greater financial commitments and operational complexity.',
-          'At Insider Mortgage, we encourage investors to understand both the opportunities and responsibilities of property ownership. Our goal is to help develop financing strategies that support the investor\'s broader financial objectives, whether acquiring a first rental property or expanding an established portfolio.'
-        ]
-      },
-      {
-        heading: 'FINANCING INVESTMENT PROPERTIES',
-        paragraphs: [
-          'Residential investment properties include single-family rental homes, 2-4 unit properties and condominiums.',
-          'Financing investment properties involves more than simply comparing interest rates. The investor\'s personal income, available assets, existing real estate holdings, desired ownership structure, and the property\'s rental income can all influence which financing program makes the most sense. Condominiums are especially challenging since in addition to the property and the borrower being approved, the health of the HOA and the HOA management company must be approved as well.',
-          'At Insider Mortgage, we evaluate various financing approaches, ranging from traditional income qualification to alternative documentation and property-based lending.'
-        ]
-      }
+    title: 'INVESTMENT PROPERTIES',
+    heroSubheadline: 'Real Estate Investing Starts With the Right Strategy',
+    seoTitle: 'Investment Properties & Strategic Financing | Insider Mortgage',
+    seoDescription: 'Financing strategies for residential investment properties, 1-4 units, and condominiums. Full doc, bank statement, and DSCR mortgage structuring from David Sider and Rakesh Jain.',
+    heroSubtitle: [
+      'There are many reasons investors choose to acquire real estate, and the right strategy begins with understanding what the investor hopes to accomplish.',
+      'Some investors are motivated by tax advantages, including accelerated depreciation and long-term depreciation strategies. Others prioritize rental income and positive cash flow, while some focus on long-term appreciation, building equity, and diversifying their investment portfolios. Many investors seek a combination of these benefits.'
     ],
+    firstSection: {
+      heading: 'START WITH YOUR PURPOSE',
+      body: "Our consultative approach begins with helping investors clearly define their objectives for owning investment real estate. We collaborate with CPAs, attorneys, and financial advisors to ensure the financing strategy aligns with the investor's broader financial and wealth-building goals. Equally important is recognizing that owning investment real estate is more like operating a business than holding a passive investment, requiring ongoing management, financial oversight, and an understanding of the responsibilities and risks involved."
+    },
+    showBlogsAfterFirstSection: true,
+    secondSection: {
+      heading: 'FINANCING INVESTMENT PROPERTIES',
+      paragraphs: [
+        'Residential investment properties include single-family rental homes, 2-4 unit properties and condominiums.',
+        'Financing investment properties involves more than simply comparing interest rates. The investor\'s personal income, available assets, existing real estate holdings, desired ownership structure, and the property\'s rental income can all influence which financing program makes the most sense. Condominiums are especially challenging since in addition to the property and the borrower being approved, the health of the HOA and the HOA management company must be approved as well.',
+        'At Insider Mortgage, we evaluate various financing approaches, ranging from traditional income qualification to alternative documentation and property-based lending.'
+      ]
+    },
     gridCards: [
       {
-        title: '🏢 No Personal Income Used',
-        text: 'We do not verify your W-2s, tax returns, or employment. If the property cash-flows, you get approved.'
+        title: 'BOX 1 — Full Documentation',
+        text: 'Our first step is always to comprehensively review your financial situation. We will see if we can use standard “full-documentation” underwriting using one or two years of your tax returns so we can get you the best priced rates out there. Full Documentation does include the rental income from the subject property being acquired but can also include Asset Utilization techniques to expand the income qualifying guidelines for those who have traditional savings, investments, or retirement accounts where lenders use a formula to convert those assets into an equivalent additional monthly income.'
       },
       {
-        title: '♾️ Unlimited Properties',
-        text: 'Conventional loans cap you at 10 financed properties. DSCR loans allow you to scale infinitely with no portfolio cap.'
+        title: 'BOX 2 — Alt-Doc: Bank Statements Loans',
+        text: 'For self-employed investors, instead of relying on tax returns, these programs typically evaluate 12 or 24 months of personal or business bank statements. Lenders analyze eligible monthly deposits to calculate the businesses monthly gross revenue. Then, depending on the type of business, the lender applies an appropriate business expense factor to determine qualifying net income. This can be an excellent option for business owners with strong cash flow but significant tax deductions. P&L loans and 1099 Statement Loans fall into this Alt-Doc category as well.'
       },
       {
-        title: '💼 Close in an LLC',
-        text: 'Unlike conventional mortgages, DSCR loans allow you to close in the name of an LLC or Corporation to protect your personal liability. Keeping your property in layered LLCs is possible when we have consistent ownership.'
-      },
-      {
-        title: '📊 Easy Qualification',
-        text: 'While many programs look for the Gross Rent to cover the Mortgage Payment (PITIA), we also work with specialized investors who do not have a minimum DSCR requirement at all, giving you ultimate flexibility.'
+        title: 'BOX 3 — Debt Service Coverage Ratio (DSCR) Loans',
+        subtitle: 'Qualifying Based on the Investment Property\'s Rental Income Rather Than Personal Income',
+        isDoubleWide: true,
+        paragraphs: [
+          'Debt Service Coverage Ratio (DSCR) loans have become an increasingly popular financing option for residential real estate investors.',
+          'Unlike traditional mortgage financing, which generally requires verification of the borrower\'s personal income and employment, DSCR loans qualify primarily on the rental income generated by the subject investment property.',
+          'This can provide tremendous flexibility for investors who own multiple properties, have complicated tax returns, are self-employed, or prefer to keep their investment-property financing separate from their personal income qualification.',
+          'DSCR loans may also accommodate ownership through qualifying LLC and multi-layered LLC structures, making them particularly attractive to investors who want flexibility in organizing and expanding their real estate portfolios.'
+        ],
+        subsections: [
+          {
+            title: 'Understanding the DSCR Value',
+            paragraphs: [
+              'The Debt Service Coverage Ratio measures how much qualifying rental income a property generates compared with its monthly mortgage payment and associated property expenses.',
+              'For most residential DSCR loan programs, the calculation is relatively straightforward:'
+            ],
+            formulaBox: 'DSCR = Qualifying Gross Monthly Rental Income ÷ Monthly PITIA',
+            items: [
+              { label: 'P — Principal:', text: 'The principal portion of the mortgage payment.' },
+              { label: 'I — Interest:', text: 'The interest portion of the mortgage payment.' },
+              { label: 'T — Taxes:', text: 'Monthly property tax expense.' },
+              { label: 'I — Insurance:', text: 'Monthly property insurance expense.' },
+              { label: 'A — Association Dues:', text: 'HOA or applicable association fees.' }
+            ],
+            closingParagraph: 'Some loan programs calculate qualifying payments differently, particularly for interest-only loans.'
+          },
+          {
+            title: 'Example',
+            paragraphs: ['Consider an investment property with the following breakdown:'],
+            exampleBox: {
+              dataPoints: [
+                { label: 'Gross Monthly Rental Income', value: '$3,500' },
+                { label: 'Monthly Mortgage Principal & Interest', value: '$2,200' },
+                { label: 'Property Taxes', value: '$400' },
+                { label: 'Property Insurance', value: '$150' },
+                { label: 'HOA Dues', value: '$50' },
+                { label: 'Total Monthly PITIA', value: '$2,800' }
+              ],
+              resultFormula: 'DSCR = $3,500 ÷ $2,800 = 1.25',
+              resultBadge: 'DSCR = 1.25',
+              conclusion: 'A DSCR of 1.25 means the property\'s gross rental income is 125% of its monthly mortgage payment and associated PITIA expenses.'
+            }
+          },
+          {
+            title: 'What Does the DSCR Number Mean?',
+            paragraphs: ['The higher the DSCR, the more rental income the property generates relative to its monthly financing and property expenses.'],
+            items: [
+              { label: 'DSCR of 1.25 or Higher:', text: 'Rental income is at least 25% greater than the PITIA payment. This generally represents a stronger qualifying ratio and may provide access to more favorable loan pricing.' },
+              { label: 'DSCR of 1.00:', text: 'Rental income is equal to the monthly PITIA payment.' },
+              { label: 'DSCR Below 1.00:', text: 'Rental income is insufficient to cover the full PITIA payment. Some lenders still offer financing in these situations, although interest rates, down payment requirements, and other loan terms may be less favorable.' }
+            ],
+            callout: 'Importantly, the DSCR calculation does not typically deduct all property operating expenses, such as maintenance, repairs, vacancy allowances, or property management fees. A property with a DSCR above 1.00 can therefore still generate negative cash flow after accounting for its actual operating expenses.'
+          },
+          {
+            title: 'How Is the Rental Income Determined?',
+            paragraphs: [
+              'Lenders generally establish qualifying rental income using an existing lease agreement, an appraiser\'s market rent analysis, or a combination of the two, depending on the program and whether the property is currently occupied.',
+              'For properties being purchased without an existing tenant, an appraisal may include a rental survey estimating the property\'s fair market rent.',
+              'Certain DSCR programs also permit short-term rental properties, although these typically have different income documentation and underwriting requirements.',
+              'The lender determines the eligible rental income used for qualification according to its specific program guidelines.'
+            ]
+          },
+          {
+            title: 'How Is the Interest Rate on a DSCR Loan Determined?',
+            paragraphs: [
+              'Unlike traditional mortgages, where the borrower\'s personal income and debt-to-income ratio play a significant role in qualification, DSCR financing emphasizes the investment property\'s rental income and several key credit and lending factors.',
+              'DSCR loan interest rates are generally established through a risk-based pricing matrix, with three especially important components:'
+            ],
+            items: [
+              { label: '1. Loan-to-Value Ratio (LTV):', text: 'The LTV measures the loan amount relative to the property\'s value, or the applicable value used by the lender. A lower LTV generally represents less lending risk because the investor has more equity in the property. For example, a loan at 65% LTV may receive more favorable pricing than a similar loan at 80% LTV, assuming the other qualifying factors remain the same.' },
+              { label: '2. Guarantor\'s Credit Score:', text: 'Although DSCR loans generally do not rely on personal income to qualify, the individual borrower or guarantor\'s credit history remains important. Higher credit scores generally provide access to more competitive interest rates and potentially more flexible lending terms. When a property is owned through an LLC, the lender will typically evaluate the credit qualifications of the individual guarantor or guarantors.' },
+              { label: '3. Debt Service Coverage Ratio (DSCR):', text: 'The property\'s DSCR value is a particularly important component of the pricing matrix because it measures the property\'s ability to generate rental income relative to its required monthly payment. Higher DSCR values generally indicate stronger rental income coverage and may qualify for better pricing or more favorable LTV limits. For example, an investor with a DSCR of 1.30 may qualify for more attractive financing terms than an investor with a DSCR of 0.90, even when their credit scores and LTVs are otherwise identical.' }
+            ],
+            closingParagraph: 'The exact pricing adjustments and minimum ratios vary among lenders. Other factors, including loan size, property type, cash-out refinancing, prepayment provisions, and interest-only options, may also influence pricing.'
+          },
+          {
+            title: 'Why the Financing Structure Matters',
+            paragraphs: [
+              'One of the unique aspects of DSCR financing is that the loan amount, interest rate, and DSCR value are interconnected.',
+              'A larger down payment reduces the loan amount and generally lowers the monthly mortgage payment. This can increase the DSCR value and potentially improve the available interest rate.',
+              'Similarly, a lower interest rate reduces the monthly payment, which can further improve the property\'s DSCR.',
+              'Interest-only financing may also improve the qualifying DSCR under programs that use an interest-only payment for the calculation, although investors must consider the implications of not reducing principal during that period.',
+              'These relationships can create opportunities to structure financing in ways that improve qualification, pricing, and investment cash flow.',
+              'At Insider Mortgage, we help investors compare lenders and evaluate how different loan amounts, down payments, interest rates, and loan structures influence both the DSCR value and the overall investment strategy.',
+              'The objective is not simply to qualify for a DSCR loan. It is to structure the financing to support the investor\'s cash flow, available capital, ownership objectives, and long-term real estate investment plans.'
+            ]
+          }
+        ]
       }
     ],
     formSubtitle: 'Ready to scale your portfolio? Connect with David and Rakesh to discuss your investment property financing strategy.',

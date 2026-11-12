@@ -215,13 +215,22 @@ export default function SummaryKpiCards({
                 style={{
                   backgroundColor: '#060A2D',
                   color: '#EFB51E',
-                  padding: '0.4rem 0.85rem',
+                  padding: '0.45rem 0.95rem',
                   borderRadius: '999px',
                   fontWeight: 800,
-                  fontSize: '0.95rem',
+                  fontSize: '0.92rem',
+                  textAlign: 'center',
+                  display: 'inline-flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  lineHeight: 1.2,
+                  minWidth: '88px',
+                  flexShrink: 0,
                 }}
               >
-                {summary.fiveYear.irrPct.toFixed(2)}% IRR
+                <span>{summary.fiveYear.irrPct.toFixed(2)}%</span>
+                <span style={{ fontSize: '0.72rem', letterSpacing: '0.04em' }}>IRR</span>
               </div>
             </div>
 
@@ -264,9 +273,14 @@ export default function SummaryKpiCards({
                 }}
               >
                 <span style={{ fontWeight: 700, color: '#060A2D' }}>Net 5-Yr Lifetime Profit:</span>
-                <span style={{ fontSize: '1.15rem', fontWeight: 800, color: '#15803D' }}>
-                  {currencyFmt.format(Math.round(summary.fiveYear.totalProfit))} ({summary.fiveYear.totalRoiPct.toFixed(1)}% ROI)
-                </span>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#15803D', lineHeight: 1.2 }}>
+                    {currencyFmt.format(Math.round(summary.fiveYear.totalProfit))}
+                  </div>
+                  <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#15803D', marginTop: '2px' }}>
+                    {summary.fiveYear.totalRoiPct.toFixed(1)}% ROI
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -293,13 +307,22 @@ export default function SummaryKpiCards({
                 style={{
                   backgroundColor: '#EFB51E',
                   color: '#060A2D',
-                  padding: '0.4rem 0.85rem',
+                  padding: '0.45rem 0.95rem',
                   borderRadius: '999px',
                   fontWeight: 900,
-                  fontSize: '0.95rem',
+                  fontSize: '0.92rem',
+                  textAlign: 'center',
+                  display: 'inline-flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  lineHeight: 1.2,
+                  minWidth: '88px',
+                  flexShrink: 0,
                 }}
               >
-                {summary.tenYear.irrPct.toFixed(2)}% IRR
+                <span>{summary.tenYear.irrPct.toFixed(2)}%</span>
+                <span style={{ fontSize: '0.72rem', letterSpacing: '0.04em' }}>IRR</span>
               </div>
             </div>
 
@@ -342,9 +365,14 @@ export default function SummaryKpiCards({
                 }}
               >
                 <span style={{ fontWeight: 700, color: '#060A2D' }}>Net 10-Yr Lifetime Profit:</span>
-                <span style={{ fontSize: '1.15rem', fontWeight: 800, color: '#15803D' }}>
-                  {currencyFmt.format(Math.round(summary.tenYear.totalProfit))} ({summary.tenYear.totalRoiPct.toFixed(1)}% ROI)
-                </span>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#15803D', lineHeight: 1.2 }}>
+                    {currencyFmt.format(Math.round(summary.tenYear.totalProfit))}
+                  </div>
+                  <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#15803D', marginTop: '2px' }}>
+                    {summary.tenYear.totalRoiPct.toFixed(1)}% ROI
+                  </div>
+                </div>
               </div>
             </div>
           </div>

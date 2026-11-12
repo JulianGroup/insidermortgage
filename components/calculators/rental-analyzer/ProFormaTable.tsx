@@ -273,6 +273,65 @@ export default function ProFormaTable({
         </table>
       </div>
 
+      {/* Pro-Forma Term Index / Glossary Below Schedule */}
+      <div
+        className={isLockedPublic ? 'ra-locked-blur' : ''}
+        style={{
+          marginTop: '1.15rem',
+          padding: '1rem 1.15rem',
+          backgroundColor: '#F8FAFC',
+          border: '1px solid #E2E8F0',
+          borderRadius: '12px',
+        }}
+      >
+        <div
+          style={{
+            fontSize: '0.76rem',
+            fontWeight: 800,
+            color: '#060A2D',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            marginBottom: '0.65rem',
+          }}
+        >
+          Pro-Forma Term Index &amp; Formula Definitions
+        </div>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+            gap: '0.75rem 1.25rem',
+            fontSize: '0.8rem',
+            color: '#334155',
+            lineHeight: 1.5,
+          }}
+        >
+          <div>
+            <strong style={{ color: '#060A2D' }}>Effective Gross Income (EGI):</strong> Annual Gross
+            Scheduled Rent across all units minus the{' '}
+            <strong>{(inputs.vacancyRate * 100).toFixed(1)}%</strong> vacancy allowance. Represents
+            actual collected rental income.
+          </div>
+          <div>
+            <strong style={{ color: '#060A2D' }}>Operating Expenses (OpEx):</strong> Annual Property
+            Taxes ({(inputs.propertyTaxRate * 100).toFixed(2)}%), Home Insurance (
+            {(inputs.insuranceRate * 100).toFixed(2)}%), Property Management Fee (
+            {(inputs.propMgmtRate * 100).toFixed(0)}% of EGI), and HOA dues. Excludes mortgage
+            payments.
+          </div>
+          <div>
+            <strong style={{ color: '#060A2D' }}>Net Operating Income (NOI):</strong>{' '}
+            <code>EGI − Operating Expenses</code>. Measures the property&apos;s pure unlevered
+            operating income before debt service.
+          </div>
+          <div>
+            <strong style={{ color: '#060A2D' }}>Annual Debt Service:</strong> Total annual
+            principal &amp; interest (P&amp;I) mortgage payments (<code>Monthly P&amp;I × 12</code>).
+            Subtracting Annual Debt Service from NOI yields <strong>Annual Net Cash Flow</strong>.
+          </div>
+        </div>
+      </div>
+
       {isLockedPublic && (
         <div
           style={{

@@ -12,6 +12,7 @@ import InputControlPanel from './InputControlPanel';
 import WhatIfModules from './WhatIfModules';
 import SummaryKpiCards from './SummaryKpiCards';
 import ProFormaTable from './ProFormaTable';
+import AiInvestmentAnalysis from './AiInvestmentAnalysis';
 import LeadCaptureModal from './LeadCaptureModal';
 import './rental-analyzer.css';
 
@@ -420,6 +421,13 @@ export default function RentalAnalyzerContainer({
             <WhatIfModules
               inputs={inputs}
               onChange={handlePatchInputs}
+              isLockedPublic={isLockedPublic}
+              onRequestUnlock={() => setIsModalOpen(true)}
+            />
+
+            <AiInvestmentAnalysis
+              inputs={inputs}
+              summary={summary}
               isLockedPublic={isLockedPublic}
               onRequestUnlock={() => setIsModalOpen(true)}
             />

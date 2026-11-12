@@ -1034,48 +1034,48 @@
   /* ---------------- PAGE 2 SPECIFIC STYLES ---------------- */
   .ra-print-header.mini {
     border-bottom: 2px solid #060A2D !important;
-    padding-bottom: 5px !important;
-    margin-bottom: 8px !important;
+    padding-bottom: 3px !important;
+    margin-bottom: 5px !important;
   }
 
   .ra-print-header.mini .ra-print-brand-name {
-    font-size: 14pt !important;
+    font-size: 12pt !important;
   }
 
   .ra-print-header.mini .ra-print-brand-tag {
     font-size: 8pt !important;
-    padding: 2px 6px !important;
+    padding: 1.5px 5px !important;
   }
 
   .ra-print-address-sm {
-    font-size: 11.5pt !important;
+    font-size: 10.5pt !important;
     font-weight: 800 !important;
     color: #060A2D !important;
   }
 
   .ra-print-submeta-sm {
-    font-size: 10pt !important;
+    font-size: 9pt !important;
     color: #475569 !important;
     font-weight: 600 !important;
   }
 
   /* 10-Year Pro-Forma Table Section */
   .ra-print-table-section {
-    margin-bottom: 8px !important;
+    margin-bottom: 5px !important;
   }
 
   .ra-print-section-title {
     display: flex !important;
     justify-content: space-between !important;
     align-items: baseline !important;
-    font-size: 11.5pt !important;
+    font-size: 10.5pt !important;
     font-weight: 900 !important;
     color: #060A2D !important;
-    margin-bottom: 4px !important;
+    margin-bottom: 3px !important;
   }
 
   .ra-print-section-sub {
-    font-size: 10pt !important;
+    font-size: 9pt !important;
     font-weight: 600 !important;
     color: #475569 !important;
   }
@@ -1083,39 +1083,39 @@
   .ra-print-proforma-table {
     width: 100% !important;
     border-collapse: collapse !important;
-    font-size: 10pt !important;
+    font-size: 9pt !important;
   }
 
   .ra-print-proforma-table th {
     background: #060A2D !important;
     color: #FFFFFF !important;
     font-weight: 800 !important;
-    padding: 3px 2.5px !important;
-    text-align: right !important;
+    padding: 2.5px 2px !important;
+    text-align: center !important;
     line-height: 1.15 !important;
     border: 1px solid #1E293B !important;
-    font-size: 9.8pt !important;
+    font-size: 9pt !important;
     text-transform: uppercase !important;
     letter-spacing: 0.02em !important;
   }
 
   .ra-print-proforma-table th:first-child {
-    text-align: left !important;
+    text-align: center !important;
   }
 
   .ra-print-proforma-table th .th-sub {
-    font-size: 8.5pt !important;
+    font-size: 7.8pt !important;
     font-weight: 600 !important;
     color: #CBD5E1 !important;
   }
 
   .ra-print-proforma-table td {
-    padding: 2.2px 2.5px !important;
+    padding: 1.8px 2.5px !important;
     text-align: right !important;
     border: 1px solid #CBD5E1 !important;
     white-space: nowrap !important;
     color: #0F172A !important;
-    font-size: 10pt !important;
+    font-size: 9pt !important;
     font-weight: 600 !important;
   }
 
@@ -1129,10 +1129,10 @@
   }
 
   .ra-td-year {
-    text-align: left !important;
+    text-align: center !important;
     font-weight: 800 !important;
     color: #060A2D !important;
-    font-size: 10pt !important;
+    font-size: 9pt !important;
   }
 
   .ra-td-bold {
@@ -1151,7 +1151,7 @@
 
   /* AI Investment Underwriting Section */
   .ra-print-ai-section {
-    margin-bottom: 8px !important;
+    margin-bottom: 5px !important;
   }
 
   .ra-print-ai-header {
@@ -1164,8 +1164,8 @@
   .ra-print-ai-title {
     display: flex !important;
     align-items: center !important;
-    gap: 6px !important;
-    font-size: 12pt !important;
+    gap: 5px !important;
+    font-size: 10.5pt !important;
     font-weight: 900 !important;
     color: #060A2D !important;
     text-transform: uppercase !important;
@@ -1173,124 +1173,126 @@
   }
 
   .ra-print-ai-title .ra-print-num-badge.dark {
-    width: 20px !important;
-    height: 20px !important;
-    font-size: 10pt !important;
+    width: 17px !important;
+    height: 17px !important;
+    font-size: 9pt !important;
+    background: #060A2D !important;
+    color: #FFFFFF !important;
   }
 
   .ra-print-ai-subtitle {
-    font-size: 10pt !important;
+    font-size: 9pt !important;
     color: #475569 !important;
-    margin-bottom: 5px !important;
+    margin-bottom: 3.5px !important;
     font-weight: 600 !important;
   }
 
   .ra-print-deal-badge {
-    font-size: 10pt !important;
+    font-size: 9pt !important;
     font-weight: 800 !important;
     background: #EFF6FF !important;
     color: #0468E9 !important;
     border: 1.5px solid #BFDBFE !important;
-    padding: 2px 8px !important;
+    padding: 1.5px 7px !important;
     border-radius: 999px !important;
   }
 
   .ra-print-ai-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: 7px !important;
+    gap: 5px !important;
   }
 
   .ra-print-ai-card {
     background: #F8FAFC !important;
-    border-radius: 6px !important;
-    padding: 6px 9px !important;
+    border-radius: 5px !important;
+    padding: 4px 7px !important;
     border: 1px solid #CBD5E1 !important;
-    font-size: 10.5pt !important;
-    line-height: 1.35 !important;
+    font-size: 9pt !important;
+    line-height: 1.25 !important;
     color: #1E293B !important;
   }
 
   .ra-print-ai-card p {
     margin: 0 !important;
-    font-size: 10.5pt !important;
-    line-height: 1.35 !important;
+    font-size: 9pt !important;
+    line-height: 1.25 !important;
   }
 
   .ra-print-ai-card.border-navy {
-    border-left: 3.5px solid #060A2D !important;
+    border-left: 3px solid #060A2D !important;
   }
 
   .ra-print-ai-card.border-blue {
-    border-left: 3.5px solid #0468E9 !important;
+    border-left: 3px solid #0468E9 !important;
   }
 
   .ra-print-ai-card.border-green {
-    border-left: 3.5px solid #16A34A !important;
+    border-left: 3px solid #16A34A !important;
   }
 
   .ra-print-ai-card.border-gold {
-    border-left: 3.5px solid #D97706 !important;
+    border-left: 3px solid #D97706 !important;
     background: #FFFBEB !important;
   }
 
   .ra-print-ai-card-title {
-    font-size: 11pt !important;
+    font-size: 9.5pt !important;
     font-weight: 900 !important;
     color: #060A2D !important;
     text-transform: uppercase !important;
     letter-spacing: 0.03em !important;
-    margin-bottom: 3px !important;
+    margin-bottom: 2px !important;
   }
 
   .ra-print-memo-list {
     margin: 0 !important;
-    padding-left: 14px !important;
+    padding-left: 12px !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 2.5px !important;
-    font-size: 10.5pt !important;
+    gap: 1.5px !important;
+    font-size: 9pt !important;
   }
 
   .ra-print-memo-list li {
-    font-size: 10.5pt !important;
-    line-height: 1.35 !important;
+    font-size: 9pt !important;
+    line-height: 1.25 !important;
   }
 
   /* Contact Information & Licensing Box */
   .ra-print-contact-section {
     border: 1.5px solid #060A2D !important;
-    border-radius: 6px !important;
+    border-radius: 5px !important;
     background: #F8FAFC !important;
-    padding: 6px 10px !important;
-    margin-bottom: 6px !important;
+    padding: 4px 8px !important;
+    margin-bottom: 4px !important;
   }
 
   .ra-print-contact-header {
     display: flex !important;
     justify-content: space-between !important;
     align-items: baseline !important;
-    border-bottom: 1.5px solid #CBD5E1 !important;
-    padding-bottom: 3px !important;
-    margin-bottom: 5px !important;
+    border-bottom: 1px solid #CBD5E1 !important;
+    padding-bottom: 2px !important;
+    margin-bottom: 3.5px !important;
   }
 
   .ra-print-contact-title {
-    font-size: 11.5pt !important;
+    font-size: 10pt !important;
     font-weight: 900 !important;
     color: #060A2D !important;
     letter-spacing: 0.04em !important;
   }
 
   .ra-print-contact-sub {
-    font-size: 10pt !important;
+    font-size: 9pt !important;
     color: #475569 !important;
     font-weight: 700 !important;
   }
 
   .ra-print-officers-grid {
     display: grid !important;
-    gap: 8px !important;
+    gap: 6px !important;
   }
 
   .ra-print-officers-grid.dual {
@@ -1304,38 +1306,38 @@
   .ra-print-officer-card {
     background: #FFFFFF !important;
     border: 1px solid #CBD5E1 !important;
-    border-radius: 5px !important;
-    padding: 5px 8px !important;
+    border-radius: 4px !important;
+    padding: 3.5px 6px !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 1.5px !important;
+    gap: 1px !important;
   }
 
   .ra-print-officer-name {
-    font-size: 13pt !important;
+    font-size: 11pt !important;
     font-weight: 900 !important;
     color: #060A2D !important;
     line-height: 1.15 !important;
   }
 
   .ra-print-officer-role {
-    font-size: 10.5pt !important;
+    font-size: 9pt !important;
     font-weight: 700 !important;
     color: #475569 !important;
   }
 
   .ra-print-officer-licenses {
-    font-size: 10pt !important;
+    font-size: 9pt !important;
     font-weight: 700 !important;
     color: #0468E9 !important;
   }
 
   .ra-print-officer-contact {
     display: flex !important;
-    gap: 6px !important;
-    font-size: 10.5pt !important;
+    gap: 5px !important;
+    font-size: 9pt !important;
     color: #0F172A !important;
-    margin-top: 2px !important;
+    margin-top: 1px !important;
   }
 
   .ra-print-officer-contact strong {
@@ -1343,19 +1345,19 @@
   }
 
   .ra-print-compliance-note {
-    border-top: 1.5px solid #E2E8F0 !important;
-    padding-top: 4px !important;
-    margin-top: 4px !important;
+    border-top: 1px solid #E2E8F0 !important;
+    padding-top: 2.5px !important;
+    margin-top: 2.5px !important;
   }
 
   .ra-print-eho-row {
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    font-size: 10pt !important;
+    font-size: 9pt !important;
     font-weight: 800 !important;
     color: #1E293B !important;
-    margin-bottom: 2px !important;
+    margin-bottom: 1.5px !important;
   }
 
   .ra-print-eho-badge {
@@ -1365,9 +1367,9 @@
   }
 
   .ra-print-disclaimer-text {
-    font-size: 10pt !important;
+    font-size: 8.5pt !important;
     color: #64748B !important;
-    line-height: 1.35 !important;
+    line-height: 1.25 !important;
   }
 }
 

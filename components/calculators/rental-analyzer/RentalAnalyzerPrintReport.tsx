@@ -560,7 +560,7 @@ export default function RentalAnalyzerPrintReport({
                   row.year === 10;
                 return (
                   <tr key={row.year} className={isHighlight ? 'ra-row-highlight' : ''}>
-                    <td className="ra-td-year">Year {row.year}</td>
+                    <td className="ra-td-year">{row.year}</td>
                     <td>{currencyFmt.format(Math.round(row.monthlyGrossRent))}</td>
                     <td>{currencyFmt.format(Math.round(row.effectiveGrossIncome))}</td>
                     <td className="ra-td-neg">-{currencyFmt.format(Math.round(row.operatingExpenses))}</td>
@@ -570,7 +570,7 @@ export default function RentalAnalyzerPrintReport({
                       {row.netCashFlow >= 0 ? '+' : ''}{currencyFmt.format(Math.round(row.netCashFlow))}
                     </td>
                     <td className={`ra-td-bold ${row.netCashFlow >= 0 ? 'ra-td-pos' : 'ra-td-neg'}`}>
-                      {row.netCashFlow >= 0 ? '+' : ''}{currencyFmt.format(Math.round(row.netCashFlow / 12))}/mo
+                      {row.netCashFlow >= 0 ? '+' : ''}{currencyFmt.format(Math.round(row.netCashFlow / 12))}
                     </td>
                     <td>{currencyFmt.format(Math.round(row.propertyValue))}</td>
                     <td>{currencyFmt.format(Math.round(row.remainingBalance))}</td>

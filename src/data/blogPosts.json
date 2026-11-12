@@ -1,21 +1,11 @@
 [
   {
     "id": "post-inv-david-goals",
-    "slug": "what-do-you-want-your-investment-to-accomplish",
-    "title": "What Do You Want Your Investment to Accomplish?",
-    "topicBadge": "🏢 Real Estate Investing",
-    "excerpt": "Before selecting a property, determining an ownership structure, or choosing a mortgage program, investors should clarify their primary objectives: tax benefits, cash flow, equity growth, or portfolio diversification.",
-    "authorId": "david",
-    "publishedAt": "2026-11-11",
-    "readTimeMinutes": 4,
+    "specificRoutes": [
+      "investor-loans",
+      "dscr-loans"
+    ],
     "status": "published",
-    "isDraftSample": false,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "",
-    "categories": ["cat-investors"],
-    "specificRoutes": ["investor-loans", "dscr-loans"],
-    "calculators": ["calc-interactive", "calc-loan-limits"],
-    "bioTags": ["bio-david"],
     "sections": [
       {
         "paragraphs": [
@@ -55,26 +45,44 @@
         ]
       }
     ],
+    "categories": [
+      "cat-investors"
+    ],
+    "authorId": "david",
+    "videoPlaceholderNote": "",
+    "calculators": [
+      "calc-interactive",
+      "calc-loan-limits"
+    ],
+    "bioTags": [
+      "bio-david"
+    ],
+    "publishedAt": "2026-11-11",
     "keyTakeawayTitle": "Strategic Takeaway",
-    "keyTakeaway": "Aligning your mortgage financing structure—whether conventional investment or DSCR—with your primary objective ensures your loan supports your long-term wealth strategy rather than restricting it."
+    "youtubeUrl": "",
+    "excerpt": "Before selecting a property, determining an ownership structure, or choosing a mortgage program, investors should clarify their primary objectives: tax benefits, cash flow, equity growth, or portfolio diversification.",
+    "slug": "what-do-you-want-your-investment-to-accomplish",
+    "title": "What Do You Want Your Investment to Accomplish?",
+    "topicBadge": "🏢 Real Estate Investing",
+    "isDraftSample": false,
+    "keyTakeaway": "Aligning your mortgage financing structure—whether conventional investment or DSCR—with your primary objective ensures your loan supports your long-term wealth strategy rather than restricting it.",
+    "readTimeMinutes": 4
   },
   {
     "id": "post-inv-david-realities",
-    "slug": "the-realities-of-owning-investment-real-estate",
-    "title": "The Realities of Owning Investment Real Estate",
-    "topicBadge": "🏢 Real Estate Investing",
-    "excerpt": "Investment property ownership is a business, not just a passive investment. Here is how repairs, vacancies, tenant management, liability, and property oversight impact your bottom line.",
-    "authorId": "david",
-    "publishedAt": "2026-11-11",
-    "readTimeMinutes": 4,
-    "status": "published",
+    "categories": [
+      "cat-investors"
+    ],
+    "specificRoutes": [
+      "investor-loans",
+      "dscr-loans"
+    ],
     "isDraftSample": false,
-    "youtubeUrl": "",
+    "publishedAt": "2026-11-11",
     "videoPlaceholderNote": "",
-    "categories": ["cat-investors"],
-    "specificRoutes": ["investor-loans", "dscr-loans"],
-    "calculators": ["calc-interactive"],
-    "bioTags": ["bio-david"],
+    "readTimeMinutes": 4,
+    "excerpt": "Investment property ownership is a business, not just a passive investment. Here is how repairs, vacancies, tenant management, liability, and property oversight impact your bottom line.",
+    "topicBadge": "🏢 Real Estate Investing",
     "sections": [
       {
         "heading": "Investment Property Ownership Is a Business, Not Just an Investment",
@@ -95,26 +103,27 @@
         ]
       }
     ],
+    "bioTags": [
+      "bio-david"
+    ],
     "keyTakeawayTitle": "The Bottom Line",
-    "keyTakeaway": "Factoring in healthy liquidity reserves, realistic vacancy rates, and proper management costs upfront is what turns real estate from a stressful side venture into a resilient, profitable business."
+    "title": "The Realities of Owning Investment Real Estate",
+    "authorId": "david",
+    "status": "published",
+    "keyTakeaway": "Factoring in healthy liquidity reserves, realistic vacancy rates, and proper management costs upfront is what turns real estate from a stressful side venture into a resilient, profitable business.",
+    "calculators": [
+      "calc-interactive"
+    ],
+    "youtubeUrl": "",
+    "slug": "the-realities-of-owning-investment-real-estate"
   },
   {
     "id": "post-heloc-rakesh-how-to-shop",
-    "slug": "how-to-shop-for-a-heloc",
-    "title": "How to Shop for a HELOC",
-    "topicBadge": "🏡 Home Equity & HELOCs",
-    "excerpt": "Advertised HELOC rates only tell part of the story. Here is how Prime + Margin pricing, teaser rates, rate floors, draw vs. repayment periods, closing costs, and early termination terms dictate your true borrowing cost.",
-    "authorId": "rakesh",
+    "isDraftSample": false,
     "publishedAt": "2026-11-04",
     "readTimeMinutes": 4,
-    "status": "published",
-    "isDraftSample": false,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "",
-    "categories": [],
-    "specificRoutes": ["refinance"],
-    "calculators": ["calc-weighted-avg", "calc-prime-rate"],
-    "bioTags": [],
+    "authorId": "rakesh",
+    "title": "How to Shop for a HELOC",
     "sections": [
       {
         "paragraphs": [
@@ -190,13 +199,31 @@
         "dividerAbove": true,
         "heading": "4. Closing Costs",
         "table": {
-          "headers": ["Fee Component", "Typical Range"],
+          "headers": [
+            "Fee Component",
+            "Typical Range"
+          ],
           "rows": [
-            ["**Origination Fee**", "0% to 2.5% of line amount"],
-            ["**Lender-Related Fees**", "$1,200 to $1,600"],
-            ["**Appraisal Fee**", "$0 to $650"],
-            ["**Title & Recording**", "$250 to $1,200"],
-            ["**Annual Maintenance Fee**", "$0 to $100/yr"]
+            [
+              "**Origination Fee**",
+              "0% to 2.5% of line amount"
+            ],
+            [
+              "**Lender-Related Fees**",
+              "$1,200 to $1,600"
+            ],
+            [
+              "**Appraisal Fee**",
+              "$0 to $650"
+            ],
+            [
+              "**Title & Recording**",
+              "$250 to $1,200"
+            ],
+            [
+              "**Annual Maintenance Fee**",
+              "$0 to $100/yr"
+            ]
           ]
         }
       },
@@ -209,25 +236,31 @@
         ]
       }
     ],
+    "keyTakeaway": "You can pay your balance down to **$0 without penalty** after the early payment window; the early termination fee only triggers if you **close the account** during the early termination period.",
+    "videoPlaceholderNote": "",
+    "topicBadge": "🏡 Home Equity & HELOCs",
+    "bioTags": [],
+    "youtubeUrl": "",
+    "calculators": [
+      "calc-weighted-avg",
+      "calc-prime-rate"
+    ],
+    "specificRoutes": [
+      "refinance"
+    ],
     "keyTakeawayTitle": "Crucial Distinction",
-    "keyTakeaway": "You can pay your balance down to **$0 without penalty** after the early payment window; the early termination fee only triggers if you **close the account** during the early termination period."
+    "categories": [],
+    "excerpt": "Advertised HELOC rates only tell part of the story. Here is how Prime + Margin pricing, teaser rates, rate floors, draw vs. repayment periods, closing costs, and early termination terms dictate your true borrowing cost.",
+    "slug": "how-to-shop-for-a-heloc",
+    "status": "published"
   },
   {
     "id": "post-ftb-rakesh-inspection-vs-appraisal",
-    "slug": "home-inspection-vs-appraisal-why-you-need-both",
-    "title": "Home Inspection vs. Appraisal: Why You Need Both Before Closing",
-    "excerpt": "A side-by-side breakdown of what home inspectors and appraisers actually look for during escrow, who they work for, and how each protects you before closing.",
-    "authorId": "rakesh",
+    "isDraftSample": false,
     "publishedAt": "2026-11-02",
     "readTimeMinutes": 5,
-    "status": "published",
-    "isDraftSample": false,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "",
-    "categories": ["cat-first-time"],
-    "specificRoutes": ["first-time"],
-    "calculators": [],
-    "bioTags": [],
+    "authorId": "rakesh",
+    "title": "Home Inspection vs. Appraisal: Why You Need Both Before Closing",
     "sections": [
       {
         "paragraphs": [
@@ -239,7 +272,11 @@
         "dividerAbove": true,
         "heading": "1. The Core Differences at a Glance",
         "table": {
-          "headers": ["Feature", "Home Inspection", "Appraisal Inspection"],
+          "headers": [
+            "Feature",
+            "Home Inspection",
+            "Appraisal Inspection"
+          ],
           "rows": [
             [
               "**Primary Purpose**",
@@ -348,64 +385,77 @@
         ]
       }
     ],
+    "keyTakeaway": "An appraisal tells you **what the home is worth today**, while a home inspection reveals **what it will cost you tomorrow**. Skipping the home inspection leaves you blind to latent structural issues; skipping the appraisal means no mortgage approval. Working together, they give you the complete picture needed to navigate your contingency timelines and close with confidence.",
+    "videoPlaceholderNote": "",
+    "bioTags": [],
+    "youtubeUrl": "",
+    "calculators": [],
+    "specificRoutes": [
+      "first-time"
+    ],
     "keyTakeawayTitle": "The Bottom Line",
-    "keyTakeaway": "An appraisal tells you **what the home is worth today**, while a home inspection reveals **what it will cost you tomorrow**. Skipping the home inspection leaves you blind to latent structural issues; skipping the appraisal means no mortgage approval. Working together, they give you the complete picture needed to navigate your contingency timelines and close with confidence."
+    "categories": [
+      "cat-first-time"
+    ],
+    "excerpt": "A side-by-side breakdown of what home inspectors and appraisers actually look for during escrow, who they work for, and how each protects you before closing.",
+    "slug": "home-inspection-vs-appraisal-why-you-need-both",
+    "status": "published"
   },
   {
     "id": "post-se-rakesh-1",
-    "slug": "draft-bank-statement-vs-1099-loans-buying-power",
-    "title": "Draft: Bank Statement vs. 1099 Loans — Which Gives Self-Employed Borrowers More Buying Power?",
-    "excerpt": "Draft preview: When smart tax deductions reduce your Schedule C or corporate net income, choosing between a 12 or 24 month business bank statement loan and a 1099 expense-ratio loan can dramatically change how much home you qualify for.",
-    "authorId": "rakesh",
+    "isDraftSample": true,
     "publishedAt": "2026-11-02",
     "readTimeMinutes": 5,
-    "status": "published",
-    "isDraftSample": true,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "Optional YouTube video walkthrough can be pasted here when finalizing this post.",
-    "categories": ["cat-self-employed"],
-    "specificRoutes": ["self-employed-programs", "bank-statement-loans", "1099-loans", "mortgage-for-contractors"],
-    "calculators": ["calc-interactive", "calc-weighted-avg"],
-    "bioTags": [],
+    "authorId": "rakesh",
+    "title": "Draft: Bank Statement vs. 1099 Loans — Which Gives Self-Employed Borrowers More Buying Power?",
     "sections": [
       {
         "heading": "Why Tax Returns Rarely Tell Your Real Cash-Flow Story",
         "paragraphs": [
-          "Most self-employed entrepreneurs, independent contractors, and small business owners work closely with their CPA to legally minimize taxable income. While that is smart tax planning, conventional underwriting looks at bottom-line net income after write-offs—often cutting your qualifying income in half.",
-          "Whenever we review a self-employed file, our first check is always whether conventional full-documentation financing works using legitimate add-backs like depreciation or business-use-of-home. When write-offs are too heavy, two non-QM tools typically stand out: 12 or 24 month Business Bank Statement loans and 1099 Expense-Ratio loans."
+          "Draft placeholder copy — Most self-employed entrepreneurs, independent contractors, and small business owners work closely with their CPA to legally minimize taxable income. While that is smart tax planning, conventional underwriting looks at bottom-line net income after write-offs—often cutting your qualifying income in half.",
+          "Whenever we review a self-employed file, our first check is always whether conventional full-documentation financing works using legitimate add-backs like depreciation or business-use-of-home. When write-offs are too heavy, two non-QM tools typically stand out: 12-month Bank Statement loans and 1099 Expense-Ratio loans."
         ]
       },
       {
         "heading": "When a 1099 Loan Wins vs. When Bank Statements Win",
         "bullets": [
-          "**1099 Expense-Ratio Loans:** Ideal for independent contractors, realtors, consultants, and gig professionals with low overhead where a flat 10%–20% expense factor unlocks up to 80%–90% of gross 1099 earnings.",
-          "**12 or 24 Month Business Bank Statement Loans:** Best for S-Corp, LLC, or sole-proprietor businesses with multiple revenue streams where gross monthly deposits reflect recent growth far better than last year's tax filing. Based on the type of business (service or product), the number of employees, and the number of locations, an expense factor will be applied against gross revenue.",
-          "**CPA P&L Programs:** Useful when bank transfers between multiple operating accounts are complex and a clean 12-month Profit & Loss statement tells a clearer story."
+          "1099 Expense-Ratio Loans: Ideal for independent contractors, realtors, consultants, and gig professionals with low overhead where a flat 10%–20% expense factor unlocks up to 80%–90% of gross 1099 earnings.",
+          "12-Month Business or Personal Bank Statement Loans: Best for S-Corp, LLC, or sole-proprietor businesses with multiple revenue streams where gross monthly deposits reflect recent growth far better than last year's tax filing.",
+          "CPA P&L Programs: Useful when bank transfers between multiple operating accounts are complex and a clean 12-month Profit & Loss statement tells a clearer story."
         ],
         "paragraphs": [
-          "With a 1099 and bank statement loan, there will be less work for your CPA as a P&L is often not required. We may need your CPA to verify your ownership percentage and that the business is active.",
           "Before submitting to underwriting, we run both calculations side by side so you can compare the exact rate, down payment, and monthly payment tradeoffs with zero guesswork."
         ]
       }
     ],
-    "keyTakeaway": "You do not have to overpay the IRS for two years just to qualify for a mortgage—matching your income structure to the right alternative-doc program keeps your cash liquid and your tax strategy intact."
+    "keyTakeaway": "You do not have to overpay the IRS for two years just to qualify for a mortgage—matching your income structure to the right alternative-doc program keeps your cash liquid and your tax strategy intact.",
+    "videoPlaceholderNote": "Optional YouTube video walkthrough can be pasted here when finalizing this post.",
+    "bioTags": [],
+    "youtubeUrl": "",
+    "calculators": [
+      "calc-interactive",
+      "calc-weighted-avg"
+    ],
+    "specificRoutes": [
+      "self-employed-programs",
+      "bank-statement-loans",
+      "1099-loans",
+      "mortgage-for-contractors"
+    ],
+    "categories": [
+      "cat-self-employed"
+    ],
+    "excerpt": "Draft preview: When smart tax deductions reduce your Schedule C or corporate net income, choosing between a 12-month bank statement loan and a 1099 expense-ratio loan can dramatically change how much home you qualify for.",
+    "slug": "draft-bank-statement-vs-1099-loans-buying-power",
+    "status": "published"
   },
   {
     "id": "post-se-david-1",
-    "slug": "draft-scorp-llc-qualifying-without-changing-tax-strategy",
-    "title": "Draft: How S-Corp & LLC Owners Qualify Without Rewriting Their Tax Strategy",
-    "excerpt": "Draft preview: Splitting income between W-2 salary, K-1 distributions, and corporate write-offs trips up traditional retail banks. Here is how we package S-Corp and LLC files cleanly.",
-    "authorId": "david",
+    "isDraftSample": true,
     "publishedAt": "2026-11-01",
     "readTimeMinutes": 4,
-    "status": "published",
-    "isDraftSample": true,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "Paste a YouTube screen-share walkthrough link here when ready to publish.",
-    "categories": ["cat-self-employed"],
-    "specificRoutes": ["self-employed-programs", "mortgage-for-scorp", "mortgage-for-llc", "mortgage-for-small-business"],
-    "calculators": ["calc-loan-limits"],
-    "bioTags": [],
+    "authorId": "david",
+    "title": "Draft: How S-Corp & LLC Owners Qualify Without Rewriting Their Tax Strategy",
     "sections": [
       {
         "heading": "The S-Corp W-2 + K-1 Disconnect at Big Banks",
@@ -423,24 +473,33 @@
         ]
       }
     ],
-    "keyTakeaway": "A 15-minute upfront review of your K-1s or 12-month deposit summary lets us give your listing agent a rock-solid pre-approval with no last-minute underwriting surprises."
+    "keyTakeaway": "A 15-minute upfront review of your K-1s or 12-month deposit summary lets us give your listing agent a rock-solid pre-approval with no last-minute underwriting surprises.",
+    "videoPlaceholderNote": "Paste a YouTube screen-share walkthrough link here when ready to publish.",
+    "bioTags": [],
+    "youtubeUrl": "",
+    "calculators": [
+      "calc-loan-limits"
+    ],
+    "specificRoutes": [
+      "self-employed-programs",
+      "mortgage-for-scorp",
+      "mortgage-for-llc",
+      "mortgage-for-small-business"
+    ],
+    "categories": [
+      "cat-self-employed"
+    ],
+    "excerpt": "Draft preview: Splitting income between W-2 salary, K-1 distributions, and corporate write-offs trips up traditional retail banks. Here is how we package S-Corp and LLC files cleanly.",
+    "slug": "draft-scorp-llc-qualifying-without-changing-tax-strategy",
+    "status": "published"
   },
   {
     "id": "post-ret-rakesh-1",
-    "slug": "draft-reverse-mortgage-heloc-55-plus-second-position",
-    "title": "Draft: Reverse Mortgage HELOC (55+) — Tap Home Equity Without Touching Your Low First Mortgage",
-    "excerpt": "Draft preview: Sitting on a 2.75%–4.00% first mortgage and heavy high-interest debt or cash-flow needs? Discover how a second-position Reverse HELOC for ages 55+ works.",
-    "authorId": "rakesh",
+    "isDraftSample": true,
     "publishedAt": "2026-10-30",
     "readTimeMinutes": 6,
-    "status": "published",
-    "isDraftSample": true,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "",
-    "categories": ["cat-retirees"],
-    "specificRoutes": ["retirees"],
-    "calculators": ["calc-weighted-avg"],
-    "bioTags": [],
+    "authorId": "rakesh",
+    "title": "Draft: Reverse Mortgage HELOC (55+) — Tap Home Equity Without Touching Your Low First Mortgage",
     "sections": [
       {
         "heading": "Why Refinancing a Low-Rate First Mortgage Often Hurts",
@@ -462,24 +521,30 @@
         ]
       }
     ],
-    "keyTakeaway": "Protecting a 3% first mortgage while eliminating 22% revolving debt or unlocking retirement liquidity requires looking at your blended debt rate—not just headline mortgage rates."
+    "keyTakeaway": "Protecting a 3% first mortgage while eliminating 22% revolving debt or unlocking retirement liquidity requires looking at your blended debt rate—not just headline mortgage rates.",
+    "videoPlaceholderNote": "",
+    "bioTags": [],
+    "youtubeUrl": "",
+    "calculators": [
+      "calc-weighted-avg"
+    ],
+    "specificRoutes": [
+      "retirees"
+    ],
+    "categories": [
+      "cat-retirees"
+    ],
+    "excerpt": "Draft preview: Sitting on a 2.75%–4.00% first mortgage and heavy high-interest debt or cash-flow needs? Discover how a second-position Reverse HELOC for ages 55+ works.",
+    "slug": "draft-reverse-mortgage-heloc-55-plus-second-position",
+    "status": "published"
   },
   {
     "id": "post-ret-david-1",
-    "slug": "draft-moving-after-55-prop-19-and-asset-depletion",
-    "title": "Draft: Downsizing or Moving After 55 — Pairing CA Prop 19 With Asset-Depletion Financing",
-    "excerpt": "Draft preview: How California retirees buy their next home before selling their current residence while transferring their low Prop 13 property tax base.",
-    "authorId": "david",
+    "isDraftSample": true,
     "publishedAt": "2026-10-28",
     "readTimeMinutes": 5,
-    "status": "published",
-    "isDraftSample": true,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "Optional YouTube Prop 19 scenario walkthrough video.",
-    "categories": ["cat-retirees"],
-    "specificRoutes": ["retirees"],
-    "calculators": ["calc-prop19"],
-    "bioTags": [],
+    "authorId": "david",
+    "title": "Draft: Downsizing or Moving After 55 — Pairing CA Prop 19 With Asset-Depletion Financing",
     "sections": [
       {
         "heading": "Qualifying Without a Paycheck Using Retirement Assets",
@@ -497,94 +562,30 @@
         ]
       }
     ],
-    "keyTakeaway": "Run your current county Net Taxable Value in our Prop 19 Calculator before house-hunting so your pre-approval reflects your true post-transfer property tax bill."
-  },
-  {
-    "id": "post-inv-rakesh-1",
-    "slug": "draft-dscr-loans-scaling-beyond-10-properties-layered-llcs",
-    "title": "Draft: Scaling Beyond 10 Financed Properties Using DSCR Loans & Layered LLCs",
-    "excerpt": "Draft preview: Conventional guidelines cap investors at 10 financed properties and require personal DTI checks. Here is how portfolio investors scale cleanly with DSCR.",
-    "authorId": "rakesh",
-    "publishedAt": "2026-10-26",
-    "readTimeMinutes": 5,
-    "status": "published",
-    "isDraftSample": true,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "",
-    "categories": ["cat-investors"],
-    "specificRoutes": ["investor-loans", "dscr-loans"],
-    "calculators": ["calc-interactive"],
+    "keyTakeaway": "Run your current county Net Taxable Value in our Prop 19 Calculator before house-hunting so your pre-approval reflects your true post-transfer property tax bill.",
+    "videoPlaceholderNote": "Optional YouTube Prop 19 scenario walkthrough video.",
     "bioTags": [],
-    "sections": [
-      {
-        "heading": "Why Experienced Investors Hit a Conventional Ceiling",
-        "paragraphs": [
-          "Draft placeholder copy — Once your real estate portfolio grows past four to ten financed properties, conventional agency underwriting becomes increasingly restrictive: reserve requirements multiply, Schedule E rental calculations lag behind market rents, and closing directly in an LLC is prohibited.",
-          "Debt Service Coverage Ratio (DSCR) loans remove personal tax returns, W-2s, and personal DTI ratios from the equation altogether."
-        ]
-      },
-      {
-        "heading": "Structuring Vesting and Cash Flow Properly",
-        "bullets": [
-          "Property-level underwriting: Approval centers on gross market rent (Form 1007 lease/rent schedule) relative to PITIA.",
-          "Entity vesting: Close directly in an LLC or layered LLC structure (with consistent ownership documentation) to maintain asset protection.",
-          "Low-ratio & no-ratio DSCR options: For high-appreciation coastal markets where 20%–25% down doesn't immediately hit a 1.00x DSCR, specialized wholesale investors still offer flexible terms."
-        ]
-      }
-    ],
-    "keyTakeaway": "Whether you are acquiring rental #2 or rental #15, comparing conventional investment pricing against DSCR options side-by-side clarifies whether rate or speed/flexibility wins for that deal."
-  },
-  {
-    "id": "post-inv-david-1",
-    "slug": "draft-dscr-vs-conventional-investment-loan-math",
-    "title": "Draft: DSCR vs. Conventional Investment Loans — Running the Real Break-Even Math",
-    "excerpt": "Draft preview: Should you document full personal income for a conventional investment rate or skip the red tape with DSCR? Let's break down points, reserves, and prepayment penalties.",
-    "authorId": "david",
-    "publishedAt": "2026-10-24",
-    "readTimeMinutes": 5,
-    "status": "published",
-    "isDraftSample": true,
     "youtubeUrl": "",
-    "videoPlaceholderNote": "Optional YouTube spreadsheet walkthrough video.",
-    "categories": ["cat-investors"],
-    "specificRoutes": ["investor-loans", "dscr-loans"],
-    "calculators": ["calc-loan-limits", "calc-yield-curve"],
-    "bioTags": [],
-    "sections": [
-      {
-        "heading": "Looking Past Headline Interest Rates on Rentals",
-        "paragraphs": [
-          "Draft placeholder copy —Conventional investment property loans carry steep Loan-Level Price Adjustments (LLPAs) from Fannie Mae and Freddie Mac unless you put 25%–40% down. Surprisingly often, a well-priced wholesale DSCR loan lands remarkably close to conventional investment pricing—especially when factoring in upfront points.",
-          "The biggest difference investors must watch on DSCR loans is the prepayment penalty structure (typically 1-year to 5-year step-downs)."
-        ]
-      },
-      {
-        "heading": "Questions We Walk Through on Every Rental Quote",
-        "bullets": [
-          "Do you plan to refinance within 12–24 months if Treasury yields fall, and if so, how much does a shorter or zero prepayment penalty change the rate?",
-          "Are you buying a 2-to-4 unit property where 2026 high-balance county loan limits unlock better leverage?",
-          "Does keeping the mortgage off your personal DTI calculations help you qualify for your next primary home upgrade?"
-        ]
-      }
+    "calculators": [
+      "calc-prop19"
     ],
-    "keyTakeaway": "Always match your prepayment window to your expected hold/refinance horizon before locking an investment property loan."
+    "specificRoutes": [
+      "retirees"
+    ],
+    "categories": [
+      "cat-retirees"
+    ],
+    "excerpt": "Draft preview: How California retirees buy their next home before selling their current residence while transferring their low Prop 13 property tax base.",
+    "slug": "draft-moving-after-55-prop-19-and-asset-depletion",
+    "status": "published"
   },
   {
     "id": "post-ftb-rakesh-1",
-    "slug": "draft-why-waiting-for-20-percent-down-can-cost-more",
-    "title": "Draft: Why Waiting for 20% Down Often Costs More Than Buying With a PMI Exit Roadmap",
-    "excerpt": "Draft preview: How first-time buyers enter the market with 3%–5% down and strategically eliminate Private Mortgage Insurance (PMI) later.",
-    "authorId": "rakesh",
+    "isDraftSample": true,
     "publishedAt": "2026-10-22",
     "readTimeMinutes": 5,
-    "status": "published",
-    "isDraftSample": true,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "",
-    "categories": ["cat-first-time"],
-    "specificRoutes": ["first-time"],
-    "calculators": ["calc-payoff", "calc-interactive"],
-    "bioTags": [],
+    "authorId": "rakesh",
+    "title": "Draft: Why Waiting for 20% Down Often Costs More Than Buying With a PMI Exit Roadmap",
     "sections": [
       {
         "heading": "The Myth of the Mandatory 20% Down Payment",
@@ -602,24 +603,31 @@
         ]
       }
     ],
-    "keyTakeaway": "Your first mortgage is a stepping stone, not a 30-year prison sentence—having a clear Day-1 plan to drop PMI turns low-down-payment financing into a wealth-building tool."
+    "keyTakeaway": "Your first mortgage is a stepping stone, not a 30-year prison sentence—having a clear Day-1 plan to drop PMI turns low-down-payment financing into a wealth-building tool.",
+    "videoPlaceholderNote": "",
+    "bioTags": [],
+    "youtubeUrl": "",
+    "calculators": [
+      "calc-payoff",
+      "calc-interactive"
+    ],
+    "specificRoutes": [
+      "first-time"
+    ],
+    "categories": [
+      "cat-first-time"
+    ],
+    "excerpt": "Draft preview: How first-time buyers enter the market with 3%–5% down and strategically eliminate Private Mortgage Insurance (PMI) later.",
+    "slug": "draft-why-waiting-for-20-percent-down-can-cost-more",
+    "status": "published"
   },
   {
     "id": "post-ftb-david-1",
-    "slug": "draft-reading-your-loan-estimate-credits-points-breakeven",
-    "title": "Draft: Reading Your Loan Estimate Like an Insider — Lender Credits, Points & Break-Even Math",
-    "excerpt": "Draft preview: How to compare mortgage quotes apples-to-apples, spot inflated fees or unnecessary points, and use lender credits strategically.",
-    "authorId": "david",
+    "isDraftSample": true,
     "publishedAt": "2026-10-20",
     "readTimeMinutes": 5,
-    "status": "published",
-    "isDraftSample": true,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "Optional YouTube video breaking down a sample Loan Estimate.",
-    "categories": ["cat-first-time"],
-    "specificRoutes": ["first-time"],
-    "calculators": ["calc-mbs"],
-    "bioTags": [],
+    "authorId": "david",
+    "title": "Draft: Reading Your Loan Estimate Like an Insider — Lender Credits, Points & Break-Even Math",
     "sections": [
       {
         "heading": "Why Advertised Teaser Rates Hide in Box A",
@@ -637,24 +645,30 @@
         ]
       }
     ],
-    "keyTakeaway": "Send us any competing Loan Estimate and we will record a transparent video walkthrough showing the exact break-even math down to the dollar."
+    "keyTakeaway": "Send us any competing Loan Estimate and we will record a transparent video walkthrough showing the exact break-even math down to the dollar.",
+    "videoPlaceholderNote": "Optional YouTube video breaking down a sample Loan Estimate.",
+    "bioTags": [],
+    "youtubeUrl": "",
+    "calculators": [
+      "calc-mbs"
+    ],
+    "specificRoutes": [
+      "first-time"
+    ],
+    "categories": [
+      "cat-first-time"
+    ],
+    "excerpt": "Draft preview: How to compare mortgage quotes apples-to-apples, spot inflated fees or unnecessary points, and use lender credits strategically.",
+    "slug": "draft-reading-your-loan-estimate-credits-points-breakeven",
+    "status": "published"
   },
   {
     "id": "post-bio-rakesh-1",
-    "slug": "draft-rakesh-why-every-mortgage-is-a-debt-strategy",
-    "title": "Draft: Two Decades in Lending — Why I Treat Every Mortgage Like a Long-Term Balance-Sheet Strategy",
-    "excerpt": "Draft personal bio post: Reflections on helping families navigate every rate cycle since 2002—and why honest math beats sales pitches every time.",
-    "authorId": "rakesh",
+    "isDraftSample": true,
     "publishedAt": "2026-10-18",
     "readTimeMinutes": 3,
-    "status": "published",
-    "isDraftSample": true,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "",
-    "categories": [],
-    "specificRoutes": [],
-    "calculators": [],
-    "bioTags": ["bio-rakesh"],
+    "authorId": "rakesh",
+    "title": "Draft: Two Decades in Lending — Why I Treat Every Mortgage Like a Long-Term Balance-Sheet Strategy",
     "sections": [
       {
         "heading": "Lessons From 20+ Years of Market Cycles",
@@ -664,24 +678,26 @@
         ]
       }
     ],
-    "keyTakeaway": "Real relationships are built over decades of honest check-ins—not single transactions."
+    "keyTakeaway": "Real relationships are built over decades of honest check-ins—not single transactions.",
+    "videoPlaceholderNote": "",
+    "bioTags": [
+      "bio-rakesh"
+    ],
+    "youtubeUrl": "",
+    "calculators": [],
+    "specificRoutes": [],
+    "categories": [],
+    "excerpt": "Draft personal bio post: Reflections on helping families navigate every rate cycle since 2002—and why honest math beats sales pitches every time.",
+    "slug": "draft-rakesh-why-every-mortgage-is-a-debt-strategy",
+    "status": "published"
   },
   {
     "id": "post-bio-david-1",
-    "slug": "draft-david-why-i-record-custom-video-breakdowns",
-    "title": "Draft: Behind the Scenes — Why I Started Recording Custom Video Breakdowns for Clients",
-    "excerpt": "Draft personal bio post: Why a 5-minute personalized screen-share video beats a 20-attachment email chain when making one of life's biggest financial decisions.",
-    "authorId": "david",
+    "isDraftSample": true,
     "publishedAt": "2026-10-16",
     "readTimeMinutes": 3,
-    "status": "published",
-    "isDraftSample": true,
-    "youtubeUrl": "",
-    "videoPlaceholderNote": "Optional personal intro YouTube video for David's bio.",
-    "categories": [],
-    "specificRoutes": [],
-    "calculators": [],
-    "bioTags": ["bio-david"],
+    "authorId": "david",
+    "title": "Draft: Behind the Scenes — Why I Started Recording Custom Video Breakdowns for Clients",
     "sections": [
       {
         "heading": "Making Numbers Visual, Calm, and Rewatchable",
@@ -691,6 +707,17 @@
         ]
       }
     ],
-    "keyTakeaway": "Clarity builds confidence—when you understand every number on the screen, mortgage decisions become straightforward."
+    "keyTakeaway": "Clarity builds confidence—when you understand every number on the screen, mortgage decisions become straightforward.",
+    "videoPlaceholderNote": "Optional personal intro YouTube video for David's bio.",
+    "bioTags": [
+      "bio-david"
+    ],
+    "youtubeUrl": "",
+    "calculators": [],
+    "specificRoutes": [],
+    "categories": [],
+    "excerpt": "Draft personal bio post: Why a 5-minute personalized screen-share video beats a 20-attachment email chain when making one of life's biggest financial decisions.",
+    "slug": "draft-david-why-i-record-custom-video-breakdowns",
+    "status": "published"
   }
 ]

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { NumericFormat } from 'react-number-format';
 import { UnitInput } from '../../../lib/financial-engine';
 
 interface DynamicUnitScheduleProps {
@@ -251,37 +252,25 @@ export default function DynamicUnitSchedule({
                 >
                   Expected Rent ($/mo)
                 </label>
-                <div style={{ position: 'relative' }}>
-                  <span
-                    style={{
-                      position: 'absolute',
-                      left: '0.65rem',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      color: '#64748B',
-                      fontWeight: 600,
-                      fontSize: '0.88rem',
-                    }}
-                  >
-                    $
-                  </span>
-                  <input
-                    type="number"
-                    min={0}
-                    step={50}
-                    className="ra-input"
-                    style={{
-                      padding: '0.45rem 0.65rem 0.45rem 1.45rem',
-                      fontSize: '0.92rem',
-                      fontWeight: 700,
-                    }}
-                    value={unit.monthlyRent === 0 ? '' : unit.monthlyRent}
-                    onChange={(e) =>
-                      onUnitChange(idx, { monthlyRent: Math.max(0, Number(e.target.value) || 0) })
-                    }
-                    placeholder="0"
-                  />
-                </div>
+                <NumericFormat
+                  thousandSeparator=","
+                  decimalScale={0}
+                  allowNegative={false}
+                  prefix="$"
+                  className="ra-input"
+                  style={{
+                    padding: '0.45rem 0.65rem',
+                    fontSize: '0.92rem',
+                    fontWeight: 700,
+                  }}
+                  value={unit.monthlyRent === 0 ? '' : unit.monthlyRent}
+                  onValueChange={(values) =>
+                    onUnitChange(idx, {
+                      monthlyRent: Math.max(0, Number(values.floatValue) || 0),
+                    })
+                  }
+                  placeholder="$0"
+                />
               </div>
             </div>
           ))}

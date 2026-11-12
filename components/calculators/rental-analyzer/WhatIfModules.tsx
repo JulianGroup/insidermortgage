@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { NumericFormat } from 'react-number-format';
 import { UnderwriteInputs } from '../../../lib/financial-engine';
 
 interface WhatIfModulesProps {
@@ -361,16 +362,18 @@ export default function WhatIfModules({
                   >
                     Build Budget {aduMultiplier > 1 ? '(Per ADU $)' : '($)'}
                   </label>
-                  <input
-                    type="number"
-                    min={50000}
-                    max={400000}
-                    step={5000}
+                  <NumericFormat
+                    thousandSeparator=","
+                    decimalScale={0}
+                    allowNegative={false}
+                    prefix="$"
                     className="ra-input"
-                    value={inputs.aduCost ?? 200000}
-                    onChange={(e) =>
-                      onChange({ aduCost: Math.max(0, Number(e.target.value) || 0) })
+                    style={{ fontWeight: 700 }}
+                    value={(inputs.aduCost ?? 200000) === 0 ? '' : inputs.aduCost ?? 200000}
+                    onValueChange={(values) =>
+                      onChange({ aduCost: Math.max(0, Number(values.floatValue) || 0) })
                     }
+                    placeholder="$0"
                   />
                   {aduMultiplier > 1 && (
                     <span style={{ fontSize: '0.72rem', color: '#92400E', fontWeight: 600 }}>
@@ -391,16 +394,18 @@ export default function WhatIfModules({
                   >
                     Expected ADU Rent {aduMultiplier > 1 ? '(Per ADU $/mo)' : '($/mo)'}
                   </label>
-                  <input
-                    type="number"
-                    min={1000}
-                    max={5000}
-                    step={100}
+                  <NumericFormat
+                    thousandSeparator=","
+                    decimalScale={0}
+                    allowNegative={false}
+                    prefix="$"
                     className="ra-input"
-                    value={inputs.aduRentMonthly ?? 2200}
-                    onChange={(e) =>
-                      onChange({ aduRentMonthly: Math.max(0, Number(e.target.value) || 0) })
+                    style={{ fontWeight: 700 }}
+                    value={(inputs.aduRentMonthly ?? 2200) === 0 ? '' : inputs.aduRentMonthly ?? 2200}
+                    onValueChange={(values) =>
+                      onChange({ aduRentMonthly: Math.max(0, Number(values.floatValue) || 0) })
                     }
+                    placeholder="$0"
                   />
                   {aduMultiplier > 1 && (
                     <span style={{ fontSize: '0.72rem', color: '#92400E', fontWeight: 600 }}>

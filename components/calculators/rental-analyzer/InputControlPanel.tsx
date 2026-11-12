@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { NumericFormat } from 'react-number-format';
 import { UnderwriteInputs } from '../../../lib/financial-engine';
 
 interface InputControlPanelProps {
@@ -65,16 +66,18 @@ export default function InputControlPanel({
             >
               Purchase Price ($)
             </label>
-            <input
-              type="number"
-              min={100000}
-              max={10000000}
-              step={5000}
+            <NumericFormat
+              thousandSeparator=","
+              decimalScale={0}
+              allowNegative={false}
+              prefix="$"
               className="ra-input"
-              value={inputs.purchasePrice || ''}
-              onChange={(e) =>
-                onChange({ purchasePrice: Math.max(0, Number(e.target.value) || 0) })
+              style={{ fontWeight: 700 }}
+              value={inputs.purchasePrice === 0 ? '' : inputs.purchasePrice}
+              onValueChange={(values) =>
+                onChange({ purchasePrice: Math.max(0, Number(values.floatValue) || 0) })
               }
+              placeholder="$0"
             />
             <span style={{ fontSize: '0.73rem', color: '#64748B' }}>
               Loan Amount: {currencyFmt.format(loanAmountDollar)}
@@ -94,16 +97,18 @@ export default function InputControlPanel({
             >
               Make-Ready / Rehab Cost ($)
             </label>
-            <input
-              type="number"
-              min={0}
-              max={250000}
-              step={1000}
+            <NumericFormat
+              thousandSeparator=","
+              decimalScale={0}
+              allowNegative={false}
+              prefix="$"
               className="ra-input"
-              value={inputs.makeReadyCost === 0 ? 0 : inputs.makeReadyCost || ''}
-              onChange={(e) =>
-                onChange({ makeReadyCost: Math.max(0, Number(e.target.value) || 0) })
+              style={{ fontWeight: 700 }}
+              value={inputs.makeReadyCost === 0 ? '' : inputs.makeReadyCost}
+              onValueChange={(values) =>
+                onChange({ makeReadyCost: Math.max(0, Number(values.floatValue) || 0) })
               }
+              placeholder="$0"
             />
             <span style={{ fontSize: '0.73rem', color: '#64748B' }}>
               Closing + initial turn-key reserves
@@ -354,16 +359,17 @@ export default function InputControlPanel({
             >
               Monthly HOA ($/mo)
             </label>
-            <input
-              type="number"
-              min={0}
-              max={2500}
-              step={25}
+            <NumericFormat
+              thousandSeparator=","
+              decimalScale={0}
+              allowNegative={false}
+              prefix="$"
               className="ra-input"
-              value={inputs.monthlyHoa === 0 ? 0 : inputs.monthlyHoa || ''}
-              onChange={(e) =>
-                onChange({ monthlyHoa: Math.max(0, Number(e.target.value) || 0) })
+              value={inputs.monthlyHoa === 0 ? '' : inputs.monthlyHoa}
+              onValueChange={(values) =>
+                onChange({ monthlyHoa: Math.max(0, Number(values.floatValue) || 0) })
               }
+              placeholder="$0"
             />
           </div>
         </div>

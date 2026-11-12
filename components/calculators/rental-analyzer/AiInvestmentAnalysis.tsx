@@ -6,6 +6,7 @@ import {
   UnderwriteSummary,
   runUnderwriteModel,
 } from '../../../lib/financial-engine';
+import { getDealClassification } from './dealClassifier';
 
 interface AiInvestmentAnalysisProps {
   inputs: UnderwriteInputs;
@@ -73,32 +74,16 @@ export default function AiInvestmentAnalysis({
         })
       : null;
 
-    // Deal classification
-    let badgeText = 'Appreciation & Equity Compounder';
-    let badgeColor = '#0468E9';
-    let badgeBg = 'rgba(4, 104, 233, 0.12)';
-
-    if (price === 0 || summary.totalMonthlyRent === 0) {
-      badgeText = 'Awaiting Property Inputs';
-      badgeColor = '#64748B';
-      badgeBg = '#F1F5F9';
-    } else if (monthlyCf >= 250 && summary.tenYear.irrPct >= 10) {
-      badgeText = 'Strong Cash-Flow & High-IRR Core Asset';
-      badgeColor = '#15803D';
-      badgeBg = '#DCFCE7';
-    } else if (monthlyCf >= 0) {
-      badgeText = 'Self-Sustaining Positive Cash-Flow Hold';
-      badgeColor = '#15803D';
-      badgeBg = '#DCFCE7';
-    } else if (summary.tenYear.irrPct >= 6.5) {
-      badgeText = 'Coastal Equity & Appreciation Compounder';
-      badgeColor = '#0468E9';
-      badgeBg = '#DBEAFE';
-    } else {
-      badgeText = 'Yield-Constrained — Value-Add / Refi Candidate';
-      badgeColor = '#B45309';
-      badgeBg = '#FEF3C7';
-    }
+    // Dynamic Deal Classification Tagline
+    const { badgeText, badgeColor, badgeBg } = getDealClassification({
+      purchasePrice: price,
+      totalMonthlyRent: summary.totalMonthlyRent,
+      monthlyCf,
+      dscr,
+      totalMonthlyPitia,
+      tenYearIrrPct: summary.tenYear.irrPct,
+      breakEvenYear,
+    });
 
     const principalPaydown10Yr = Math.max(
       0,

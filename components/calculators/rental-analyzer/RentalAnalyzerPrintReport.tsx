@@ -8,6 +8,7 @@ import {
   computeMortgagePmt,
 } from '../../../lib/financial-engine';
 import { detectPropertyState } from './stateDetector';
+import { getDealClassification } from './dealClassifier';
 
 interface RentalAnalyzerPrintReportProps {
   inputs: UnderwriteInputs;
@@ -80,32 +81,19 @@ export default function RentalAnalyzerPrintReport({
     });
   }, [inputs]);
 
-  // Deal classification
-  let badgeText = 'Coastal Equity & Appreciation Compounder';
-  let badgeColor = '#0468E9';
-  let badgeBg = '#EFF6FF';
+  const breakEvenRow = summary.schedule.find((r) => r.netCashFlow >= 0);
+  const breakEvenYear = breakEvenRow ? breakEvenRow.year : null;
 
-  if (price === 0 || summary.totalMonthlyRent === 0) {
-    badgeText = 'Property Underwriting Benchmark';
-    badgeColor = '#64748B';
-    badgeBg = '#F1F5F9';
-  } else if (monthlyCf >= 250 && summary.tenYear.irrPct >= 10) {
-    badgeText = 'Strong Cash-Flow & High-IRR Core Asset';
-    badgeColor = '#15803D';
-    badgeBg = '#DCFCE7';
-  } else if (monthlyCf >= 0) {
-    badgeText = 'Self-Sustaining Positive Cash-Flow Hold';
-    badgeColor = '#15803D';
-    badgeBg = '#DCFCE7';
-  } else if (summary.tenYear.irrPct >= 6.5) {
-    badgeText = 'Coastal Equity & Appreciation Compounder';
-    badgeColor = '#0468E9';
-    badgeBg = '#DBEAFE';
-  } else {
-    badgeText = 'Yield-Constrained — Value-Add / Refi Candidate';
-    badgeColor = '#B45309';
-    badgeBg = '#FEF3C7';
-  }
+  // Dynamic Deal Classification Tagline
+  const { badgeText } = getDealClassification({
+    purchasePrice: price,
+    totalMonthlyRent: summary.totalMonthlyRent,
+    monthlyCf,
+    dscr,
+    totalMonthlyPitia,
+    tenYearIrrPct: summary.tenYear.irrPct,
+    breakEvenYear,
+  });
 
   const principalPaydown10Yr = Math.max(
     0,

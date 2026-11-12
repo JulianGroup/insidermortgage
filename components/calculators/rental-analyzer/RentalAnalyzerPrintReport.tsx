@@ -327,50 +327,57 @@ export default function RentalAnalyzerPrintReport({
           </div>
         </div>
 
-        {/* Year 1 Operating Snapshot (Hero Navy Card) */}
-        <div className="ra-print-hero-card">
-          <div className="ra-print-hero-header">
-            <div className="ra-print-hero-badge">YEAR 1 OPERATING SNAPSHOT</div>
-            <div className="ra-print-hero-ratios">
+        {/* Year 1 Operating Snapshot (Clean Executive Card - Light Background & 2-Column Design) */}
+        <div className="ra-print-hero-card light">
+          <div className="ra-print-hero-header light">
+            <div className="ra-print-hero-badge dark">YEAR 1 OPERATING SNAPSHOT</div>
+            <div className="ra-print-hero-ratios dark">
               <span>
                 Unlevered Cap Rate: <strong>{capRate.toFixed(2)}%</strong>
               </span>
+              <span className="ra-print-dot-sep">·</span>
               <span>
                 DSCR (NOI / P&amp;I): <strong>{dscr.toFixed(2)}x</strong>
               </span>
+              <span className="ra-print-dot-sep">·</span>
               <span>
                 Cash-on-Cash Return: <strong>{cashOnCashYr1.toFixed(1)}%</strong>
               </span>
             </div>
           </div>
 
-          <div className="ra-print-hero-kpis">
-            <div className="ra-print-kpi-box">
-              <div className="ra-print-kpi-label">Year 1 Net Operating Income (NOI)</div>
-              <div className="ra-print-kpi-val">{currencyFmt.format(Math.round(summary.year1Noi))}/yr</div>
-              <div className="ra-print-kpi-sub">{currencyFmt.format(Math.round(monthlyNoi))}/mo net of OpEx</div>
+          {/* 2-Column (2x2) Grid Design for Maximum Readability and Vertical Balance */}
+          <div className="ra-print-hero-kpis two-col">
+            {/* Col 1, Row 1: Year 1 NOI */}
+            <div className="ra-print-kpi-box light accent-green">
+              <div className="ra-print-kpi-label dark">Year 1 Net Operating Income (NOI)</div>
+              <div className="ra-print-kpi-val green">{currencyFmt.format(Math.round(summary.year1Noi))}/yr</div>
+              <div className="ra-print-kpi-sub dark">{currencyFmt.format(Math.round(monthlyNoi))}/mo net of operating expenses</div>
             </div>
 
-            <div className="ra-print-kpi-box">
-              <div className="ra-print-kpi-label">Annual Debt Service (P&amp;I)</div>
-              <div className="ra-print-kpi-val">{currencyFmt.format(Math.round(monthlyPi * 12))}/yr</div>
-              <div className="ra-print-kpi-sub">{currencyFmt.format(Math.round(monthlyPi))}/mo @ {(inputs.interestRate * 100).toFixed(3)}%</div>
+            {/* Col 2, Row 1: Annual Debt Service */}
+            <div className="ra-print-kpi-box light accent-navy">
+              <div className="ra-print-kpi-label dark">Annual Debt Service (P&amp;I)</div>
+              <div className="ra-print-kpi-val navy">{currencyFmt.format(Math.round(monthlyPi * 12))}/yr</div>
+              <div className="ra-print-kpi-sub dark">{currencyFmt.format(Math.round(monthlyPi))}/mo @ {(inputs.interestRate * 100).toFixed(3)}% (30-Yr Fixed)</div>
             </div>
 
-            <div className="ra-print-kpi-box">
-              <div className="ra-print-kpi-label">Year 1 Net Cash Flow</div>
-              <div className={`ra-print-kpi-val ${monthlyCf >= 0 ? 'pos' : 'neg'}`}>
+            {/* Col 1, Row 2: Net Cash Flow */}
+            <div className={`ra-print-kpi-box light ${monthlyCf >= 0 ? 'accent-green' : 'accent-red'}`}>
+              <div className="ra-print-kpi-label dark">Year 1 Net Cash Flow</div>
+              <div className={`ra-print-kpi-val ${monthlyCf >= 0 ? 'green' : 'red'}`}>
                 {monthlyCf >= 0 ? '+' : ''}{currencyFmt.format(Math.round(monthlyCf))}/mo
               </div>
-              <div className="ra-print-kpi-sub">
-                Annual: {summary.year1CashFlow >= 0 ? '+' : ''}{currencyFmt.format(Math.round(summary.year1CashFlow))}/yr
+              <div className="ra-print-kpi-sub dark">
+                Annual Net Cash Flow: {summary.year1CashFlow >= 0 ? '+' : ''}{currencyFmt.format(Math.round(summary.year1CashFlow))}/yr
               </div>
             </div>
 
-            <div className="ra-print-kpi-box">
-              <div className="ra-print-kpi-label">Total Initial Capital Outlay</div>
-              <div className="ra-print-kpi-val">{currencyFmt.format(summary.initialCashInvested)}</div>
-              <div className="ra-print-kpi-sub">Equity Down + Rehab Reserves</div>
+            {/* Col 2, Row 2: Total Initial Capital Outlay */}
+            <div className="ra-print-kpi-box light accent-blue">
+              <div className="ra-print-kpi-label dark">Total Initial Capital Outlay</div>
+              <div className="ra-print-kpi-val navy">{currencyFmt.format(summary.initialCashInvested)}</div>
+              <div className="ra-print-kpi-sub dark">Equity Down ({Math.round(inputs.downPaymentPct * 100)}%) + Initial Reserves / Rehab</div>
             </div>
           </div>
         </div>
@@ -460,25 +467,35 @@ export default function RentalAnalyzerPrintReport({
           </div>
         </div>
 
-        {/* Assumptions & Value-Add Footnote Strip */}
-        <div className="ra-print-assumptions-strip">
-          <div className="ra-print-strip-col">
-            <span className="ra-print-strip-label">Engine Assumptions:</span>
-            <span>Annual Rent Growth: {(inputs.annualRentGrowth * 100).toFixed(1)}%/yr</span>
-            <span>·</span>
-            <span>Property Appreciation: {(inputs.annualAppreciation * 100).toFixed(1)}%/yr</span>
-            <span>·</span>
-            <span>Exit Selling Friction: {(inputs.sellingCostPct * 100).toFixed(1)}%</span>
+        {/* Engine Assumptions & What-If Scenario Box (Prominent & Clear Font Size) */}
+        <div className="ra-print-assumptions-box">
+          <div className="ra-print-assumptions-row">
+            <span className="ra-print-assumptions-title">ENGINE ASSUMPTIONS:</span>
+            <span className="ra-print-assumptions-text">
+              Annual Rent Growth: <strong>{(inputs.annualRentGrowth * 100).toFixed(1)}%/yr</strong>
+            </span>
+            <span className="ra-print-dot-sep">·</span>
+            <span className="ra-print-assumptions-text">
+              Property Appreciation: <strong>{(inputs.annualAppreciation * 100).toFixed(1)}%/yr</strong>
+            </span>
+            <span className="ra-print-dot-sep">·</span>
+            <span className="ra-print-assumptions-text">
+              Exit Selling Friction: <strong>{(inputs.sellingCostPct * 100).toFixed(1)}%</strong>
+            </span>
           </div>
           {(inputs.refiEnabled || inputs.aduEnabled) && (
-            <div className="ra-print-strip-col value-add">
-              <span className="ra-print-strip-label">Active What-If:</span>
+            <div className="ra-print-assumptions-row value-add">
+              <span className="ra-print-assumptions-title gold">ACTIVE WHAT-IF:</span>
               {inputs.refiEnabled && (
-                <span>Refinance modeled in Year {inputs.refiYear ?? 3} @ {((inputs.refiNewRate ?? 0.0625) * 100).toFixed(2)}%</span>
+                <span className="ra-print-assumptions-text">
+                  Refinance modeled in Year {inputs.refiYear ?? 3} @ {((inputs.refiNewRate ?? 0.0625) * 100).toFixed(2)}%
+                </span>
               )}
-              {inputs.refiEnabled && inputs.aduEnabled && <span>·</span>}
+              {inputs.refiEnabled && inputs.aduEnabled && <span className="ra-print-dot-sep">·</span>}
               {inputs.aduEnabled && (
-                <span>Detached ADU modeled (+{currencyFmt.format(inputs.aduRentMonthly ?? 2200)}/mo)</span>
+                <span className="ra-print-assumptions-text">
+                  Detached ADU modeled (+{currencyFmt.format(inputs.aduRentMonthly ?? 2200)}/mo)
+                </span>
               )}
             </div>
           )}

@@ -76,7 +76,7 @@ export default function GeekOut() {
     },
     {
       title: "1–4 Unit Rental & ADU Investment Analyzer",
-      description: "Underwrite Single-Family, Duplex, Triplex, and Fourplex properties with unit-level rent schedules, 10-year IRR, Refi, and ADU modeling.",
+      description: "Underwrite Single Family, Condos, and 2 - 4 unit properties with unit-level rent schedules, 10-year IRR, Refi, and ADU modeling.",
       href: "/tools/rental-analyzer",
       icon: (
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{width:'40px', height:'40px'}}>

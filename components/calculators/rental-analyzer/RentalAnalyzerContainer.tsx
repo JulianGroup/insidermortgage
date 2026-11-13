@@ -338,7 +338,7 @@ export default function RentalAnalyzerContainer({
                 lineHeight: 1.55,
               }}
             >
-              Underwrite Single-Family, Duplex, Triplex, and Fourplex acquisitions with dynamic
+              Underwrite Single Family, Condos, and 2 - 4 unit properties with dynamic
               unit-level rent schedules, 5-year &amp; 10-year Newton-Raphson IRR, future refinance
               scenarios, and California ADU value-add projections.
             </p>

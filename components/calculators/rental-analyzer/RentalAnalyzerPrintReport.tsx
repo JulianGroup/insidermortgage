@@ -9,6 +9,7 @@ import {
 } from '../../../lib/financial-engine';
 import { detectPropertyState } from './stateDetector';
 import { getDealClassification } from './dealClassifier';
+import { computeUnderwritingInsights } from './underwritingInsights';
 
 interface RentalAnalyzerPrintReportProps {
   inputs: UnderwriteInputs;
@@ -50,7 +51,11 @@ export default function RentalAnalyzerPrintReport({
   const monthlyCf = summary.year1CashFlow / 12;
   const capRate = price > 0 ? (summary.year1Noi / price) * 100 : 0;
   // Standard Residential DSCR Loan Convention: Gross Monthly Rent / Total Monthly PITIA
-  const dscr = totalMonthlyPitia > 0 ? summary.totalMonthlyRent / totalMonthlyPitia : 0;
+  // Rounded to 2 decimals so every label/branch matches the displayed figure.
+  const dscr =
+    totalMonthlyPitia > 0
+      ? Math.round((summary.totalMonthlyRent / totalMonthlyPitia) * 100) / 100
+      : 0;
   const cashOnCashYr1 =
     summary.initialCashInvested > 0
       ? (summary.year1CashFlow / summary.initialCashInvested) * 100
@@ -83,6 +88,11 @@ export default function RentalAnalyzerPrintReport({
 
   const breakEvenRow = summary.schedule.find((r) => r.netCashFlow >= 0);
   const breakEvenYear = breakEvenRow ? breakEvenRow.year : null;
+
+  const insights = useMemo(
+    () => computeUnderwritingInsights(inputs, summary),
+    [inputs, summary]
+  );
 
   // Dynamic Deal Classification Tagline
   const { badgeText } = getDealClassification({
@@ -587,73 +597,73 @@ export default function RentalAnalyzerPrintReport({
           </table>
         </div>
 
-        {/* Section 6: AI Investment Underwriting Analysis */}
+        {/* Section 6: Investment Underwriting Analysis */}
         <div className="ra-print-ai-section">
           <div className="ra-print-ai-header">
             <div className="ra-print-ai-title">
               <span className="ra-print-num-badge dark">6</span>
-              <span>AI Investment Underwriting Analysis</span>
+              <span>Investment Underwriting Analysis</span>
             </div>
             <span className="ra-print-deal-badge">✦ {badgeText}</span>
           </div>
           <div className="ra-print-ai-subtitle">
-            Automated deal synthesis across cash flow, DSCR coverage, 10-year equity, and value-add levers
+            Holding cost, break-even levers, and appreciation stress test
           </div>
 
           <div className="ra-print-ai-grid">
-            {/* Memo 1: Executive Verdict */}
+            {/* Memo 1: Verdict */}
             <div className="ra-print-ai-card border-navy">
-              <div className="ra-print-ai-card-title">1. Executive Underwriting Verdict</div>
-              <p>
-                At an acquisition price of <strong>{currencyFmt.format(inputs.purchasePrice)}</strong> (
-                <strong>{currencyFmt.format(summary.initialCashInvested)}</strong> initial outlay) and{' '}
-                <strong>{currencyFmt.format(summary.totalMonthlyRent)}/mo</strong> scheduled rent across{' '}
-                <strong>{inputs.unitCount} {inputs.unitCount === 1 ? 'unit' : 'units'}</strong>
-                {inputs.aduEnabled ? ' + ADU' : ''}, this property generates Year 1 Net Operating Income of{' '}
-                <strong>{currencyFmt.format(Math.round(summary.year1Noi))}/yr</strong> (
-                <strong>{capRate.toFixed(2)}% Cap Rate</strong>). Over a 10-year hold, compounding appreciation and amortization project{' '}
-                <strong className="ra-print-green-txt">
-                  {currencyFmt.format(Math.round(summary.tenYear.totalProfit))}
-                </strong>{' '}
-                in net lifetime profit (<strong>{summary.tenYear.totalRoiPct.toFixed(1)}% Total ROI</strong> /{' '}
-                <strong>{summary.tenYear.irrPct.toFixed(2)}% annualized IRR</strong>).
-              </p>
+              <div className="ra-print-ai-card-title">1. Verdict: What It Costs to Hold</div>
+              <p className="ra-print-verdict-headline">{insights.verdictHeadline}</p>
+              <p>{insights.verdictText}</p>
             </div>
 
-            {/* Memo 2: DSCR & Cash Flow Trajectory */}
+            {/* Memo 2: What It Would Take */}
             <div className="ra-print-ai-card border-blue">
-              <div className="ra-print-ai-card-title">2. Debt Service Coverage (DSCR) &amp; Cash Flow</div>
-              <p>
-                Year 1 net cash flow is{' '}
-                <strong className={monthlyCf >= 0 ? 'ra-print-green-txt' : 'ra-print-red-txt'}>
-                  {currencyFmt.format(Math.round(monthlyCf))}/mo
-                </strong>{' '}
-                ({currencyFmt.format(Math.round(summary.year1CashFlow))}/yr) with a{' '}
-                <strong>{dscr.toFixed(2)}x DSCR (Gross Rent ÷ Monthly PITIA)</strong> (
-                {cashOnCashYr1.toFixed(1)}% Year 1 Cash-on-Cash return).{' '}
-                {dscr >= 1.25
-                  ? 'Strong debt service coverage exceeding prime 1.20x–1.25x investor loan qualification standards.'
-                  : dscr >= 1.0
-                  ? 'Satisfies standard 1.00x DSCR break-even investor loan qualification guidelines.'
-                  : `Qualifies via liquidity reserves, blended portfolio cash flows, or specialized low-DSCR loan programs ($${currencyFmt.format(Math.round(Math.max(0, totalMonthlyPitia - summary.totalMonthlyRent)))}/mo initial deficit against PITIA).`}{' '}
-                {monthlyCf >= 0
-                  ? 'Self-sustaining from Day 1, servicing debt and compounding cash flow through Year 10.'
-                  : 'An initial operating deficit makes this a prime candidate for a future rate-drop refinance, larger down payment, or ADU rent expansion.'}
-              </p>
+              <div className="ra-print-ai-card-title">2. What It Would Take</div>
+              <div className="ra-print-lever-list">
+                {insights.levers.map((l) => (
+                  <div key={l.label} className="ra-print-lever-row">
+                    <span className="ra-print-lever-label">{l.label}</span>
+                    <strong className="ra-print-lever-value">{l.value}</strong>
+                    <span className="ra-print-lever-note">{l.note}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Memo 3: 5-Year vs. 10-Year Equity */}
+            {/* Memo 3: Stress Test */}
             <div className="ra-print-ai-card border-green">
-              <div className="ra-print-ai-card-title">3. 5-Year vs. 10-Year Equity &amp; Return Profile</div>
+              <div className="ra-print-ai-card-title">3. Stress Test: Appreciation Dependence</div>
               <p>
-                Exiting at <strong>Year 5</strong> yields{' '}
-                <strong>{currencyFmt.format(Math.round(summary.fiveYear.netSaleProceeds))}</strong> in net proceeds (after 5.0% selling friction) and a{' '}
-                <strong>{summary.fiveYear.irrPct.toFixed(2)}% IRR</strong>. Holding through{' '}
-                <strong>Year 10</strong> expands annualized IRR to{' '}
-                <strong>{summary.tenYear.irrPct.toFixed(2)}%</strong> as tenant-funded amortization pays down{' '}
-                <strong>{currencyFmt.format(Math.round(principalPaydown10Yr))}</strong> in principal and 4.0% appreciation lifts asset value to{' '}
-                <strong>{currencyFmt.format(Math.round(summary.tenYear.propertyValue))}</strong>.
+                Gains: appreciation <strong>{currencyFmt.format(Math.round(insights.profitSources.appreciation))}</strong>, paydown{' '}
+                <strong>{currencyFmt.format(Math.round(insights.profitSources.principalPaydown))}</strong>, cash flow{' '}
+                <strong className={insights.profitSources.cashFlow >= 0 ? 'ra-print-green-txt' : 'ra-print-red-txt'}>
+                  {currencyFmt.format(Math.round(insights.profitSources.cashFlow))}
+                </strong>
+                , less costs <strong>{currencyFmt.format(Math.round(insights.profitSources.frictionCosts))}</strong>.{' '}
+                <strong>{insights.profitSources.appreciationSharePct.toFixed(0)}%</strong> from appreciation.
               </p>
+              <table className="ra-print-stress-table">
+                <thead>
+                  <tr>
+                    <th>Appreciation</th>
+                    <th>10-Yr Profit</th>
+                    <th>IRR</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {insights.stress.map((s) => (
+                    <tr key={s.label}>
+                      <td>{s.label}</td>
+                      <td className={s.totalProfit >= 0 ? 'ra-print-green-txt' : 'ra-print-red-txt'}>
+                        {currencyFmt.format(Math.round(s.totalProfit))}
+                      </td>
+                      <td>{s.irrPct === null ? 'n/m' : `${s.irrPct.toFixed(2)}%`}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
             {/* Memo 4: Strategic Value-Add Levers */}

@@ -31,7 +31,10 @@ export default function SummaryKpiCards({
   const totalMonthlyPitia =
     monthlyPi + monthlyPropertyTax + monthlyInsurance + monthlyHoaFee;
   // DSCR Loan Convention: Gross Monthly Rent / Total Monthly PITIA
-  const dscr = totalMonthlyPitia > 0 ? summary.totalMonthlyRent / totalMonthlyPitia : 0;
+  const dscr =
+    totalMonthlyPitia > 0
+      ? Math.round((summary.totalMonthlyRent / totalMonthlyPitia) * 100) / 100
+      : 0;
   const capRate =
     inputs.purchasePrice > 0 ? (summary.year1Noi / inputs.purchasePrice) * 100 : 0;
 

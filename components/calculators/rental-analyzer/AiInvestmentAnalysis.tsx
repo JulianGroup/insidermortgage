@@ -7,6 +7,7 @@ import {
   runUnderwriteModel,
 } from '../../../lib/financial-engine';
 import { getDealClassification } from './dealClassifier';
+import { computeUnderwritingInsights } from './underwritingInsights';
 
 interface AiInvestmentAnalysisProps {
   inputs: UnderwriteInputs;
@@ -79,7 +80,7 @@ export default function AiInvestmentAnalysis({
       purchasePrice: price,
       totalMonthlyRent: summary.totalMonthlyRent,
       monthlyCf,
-      dscr,
+      dscr: Math.round(dscr * 100) / 100,
       totalMonthlyPitia,
       tenYearIrrPct: summary.tenYear.irrPct,
       breakEvenYear,
@@ -107,6 +108,11 @@ export default function AiInvestmentAnalysis({
       principalPaydown10Yr,
     };
   }, [inputs, summary]);
+
+  const insights = useMemo(
+    () => computeUnderwritingInsights(inputs, summary),
+    [inputs, summary]
+  );
 
   return (
     <div className="ra-card" style={{ position: 'relative', border: '2px solid #060A2D' }}>
@@ -141,10 +147,10 @@ export default function AiInvestmentAnalysis({
           </span>
           <div>
             <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#060A2D', margin: 0 }}>
-              AI Investment Underwriting Analysis
+              Investment Underwriting Analysis
             </h2>
             <div style={{ fontSize: '0.75rem', color: '#64748B' }}>
-              Automated deal synthesis across cash flow, DSCR coverage, 10-year equity, and value-add levers
+              Holding cost, break-even levers, and appreciation stress test
             </div>
           </div>
         </div>
@@ -177,11 +183,11 @@ export default function AiInvestmentAnalysis({
               fontSize: '0.9rem',
             }}
           >
-            Enter a <strong>Purchase Price</strong> and <strong>Unit Expected Rents</strong> in Step 1 &amp; Step 2 to generate your custom AI underwriting memo.
+            Enter a <strong>Purchase Price</strong> and <strong>Unit Expected Rents</strong> in Step 1 &amp; Step 2 to generate your custom underwriting memo.
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
-            {/* 1. Executive Deal Summary */}
+            {/* 1. Verdict: What It Costs to Hold */}
             <div
               style={{
                 backgroundColor: '#F8FAFC',
@@ -200,27 +206,17 @@ export default function AiInvestmentAnalysis({
                   marginBottom: '0.25rem',
                 }}
               >
-                1. Executive Underwriting Verdict
+                1. Verdict: What It Costs to Hold
+              </div>
+              <div style={{ fontSize: '1rem', fontWeight: 800, color: '#060A2D', marginBottom: '0.3rem' }}>
+                {insights.verdictHeadline}
               </div>
               <p style={{ margin: 0, fontSize: '0.88rem', color: '#1E293B', lineHeight: 1.55 }}>
-                At an acquisition price of <strong>{currencyFmt.format(inputs.purchasePrice)}</strong> (
-                <strong>{currencyFmt.format(summary.initialCashInvested)}</strong> initial capital outlay) and{' '}
-                <strong>{currencyFmt.format(summary.totalMonthlyRent)}/mo</strong> in scheduled rent across{' '}
-                <strong>
-                  {inputs.unitCount} {inputs.unitCount === 1 ? 'unit' : 'units'}
-                </strong>
-                , this property generates a Year 1 Net Operating Income (NOI) of{' '}
-                <strong>{currencyFmt.format(Math.round(summary.year1Noi))}/yr</strong> (an unlevered{' '}
-                <strong>{analysis.capRate.toFixed(2)}% Cap Rate</strong>). Over a 10-year hold, compounding appreciation and loan amortization project{' '}
-                <strong style={{ color: '#15803D' }}>
-                  {currencyFmt.format(Math.round(summary.tenYear.totalProfit))}
-                </strong>{' '}
-                in net lifetime profit (<strong>{summary.tenYear.totalRoiPct.toFixed(1)}% Total ROI</strong> /{' '}
-                <strong>{summary.tenYear.irrPct.toFixed(2)}% annualized IRR</strong>).
+                {insights.verdictText}
               </p>
             </div>
 
-            {/* 2. Cash Flow, DSCR & Break-Even Horizon */}
+            {/* 2. What It Would Take to Cash-Flow */}
             <div
               style={{
                 backgroundColor: '#F8FAFC',
@@ -236,51 +232,35 @@ export default function AiInvestmentAnalysis({
                   textTransform: 'uppercase',
                   color: '#0468E9',
                   letterSpacing: '0.04em',
-                  marginBottom: '0.25rem',
+                  marginBottom: '0.4rem',
                 }}
               >
-                2. Debt Service Coverage (DSCR) &amp; Cash-Flow Trajectory
+                2. What It Would Take
               </div>
-              <p style={{ margin: 0, fontSize: '0.88rem', color: '#1E293B', lineHeight: 1.55 }}>
-                Year 1 net cash flow is{' '}
-                <strong style={{ color: analysis.monthlyCf >= 0 ? '#15803D' : '#B91C1C' }}>
-                  {currencyFmt.format(Math.round(analysis.monthlyCf))}/mo
-                </strong>{' '}
-                ({currencyFmt.format(Math.round(summary.year1CashFlow))}/yr) with a{' '}
-                <strong>{analysis.dscr.toFixed(2)}x DSCR (Gross Rent ÷ Monthly PITIA)</strong> (
-                {analysis.cashOnCashYr1.toFixed(1)}% Year 1 Cash-on-Cash return).{' '}
-                {analysis.dscr >= 1.25
-                  ? 'Strong debt service coverage exceeding prime 1.20x–1.25x investor loan qualification benchmarks.'
-                  : analysis.dscr >= 1.0
-                  ? 'Satisfies standard 1.00x DSCR break-even investor loan qualification guidelines.'
-                  : `Qualifies via liquidity reserves, blended portfolio cash flows, or specialized low/no-ratio investor loan programs ($${currencyFmt.format(Math.round(Math.max(0, analysis.totalMonthlyPitia - summary.totalMonthlyRent)))}/mo initial deficit against PITIA).`}{' '}
-                {analysis.monthlyCf >= 0 ? (
-                  <>
-                    The property is <strong>cash-flow positive from Day 1</strong>, comfortably covering all operating expenses and debt service while growing net cash flow to{' '}
-                    <strong>
-                      {currencyFmt.format(Math.round(summary.schedule[9].netCashFlow / 12))}/mo
-                    </strong>{' '}
-                    by Year 10.
-                  </>
-                ) : analysis.breakEvenYear ? (
-                  <>
-                    With {(inputs.annualRentGrowth * 100).toFixed(1)}% annual rent growth, operating cash flow crosses break-even in{' '}
-                    <strong>Year {analysis.breakEvenYear}</strong> (reaching{' '}
-                    <strong>
-                      {currencyFmt.format(Math.round(summary.schedule[9].netCashFlow / 12))}/mo
-                    </strong>{' '}
-                    by Year 10).
-                  </>
-                ) : (
-                  <>
-                    At {(inputs.interestRate * 100).toFixed(2)}% financing and{' '}
-                    {Math.round(inputs.downPaymentPct * 100)}% down, the property carries an annual cash-flow shortfall through Year 10—making it a candidate for a future rate refinance, higher down payment, or ADU rent expansion.
-                  </>
-                )}
-              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                {insights.levers.map((l) => (
+                  <div
+                    key={l.label}
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'minmax(150px, 1.1fr) auto minmax(140px, 1.4fr)',
+                      gap: '0.6rem',
+                      alignItems: 'baseline',
+                      fontSize: '0.86rem',
+                      color: '#1E293B',
+                      paddingBottom: '0.3rem',
+                      borderBottom: '1px dashed #E2E8F0',
+                    }}
+                  >
+                    <span style={{ fontWeight: 600 }}>{l.label}</span>
+                    <strong style={{ color: '#060A2D', textAlign: 'right' }}>{l.value}</strong>
+                    <span style={{ fontSize: '0.78rem', color: '#64748B' }}>{l.note}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* 3. 5-Year vs. 10-Year Wealth Decomposition */}
+            {/* 3. Stress Test: Appreciation Dependence */}
             <div
               style={{
                 backgroundColor: '#F8FAFC',
@@ -296,20 +276,51 @@ export default function AiInvestmentAnalysis({
                   textTransform: 'uppercase',
                   color: '#15803D',
                   letterSpacing: '0.04em',
-                  marginBottom: '0.25rem',
+                  marginBottom: '0.3rem',
                 }}
               >
-                3. 5-Year vs. 10-Year Equity &amp; Return Profile
+                3. Stress Test: How Much Depends on Appreciation
               </div>
-              <p style={{ margin: 0, fontSize: '0.88rem', color: '#1E293B', lineHeight: 1.55 }}>
-                Exiting at <strong>Year 5</strong> yields{' '}
-                <strong>{currencyFmt.format(Math.round(summary.fiveYear.netSaleProceeds))}</strong> in net sale proceeds (after {(inputs.sellingCostPct * 100).toFixed(1)}% selling costs) and a{' '}
-                <strong>{summary.fiveYear.irrPct.toFixed(2)}% IRR</strong>. Holding through{' '}
-                <strong>Year 10</strong> expands annualized IRR to{' '}
-                <strong>{summary.tenYear.irrPct.toFixed(2)}%</strong> as tenant-funded amortization pays down{' '}
-                <strong>{currencyFmt.format(Math.round(analysis.principalPaydown10Yr))}</strong> of loan principal and {(inputs.annualAppreciation * 100).toFixed(1)}% annual appreciation lifts asset value to{' '}
-                <strong>{currencyFmt.format(Math.round(summary.tenYear.propertyValue))}</strong>.
+              <p style={{ margin: '0 0 0.5rem', fontSize: '0.86rem', color: '#1E293B', lineHeight: 1.5 }}>
+                10-year gains: appreciation{' '}
+                <strong>{currencyFmt.format(Math.round(insights.profitSources.appreciation))}</strong>, loan paydown{' '}
+                <strong>{currencyFmt.format(Math.round(insights.profitSources.principalPaydown))}</strong>, cash flow{' '}
+                <strong style={{ color: insights.profitSources.cashFlow >= 0 ? '#15803D' : '#B91C1C' }}>
+                  {currencyFmt.format(Math.round(insights.profitSources.cashFlow))}
+                </strong>
+                , less selling &amp; make-ready costs{' '}
+                <strong>{currencyFmt.format(Math.round(insights.profitSources.frictionCosts))}</strong>.{' '}
+                <strong>{insights.profitSources.appreciationSharePct.toFixed(0)}%</strong> of gains come from appreciation.
               </p>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.84rem' }}>
+                <thead>
+                  <tr style={{ color: '#475569', textAlign: 'left' }}>
+                    <th style={{ padding: '0.25rem 0', fontWeight: 700 }}>Annual appreciation</th>
+                    <th style={{ padding: '0.25rem 0', fontWeight: 700, textAlign: 'right' }}>10-yr profit</th>
+                    <th style={{ padding: '0.25rem 0', fontWeight: 700, textAlign: 'right' }}>10-yr IRR</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {insights.stress.map((s) => (
+                    <tr key={s.label} style={{ borderTop: '1px dashed #E2E8F0' }}>
+                      <td style={{ padding: '0.25rem 0' }}>{s.label}</td>
+                      <td
+                        style={{
+                          padding: '0.25rem 0',
+                          textAlign: 'right',
+                          fontWeight: 700,
+                          color: s.totalProfit >= 0 ? '#15803D' : '#B91C1C',
+                        }}
+                      >
+                        {currencyFmt.format(Math.round(s.totalProfit))}
+                      </td>
+                      <td style={{ padding: '0.25rem 0', textAlign: 'right', fontWeight: 700 }}>
+                        {s.irrPct === null ? 'n/m' : `${s.irrPct.toFixed(2)}%`}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
             {/* 4. Strategic Value-Add Recommendations (Refi & ADU) */}
@@ -331,7 +342,7 @@ export default function AiInvestmentAnalysis({
                   marginBottom: '0.25rem',
                 }}
               >
-                4. AI Optimization &amp; Value-Add Opportunities
+                4. Value-Add Opportunities
               </div>
               <ul
                 style={{
@@ -446,7 +457,7 @@ export default function AiInvestmentAnalysis({
               boxShadow: '0 10px 25px rgba(6, 10, 45, 0.22)',
             }}
           >
-            ✦ Unlock Box 6 AI Underwriting Analysis &amp; 10-Yr Pro-Forma
+            ✦ Unlock Box 6 Underwriting Analysis &amp; 10-Yr Pro-Forma
           </button>
         </div>
       )}

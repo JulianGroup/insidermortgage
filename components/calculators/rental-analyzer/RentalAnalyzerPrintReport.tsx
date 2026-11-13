@@ -61,7 +61,7 @@ export default function RentalAnalyzerPrintReport({
       ? (summary.year1CashFlow / summary.initialCashInvested) * 100
       : 0;
 
-  // Counterfactual simulations for AI narrative
+  // Counterfactual simulation for refinance narrative
   const refiSim = useMemo(() => {
     if (inputs.refiEnabled) return null;
     return runUnderwriteModel({
@@ -70,19 +70,6 @@ export default function RentalAnalyzerPrintReport({
       refiYear: inputs.refiYear ?? 3,
       refiNewRate: inputs.refiNewRate ?? 0.0625,
       refiReset30: true,
-    });
-  }, [inputs]);
-
-  const aduSim = useMemo(() => {
-    if (inputs.aduEnabled) return null;
-    return runUnderwriteModel({
-      ...inputs,
-      aduEnabled: true,
-      aduCount: inputs.unitCount > 1 ? (inputs.aduCount ?? 1) : 1,
-      aduCost: inputs.aduCost ?? 200000,
-      aduRentMonthly: inputs.aduRentMonthly ?? 2200,
-      aduConstructionMonths: inputs.aduConstructionMonths ?? 6,
-      aduMainRentDiscountPct: inputs.aduMainRentDiscountPct ?? 0.25,
     });
   }, [inputs]);
 
@@ -679,15 +666,11 @@ export default function RentalAnalyzerPrintReport({
                     <strong>Rate-Drop Refinance Upside:</strong> Modeling a Year {inputs.refiYear ?? 3} refi at {((inputs.refiNewRate ?? 0.0625) * 100).toFixed(2)}% would boost 10-Year Profit by <strong className="ra-print-green-txt">+{currencyFmt.format(Math.round(refiSim.tenYear.totalProfit - summary.tenYear.totalProfit))}</strong> and lift 10-Yr IRR to <strong>{refiSim.tenYear.irrPct.toFixed(2)}%</strong>.
                   </li>
                 ) : null}
-                {inputs.aduEnabled ? (
+                {inputs.aduEnabled && (
                   <li>
                     <strong>Active ADU Value-Add:</strong> Generating {currencyFmt.format((inputs.aduRentMonthly ?? 2200) * (inputs.unitCount > 1 && inputs.aduCount === 2 ? 2 : 1))}/mo supplemental rent expands Year 10 asset value to {currencyFmt.format(Math.round(summary.tenYear.propertyValue))}.
                   </li>
-                ) : aduSim ? (
-                  <li>
-                    <strong>Detached ADU Value-Add Potential:</strong> Adding a {currencyFmt.format(inputs.aduCost ?? 200000)} ADU generating {currencyFmt.format(inputs.aduRentMonthly ?? 2200)}/mo increases Year 2+ NOI to <strong>{currencyFmt.format(Math.round(aduSim.schedule[1].noi))}/yr</strong> and lifts 10-Yr IRR to <strong>{aduSim.tenYear.irrPct.toFixed(2)}%</strong>.
-                  </li>
-                ) : null}
+                )}
               </ul>
             </div>
           </div>

@@ -52,7 +52,7 @@ export default function AiInvestmentAnalysis({
     const breakEvenRow = summary.schedule.find((r) => r.netCashFlow >= 0);
     const breakEvenYear = breakEvenRow ? breakEvenRow.year : null;
 
-    // Simulate counterfactual Refi & ADU if not currently enabled so AI can quantify upside
+    // Simulate counterfactual Refi if not currently enabled
     const refiSim = !inputs.refiEnabled
       ? runUnderwriteModel({
           ...inputs,
@@ -60,18 +60,6 @@ export default function AiInvestmentAnalysis({
           refiYear: inputs.refiYear ?? 3,
           refiNewRate: inputs.refiNewRate ?? 0.0625,
           refiReset30: true,
-        })
-      : null;
-
-    const aduSim = !inputs.aduEnabled
-      ? runUnderwriteModel({
-          ...inputs,
-          aduEnabled: true,
-          aduCount: inputs.unitCount > 1 ? (inputs.aduCount ?? 1) : 1,
-          aduCost: inputs.aduCost ?? 200000,
-          aduRentMonthly: inputs.aduRentMonthly ?? 2200,
-          aduConstructionMonths: inputs.aduConstructionMonths ?? 6,
-          aduMainRentDiscountPct: inputs.aduMainRentDiscountPct ?? 0.25,
         })
       : null;
 
@@ -101,7 +89,6 @@ export default function AiInvestmentAnalysis({
       cashOnCashYr1,
       breakEvenYear,
       refiSim,
-      aduSim,
       badgeText,
       badgeColor,
       badgeBg,
@@ -392,7 +379,7 @@ export default function AiInvestmentAnalysis({
                   )
                 )}
 
-                {inputs.aduEnabled ? (
+                {inputs.aduEnabled && (
                   <li>
                     <strong>California ADU Value-Add Active:</strong> Adding{' '}
                     {inputs.unitCount > 1 && inputs.aduCount === 2 ? '2 detached ADUs' : '1 ADU'} contributes{' '}
@@ -406,19 +393,6 @@ export default function AiInvestmentAnalysis({
                     in stabilized supplemental rent and expands Year 10 property valuation to{' '}
                     <strong>{currencyFmt.format(Math.round(summary.tenYear.propertyValue))}</strong>.
                   </li>
-                ) : (
-                  analysis.aduSim && (
-                    <li>
-                      <strong>California ADU Expansion Potential:</strong> Adding a{' '}
-                      {currencyFmt.format(inputs.aduCost ?? 200000)} detached ADU generating{' '}
-                      {currencyFmt.format(inputs.aduRentMonthly ?? 2200)}/mo (in Box 5) would increase Year 2+ NOI to{' '}
-                      <strong>
-                        {currencyFmt.format(Math.round(analysis.aduSim.schedule[1].noi))}/yr
-                      </strong>{' '}
-                      and shift 10-Year IRR to{' '}
-                      <strong>{analysis.aduSim.tenYear.irrPct.toFixed(2)}%</strong>.
-                    </li>
-                  )
                 )}
               </ul>
             </div>

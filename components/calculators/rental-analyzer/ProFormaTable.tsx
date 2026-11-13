@@ -326,7 +326,7 @@ export default function ProFormaTable({
               borderRadius: '999px',
             }}
           >
-            ∑ Tap any number below to see its live step-by-step math receipt
+            ∑ Tap any number below to see its step-by-step calculation
           </span>
         </div>
 

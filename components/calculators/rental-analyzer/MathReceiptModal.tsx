@@ -412,8 +412,10 @@ export default function MathReceiptModal({
               tone: 'negative',
             },
             {
-              label: 'Year 1 Net Cash Flow',
-              sub: `${fmt(monthlyNoi)}/mo NOI − ${fmt(summary.monthlyPmt)}/mo mortgage`,
+              label: 'Equals Year 1 Net Cash Flow',
+              sub: `${fmt(monthlyNoi)}/mo NOI − ${fmt(summary.monthlyPmt)}/mo mortgage = ${fmtSigned(
+                monthlyCf
+              )}/mo`,
               amount: `${fmtSigned(monthlyCf)}/mo`,
               amountSub: `${fmtSigned(year1Cf)}/yr`,
               type: 'total',
@@ -480,7 +482,8 @@ export default function MathReceiptModal({
           style={{
             backgroundColor: '#060A2D',
             color: '#FFFFFF',
-            padding: '0.95rem 1.15rem 0.75rem',
+            padding: '0.85rem 1.1rem 0.7rem',
+            flexShrink: 0,
           }}
         >
           <div
@@ -501,13 +504,13 @@ export default function MathReceiptModal({
                   color: '#EFB51E',
                 }}
               >
-                ∑ Show Your Work · Step-by-Step Math Receipt
+                ∑ Show Your Work · Step-by-Step Calculation
               </div>
               <h3
                 id="math-modal-title"
                 style={{
-                  margin: '0.2rem 0 0',
-                  fontSize: '1.15rem',
+                  margin: '0.15rem 0 0',
+                  fontSize: '1.12rem',
                   fontWeight: 800,
                   color: '#FFFFFF',
                 }}
@@ -519,7 +522,7 @@ export default function MathReceiptModal({
             <button
               type="button"
               onClick={onClose}
-              aria-label="Close math receipt"
+              aria-label="Close calculation"
               style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.12)',
                 color: '#FFFFFF',
@@ -542,7 +545,7 @@ export default function MathReceiptModal({
               display: 'flex',
               gap: '0.4rem',
               overflowX: 'auto',
-              marginTop: '0.8rem',
+              marginTop: '0.7rem',
               paddingBottom: '0.25rem',
               WebkitOverflowScrolling: 'touch',
             }}
@@ -561,6 +564,7 @@ export default function MathReceiptModal({
                     fontWeight: 700,
                     whiteSpace: 'nowrap',
                     cursor: 'pointer',
+                    flexShrink: 0,
                     border: isSelected
                       ? '1px solid #EFB51E'
                       : '1px solid rgba(255, 255, 255, 0.2)',
@@ -576,54 +580,16 @@ export default function MathReceiptModal({
           </div>
         </div>
 
-        {/* Scrollable Receipt Body */}
+        {/* Scrollable Body (flexShrink: 0 on children prevents mobile flex clipping) */}
         <div
           style={{
-            padding: '1.1rem 1.15rem',
+            padding: '1rem 1.1rem 1.25rem',
             overflowY: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.95rem',
+            WebkitOverflowScrolling: 'touch',
+            flex: 1,
+            minHeight: 0,
           }}
         >
-          {/* Result Summary Banner */}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-              gap: '0.5rem',
-              backgroundColor: '#F8FAFC',
-              border: '1px solid #CBD5E1',
-              borderRadius: '12px',
-              padding: '0.75rem 1rem',
-            }}
-          >
-            <div>
-              <div style={{ fontSize: '0.72rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
-                {inputs.propertyAddress || 'Current Property'}
-              </div>
-              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-                Calculated Result
-              </div>
-            </div>
-            <div
-              style={{
-                fontSize: '1.35rem',
-                fontWeight: 900,
-                color:
-                  content.badgeTone === 'positive'
-                    ? '#15803D'
-                    : content.badgeTone === 'negative'
-                    ? '#B91C1C'
-                    : '#060A2D',
-              }}
-            >
-              {content.badgeValue}
-            </div>
-          </div>
-
           {/* What It Means in Plain English */}
           <div
             style={{
@@ -631,6 +597,7 @@ export default function MathReceiptModal({
               borderLeft: '4px solid #0468E9',
               borderRadius: '0 10px 10px 0',
               padding: '0.75rem 0.95rem',
+              marginBottom: '0.85rem',
             }}
           >
             <div
@@ -645,7 +612,7 @@ export default function MathReceiptModal({
             >
               What It Means in Plain English
             </div>
-            <p style={{ margin: 0, fontSize: '0.88rem', color: '#1E293B', lineHeight: 1.5 }}>
+            <p style={{ margin: 0, fontSize: '0.86rem', color: '#1E293B', lineHeight: 1.5 }}>
               {content.plainEnglish}
             </p>
           </div>
@@ -656,24 +623,25 @@ export default function MathReceiptModal({
               backgroundColor: '#060A2D',
               color: '#FFFFFF',
               borderRadius: '10px',
-              padding: '0.65rem 0.9rem',
-              fontSize: '0.82rem',
+              padding: '0.6rem 0.85rem',
+              fontSize: '0.81rem',
               fontWeight: 700,
               textAlign: 'center',
               letterSpacing: '0.01em',
+              marginBottom: '0.85rem',
             }}
           >
             <span style={{ color: '#EFB51E', marginRight: '0.4rem' }}>Formula:</span>
             {content.formula}
           </div>
 
-          {/* Step-by-Step Math Receipt */}
+          {/* Step-by-Step Calculation */}
           <div
             style={{
               border: '1px solid #CBD5E1',
               borderRadius: '12px',
-              overflow: 'hidden',
               backgroundColor: '#FFFFFF',
+              marginBottom: '0.85rem',
             }}
           >
             <div
@@ -681,6 +649,7 @@ export default function MathReceiptModal({
                 backgroundColor: '#F1F5F9',
                 padding: '0.55rem 0.9rem',
                 borderBottom: '1px solid #CBD5E1',
+                borderRadius: '11px 11px 0 0',
                 fontSize: '0.75rem',
                 fontWeight: 800,
                 color: '#060A2D',
@@ -688,13 +657,14 @@ export default function MathReceiptModal({
                 letterSpacing: '0.04em',
               }}
             >
-              Your Property&apos;s Step-by-Step Math Receipt
+              Step-by-Step Calculation
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div>
               {content.lines.map((line, idx) => {
                 const isTotal = line.type === 'total';
                 const isSubtotal = line.type === 'subtotal';
+                const isLast = idx === content.lines.length - 1;
                 return (
                   <div
                     key={idx}
@@ -704,6 +674,7 @@ export default function MathReceiptModal({
                       alignItems: 'center',
                       gap: '0.75rem',
                       padding: isTotal ? '0.75rem 0.9rem' : '0.55rem 0.9rem',
+                      borderRadius: isLast ? '0 0 11px 11px' : undefined,
                       backgroundColor: isTotal
                         ? '#FEFCE8'
                         : isSubtotal
@@ -730,7 +701,7 @@ export default function MathReceiptModal({
                         {line.label}
                       </div>
                       {line.sub && (
-                        <div style={{ fontSize: '0.75rem', color: '#64748B', marginTop: '1px' }}>
+                        <div style={{ fontSize: '0.75rem', color: '#64748B', marginTop: '2px' }}>
                           {line.sub}
                         </div>
                       )}
@@ -739,7 +710,7 @@ export default function MathReceiptModal({
                     <div style={{ textAlign: 'right', flexShrink: 0 }}>
                       <div
                         style={{
-                          fontSize: isTotal ? '1rem' : '0.88rem',
+                          fontSize: isTotal ? '1.02rem' : '0.88rem',
                           fontWeight: isTotal || isSubtotal ? 800 : 700,
                           color:
                             line.tone === 'positive'

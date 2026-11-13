@@ -637,6 +637,23 @@ export default function BlogPostView({ post }) {
                   </ol>
                 )}
 
+                {sec.callout && (
+                  <div
+                    style={{
+                      margin: '1.25rem 0',
+                      padding: '1.15rem 1.35rem',
+                      borderRadius: '12px',
+                      backgroundColor: 'rgba(239, 181, 30, 0.1)',
+                      borderLeft: '4px solid var(--accent, #EFB51E)',
+                      color: '#0F172A',
+                      fontSize: '1rem',
+                      lineHeight: 1.7,
+                    }}
+                  >
+                    {renderInlineMarkdown(sec.callout)}
+                  </div>
+                )}
+
                 {sec.subsections &&
                   sec.subsections.map((sub, subIdx) => (
                     <div key={subIdx} style={{ marginTop: '1.35rem' }}>
@@ -680,6 +697,22 @@ export default function BlogPostView({ post }) {
                             </li>
                           ))}
                         </ul>
+                      )}
+                      {sub.callout && (
+                        <div
+                          style={{
+                            margin: '1.15rem 0',
+                            padding: '1.1rem 1.35rem',
+                            borderRadius: '12px',
+                            backgroundColor: 'rgba(239, 181, 30, 0.1)',
+                            borderLeft: '4px solid var(--accent, #EFB51E)',
+                            color: '#0F172A',
+                            fontSize: '1rem',
+                            lineHeight: 1.7,
+                          }}
+                        >
+                          {renderInlineMarkdown(sub.callout)}
+                        </div>
                       )}
                     </div>
                   ))}

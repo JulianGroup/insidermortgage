@@ -280,6 +280,7 @@ export const seoPages = [
     gridCards: [],
     formTitle: 'Build Your First-Time Buyer Game Plan with David & Rakesh',
     formSubtitle: 'Whether you are ready to make offers now or just starting to plan for the months ahead, schedule a one-on-one call with David Sider and Rakesh Jain. We will walk through your budget, down payment options, and questions with zero pressure.',
+    insightsTitle: 'First-Time Home Buyer Insights & Breakdowns',
     showPartnerHeaderInForm: true,
     leadCategory: 'First-Time Buyer Lead',
     reviews: [

@@ -22,15 +22,18 @@ export async function generateMetadata({ params }) {
   const author = getAuthorForPost(post);
   const ytThumb = getYouTubeThumbnail(post.youtubeUrl);
 
+  const metaTitle = post.seoTitle || `${post.title} | Insider Mortgage`;
+  const metaDesc = post.seoDescription || post.excerpt;
+
   return {
-    title: `${post.title} | Insider Mortgage`,
-    description: post.excerpt,
+    title: metaTitle,
+    description: metaDesc,
     authors: [{ name: author.name }],
     // Draft-sample posts stay out of Google until finalized.
     ...(post.isDraftSample ? { robots: { index: false, follow: false } } : {}),
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title: metaTitle,
+      description: metaDesc,
       type: 'article',
       publishedTime: post.publishedAt,
       authors: [author.name],

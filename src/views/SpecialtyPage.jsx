@@ -705,17 +705,6 @@ const SpecialtyPage = ({ data }) => {
                 </div>
               </div>
             )}
-            
-            <div style={{ marginTop: '4rem', paddingTop: '2rem', borderTop: '1px solid rgba(0,0,0,0.1)', textAlign: 'center' }}>
-              <h3 style={{ marginBottom: '1.5rem', color: 'var(--primary)' }}>Explore Other Specialty Programs</h3>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
-                {seoPages.filter(p => p.slug !== data.slug).map(page => (
-                  <Link key={page.slug} href={`/${page.slug}`} style={{ padding: '0.5rem 1rem', backgroundColor: 'rgba(30,58,138,0.05)', borderRadius: '999px', color: 'var(--primary)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500' }}>
-                    {page.title}
-                  </Link>
-                ))}
-              </div>
-            </div>
           </div>
         </section>
 
@@ -727,6 +716,19 @@ const SpecialtyPage = ({ data }) => {
             background="#FFFFFF"
           />
         )}
+
+        <section className="section" style={{ padding: '3rem 1rem', backgroundColor: 'var(--bg-color, #F8FAFC)', borderTop: '1px solid rgba(15, 23, 42, 0.07)' }}>
+          <div className="container" style={{ maxWidth: '1000px', textAlign: 'center' }}>
+            <h3 style={{ marginBottom: '1.5rem', color: 'var(--primary)' }}>Explore Other Specialty Programs</h3>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
+              {seoPages.filter(p => p.slug !== data.slug).map(page => (
+                <Link key={page.slug} href={`/${page.slug}`} style={{ padding: '0.5rem 1rem', backgroundColor: 'white', border: '1px solid #E2E8F0', borderRadius: '999px', color: 'var(--primary)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                  {page.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <section id="schedule-call" className="se-contact-section">
           <div className="container" style={{ maxWidth: '680px' }}>

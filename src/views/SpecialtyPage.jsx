@@ -214,10 +214,37 @@ const SpecialtyPage = ({ data }) => {
           <section className="section" style={{ paddingBottom: '2.5rem', paddingTop: 'var(--space-12)' }}>
             <div className="container" style={{ maxWidth: '960px' }}>
               <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 2.5rem' }}>
-                <h2 style={{ color: 'var(--primary)', marginBottom: '1.25rem', fontSize: '2rem' }}>
+                <h2 style={{ color: 'var(--primary)', marginBottom: data.introSubheadline ? '0.5rem' : '1.25rem', fontSize: '2rem' }}>
                   {data.introHeader}
                 </h2>
-                {Array.isArray(data.introParagraphs) ? (
+                {data.introSubheadline && (
+                  <p style={{ color: 'var(--secondary, #0468E9)', fontSize: '1.2rem', fontWeight: 600, marginBottom: '1.5rem' }}>
+                    {data.introSubheadline}
+                  </p>
+                )}
+                {data.introSections ? (
+                  <div style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.7, padding: 'clamp(1.5rem, 3vw, 2.25rem)', backgroundColor: 'white', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-sm)', textAlign: 'left' }}>
+                    {data.introSections.map((sec, sIdx) => (
+                      <div key={sIdx} style={{ marginBottom: sIdx < data.introSections.length - 1 ? '1.75rem' : 0 }}>
+                        {sec.heading && (
+                          <h3 style={{ color: 'var(--primary)', fontSize: '1.35rem', marginBottom: '0.85rem', fontWeight: 700 }}>
+                            {sec.heading}
+                          </h3>
+                        )}
+                        {sec.paragraphs && sec.paragraphs.map((p, pIdx) => (
+                          <p key={pIdx} style={{ marginBottom: (pIdx < sec.paragraphs.length - 1 || sec.boldTakeaway) ? '1.1rem' : 0 }}>
+                            {p}
+                          </p>
+                        ))}
+                        {sec.boldTakeaway && (
+                          <p style={{ fontWeight: 700, color: 'var(--text-main, #0B2545)', marginTop: '1.25rem', marginBottom: 0 }}>
+                            {sec.boldTakeaway}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : Array.isArray(data.introParagraphs) ? (
                   <div style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.7, padding: 'clamp(1.5rem, 3vw, 2.25rem)', backgroundColor: 'white', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-sm)', textAlign: 'left' }}>
                     {data.introParagraphs.map((p, i) => (
                       <p key={i} style={{ marginBottom: i < data.introParagraphs.length - 1 ? '1.1rem' : 0 }}>

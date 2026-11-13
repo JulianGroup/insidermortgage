@@ -124,12 +124,25 @@ export const seoPages = [
       'Even buyers with strong incomes and solid savings often have important questions. How much home can I realistically afford without stretching my monthly budget? How much money do I need for a down payment? Can I qualify on my own, or would involving a family member help? What about purchasing a home with a friend or unmarried partner?',
       'Understanding your options before you begin shopping can make a tremendous difference in both your buying experience and your long-term financial future.'
     ],
-    introHeader: 'Our Approach: Plan First, Then Get Ready to Purchase',
-    introParagraphs: [
-      "At Insider Mortgage, we believe there is tremendous value in beginning the qualification process well before you're ready to make an offer.",
-      "Starting with pre-qualification and the implementation of the PRE-QUAL ANALYZER (PQA) gives us an opportunity to identify financing options, address potential challenges, and help you understand how much you can comfortably afford without immediately moving into a formal credit and underwriting process.",
-      "When you're ready to begin seriously shopping for a home, we transition into the more comprehensive pre-approval process so you can make offers with greater confidence.",
-      "The earlier we begin the conversation, the more opportunities we may have to help you prepare for a successful home purchase."
+    introHeader: 'PRE-QUALIFICATION VS. PRE-APPROVAL',
+    introSubheadline: 'Understanding the Difference — and When You Need Each',
+    introSections: [
+      {
+        paragraphs: [
+          "One of the first steps in buying a home is understanding how much you can afford and whether you're financially prepared to purchase.",
+          "Although the terms pre-qualification and pre-approval are often used interchangeably, at Insider Mortgage, we distinguish between two important stages of the homebuying process."
+        ]
+      },
+      {
+        heading: 'Our Approach: Plan First, Then Get Ready to Purchase',
+        paragraphs: [
+          "At Insider Mortgage, we believe there is tremendous value in beginning the qualification process well before you're ready to make an offer.",
+          "Starting with pre-qualification we walk our clients through our proprietary PRE-QUAL ANALYZER (PQA) - a WHAT-IF Scenario system that removes the veil surrounding mortgage lending. You will be able to play with up to 8 scenarios and see in real-time what you can and cannot afford.",
+          "We work collaboratively with you to identify financing options, address potential challenges, and help you understand how much you can comfortably afford without immediately moving into a formal credit and underwriting process.",
+          "Once you clearly see what you can afford you can begin seriously shopping for a home, and we transition into the more comprehensive pre-approval process so you can make offers with greater confidence."
+        ],
+        boldTakeaway: 'The earlier we begin the conversation, the more opportunities we may have to help you prepare for a successful home purchase.'
+      }
     ],
     stageBoxes: [
       {

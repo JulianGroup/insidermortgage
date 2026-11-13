@@ -95,7 +95,7 @@ export default function SummaryKpiCards({
                 color: '#E2E8F0',
               }}
             >
-              DSCR (Rent/PITIA): <strong style={{ color: '#EFB51E' }}>{dscr.toFixed(2)}x</strong>
+              Total PITIA: <strong style={{ color: '#EFB51E' }}>{currencyFmt.format(Math.round(totalMonthlyPitia))}/mo</strong>
             </span>
           </div>
         </div>
@@ -121,6 +121,7 @@ export default function SummaryKpiCards({
             </div>
           </div>
 
+          {/* DSCR Ratio Tile (Replacing Monthly Debt Service) */}
           <div
             style={{
               backgroundColor: 'rgba(255, 255, 255, 0.08)',
@@ -130,14 +131,20 @@ export default function SummaryKpiCards({
             }}
           >
             <div style={{ fontSize: '0.75rem', color: '#CBD5E1', textTransform: 'uppercase', fontWeight: 600 }}>
-              Monthly Debt Service (P&amp;I)
+              DSCR (Rent ÷ PITIA)
             </div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#FFFFFF', marginTop: '0.25rem' }}>
-              {currencyFmt.format(Math.round(summary.monthlyPmt))}
-              <span style={{ fontSize: '0.85rem', fontWeight: 500, color: '#CBD5E1' }}>/mo</span>
+            <div
+              style={{
+                fontSize: '1.5rem',
+                fontWeight: 800,
+                color: dscr >= 1.0 ? '#4ADE80' : '#EFB51E',
+                marginTop: '0.25rem',
+              }}
+            >
+              {dscr.toFixed(2)}x
             </div>
-            <div style={{ fontSize: '0.74rem', color: '#94A3B8', marginTop: '0.2rem' }}>
-              {currencyFmt.format(Math.round(summary.monthlyPmt * 12))}/yr @ {(inputs.interestRate * 100).toFixed(3)}%
+            <div style={{ fontSize: '0.73rem', color: '#CBD5E1', marginTop: '0.2rem', lineHeight: 1.35 }}>
+              {currencyFmt.format(Math.round(summary.totalMonthlyRent))}/mo Rent ÷ {currencyFmt.format(Math.round(totalMonthlyPitia))}/mo PITIA
             </div>
           </div>
 
@@ -189,8 +196,8 @@ export default function SummaryKpiCards({
               {currencyFmt.format(Math.round(monthlyCashFlow))}
               <span style={{ fontSize: '0.85rem', fontWeight: 500 }}>/mo</span>
             </div>
-            <div style={{ fontSize: '0.74rem', color: '#E2E8F0', marginTop: '0.2rem' }}>
-              Annual: {currencyFmt.format(Math.round(summary.year1CashFlow))}/yr
+            <div style={{ fontSize: '0.73rem', color: '#E2E8F0', marginTop: '0.2rem', lineHeight: 1.35 }}>
+              Annual: {currencyFmt.format(Math.round(summary.year1CashFlow))}/yr · incl. vacancy, maintenance &amp; prop mgmt
             </div>
           </div>
         </div>

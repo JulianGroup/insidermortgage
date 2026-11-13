@@ -326,7 +326,7 @@ export default function RentalAnalyzerPrintReport({
               </span>
               <span className="ra-print-dot-sep">·</span>
               <span>
-                DSCR (Rent / PITIA): <strong>{dscr.toFixed(2)}x</strong>
+                Total Initial PITIA: <strong>{currencyFmt.format(Math.round(totalMonthlyPitia))}/mo</strong>
               </span>
               <span className="ra-print-dot-sep">·</span>
               <span>
@@ -344,11 +344,15 @@ export default function RentalAnalyzerPrintReport({
               <div className="ra-print-kpi-sub dark">{currencyFmt.format(Math.round(monthlyNoi))}/mo after mgmt, maintenance (${inputs.monthlyMaintenance ?? 200}/mo), taxes &amp; ins</div>
             </div>
 
-            {/* Col 2, Row 1: Annual Debt Service */}
-            <div className="ra-print-kpi-box light accent-navy">
-              <div className="ra-print-kpi-label dark">Annual Debt Service (P&amp;I)</div>
-              <div className="ra-print-kpi-val navy">{currencyFmt.format(Math.round(monthlyPi * 12))}/yr</div>
-              <div className="ra-print-kpi-sub dark">{currencyFmt.format(Math.round(monthlyPi))}/mo @ {(inputs.interestRate * 100).toFixed(3)}% (30-Yr Fixed)</div>
+            {/* Col 2, Row 1: DSCR Ratio (Rent ÷ PITIA) */}
+            <div className={`ra-print-kpi-box light ${dscr >= 1.0 ? 'accent-green' : 'accent-gold'}`}>
+              <div className="ra-print-kpi-label dark">Debt Service Coverage (DSCR)</div>
+              <div className={`ra-print-kpi-val ${dscr >= 1.0 ? 'green' : 'navy'}`}>
+                {dscr.toFixed(2)}x
+              </div>
+              <div className="ra-print-kpi-sub dark">
+                {currencyFmt.format(Math.round(summary.totalMonthlyRent))}/mo Rent ÷ {currencyFmt.format(Math.round(totalMonthlyPitia))}/mo PITIA
+              </div>
             </div>
 
             {/* Col 1, Row 2: Net Cash Flow */}
@@ -358,7 +362,7 @@ export default function RentalAnalyzerPrintReport({
                 {monthlyCf >= 0 ? '+' : ''}{currencyFmt.format(Math.round(monthlyCf))}/mo
               </div>
               <div className="ra-print-kpi-sub dark">
-                Annual Net Cash Flow: {summary.year1CashFlow >= 0 ? '+' : ''}{currencyFmt.format(Math.round(summary.year1CashFlow))}/yr
+                {summary.year1CashFlow >= 0 ? '+' : ''}{currencyFmt.format(Math.round(summary.year1CashFlow))}/yr · incl. vacancy, maintenance &amp; prop mgmt
               </div>
             </div>
 

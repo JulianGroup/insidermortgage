@@ -115,13 +115,68 @@ export const seoPages = [
   },
   {
     slug: 'first-time',
-    title: 'First-Time Home Buyers',
+    title: 'FIRST-TIME HOME BUYERS',
     heroSubheadline: 'Step-by-Step Mortgage Guidance, Low-Down-Payment Strategies & Clear Numbers',
     seoTitle: 'First-Time Home Buyer Mortgage Programs & Roadmap | Insider Mortgage',
     seoDescription: 'Navigate your first home purchase with confidence. Get a step-by-step roadmap, low-down-payment strategies, custom video breakdowns, and direct guidance from David Sider and Rakesh Jain.',
-    heroSubtitle: 'Buying your first home is an exciting milestone, but navigating interest rates, down payment myths, closing costs, and competitive offers can quickly feel overwhelming. Even buyers with strong incomes and solid savings often wonder how much home they can truly afford without stretching their monthly budget—or where to start before talking to a real estate agent.',
-    introHeader: 'START BY GETTING PRE-APPROVED',
-    introText: 'Getting pre-approved is the most important first step before you begin house hunting. This process includes reviewing your income, assets, credit scores, and liabilities so your financing is rock-solid from day one. Before you make an offer, we will prepare custom worksheets so you know what to financially expect for your cash to close and monthly payment. However, if your situation involves any of these common first-time buyer challenges, we have solutions.',
+    heroSubtitle: [
+      'Whether this is your first-time home purchase or you’ve done this before, buying a home is an exciting milestone, but navigating interest rates, down payment options, closing costs, and competitive offers can quickly feel overwhelming.',
+      'Even buyers with strong incomes and solid savings often have important questions. How much home can I realistically afford without stretching my monthly budget? How much money do I need for a down payment? Can I qualify on my own, or would involving a family member help? What about purchasing a home with a friend or unmarried partner?',
+      'Understanding your options before you begin shopping can make a tremendous difference in both your buying experience and your long-term financial future.'
+    ],
+    introHeader: 'Our Approach: Plan First, Then Get Ready to Purchase',
+    introParagraphs: [
+      "At Insider Mortgage, we believe there is tremendous value in beginning the qualification process well before you're ready to make an offer.",
+      "Starting with pre-qualification and the implementation of the PRE-QUAL ANALYZER (PQA) gives us an opportunity to identify financing options, address potential challenges, and help you understand how much you can comfortably afford without immediately moving into a formal credit and underwriting process.",
+      "When you're ready to begin seriously shopping for a home, we transition into the more comprehensive pre-approval process so you can make offers with greater confidence.",
+      "The earlier we begin the conversation, the more opportunities we may have to help you prepare for a successful home purchase."
+    ],
+    stageBoxes: [
+      {
+        title: 'Pre-Qualification — Understanding Your Buying Power',
+        subtitle: 'The Financial Planning Stage',
+        accentColor: 'var(--secondary, #0468E9)',
+        paragraphs: [
+          "Pre-qualification is an excellent starting point, particularly if you're just beginning to explore homeownership or planning to purchase several months down the road.",
+          "Our pre-qualification process begins with a conversation about your income, employment, savings, existing debts, and overall financial goals.",
+          "Using the financial information you provide, we can estimate how much you may qualify to borrow and evaluate different purchase prices, down payment amounts, interest rates, and monthly payment scenarios.",
+          "We also discuss how different loan programs, mortgage insurance, property taxes, homeowners insurance, and closing costs affect your buying power. Everything we do is presented in a WHAT-IF PRE-QUAL ANALYZER scenario sheet giving you the power to see real-time what you can and cannot afford.",
+          "At this stage, we generally do not need to pull your credit report, submit a formal mortgage application, or run your loan through an Automated Underwriting System (AUS).",
+          "Instead, the objective is to help you understand your financial position, identify potential qualification challenges, and develop a realistic plan for purchasing your first home."
+        ],
+        bulletTitle: 'Pre-qualification is particularly valuable for buyers who want to:',
+        bullets: [
+          'Understand their estimated purchasing power before contacting a Realtor.',
+          'Compare low-down-payment and traditional financing options.',
+          'Evaluate how changes in income, savings, or existing debts could improve qualification.',
+          'Explore whether assistance from parents or other family members could help.',
+          'Develop a financial roadmap for purchasing a home in the coming months.'
+        ],
+        footerNote: 'A pre-qualification is based primarily on the information discussed and provided by the buyer. It is not a verified loan approval or a commitment to lend.'
+      },
+      {
+        title: 'Pre-Approval — Getting Ready to Make an Offer',
+        subtitle: 'The Formal Qualification Stage',
+        accentColor: 'var(--primary, #0B2545)',
+        paragraphs: [
+          "When you're ready to actively shop for a home and make an offer, the next step is obtaining a mortgage pre-approval.",
+          "Pre-approval involves a more comprehensive evaluation of your financial circumstances and is designed to give you, your Realtor, and the seller greater confidence in your ability to obtain financing.",
+          "At this stage, we generally complete a formal mortgage application, obtain your authorization to run and review your credit report, and examine supporting financial documentation.",
+          "This may include pay stubs, W-2 forms, tax returns, bank statements, investment accounts, and other records relevant to your particular financial situation.",
+          "We then evaluate your income, assets, liabilities, and credit profile under the applicable mortgage program guidelines.",
+          "For loans eligible for automated underwriting, we typically submit the information through an Automated Underwriting System (AUS) to determine whether the loan meets the program's preliminary underwriting requirements.",
+          "The AUS results, together with our review of your documentation, help establish a more reliable loan qualification amount.",
+          "Once this process is completed satisfactorily, we can provide a pre-approval letter to accompany your purchase offer."
+        ],
+        callout: 'Why is this important? In a competitive real estate market, sellers and their agents want confidence that the buyer can obtain the necessary financing and successfully close the transaction. A well-supported pre-approval demonstrates that the buyer has taken meaningful steps toward verifying their financial qualifications, making the offer more credible than one supported only by an informal pre-qualification.',
+        footerNote: 'Pre-approval is not a final loan commitment. Final approval remains subject to underwriting, acceptable property appraisal and title review, verification of information, and other applicable lending conditions.'
+      }
+    ],
+    videoPlaceholder: {
+      title: "Checkout David's Pre-Qual Analyzer Video",
+      description: "Watch David Sider walk through the Pre-Qual Analyzer (PQA) spreadsheet and demonstrate how we model your buying power and monthly payment scenarios in real time.",
+      hostedOn: 'YouTube'
+    },
     commonIssuesSection: {
       heading: 'COMMON CHALLENGES',
       cards: [
@@ -179,9 +234,11 @@ export const seoPages = [
     goodNewsSection: {
       title: 'The Good News: Your First Home Should Come With a Clear Roadmap',
       paragraphs: [
-        "Buying your first home doesn't mean you have to figure everything out on your own—or stretch yourself thin just to get your foot in the door.",
-        'At Insider Mortgage, we treat your first home purchase as the foundation of your long-term wealth strategy. Instead of handing you a generic rate quote, David and Rakesh walk you through custom spreadsheets and personalized video breakdowns comparing your down payment options, closing cost credits, and future refinance opportunities.',
-        'Whether you are ready to tour homes this weekend or planning 6 to 12 months ahead, our goal is to make sure you understand every number on the screen before you ever make a commitment.'
+        "Buying your first home doesn't mean you have to figure everything out on your own or stretch yourself financially just to become a homeowner.",
+        'At Insider Mortgage, we approach your first home purchase as an important part of your overall financial future. Rather than simply providing a generic interest rate quote or maximum loan amount, David and Rakesh help you understand the numbers and explore financing strategies that fit your personal circumstances.',
+        'Using customized spreadsheets, the Pre-Qual Analyzer (PQA), and personalized video explanations, we can compare different purchase prices, down payment options, estimated monthly payments, closing costs, potential seller credits, and future refinancing opportunities.',
+        "Our goal isn't simply to determine the maximum mortgage you can qualify for. It's to help you understand what you can comfortably afford, how much cash you should preserve, and how today's financing decisions may affect your financial flexibility in the years ahead.",
+        'Whether you\'re ready to tour homes this weekend or planning to purchase 6 to 12 months from now, we can help you develop a roadmap so you understand your options before making a financial commitment.'
       ],
       ctaText: 'Schedule a call with David and Rakesh to explore your options',
       showHeadshotsInCta: true

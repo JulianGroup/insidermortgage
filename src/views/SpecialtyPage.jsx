@@ -211,12 +211,184 @@ const SpecialtyPage = ({ data }) => {
         )}
 
         {data.introHeader && !data.firstSection && !data.contentSections && (
-          <section className="section" style={{ paddingBottom: '2rem', paddingTop: 'var(--space-12)' }}>
-            <div className="container" style={{ maxWidth: '800px', textAlign: 'center' }}>
-              <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>{data.introHeader}</h2>
-              <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.7, padding: 'var(--space-6)', backgroundColor: 'white', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-sm)' }}>
-                {data.introText}
-              </p>
+          <section className="section" style={{ paddingBottom: '2.5rem', paddingTop: 'var(--space-12)' }}>
+            <div className="container" style={{ maxWidth: '960px' }}>
+              <div style={{ textAlign: 'center', maxWidth: '820px', margin: '0 auto 2.5rem' }}>
+                <h2 style={{ color: 'var(--primary)', marginBottom: '1.25rem', fontSize: '2rem' }}>
+                  {data.introHeader}
+                </h2>
+                {Array.isArray(data.introParagraphs) ? (
+                  <div style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.7, padding: 'clamp(1.5rem, 3vw, 2.25rem)', backgroundColor: 'white', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-sm)', textAlign: 'left' }}>
+                    {data.introParagraphs.map((p, i) => (
+                      <p key={i} style={{ marginBottom: i < data.introParagraphs.length - 1 ? '1.1rem' : 0 }}>
+                        {p}
+                      </p>
+                    ))}
+                  </div>
+                ) : data.introText ? (
+                  <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.7, padding: 'var(--space-6)', backgroundColor: 'white', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-sm)' }}>
+                    {data.introText}
+                  </p>
+                ) : null}
+              </div>
+
+              {data.stageBoxes && (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '3.5rem' }}>
+                  {data.stageBoxes.map((box, bIdx) => (
+                    <div
+                      key={bIdx}
+                      style={{
+                        backgroundColor: 'white',
+                        borderRadius: 'var(--radius-lg)',
+                        padding: 'clamp(1.75rem, 3vw, 2.25rem)',
+                        boxShadow: 'var(--shadow-md)',
+                        borderTop: `4px solid ${box.accentColor || (bIdx === 0 ? 'var(--secondary, #0468E9)' : 'var(--primary, #0B2545)')}`,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <div>
+                        <h3 style={{ color: 'var(--primary)', fontSize: '1.35rem', marginBottom: '0.4rem', lineHeight: 1.35 }}>
+                          {box.title}
+                        </h3>
+                        {box.subtitle && (
+                          <div
+                            style={{
+                              display: 'inline-block',
+                              padding: '0.25rem 0.75rem',
+                              backgroundColor: 'rgba(4, 104, 233, 0.08)',
+                              color: 'var(--secondary, #0468E9)',
+                              fontSize: '0.85rem',
+                              fontWeight: 700,
+                              borderRadius: '999px',
+                              marginBottom: '1.25rem',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.04em',
+                            }}
+                          >
+                            {box.subtitle}
+                          </div>
+                        )}
+                        {box.paragraphs && box.paragraphs.map((bp, bpIdx) => (
+                          <p key={bpIdx} style={{ color: 'var(--text-secondary)', fontSize: '1.02rem', lineHeight: 1.7, marginBottom: '0.95rem' }}>
+                            {bp}
+                          </p>
+                        ))}
+                        {box.bulletTitle && (
+                          <p style={{ color: 'var(--primary)', fontWeight: 600, marginTop: '1.25rem', marginBottom: '0.65rem' }}>
+                            {box.bulletTitle}
+                          </p>
+                        )}
+                        {box.bullets && (
+                          <ul style={{ paddingLeft: '1.25rem', margin: '0 0 1.25rem', color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '0.98rem' }}>
+                            {box.bullets.map((bullet, bltIdx) => (
+                              <li key={bltIdx} style={{ marginBottom: '0.5rem' }}>
+                                {bullet}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                        {box.callout && (
+                          <div
+                            style={{
+                              marginTop: '1.25rem',
+                              padding: '1rem',
+                              backgroundColor: 'rgba(11, 37, 69, 0.04)',
+                              borderLeft: `3px solid ${box.accentColor || 'var(--primary)'}`,
+                              borderRadius: '6px',
+                              fontSize: '0.92rem',
+                              color: 'var(--text-secondary)',
+                              lineHeight: 1.6,
+                            }}
+                          >
+                            {box.callout}
+                          </div>
+                        )}
+                      </div>
+                      {box.footerNote && (
+                        <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(15, 23, 42, 0.07)', fontSize: '0.88rem', color: 'var(--text-muted)', fontStyle: 'italic', lineHeight: 1.5 }}>
+                          {box.footerNote}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {data.videoPlaceholder && (
+                <div
+                  style={{
+                    maxWidth: '820px',
+                    margin: '0 auto',
+                    backgroundColor: '#0F172A',
+                    borderRadius: 'var(--radius-lg)',
+                    overflow: 'hidden',
+                    boxShadow: 'var(--shadow-lg)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'relative',
+                      padding: 'clamp(2.5rem, 6vw, 3.75rem) 2rem',
+                      textAlign: 'center',
+                      background: 'radial-gradient(circle at center, rgba(30, 58, 138, 0.55) 0%, rgba(15, 23, 42, 0.98) 100%)',
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '72px',
+                        height: '72px',
+                        borderRadius: '50%',
+                        backgroundColor: '#FF0000',
+                        color: 'white',
+                        boxShadow: '0 8px 24px rgba(255, 0, 0, 0.45)',
+                        marginBottom: '1.25rem',
+                      }}
+                    >
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                    <div
+                      style={{
+                        display: 'inline-block',
+                        padding: '0.25rem 0.85rem',
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        color: '#CBD5E1',
+                        borderRadius: '999px',
+                        fontSize: '0.82rem',
+                        fontWeight: 600,
+                        letterSpacing: '0.05em',
+                        textTransform: 'uppercase',
+                        marginBottom: '0.75rem',
+                      }}
+                    >
+                      YouTube Video Walkthrough
+                    </div>
+                    <h3 style={{ color: 'white', fontSize: 'clamp(1.35rem, 3vw, 1.85rem)', marginBottom: '0.75rem', fontWeight: 700 }}>
+                      {data.videoPlaceholder.title}
+                    </h3>
+                    <p style={{ color: 'rgba(255, 255, 255, 0.82)', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto', lineHeight: 1.6 }}>
+                      {data.videoPlaceholder.description || "Watch David Sider break down the numbers and demonstrate how to stress-test your buying power in real time with our Pre-Qual Analyzer."}
+                    </p>
+                    <div style={{ marginTop: '1.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
+                      <img
+                        src="/david-sider.jpg"
+                        alt="David Sider"
+                        style={{ width: '44px', height: '44px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.4)', objectFit: 'cover' }}
+                      />
+                      <span style={{ color: 'rgba(255, 255, 255, 0.92)', fontSize: '0.98rem', fontWeight: 600 }}>
+                        Presented by David Sider • Insider Mortgage
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </section>
         )}

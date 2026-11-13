@@ -14,6 +14,7 @@ import SummaryKpiCards from './SummaryKpiCards';
 import ProFormaTable from './ProFormaTable';
 import AiInvestmentAnalysis from './AiInvestmentAnalysis';
 import LeadCaptureModal from './LeadCaptureModal';
+import MathReceiptModal, { MathMetricKey } from './MathReceiptModal';
 import RentalAnalyzerPrintReport from './RentalAnalyzerPrintReport';
 import { getRentalReportPdfFileName, detectPropertyState } from './stateDetector';
 import './rental-analyzer.css';
@@ -78,6 +79,7 @@ export default function RentalAnalyzerContainer({
   const [inputs, setInputs] = useState<UnderwriteInputs>(INITIAL_DUPLEX_INPUTS);
   const [publicUnlocked, setPublicUnlocked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeMathMetric, setActiveMathMetric] = useState<MathMetricKey | null>(null);
 
   useEffect(() => {
     if (mode === 'public' && typeof window !== 'undefined') {
@@ -494,6 +496,7 @@ export default function RentalAnalyzerContainer({
               summary={summary}
               isLockedPublic={isLockedPublic}
               onRequestUnlock={() => setIsModalOpen(true)}
+              onOpenMath={(metric) => setActiveMathMetric(metric)}
             />
 
             <WhatIfModules
@@ -576,9 +579,19 @@ export default function RentalAnalyzerContainer({
             isLockedPublic={isLockedPublic}
             onRequestUnlock={() => setIsModalOpen(true)}
             onPrintReport={handlePrintReport}
+            onOpenMath={(metric) => setActiveMathMetric(metric)}
           />
         </div>
       </div>
+
+      {/* Live Step-by-Step Math Receipt Modal (7 Metrics) */}
+      <MathReceiptModal
+        activeMetric={activeMathMetric}
+        onSelectMetric={(metric) => setActiveMathMetric(metric)}
+        onClose={() => setActiveMathMetric(null)}
+        inputs={inputs}
+        summary={summary}
+      />
 
       {/* Lead Capture Modal (Public Mode) */}
       <LeadCaptureModal

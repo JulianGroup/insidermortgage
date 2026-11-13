@@ -2,12 +2,14 @@
 
 import React from 'react';
 import { UnderwriteInputs, UnderwriteSummary } from '../../../lib/financial-engine';
+import { MathMetricKey } from './MathReceiptModal';
 
 interface SummaryKpiCardsProps {
   inputs: UnderwriteInputs;
   summary: UnderwriteSummary;
   isLockedPublic?: boolean;
   onRequestUnlock?: () => void;
+  onOpenMath?: (metric: MathMetricKey) => void;
 }
 
 const currencyFmt = new Intl.NumberFormat('en-US', {
@@ -21,6 +23,7 @@ export default function SummaryKpiCards({
   summary,
   isLockedPublic = false,
   onRequestUnlock,
+  onOpenMath,
 }: SummaryKpiCardsProps) {
   const monthlyCashFlow = summary.year1CashFlow / 12;
   const monthlyNoi = summary.year1Noi / 12;
@@ -76,18 +79,41 @@ export default function SummaryKpiCards({
           </div>
 
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            <span
+            <button
+              type="button"
+              onClick={() => onOpenMath?.('cap-rate')}
+              title="Tap to see how Cap Rate is calculated"
               style={{
                 padding: '0.3rem 0.7rem',
                 borderRadius: '8px',
-                backgroundColor: 'rgba(255,255,255,0.1)',
+                backgroundColor: 'rgba(255,255,255,0.12)',
+                border: '1px dashed rgba(239, 181, 30, 0.55)',
                 fontSize: '0.78rem',
                 fontWeight: 600,
                 color: '#E2E8F0',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem',
               }}
             >
-              Cap Rate: <strong style={{ color: '#EFB51E' }}>{capRate.toFixed(2)}%</strong>
-            </span>
+              <span>
+                Cap Rate: <strong style={{ color: '#EFB51E' }}>{capRate.toFixed(2)}%</strong>
+              </span>
+              <span
+                className="no-print"
+                style={{
+                  fontSize: '0.66rem',
+                  backgroundColor: 'rgba(239, 181, 30, 0.2)',
+                  color: '#EFB51E',
+                  padding: '0.08rem 0.35rem',
+                  borderRadius: '4px',
+                  fontWeight: 700,
+                }}
+              >
+                ∑ Math
+              </span>
+            </button>
             <span
               style={{
                 padding: '0.3rem 0.7rem',
@@ -152,17 +178,46 @@ export default function SummaryKpiCards({
           </div>
 
           <div
+            role="button"
+            tabIndex={0}
+            onClick={() => onOpenMath?.('noi')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onOpenMath?.('noi');
+              }
+            }}
+            title="Tap to see how Year 1 Net Operating Income is calculated"
             style={{
               backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              border: '1px solid rgba(255, 255, 255, 0.14)',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
               borderRadius: '12px',
               padding: '1rem',
+              cursor: 'pointer',
+              position: 'relative',
             }}
           >
-            <div style={{ fontSize: '0.75rem', color: '#CBD5E1', textTransform: 'uppercase', fontWeight: 600 }}>
-              Year 1 Net Operating Income
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
+              <div style={{ fontSize: '0.75rem', color: '#CBD5E1', textTransform: 'uppercase', fontWeight: 600 }}>
+                Year 1 Net Operating Income
+              </div>
+              <span
+                className="no-print"
+                style={{
+                  fontSize: '0.65rem',
+                  fontWeight: 700,
+                  color: '#EFB51E',
+                  backgroundColor: 'rgba(239, 181, 30, 0.16)',
+                  border: '1px solid rgba(239, 181, 30, 0.35)',
+                  padding: '0.1rem 0.4rem',
+                  borderRadius: '4px',
+                  flexShrink: 0,
+                }}
+              >
+                ∑ Math
+              </span>
             </div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#EFB51E', marginTop: '0.25rem' }}>
+            <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#EFB51E', marginTop: '0.25rem', textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: '4px' }}>
               {currencyFmt.format(Math.round(summary.year1Noi))}
               <span style={{ fontSize: '0.85rem', fontWeight: 500, color: '#CBD5E1' }}>/yr</span>
             </div>
@@ -172,6 +227,16 @@ export default function SummaryKpiCards({
           </div>
 
           <div
+            role="button"
+            tabIndex={0}
+            onClick={() => onOpenMath?.('cash-flow')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onOpenMath?.('cash-flow');
+              }
+            }}
+            title="Tap to see how Year 1 Net Cash Flow is calculated"
             style={{
               backgroundColor:
                 monthlyCashFlow >= 0
@@ -183,10 +248,28 @@ export default function SummaryKpiCards({
                   : '1px solid rgba(248, 113, 113, 0.4)',
               borderRadius: '12px',
               padding: '1rem',
+              cursor: 'pointer',
             }}
           >
-            <div style={{ fontSize: '0.75rem', color: '#E2E8F0', textTransform: 'uppercase', fontWeight: 600 }}>
-              Year 1 Net Cash Flow
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
+              <div style={{ fontSize: '0.75rem', color: '#E2E8F0', textTransform: 'uppercase', fontWeight: 600 }}>
+                Year 1 Net Cash Flow
+              </div>
+              <span
+                className="no-print"
+                style={{
+                  fontSize: '0.65rem',
+                  fontWeight: 700,
+                  color: '#FFFFFF',
+                  backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  padding: '0.1rem 0.4rem',
+                  borderRadius: '4px',
+                  flexShrink: 0,
+                }}
+              >
+                ∑ Math
+              </span>
             </div>
             <div
               style={{
@@ -194,6 +277,9 @@ export default function SummaryKpiCards({
                 fontWeight: 800,
                 color: monthlyCashFlow >= 0 ? '#4ADE80' : '#FCA5A5',
                 marginTop: '0.25rem',
+                textDecoration: 'underline',
+                textDecorationStyle: 'dotted',
+                textUnderlineOffset: '4px',
               }}
             >
               {currencyFmt.format(Math.round(monthlyCashFlow))}
@@ -227,12 +313,16 @@ export default function SummaryKpiCards({
                   5-Year Horizon Returns
                 </h4>
               </div>
-              <div
+              <button
+                type="button"
+                onClick={() => onOpenMath?.('irr-5')}
+                title="Tap to see how 5-Year IRR is calculated"
                 style={{
                   backgroundColor: '#060A2D',
                   color: '#EFB51E',
                   padding: '0.45rem 0.95rem',
                   borderRadius: '999px',
+                  border: '1px dashed rgba(239, 181, 30, 0.65)',
                   fontWeight: 800,
                   fontSize: '0.92rem',
                   textAlign: 'center',
@@ -243,11 +333,12 @@ export default function SummaryKpiCards({
                   lineHeight: 1.2,
                   minWidth: '88px',
                   flexShrink: 0,
+                  cursor: 'pointer',
                 }}
               >
                 <span>{summary.fiveYear.irrPct.toFixed(2)}%</span>
-                <span style={{ fontSize: '0.72rem', letterSpacing: '0.04em' }}>IRR</span>
-              </div>
+                <span style={{ fontSize: '0.7rem', letterSpacing: '0.04em' }}>IRR · ∑</span>
+              </button>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', fontSize: '0.88rem' }}>
@@ -281,16 +372,54 @@ export default function SummaryKpiCards({
                 </span>
               </div>
               <div
+                role="button"
+                tabIndex={0}
+                onClick={() => onOpenMath?.('profit-5')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onOpenMath?.('profit-5');
+                  }
+                }}
+                title="Tap to see how Net 5-Year Profit & ROI are calculated"
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   paddingTop: '0.35rem',
+                  cursor: 'pointer',
                 }}
               >
-                <span style={{ fontWeight: 700, color: '#060A2D' }}>Net 5-Yr Lifetime Profit:</span>
+                <span style={{ fontWeight: 700, color: '#060A2D' }}>
+                  Net 5-Yr Lifetime Profit:{' '}
+                  <span
+                    className="no-print"
+                    style={{
+                      fontSize: '0.65rem',
+                      fontWeight: 700,
+                      color: '#0468E9',
+                      backgroundColor: '#EFF6FF',
+                      border: '1px solid #BFDBFE',
+                      padding: '0.08rem 0.35rem',
+                      borderRadius: '4px',
+                      marginLeft: '0.25rem',
+                    }}
+                  >
+                    ∑ Math
+                  </span>
+                </span>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#15803D', lineHeight: 1.2 }}>
+                  <div
+                    style={{
+                      fontSize: '1.15rem',
+                      fontWeight: 800,
+                      color: '#15803D',
+                      lineHeight: 1.2,
+                      textDecoration: 'underline',
+                      textDecorationStyle: 'dotted',
+                      textUnderlineOffset: '3px',
+                    }}
+                  >
                     {currencyFmt.format(Math.round(summary.fiveYear.totalProfit))}
                   </div>
                   <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#15803D', marginTop: '2px' }}>
@@ -319,12 +448,16 @@ export default function SummaryKpiCards({
                   10-Year Horizon Returns
                 </h4>
               </div>
-              <div
+              <button
+                type="button"
+                onClick={() => onOpenMath?.('irr-10')}
+                title="Tap to see how 10-Year IRR is calculated"
                 style={{
                   backgroundColor: '#EFB51E',
                   color: '#060A2D',
                   padding: '0.45rem 0.95rem',
                   borderRadius: '999px',
+                  border: '1px dashed #060A2D',
                   fontWeight: 900,
                   fontSize: '0.92rem',
                   textAlign: 'center',
@@ -335,11 +468,12 @@ export default function SummaryKpiCards({
                   lineHeight: 1.2,
                   minWidth: '88px',
                   flexShrink: 0,
+                  cursor: 'pointer',
                 }}
               >
                 <span>{summary.tenYear.irrPct.toFixed(2)}%</span>
-                <span style={{ fontSize: '0.72rem', letterSpacing: '0.04em' }}>IRR</span>
-              </div>
+                <span style={{ fontSize: '0.7rem', letterSpacing: '0.04em' }}>IRR · ∑</span>
+              </button>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', fontSize: '0.88rem' }}>
@@ -373,16 +507,54 @@ export default function SummaryKpiCards({
                 </span>
               </div>
               <div
+                role="button"
+                tabIndex={0}
+                onClick={() => onOpenMath?.('profit-10')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onOpenMath?.('profit-10');
+                  }
+                }}
+                title="Tap to see how Net 10-Year Profit & ROI are calculated"
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   paddingTop: '0.35rem',
+                  cursor: 'pointer',
                 }}
               >
-                <span style={{ fontWeight: 700, color: '#060A2D' }}>Net 10-Yr Lifetime Profit:</span>
+                <span style={{ fontWeight: 700, color: '#060A2D' }}>
+                  Net 10-Yr Lifetime Profit:{' '}
+                  <span
+                    className="no-print"
+                    style={{
+                      fontSize: '0.65rem',
+                      fontWeight: 700,
+                      color: '#0468E9',
+                      backgroundColor: '#EFF6FF',
+                      border: '1px solid #BFDBFE',
+                      padding: '0.08rem 0.35rem',
+                      borderRadius: '4px',
+                      marginLeft: '0.25rem',
+                    }}
+                  >
+                    ∑ Math
+                  </span>
+                </span>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#15803D', lineHeight: 1.2 }}>
+                  <div
+                    style={{
+                      fontSize: '1.15rem',
+                      fontWeight: 800,
+                      color: '#15803D',
+                      lineHeight: 1.2,
+                      textDecoration: 'underline',
+                      textDecorationStyle: 'dotted',
+                      textUnderlineOffset: '3px',
+                    }}
+                  >
                     {currencyFmt.format(Math.round(summary.tenYear.totalProfit))}
                   </div>
                   <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#15803D', marginTop: '2px' }}>

@@ -1,0 +1,15 @@
+# Apache config for DreamHost shared hosting (copied into out/ by next build)
+ErrorDocument 404 /404.html
+DirectoryIndex index.html
+
+# Redirect legacy /self-employed URLs to /self-employed-programs/
+RedirectMatch 301 ^/self-employed/?$ /self-employed-programs/
+
+# Redirect legacy /dscr-loans to /investor-loans/
+RedirectMatch 301 ^/dscr-loans/?$ /investor-loans/
+
+# Redirect case variations of Prop 19 calculator to canonical /CAprop-19-calculator/
+RedirectMatch 301 ^/(?:ca-prop-19-calculator|caprop-19-calculator|prop19-calculator)/?$ /CAprop-19-calculator/
+
+# Redirect retired homepage variations (v2, v4, v5, v6 duplicate route, v7, home-backup) to primary root /
+RedirectMatch 301 ^/(?:home-v(?:2|4|5|6|7)|home-backup)/?$ /

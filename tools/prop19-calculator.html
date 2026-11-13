@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>California Proposition 19 Tax Transfer Calculator | Insider Mortgage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #060a2d;
+      --primary-light: #121c54;
+      --accent: #f2c230;
+      --success: #059669;
+      --success-bg: #ecfdf5;
+      --surface: #ffffff;
+      --bg: #f8fafc;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --radius: 14px;
+      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 40px 20px; line-height: 1.5; }
+    .container { max-width: 1080px; margin: 0 auto; }
+
+    /* Header */
+    .header-section { text-align: center; margin-bottom: 36px; }
+    .badge-tag { display: inline-block; padding: 6px 14px; background: rgba(242, 194, 48, 0.15); border: 1px solid rgba(242, 194, 48, 0.4); color: #b48500; border-radius: 999px; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.04em; }
+    .header-section h1 { font-size: 2.35rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+    .header-section p { font-size: 1.08rem; color: var(--text-muted); max-width: 720px; margin: 0 auto; }
+
+    /* Layout */
+    .grid-container { display: grid; grid-template-columns: 1fr; gap: 28px; }
+    @media (min-width: 900px) {
+      .grid-container { grid-template-columns: 1.15fr 0.85fr; }
+    }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); margin-bottom: 24px; }
+    .card-title { font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .step-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: var(--primary); color: #fff; border-radius: 50%; font-size: 0.85rem; font-weight: 700; }
+    .section-subtitle { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px; }
+
+    /* Forms */
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-size: 0.88rem; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .form-input, .form-select { width: 100%; padding: 11px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; color: var(--text); outline: none; transition: all 0.2s; }
+    .form-input:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(6, 10, 45, 0.12); }
+
+    .input-flex-group { display: flex; gap: 8px; }
+    .btn-search { white-space: nowrap; padding: 0 16px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background 0.2s; }
+    .btn-search:hover { background: var(--primary-light); }
+
+    /* Summary callout box */
+    .base-callout { background: var(--success-bg); border: 1px solid #a7f3d0; border-radius: 8px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+    .base-callout-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: #065f46; letter-spacing: 0.04em; }
+    .base-callout-val { font-size: 1.35rem; font-weight: 800; color: #065f46; }
+
+    /* Results Dashboard */
+    .results-card { background: var(--surface); border: 2px solid var(--primary); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); height: fit-content; position: sticky; top: 24px; }
+    .savings-hero { text-align: center; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 20px; margin-bottom: 22px; }
+    .savings-hero-label { font-size: 0.85rem; font-weight: 700; color: #166534; text-transform: uppercase; margin-bottom: 4px; }
+    .savings-hero-amount { font-size: 2.35rem; font-weight: 900; color: #15803d; }
+    .savings-hero-sub { font-size: 0.82rem; color: #166534; margin-top: 4px; }
+
+    .comparison-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed var(--border); font-size: 0.92rem; }
+    .comparison-row:last-child { border-bottom: none; }
+    .comparison-val { font-weight: 700; }
+
+    .ten-year-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-top: 18px; text-align: center; }
+    .ten-year-val { font-size: 1.35rem; font-weight: 800; color: var(--primary); margin: 4px 0; }
+
+    /* CTA Section */
+    .cta-button { display: block; width: 100%; text-align: center; background: var(--primary); color: #fff; padding: 14px; border-radius: 999px; font-weight: 700; text-decoration: none; margin-top: 20px; transition: background 0.2s; box-shadow: 0 4px 12px rgba(6,10,45,0.2); }
+    .cta-button:hover { background: var(--primary-light); }
+
+    .help-text { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+    .timing-badge { display: inline-block; padding: 3px 8px; background: #d1fae5; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: #065f46; }
+    .boe-box { margin-top: 16px; padding: 14px; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <header class="header-section">
+    <span class="badge-tag">California Proposition 19 Benefit</span>
+    <h1>Keep Your Low Property Taxes When Moving</h1>
+    <p>California homeowners age 55 and older can transfer their low Prop 13 tax base to a new home anywhere in California—even when buying a higher-value replacement home.</p>
+  </header>
+
+  <div class="grid-container">
+    <!-- Left: Inputs Section -->
+    <main>
+      <!-- Step 1: Current Assessment Details -->
+      <section class="card">
+        <h2 class="card-title"><span class="step-num">1</span> Current Property Assessment</h2>
+        <p class="section-subtitle">Under Proposition 19, your transferred tax base starts from your current net assessed value on the tax roll, not the market price.</p>
+
+        <div class="form-group">
+          <label class="form-label" for="propAddress">Current Home Address</label>
+          <div class="input-flex-group">
+            <input type="text" id="propAddress" class="form-input" placeholder="e.g. 16557 4S Ranch Pkwy, San Diego, CA 92127">
+            <button type="button" id="googleSearchBtn" class="btn-search">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+              Search Google for your home's Net Taxable Value ↗
+            </button>
+          </div>
+          <p class="help-text">Click to open a targeted Google search to view your county tax roll net assessed value.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="netTaxableValue">Current Net Taxable Value ($)</label>
+          <input type="number" id="netTaxableValue" class="form-input" value="1154400" step="5000">
+          <p class="help-text">Enter your Net Taxable Value from your annual county tax bill. This is the protected amount that transfers under Prop 19.</p>
+        </div>
+
+        <div class="base-callout">
+          <div>
+            <span class="base-callout-label">Net Factored Base Value (Transfers under Prop 19)</span>
+            <div id="netBaseDisplay" class="base-callout-val">$1,154,400</div>
+          </div>
+          <span class="timing-badge">Current Tax Base</span>
+        </div>
+      </section>
+
+      <!-- Step 2: Sale and Replacement Property Details -->
+      <section class="card">
+        <h2 class="card-title"><span class="step-num">2</span> Relocation & Purchase Plan</h2>
+        <p class="section-subtitle">Select your purchase timing, then enter your sale price and replacement purchase price to calculate whether you qualify for a 100% transfer or the Prop 19 buy-up formula.</p>
+
+        <div class="form-group">
+          <label class="form-label" for="timingRule">Timing of Replacement Home Purchase</label>
+          <select id="timingRule" class="form-select">
+            <option value="1.00">Purchased BEFORE selling current home (100% Cap)</option>
+            <option value="1.05" selected>Purchased within 1 year AFTER selling current home (105% Cap)</option>
+            <option value="1.10">Purchased between 1 and 2 years AFTER selling (110% Cap)</option>
+          </select>
+          <p class="help-text">California allows higher purchase price caps when you buy after selling your original home.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" id="salePriceLabel" for="salePrice">Original Home Sale Price ($)</label>
+          <input type="number" id="salePrice" class="form-input" value="1350000" step="10000">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" id="purchasePriceLabel" for="purchasePrice">New Replacement Home Purchase Price ($)</label>
+          <input type="number" id="purchasePrice" class="form-input" value="1500000" step="10000">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="taxRate">Estimated County Property Tax Rate (%)</label>
+          <input type="number" id="taxRate" class="form-input" value="1.15" step="0.01" min="1.00" max="2.00">
+          <p class="help-text">Includes the 1.00% California base rate + local voter-approved bonds (typically 1.10% – 1.25%).</p>
+        </div>
+
+        <div class="boe-box">
+          <strong>Official County Filing:</strong> To claim your Prop 19 tax base transfer, you will submit Form BOE-19-B to the county assessor.
+          <div style="margin-top:6px;">
+            <a href="https://www.boe.ca.gov/proptaxes/pdf/boe19b.pdf" target="_blank" rel="noopener noreferrer" style="color:var(--primary); font-weight:700;">Download Official Form BOE-19-B (PDF) ↗</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Right: Calculation & Results Panel -->
+    <aside>
+      <div class="results-card">
+        <h3 style="font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 14px;">Your Estimated Savings</h3>
+
+        <div class="savings-hero">
+          <div class="savings-hero-label">First-Year Property Tax Savings</div>
+          <div id="annualSavingsDisplay" class="savings-hero-amount">$3,974 / yr</div>
+          <div class="savings-hero-sub">Direct annual reduction on your tax bill</div>
+        </div>
+
+        <div class="comparison-row">
+          <span style="color: var(--text-muted);">Standard Market Reassessment</span>
+          <span id="standardTaxDisplay" class="comparison-val">$17,250 / yr</span>
+        </div>
+
+        <div class="comparison-row">
+          <span style="color: var(--text-muted);">Prop 19 Transferred Tax Bill</span>
+          <span id="prop19TaxDisplay" class="comparison-val" style="color: var(--success);">$13,276 / yr</span>
+        </div>
+
+        <div class="comparison-row">
+          <span style="color: var(--text-muted);">New Prop 19 Assessed Base</span>
+          <span id="newAssessedBaseDisplay" class="comparison-val">$1,154,400</span>
+        </div>
+
+        <div class="ten-year-box">
+          <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">10-Year Cumulative Savings</div>
+          <div id="tenYearSavingsDisplay" class="ten-year-val">$43,510</div>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Factoring the strict 2% annual Prop 13 statutory cap.</p>
+        </div>
+
+        <a href="https://insidermortgage.com/#contact" class="cta-button">Speak with an Insider Mortgage Advisor</a>
+        <div style="text-align: center; margin-top: 10px; font-size: 0.82rem; color: var(--text-muted);">
+          Call directly: <strong>(858) 848-5653</strong>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+  const addressInput = document.getElementById('propAddress');
+  const googleSearchBtn = document.getElementById('googleSearchBtn');
+  const netTaxableInput = document.getElementById('netTaxableValue');
+  const netBaseDisplay = document.getElementById('netBaseDisplay');
+
+  const salePriceLabel = document.getElementById('salePriceLabel');
+  const purchasePriceLabel = document.getElementById('purchasePriceLabel');
+  const salePriceInput = document.getElementById('salePrice');
+  const purchasePriceInput = document.getElementById('purchasePrice');
+  const timingSelect = document.getElementById('timingRule');
+  const taxRateInput = document.getElementById('taxRate');
+
+  const annualSavingsDisplay = document.getElementById('annualSavingsDisplay');
+  const standardTaxDisplay = document.getElementById('standardTaxDisplay');
+  const prop19TaxDisplay = document.getElementById('prop19TaxDisplay');
+  const newAssessedBaseDisplay = document.getElementById('newAssessedBaseDisplay');
+  const tenYearSavingsDisplay = document.getElementById('tenYearSavingsDisplay');
+
+  function updateDynamicLabels() {
+    const addr = addressInput.value.trim();
+    const street = addr ? addr.split(',')[0].trim() : '';
+    const isAfter = parseFloat(timingSelect.value) > 1.0;
+
+    if (isAfter) {
+      salePriceLabel.textContent = street ? `${street} Expected Sales Price ($)` : 'Expected Sales Price ($)';
+      salePriceInput.placeholder = street ? `Expected sales price for ${street}` : 'Expected Sales Price';
+      purchasePriceLabel.textContent = 'Expected Replacement Purchase Price ($)';
+      purchasePriceInput.placeholder = 'Expected Replacement Purchase Price';
+    } else {
+      salePriceLabel.textContent = street ? `${street} Sale Price ($)` : 'Original Home Sale Price ($)';
+      salePriceInput.placeholder = street ? `Sales price for ${street}` : 'Original Home Sale Price';
+      purchasePriceLabel.textContent = 'New Replacement Purchase Price ($)';
+      purchasePriceInput.placeholder = 'New Replacement Purchase Price';
+    }
+  }
+  addressInput.addEventListener('input', updateDynamicLabels);
+  timingSelect.addEventListener('change', updateDynamicLabels);
+
+  googleSearchBtn.addEventListener('click', () => {
+    const address = addressInput.value.trim();
+    if (!address) {
+      alert('Please enter your property address first.');
+      addressInput.focus();
+      return;
+    }
+    const query = `property tax assessment net taxable value ${address}`;
+    const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+    window.open(url, '_blank');
+  });
+
+  const currencyFmt = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0
+  });
+
+  function recalculate() {
+    const originalBase = Math.max(0, parseFloat(netTaxableInput.value) || 0);
+    netBaseDisplay.textContent = currencyFmt.format(originalBase);
+
+    const salePrice = Math.max(0, parseFloat(salePriceInput.value) || 0);
+    const purchasePrice = Math.max(0, parseFloat(purchasePriceInput.value) || 0);
+    const timingMultiplier = parseFloat(timingSelect.value) || 1.00;
+    const rate = (parseFloat(taxRateInput.value) || 1.15) / 100;
+
+    const allowedCap = salePrice * timingMultiplier;
+
+    let newAssessedBase = originalBase;
+
+    if (purchasePrice > allowedCap) {
+      const marketDifference = purchasePrice - salePrice;
+      newAssessedBase = originalBase + Math.max(0, marketDifference);
+    }
+
+    const standardTax = purchasePrice * rate;
+    const prop19Tax = newAssessedBase * rate;
+    const annualSavings = Math.max(0, standardTax - prop19Tax);
+
+    let cumulativeSavings = 0;
+    let standardCompounded = standardTax;
+    let prop19Compounded = prop19Tax;
+
+    for (let yr = 1; yr <= 10; yr++) {
+      cumulativeSavings += Math.max(0, standardCompounded - prop19Compounded);
+      standardCompounded *= 1.02;
+      prop19Compounded *= 1.02;
+    }
+
+    newAssessedBaseDisplay.textContent = currencyFmt.format(newAssessedBase);
+    standardTaxDisplay.textContent = `${currencyFmt.format(standardTax)} / yr`;
+    prop19TaxDisplay.textContent = `${currencyFmt.format(prop19Tax)} / yr`;
+    annualSavingsDisplay.textContent = `${currencyFmt.format(annualSavings)} / yr`;
+    tenYearSavingsDisplay.textContent = currencyFmt.format(cumulativeSavings);
+  }
+
+  [netTaxableInput, salePriceInput, purchasePriceInput, timingSelect, taxRateInput].forEach(element => {
+    element.addEventListener('input', recalculate);
+    element.addEventListener('change', recalculate);
+  });
+
+  updateDynamicLabels();
+  recalculate();
+</script>
+</body>
+</html>

@@ -222,7 +222,7 @@ export default function AiInvestmentAnalysis({
                   marginBottom: '0.4rem',
                 }}
               >
-                2. What It Would Take
+                2. What It Would Take to Break Even on Day 1
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
                 {insights.levers.map((l) => (

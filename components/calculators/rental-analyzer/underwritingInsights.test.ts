@@ -75,7 +75,7 @@ describe('Underwriting insights', () => {
   });
 
   it('rate for $0 cash flow is below the current rate', () => {
-    const lever = ins.levers.find((l) => l.label === 'Rate for $0 cash flow')!;
+    const lever = ins.levers.find((l) => l.label === 'Interest rate to break even')!;
     const rate = parseFloat(lever.value);
     expect(rate).toBeGreaterThan(0);
     expect(rate).toBeLessThan(7.5);
@@ -98,6 +98,6 @@ describe('Underwriting insights', () => {
     const s = runUnderwriteModel(rich);
     const i = computeUnderwritingInsights(rich, s);
     expect(i.verdictHeadline).toBe('Income-supported hold');
-    expect(i.levers.find((l) => l.label === 'Rate for $0 cash flow')!.value).toBe('Already met');
+    expect(i.levers.find((l) => l.label === 'Interest rate to break even')!.value).toBe('Already met');
   });
 });

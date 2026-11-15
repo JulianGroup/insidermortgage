@@ -607,7 +607,7 @@ export default function RentalAnalyzerPrintReport({
 
             {/* Memo 2: What It Would Take */}
             <div className="ra-print-ai-card border-blue">
-              <div className="ra-print-ai-card-title">2. What It Would Take</div>
+              <div className="ra-print-ai-card-title">2. What It Would Take to Break Even on Day 1</div>
               <div className="ra-print-lever-list">
                 {insights.levers.map((l) => (
                   <div key={l.label} className="ra-print-lever-row">

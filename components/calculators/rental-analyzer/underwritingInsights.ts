@@ -154,7 +154,7 @@ export function computeUnderwritingInsights(
       value: fmt(maxPrice),
       note:
         diff > 0
-          ? `Purchase price would need to drop by ${fmt(diff)} (${((diff / Math.max(price, 1)) * 100).toFixed(1)}%) for rent to cover PITIA.`
+          ? `Purchase price would need to drop from ${fmt(price)} to ${fmt(maxPrice)} (a ${fmt(diff)} reduction) for rent to cover PITIA.`
           : `Current price is ${fmt(-diff)} below the 1.00x DSCR ceiling.`,
     });
   }
@@ -179,7 +179,7 @@ export function computeUnderwritingInsights(
       levers.push({
         label: 'Down payment for 1.00x DSCR',
         value: `${(dpNeeded * 100).toFixed(1)}% down`,
-        note: `Down payment needs to be ${fmt(dpNeeded * price)} instead of ${fmt(inputs.downPaymentPct * price)} today.`,
+        note: `Down payment needs to be ${fmt(dpNeeded * price)} instead of ${Math.round(inputs.downPaymentPct * 100)}% (${fmt(inputs.downPaymentPct * price)}) today.`,
       });
     }
   }
@@ -189,7 +189,7 @@ export function computeUnderwritingInsights(
     const cfAtZero = baseYear1CashFlow(inputs, { interestRate: 0.0001 });
     if (cfAtZero < 0) {
       levers.push({
-        label: 'Rate for $0 cash flow',
+        label: 'Interest rate to break even',
         value: 'Not achievable',
         note: 'Cash flow remains negative even at a near-0% interest rate.',
       });
@@ -202,14 +202,14 @@ export function computeUnderwritingInsights(
         else hi = mid;
       }
       levers.push({
-        label: 'Rate for $0 cash flow',
+        label: 'Interest rate to break even',
         value: `${(lo * 100).toFixed(2)}%`,
         note: `Interest rate would need to drop from ${(inputs.interestRate * 100).toFixed(2)}% to ${(lo * 100).toFixed(2)}% to break even.`,
       });
     }
   } else {
     levers.push({
-      label: 'Rate for $0 cash flow',
+      label: 'Interest rate to break even',
       value: 'Already met',
       note: `Cash flow is already positive at today's ${(inputs.interestRate * 100).toFixed(2)}% rate.`,
     });

@@ -69,7 +69,7 @@ export default function DynamicUnitSchedule({
             1
           </span>
           <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#060A2D', margin: 0 }}>
-            Property &amp; 1–4 Unit Rent Schedule
+            Property Details &amp; Unit Rents
           </h2>
         </div>
 

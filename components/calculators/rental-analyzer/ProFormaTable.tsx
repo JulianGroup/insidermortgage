@@ -109,8 +109,7 @@ export default function ProFormaTable({
           </h3>
           <p style={{ margin: '0.2rem 0 0', fontSize: '0.84rem', color: '#64748B' }}>
             Compounding {(inputs.annualRentGrowth * 100).toFixed(1)}% annual rent growth &amp;{' '}
-            {(inputs.annualAppreciation * 100).toFixed(1)}% property appreciation across{' '}
-            {inputs.unitCount} {inputs.unitCount === 1 ? 'unit' : 'units'}
+            {(inputs.annualAppreciation * 100).toFixed(1)}% property appreciation
             {inputs.aduEnabled ? ' + ADU' : ''}
             {inputs.refiEnabled ? ` (Refi in Year ${inputs.refiYear ?? 3})` : ''}.
           </p>

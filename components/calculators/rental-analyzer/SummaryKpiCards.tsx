@@ -145,8 +145,8 @@ export default function SummaryKpiCards({
             <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#FFFFFF', marginTop: '0.25rem' }}>
               {currencyFmt.format(summary.initialCashInvested)}
             </div>
-            <div style={{ fontSize: '0.74rem', color: '#94A3B8', marginTop: '0.2rem' }}>
-              Loan: {currencyFmt.format(summary.loanAmount)}
+            <div style={{ fontSize: '0.74rem', color: '#94A3B8', marginTop: '0.2rem', lineHeight: 1.35 }}>
+              Down payment, make-ready cost, and ADU cost (if applicable)
             </div>
           </div>
 

@@ -296,7 +296,7 @@ export default function SummaryKpiCards({
       <div style={{ position: 'relative' }}>
         <div className={`ra-horizon-grid ${isLockedPublic ? 'ra-locked-blur' : ''}`}>
           {/* 5-Year Exit Horizon */}
-          <div className="ra-card">
+          <div className="ra-card" style={{ border: '2px solid #060A2D' }}>
             <div
               style={{
                 display: 'flex',
@@ -386,6 +386,7 @@ export default function SummaryKpiCards({
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  gap: '0.75rem',
                   paddingTop: '0.35rem',
                   cursor: 'pointer',
                 }}
@@ -395,6 +396,8 @@ export default function SummaryKpiCards({
                   <span
                     className="no-print"
                     style={{
+                      display: 'inline-block',
+                      whiteSpace: 'nowrap',
                       fontSize: '0.65rem',
                       fontWeight: 700,
                       color: '#0468E9',
@@ -403,6 +406,7 @@ export default function SummaryKpiCards({
                       padding: '0.08rem 0.35rem',
                       borderRadius: '4px',
                       marginLeft: '0.25rem',
+                      verticalAlign: 'middle',
                     }}
                   >
                     ∑ Math
@@ -521,6 +525,7 @@ export default function SummaryKpiCards({
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
+                  gap: '0.75rem',
                   paddingTop: '0.35rem',
                   cursor: 'pointer',
                 }}
@@ -530,6 +535,8 @@ export default function SummaryKpiCards({
                   <span
                     className="no-print"
                     style={{
+                      display: 'inline-block',
+                      whiteSpace: 'nowrap',
                       fontSize: '0.65rem',
                       fontWeight: 700,
                       color: '#0468E9',
@@ -538,6 +545,7 @@ export default function SummaryKpiCards({
                       padding: '0.08rem 0.35rem',
                       borderRadius: '4px',
                       marginLeft: '0.25rem',
+                      verticalAlign: 'middle',
                     }}
                   >
                     ∑ Math

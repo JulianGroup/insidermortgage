@@ -480,26 +480,33 @@ export default function WhatIfModules({
               </div>
 
               <div>
-                <label
+                <div
                   style={{
-                    display: 'block',
-                    fontSize: '0.8rem',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    fontSize: '0.82rem',
                     fontWeight: 600,
-                    color: '#334155',
-                    marginBottom: '0.25rem',
+                    marginBottom: '0.3rem',
                   }}
                 >
-                  Existing Units Rent Drag During Construction
-                </label>
-                <select
-                  className="ra-input"
-                  value={inputs.aduMainRentDiscountPct ?? 0.25}
-                  onChange={(e) => onChange({ aduMainRentDiscountPct: Number(e.target.value) })}
-                >
-                  <option value={0}>None (0% Rent Discount During Build)</option>
-                  <option value={0.25}>25% Construction Disruption Discount (Default)</option>
-                  <option value={1.0}>Full Vacant During Construction (100% Drag)</option>
-                </select>
+                  <span>Existing Units Rent Discount During Construction</span>
+                  <span style={{ color: '#060A2D', fontWeight: 700 }}>
+                    {(() => {
+                      const pct = Math.round((inputs.aduMainRentDiscountPct ?? 0.2) * 100);
+                      if (pct === 0) return '0% (No Discount)';
+                      if (pct === 100) return '100% (Full Vacant)';
+                      return `${pct}%`;
+                    })()}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  step={10}
+                  value={Math.round((inputs.aduMainRentDiscountPct ?? 0.2) * 100)}
+                  onChange={(e) => onChange({ aduMainRentDiscountPct: Number(e.target.value) / 100 })}
+                />
               </div>
             </div>
           )}

@@ -132,35 +132,32 @@ export function computeUnderwritingInsights(
       value: `${fmt(breakEvenRent)}/mo`,
       note:
         gap > 0
-          ? `${fmt(gap)}/mo (${((gap / Math.max(rent, 1)) * 100).toFixed(0)}%) above current rent`
-          : `Current rent clears break-even by ${fmt(-gap)}/mo`,
+          ? `Rent needs to increase by ${((gap / Math.max(rent, 1)) * 100).toFixed(0)}% (+${fmt(gap)}/mo) to cash-flow break even.`
+          : `Current rent already clears cash-flow break-even by ${fmt(-gap)}/mo.`,
     });
   }
 
-  // Max purchase price for DSCR targets. PITIA is linear in price.
+  // Max purchase price for 1.00x DSCR. PITIA is linear in price.
   const pmtFactor = computeMortgagePmt(1, inputs.interestRate, term);
   const k = (1 - inputs.downPaymentPct) * pmtFactor + (inputs.propertyTaxRate + inputs.insuranceRate) / 12;
-  const maxPriceFor = (target: number) => (k > 0 ? (rent / target - hoa) / k : 0);
-  [1.0, 1.25].forEach((target) => {
-    const maxPrice = maxPriceFor(target);
-    if (maxPrice <= 0) {
-      levers.push({
-        label: `Max price for ${target.toFixed(2)}x DSCR`,
-        value: 'Not achievable',
-        note: 'HOA alone exceeds the rent-supported payment',
-      });
-      return;
-    }
+  const maxPrice = k > 0 ? (rent / 1.0 - hoa) / k : 0;
+  if (maxPrice <= 0) {
+    levers.push({
+      label: 'Max price for 1.00x DSCR',
+      value: 'Not achievable',
+      note: 'HOA fees alone exceed the rent-supported payment.',
+    });
+  } else {
     const diff = price - maxPrice;
     levers.push({
-      label: `Max price for ${target.toFixed(2)}x DSCR`,
+      label: 'Max price for 1.00x DSCR',
       value: fmt(maxPrice),
       note:
         diff > 0
-          ? `${fmt(diff)} (${((diff / Math.max(price, 1)) * 100).toFixed(1)}%) below list`
-          : `Current price is ${fmt(-diff)} under this limit`,
+          ? `Purchase price would need to drop by ${fmt(diff)} (${((diff / Math.max(price, 1)) * 100).toFixed(1)}%) for rent to cover PITIA.`
+          : `Current price is ${fmt(-diff)} below the 1.00x DSCR ceiling.`,
     });
-  });
+  }
 
   // Down payment needed for 1.00x DSCR at the current price.
   if (price > 0 && pmtFactor > 0) {
@@ -170,19 +167,19 @@ export function computeUnderwritingInsights(
       levers.push({
         label: 'Down payment for 1.00x DSCR',
         value: 'Already met',
-        note: `${Math.round(inputs.downPaymentPct * 100)}% down covers PITIA`,
+        note: `Your ${Math.round(inputs.downPaymentPct * 100)}% down payment already covers PITIA.`,
       });
     } else if (dpNeeded >= 1) {
       levers.push({
         label: 'Down payment for 1.00x DSCR',
         value: 'Not achievable',
-        note: 'Taxes, insurance and HOA exceed rent even with no loan',
+        note: 'Taxes, insurance, and HOA exceed rent even with no loan.',
       });
     } else {
       levers.push({
         label: 'Down payment for 1.00x DSCR',
         value: `${(dpNeeded * 100).toFixed(1)}% down`,
-        note: `${fmt(dpNeeded * price)} vs. ${fmt(inputs.downPaymentPct * price)} today`,
+        note: `Down payment needs to be ${fmt(dpNeeded * price)} instead of ${fmt(inputs.downPaymentPct * price)} today.`,
       });
     }
   }
@@ -194,7 +191,7 @@ export function computeUnderwritingInsights(
       levers.push({
         label: 'Rate for $0 cash flow',
         value: 'Not achievable',
-        note: 'Negative even at a near-0% rate',
+        note: 'Cash flow remains negative even at a near-0% interest rate.',
       });
     } else {
       let lo = 0.0001;
@@ -207,14 +204,14 @@ export function computeUnderwritingInsights(
       levers.push({
         label: 'Rate for $0 cash flow',
         value: `${(lo * 100).toFixed(2)}%`,
-        note: `vs. ${(inputs.interestRate * 100).toFixed(2)}% today`,
+        note: `Interest rate would need to drop from ${(inputs.interestRate * 100).toFixed(2)}% to ${(lo * 100).toFixed(2)}% to break even.`,
       });
     }
   } else {
     levers.push({
       label: 'Rate for $0 cash flow',
       value: 'Already met',
-      note: `Positive at ${(inputs.interestRate * 100).toFixed(2)}%`,
+      note: `Cash flow is already positive at today's ${(inputs.interestRate * 100).toFixed(2)}% rate.`,
     });
   }
 

@@ -516,62 +516,133 @@ export default function RentalAnalyzerContainer({
               isLockedPublic={isLockedPublic}
               onRequestUnlock={() => setIsModalOpen(true)}
             />
+          </div>
+        </div>
 
-            {/* Advisor Callout Banner */}
+        {/* Full-Width Advisor Callout Banner */}
+        <div
+          className="ra-card no-print"
+          style={{
+            marginTop: '1.75rem',
+            width: '100%',
+            background: 'linear-gradient(135deg, #060A2D 0%, #0F172A 100%)',
+            border: '2px solid #EFB51E',
+            color: '#FFFFFF',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '1.5rem',
+          }}
+        >
+          <div style={{ flex: '1 1 540px' }}>
             <div
-              className="ra-card no-print"
               style={{
-                background: 'linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%)',
-                border: '1px solid #BFDBFE',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '1rem',
+                fontSize: '0.76rem',
+                fontWeight: 800,
+                color: '#EFB51E',
+                textTransform: 'uppercase',
+                letterSpacing: '0.06em',
               }}
             >
-              <div>
-                <div style={{ fontSize: '0.76rem', fontWeight: 800, color: '#0468E9', textTransform: 'uppercase' }}>
-                  Custom 1–4 Unit &amp; ADU Financing
-                </div>
-                <h4 style={{ margin: '0.2rem 0', fontSize: '1.05rem', color: '#060A2D' }}>
-                  Need DSCR, Conventional Multi-Unit, or ADU Construction Financing?
-                </h4>
-                <p style={{ margin: 0, fontSize: '0.84rem', color: '#475569' }}>
-                  {stateInfo.isRakeshOnly ? (
-                    <>
-                      Speak directly with <strong>Rakesh Jain</strong> ({stateInfo.rakeshLicense} · NMLS #240594) at
-                      Insider Mortgage · <strong>(858) 848-5653</strong>
-                    </>
-                  ) : (
-                    <>
-                      Speak directly with <strong>David Sider</strong> (NMLS #254108) &amp;{' '}
-                      <strong>Rakesh Jain</strong> (NMLS #240594 / CA DRE #01336748) at
-                      Insider Mortgage · <strong>(858) 848-5653</strong>
-                    </>
-                  )}
-                </p>
-              </div>
-              {mode === 'public' && (
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(true)}
-                  style={{
-                    padding: '0.65rem 1.25rem',
-                    borderRadius: '999px',
-                    border: 'none',
-                    backgroundColor: '#060A2D',
-                    color: '#EFB51E',
-                    fontWeight: 800,
-                    fontSize: '0.86rem',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  Request Custom Loan Quote →
-                </button>
-              )}
+              Explore Financing Scenarios with Insider Mortgage
             </div>
+            <h3
+              style={{
+                margin: '0.3rem 0 0.45rem',
+                fontSize: 'clamp(1.2rem, 2vw, 1.45rem)',
+                fontWeight: 800,
+                color: '#FFFFFF',
+              }}
+            >
+              The right financing can change the investment.
+            </h3>
+            <p
+              style={{
+                margin: '0 0 0.9rem',
+                fontSize: '0.88rem',
+                color: '#CBD5E1',
+                lineHeight: 1.55,
+                maxWidth: '720px',
+              }}
+            >
+              Real estate investors have different financing needs depending on the property,
+              ownership structure, income documentation, and investment strategy.
+            </p>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                gap: '0.4rem 1.5rem',
+                fontSize: '0.85rem',
+                color: '#F1F5F9',
+              }}
+            >
+              {[
+                'Conventional investment property financing',
+                'DSCR loans',
+                'Bank statement programs for self-employed investors',
+                'Financing for 2–4 unit properties',
+                'Cash-out refinancing for existing rental properties',
+                'ADU and value-add financing opportunities',
+              ].map((item) => (
+                <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span style={{ color: '#EFB51E', fontWeight: 800 }}>✓</span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div
+            style={{
+              flex: '0 1 300px',
+              backgroundColor: 'rgba(255, 255, 255, 0.06)',
+              border: '1px solid rgba(255, 255, 255, 0.14)',
+              borderRadius: '12px',
+              padding: '1.1rem 1.25rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.75rem',
+            }}
+          >
+            <div style={{ fontSize: '0.84rem', color: '#E2E8F0', lineHeight: 1.5 }}>
+              {stateInfo.isRakeshOnly ? (
+                <>
+                  Speak directly with <strong style={{ color: '#FFFFFF' }}>Rakesh Jain</strong>{' '}
+                  ({stateInfo.rakeshLicense} · NMLS #240594) at Insider Mortgage
+                </>
+              ) : (
+                <>
+                  Speak directly with <strong style={{ color: '#FFFFFF' }}>David Sider</strong>{' '}
+                  (NMLS #254108) &amp; <strong style={{ color: '#FFFFFF' }}>Rakesh Jain</strong>{' '}
+                  (NMLS #240594 / CA DRE #01336748) at Insider Mortgage
+                </>
+              )}
+              <div style={{ marginTop: '0.35rem', fontSize: '0.98rem', fontWeight: 800, color: '#EFB51E' }}>
+                (858) 848-5653
+              </div>
+            </div>
+            {mode === 'public' && (
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                style={{
+                  padding: '0.7rem 1.25rem',
+                  borderRadius: '999px',
+                  border: 'none',
+                  backgroundColor: '#EFB51E',
+                  color: '#060A2D',
+                  fontWeight: 800,
+                  fontSize: '0.88rem',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  textAlign: 'center',
+                }}
+              >
+                Request Custom Loan Quote →
+              </button>
+            )}
           </div>
         </div>
 

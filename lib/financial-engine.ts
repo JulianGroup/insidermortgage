@@ -37,7 +37,8 @@ export interface UnderwriteInputs {
   aduCount?: 1 | 2;          // 1 or 2 detached ADUs (multi-family CA ADU law)
   aduCost?: number;          // e.g. 200000 (per ADU or total when aduCount=1)
   aduRentMonthly?: number;   // e.g. 2200 (per ADU or total when aduCount=1)
-  aduConstructionMonths?: number; // e.g. 6
+  aduStartMonth?: number;    // 0 (right away) to 60 (end of Year 5)
+  aduConstructionMonths?: number; // 0 to 24 months (up to 2 years)
   aduMainRentDiscountPct?: number; // 0.25 (discount) or 1.0 (vacant)
 }
 
@@ -112,12 +113,20 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
   const aduMultiplier = inputs.unitCount > 1 && inputs.aduCount === 2 ? 2 : 1;
   const effectiveAduCost = inputs.aduEnabled ? (inputs.aduCost || 0) * aduMultiplier : 0;
   const effectiveAduMonthlyRent = inputs.aduEnabled ? (inputs.aduRentMonthly || 0) * aduMultiplier : 0;
+  const aduStartMonth = inputs.aduEnabled
+    ? Math.max(0, Math.min(60, inputs.aduStartMonth ?? 0))
+    : 0;
+  const aduConstrMonths = inputs.aduEnabled
+    ? Math.max(0, Math.min(24, inputs.aduConstructionMonths ?? 6))
+    : 0;
+  const aduStartYear = Math.floor(aduStartMonth / 12) + 1; // 1..6 (6 = end of Year 5)
+  const aduCompleteMonth = aduStartMonth + aduConstrMonths;
 
   const downPayment = inputs.purchasePrice * inputs.downPaymentPct;
   const initialLoan = inputs.purchasePrice - downPayment;
   let totalCashInvested = downPayment + inputs.makeReadyCost;
 
-  if (inputs.aduEnabled && effectiveAduCost) {
+  if (inputs.aduEnabled && effectiveAduCost && aduStartMonth === 0) {
     totalCashInvested += effectiveAduCost;
   }
 
@@ -125,20 +134,19 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
   let currentPmt = computeMortgagePmt(initialLoan, inputs.interestRate, inputs.loanTermYears);
   let currentMonthlyRate = inputs.interestRate / 12;
 
-  const baseAssetValue = inputs.aduEnabled
-    ? inputs.purchasePrice + effectiveAduCost
-    : inputs.purchasePrice;
+  const baseAssetValue =
+    inputs.aduEnabled && aduStartMonth === 0
+      ? inputs.purchasePrice + effectiveAduCost
+      : inputs.purchasePrice;
   let currentAssetVal = baseAssetValue;
   let currentMonthlyBaseRent = totalBaseMonthlyRent;
 
   const taxGrowth = inputs.propertyTaxGrowthRate ?? 0.02;
   const insuranceGrowth = inputs.insuranceGrowthRate ?? 0.05;
-  const baseTaxes =
-    (inputs.purchasePrice + (inputs.aduEnabled ? effectiveAduCost : 0)) *
-    inputs.propertyTaxRate;
-  const baseInsurance =
-    (inputs.purchasePrice + (inputs.aduEnabled ? effectiveAduCost : 0)) *
-    inputs.insuranceRate;
+  const baseTaxes = inputs.purchasePrice * inputs.propertyTaxRate;
+  const baseInsurance = inputs.purchasePrice * inputs.insuranceRate;
+  const aduBaseTaxes = effectiveAduCost * inputs.propertyTaxRate;
+  const aduBaseInsurance = effectiveAduCost * inputs.insuranceRate;
   const baseMaintenance = (inputs.monthlyMaintenance ?? 0) * 12;
 
   const schedule: YearProForma[] = [];
@@ -146,6 +154,9 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
 
   for (let yr = 1; yr <= 10; yr++) {
     currentAssetVal = currentAssetVal * (1 + inputs.annualAppreciation);
+    if (inputs.aduEnabled && effectiveAduCost && aduStartMonth > 0 && yr === aduStartYear) {
+      currentAssetVal += effectiveAduCost;
+    }
 
     // Refinance evaluation at refiYear
     if (inputs.refiEnabled && yr === (inputs.refiYear || 3) + 1 && inputs.refiNewRate) {
@@ -164,26 +175,37 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
     }
 
     let annualGrossRent = 0;
-    if (inputs.aduEnabled && yr === 1) {
-      const constrMonths = inputs.aduConstructionMonths ?? 6;
+    if (inputs.aduEnabled) {
+      const yearStartMonth = (yr - 1) * 12;
+      const yearEndMonth = yr * 12;
+      const constrMonthsInYear = Math.max(
+        0,
+        Math.min(yearEndMonth, aduCompleteMonth) - Math.max(yearStartMonth, aduStartMonth)
+      );
+      const aduActiveMonthsInYear = Math.max(
+        0,
+        yearEndMonth - Math.max(yearStartMonth, aduCompleteMonth)
+      );
       const discount = inputs.aduMainRentDiscountPct ?? 0.25;
-      const activeMonths = 12 - constrMonths;
-      const baseRentYr1 =
-        totalBaseMonthlyRent * (1 - discount) * constrMonths +
-        totalBaseMonthlyRent * activeMonths;
-      const aduRentYr1 = effectiveAduMonthlyRent * activeMonths;
-      annualGrossRent = baseRentYr1 + aduRentYr1;
-    } else if (inputs.aduEnabled && yr > 1) {
+      const baseRentYr =
+        currentMonthlyBaseRent * (1 - discount) * constrMonthsInYear +
+        currentMonthlyBaseRent * (12 - constrMonthsInYear);
       const aduCompoundedRent =
         effectiveAduMonthlyRent * Math.pow(1 + inputs.annualRentGrowth, yr - 1);
-      annualGrossRent = (currentMonthlyBaseRent + aduCompoundedRent) * 12;
+      const aduRentYr = aduCompoundedRent * aduActiveMonthsInYear;
+      annualGrossRent = baseRentYr + aduRentYr;
     } else {
       annualGrossRent = currentMonthlyBaseRent * 12;
     }
 
     const egi = annualGrossRent * (1 - inputs.vacancyRate);
-    const taxes = baseTaxes * Math.pow(1 + taxGrowth, yr - 1);
-    const insurance = baseInsurance * Math.pow(1 + insuranceGrowth, yr - 1);
+    const includeAduTaxIns = inputs.aduEnabled && effectiveAduCost > 0 && yr >= aduStartYear;
+    const taxes =
+      baseTaxes * Math.pow(1 + taxGrowth, yr - 1) +
+      (includeAduTaxIns ? aduBaseTaxes * Math.pow(1 + taxGrowth, yr - aduStartYear) : 0);
+    const insurance =
+      baseInsurance * Math.pow(1 + insuranceGrowth, yr - 1) +
+      (includeAduTaxIns ? aduBaseInsurance * Math.pow(1 + insuranceGrowth, yr - aduStartYear) : 0);
     const maintenance = baseMaintenance * Math.pow(1 + inputs.annualRentGrowth, yr - 1);
     const mgmt = egi * inputs.propMgmtRate;
     const hoa = inputs.monthlyHoa * 12;
@@ -211,16 +233,31 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
       remainingBalance: currentLoanBalance,
     });
 
-    cashFlowStream.push(netCashFlow);
+    const deferredAduOutlay =
+      inputs.aduEnabled && effectiveAduCost && aduStartMonth > 0 && yr === aduStartYear
+        ? effectiveAduCost
+        : 0;
+    cashFlowStream.push(netCashFlow - deferredAduOutlay);
   }
+
+  const deferredAduOutlay5 =
+    inputs.aduEnabled && effectiveAduCost && aduStartMonth > 0 && aduStartYear <= 5
+      ? effectiveAduCost
+      : 0;
+  const deferredAduOutlay10 =
+    inputs.aduEnabled && effectiveAduCost && aduStartMonth > 0 && aduStartYear <= 10
+      ? effectiveAduCost
+      : 0;
+  const totalInvested5 = totalCashInvested + deferredAduOutlay5;
+  const totalInvested10 = totalCashInvested + deferredAduOutlay10;
 
   // 5-Year Horizon
   const val5 = schedule[4].propertyValue;
   const sellCost5 = val5 * inputs.sellingCostPct;
   const netProc5 = val5 - sellCost5 - schedule[4].remainingBalance;
   const cumCf5 = schedule.slice(0, 5).reduce((acc, row) => acc + row.netCashFlow, 0);
-  const profit5 = netProc5 + cumCf5 - totalCashInvested;
-  const irrFlows5 = [...cashFlowStream.slice(0, 5), schedule[4].netCashFlow + netProc5];
+  const profit5 = netProc5 + cumCf5 - totalInvested5;
+  const irrFlows5 = [...cashFlowStream.slice(0, 5), cashFlowStream[5] + netProc5];
   const irr5 = calculateIRR(irrFlows5);
 
   // 10-Year Horizon
@@ -228,8 +265,8 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
   const sellCost10 = val10 * inputs.sellingCostPct;
   const netProc10 = val10 - sellCost10 - schedule[9].remainingBalance;
   const cumCf10 = schedule.reduce((acc, row) => acc + row.netCashFlow, 0);
-  const profit10 = netProc10 + cumCf10 - totalCashInvested;
-  const irrFlows10 = [...cashFlowStream.slice(0, 10), schedule[9].netCashFlow + netProc10];
+  const profit10 = netProc10 + cumCf10 - totalInvested10;
+  const irrFlows10 = [...cashFlowStream.slice(0, 10), cashFlowStream[10] + netProc10];
   const irr10 = calculateIRR(irrFlows10);
 
   return {
@@ -246,7 +283,7 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
       netSaleProceeds: netProc5,
       cumulativeCashFlow: cumCf5,
       totalProfit: profit5,
-      totalRoiPct: (profit5 / totalCashInvested) * 100,
+      totalRoiPct: (profit5 / totalInvested5) * 100,
       irrPct: irr5,
     },
     tenYear: {
@@ -256,7 +293,7 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
       netSaleProceeds: netProc10,
       cumulativeCashFlow: cumCf10,
       totalProfit: profit10,
-      totalRoiPct: (profit10 / totalCashInvested) * 100,
+      totalRoiPct: (profit10 / totalInvested10) * 100,
       irrPct: irr10,
     },
     schedule,

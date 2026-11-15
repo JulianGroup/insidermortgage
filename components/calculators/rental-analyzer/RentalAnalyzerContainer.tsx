@@ -66,6 +66,7 @@ const INITIAL_DUPLEX_INPUTS: UnderwriteInputs = {
   aduCount: 1,
   aduCost: 200000,
   aduRentMonthly: 2200,
+  aduStartMonth: 0,
   aduConstructionMonths: 6,
   aduMainRentDiscountPct: 0.25,
 };

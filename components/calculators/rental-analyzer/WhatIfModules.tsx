@@ -46,6 +46,7 @@ export default function WhatIfModules({
       aduCount: inputs.aduCount ?? 1,
       aduCost: inputs.aduCost ?? 200000,
       aduRentMonthly: inputs.aduRentMonthly ?? 2200,
+      aduStartMonth: inputs.aduStartMonth ?? 0,
       aduConstructionMonths: inputs.aduConstructionMonths ?? 6,
       aduMainRentDiscountPct: inputs.aduMainRentDiscountPct ?? 0.25,
     });
@@ -425,15 +426,53 @@ export default function WhatIfModules({
                     marginBottom: '0.3rem',
                   }}
                 >
-                  <span>Year 1 Construction Downtime</span>
+                  <span>ADU Construction Start</span>
                   <span style={{ color: '#060A2D', fontWeight: 700 }}>
-                    {inputs.aduConstructionMonths ?? 6} Months
+                    {(() => {
+                      const start = inputs.aduStartMonth ?? 0;
+                      if (start === 0) return 'Right Away (Month 0)';
+                      if (start % 12 === 0) return `Month ${start} (End of Year ${start / 12})`;
+                      return `Month ${start} (Year ${Math.floor(start / 12) + 1})`;
+                    })()}
                   </span>
                 </div>
                 <input
                   type="range"
                   min={0}
-                  max={12}
+                  max={60}
+                  step={1}
+                  value={inputs.aduStartMonth ?? 0}
+                  onChange={(e) => onChange({ aduStartMonth: Number(e.target.value) })}
+                />
+                <div style={{ fontSize: '0.72rem', color: '#64748B', marginTop: '0.2rem' }}>
+                  Controls when build budget is deployed and ADU construction begins (Month 0 to End of Year 5).
+                </div>
+              </div>
+
+              <div>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    fontSize: '0.82rem',
+                    fontWeight: 600,
+                    marginBottom: '0.3rem',
+                  }}
+                >
+                  <span>Construction Downtime</span>
+                  <span style={{ color: '#060A2D', fontWeight: 700 }}>
+                    {(() => {
+                      const m = inputs.aduConstructionMonths ?? 6;
+                      if (m === 12) return '12 Months (1 Year)';
+                      if (m === 24) return '24 Months (2 Years)';
+                      return `${m} ${m === 1 ? 'Month' : 'Months'}`;
+                    })()}
+                  </span>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={24}
                   step={1}
                   value={inputs.aduConstructionMonths ?? 6}
                   onChange={(e) => onChange({ aduConstructionMonths: Number(e.target.value) })}

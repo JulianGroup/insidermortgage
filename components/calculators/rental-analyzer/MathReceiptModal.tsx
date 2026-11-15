@@ -72,7 +72,8 @@ export default function MathReceiptModal({
   const price = inputs.purchasePrice || 0;
   const aduMultiplier = inputs.unitCount > 1 && inputs.aduCount === 2 ? 2 : 1;
   const effectiveAduCost = inputs.aduEnabled ? (inputs.aduCost || 0) * aduMultiplier : 0;
-  const taxInsBase = price + effectiveAduCost;
+  const aduStartsUpfront = (inputs.aduStartMonth ?? 0) === 0;
+  const taxInsBase = price + (aduStartsUpfront ? effectiveAduCost : 0);
 
   const yr1 = summary.schedule[0];
   const annualGrossRent = yr1 ? yr1.monthlyGrossRent * 12 : summary.totalMonthlyRent * 12;

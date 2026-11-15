@@ -218,7 +218,7 @@ export default function RentalAnalyzerContainer({
     };
 
     const handleAfterPrint = () => {
-      document.title = savedTitle || 'Insider Mortgage | 1–4 Unit Rental Property & ADU Investment Analyzer';
+      document.title = savedTitle || 'Rental Property Analyzer | Cash Flow, DSCR & IRR Calculator';
     };
 
     window.addEventListener('beforeprint', handleBeforePrint);
@@ -330,7 +330,7 @@ export default function RentalAnalyzerContainer({
                 lineHeight: 1.15,
               }}
             >
-              1–4 Unit Rental Property &amp; ADU Investment Analyzer
+              Rental Property Investment Analyzer | 1–4 Units &amp; ADU Calculator
             </h1>
             <p
               style={{

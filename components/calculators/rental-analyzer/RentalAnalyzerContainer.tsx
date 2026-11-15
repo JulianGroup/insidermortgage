@@ -9,6 +9,7 @@ import {
 } from '../../../lib/financial-engine';
 import DynamicUnitSchedule from './DynamicUnitSchedule';
 import InputControlPanel from './InputControlPanel';
+import InitialMonthlyPitiaCard from './InitialMonthlyPitiaCard';
 import WhatIfModules from './WhatIfModules';
 import SummaryKpiCards from './SummaryKpiCards';
 import ProFormaTable from './ProFormaTable';
@@ -487,9 +488,16 @@ export default function RentalAnalyzerContainer({
               isLockedPublic={isLockedPublic}
               onRequestUnlock={() => setIsModalOpen(true)}
             />
+
+            <WhatIfModules
+              inputs={inputs}
+              onChange={handlePatchInputs}
+              isLockedPublic={isLockedPublic}
+              onRequestUnlock={() => setIsModalOpen(true)}
+            />
           </div>
 
-          {/* Right Column: Summary KPI Cards, What-If Modules, and Advisor Callout */}
+          {/* Right Column: Summary KPI Cards, Initial Monthly PITIA, AI Analysis, and Advisor Callout */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <SummaryKpiCards
               inputs={inputs}
@@ -499,12 +507,7 @@ export default function RentalAnalyzerContainer({
               onOpenMath={(metric) => setActiveMathMetric(metric)}
             />
 
-            <WhatIfModules
-              inputs={inputs}
-              onChange={handlePatchInputs}
-              isLockedPublic={isLockedPublic}
-              onRequestUnlock={() => setIsModalOpen(true)}
-            />
+            <InitialMonthlyPitiaCard inputs={inputs} />
 
             <AiInvestmentAnalysis
               inputs={inputs}

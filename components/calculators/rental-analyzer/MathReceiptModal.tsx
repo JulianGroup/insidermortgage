@@ -4,9 +4,10 @@ import React, { useEffect } from 'react';
 import { UnderwriteInputs, UnderwriteSummary } from '../../../lib/financial-engine';
 
 export type MathMetricKey =
-  | 'cap-rate'
-  | 'noi'
   | 'cash-flow'
+  | 'dscr'
+  | 'noi'
+  | 'cap-rate'
   | 'irr-5'
   | 'profit-5'
   | 'irr-10'
@@ -33,9 +34,10 @@ const fmtSigned = (n: number) => {
 };
 
 export const MATH_METRIC_TABS: { key: MathMetricKey; shortLabel: string; title: string }[] = [
-  { key: 'cap-rate', shortLabel: 'Cap Rate', title: 'Cap Rate (Capitalization Rate)' },
+  { key: 'cash-flow', shortLabel: 'Cash on Cash', title: 'Cash-on-Cash Return (CoC) & Cash Flow' },
+  { key: 'dscr', shortLabel: 'DSCR', title: 'DSCR (Debt Service Coverage Ratio)' },
   { key: 'noi', shortLabel: 'Year 1 NOI', title: 'Year 1 Net Operating Income (NOI)' },
-  { key: 'cash-flow', shortLabel: 'Year 1 Cash Flow', title: 'Year 1 Net Cash Flow' },
+  { key: 'cap-rate', shortLabel: 'Cap Rate', title: 'Cap Rate (NOI ÷ Basis Value)' },
   { key: 'profit-5', shortLabel: '5-Yr Profit & ROI', title: 'Net 5-Year Lifetime Profit & ROI' },
   { key: 'irr-5', shortLabel: '5-Yr IRR', title: '5-Year Internal Rate of Return (IRR)' },
   { key: 'profit-10', shortLabel: '10-Yr Profit & ROI', title: 'Net 10-Year Lifetime Profit & ROI' },
@@ -72,8 +74,9 @@ export default function MathReceiptModal({
   const price = inputs.purchasePrice || 0;
   const aduMultiplier = inputs.unitCount > 1 && inputs.aduCount === 2 ? 2 : 1;
   const effectiveAduCost = inputs.aduEnabled ? (inputs.aduCost || 0) * aduMultiplier : 0;
-  const aduStartsUpfront = (inputs.aduStartMonth ?? 0) === 0;
-  const taxInsBase = price + (aduStartsUpfront ? effectiveAduCost : 0);
+  const aduInYear1 = inputs.aduEnabled && (inputs.aduStartMonth ?? 0) < 12;
+  const taxInsBase = price + (aduInYear1 ? effectiveAduCost : 0);
+  const basisValue = price + (inputs.makeReadyCost || 0) + (aduInYear1 ? effectiveAduCost : 0);
 
   const yr1 = summary.schedule[0];
   const annualGrossRent = yr1 ? yr1.monthlyGrossRent * 12 : summary.totalMonthlyRent * 12;
@@ -91,11 +94,20 @@ export default function MathReceiptModal({
 
   const year1Noi = summary.year1Noi;
   const monthlyNoi = year1Noi / 12;
-  const capRate = price > 0 ? (year1Noi / price) * 100 : 0;
+  const capRate = basisValue > 0 ? (year1Noi / basisValue) * 100 : 0;
 
   const annualDebt = summary.monthlyPmt * 12;
   const year1Cf = summary.year1CashFlow;
   const monthlyCf = year1Cf / 12;
+  const cocPct =
+    summary.initialCashInvested > 0 ? (year1Cf / summary.initialCashInvested) * 100 : 0;
+
+  const monthlyPropertyTax = (price * inputs.propertyTaxRate) / 12;
+  const monthlyInsurance = (price * inputs.insuranceRate) / 12;
+  const monthlyHoaFee = inputs.monthlyHoa || 0;
+  const totalMonthlyPitia =
+    summary.monthlyPmt + monthlyPropertyTax + monthlyInsurance + monthlyHoaFee;
+  const dscr = totalMonthlyPitia > 0 ? summary.totalMonthlyRent / totalMonthlyPitia : 0;
 
   const downPayment = price * inputs.downPaymentPct;
 
@@ -330,8 +342,8 @@ export default function MathReceiptModal({
           badgeValue: `${capRate.toFixed(2)}%`,
           badgeTone: 'neutral',
           plainEnglish:
-            'If you bought this property with 100% cash (no mortgage at all), the Cap Rate is the yearly percentage return your money would earn in Year 1.',
-          formula: 'Year 1 Net Operating Income (NOI) ÷ Purchase Price = Cap Rate %',
+            'If you bought and stabilized this property with 100% cash (no mortgage at all), the Cap Rate is the yearly percentage return your money would earn in Year 1 relative to your total cost basis.',
+          formula: 'Year 1 Net Operating Income (NOI) ÷ Value (Basis) = Cap Rate %',
           lines: [
             {
               label: 'Year 1 Net Operating Income (NOI)',
@@ -340,14 +352,16 @@ export default function MathReceiptModal({
               type: 'normal',
             },
             {
-              label: 'Divided by Purchase Price',
-              sub: 'Total acquisition price of the property',
-              amount: `÷ ${fmt(price)}`,
+              label: 'Divided by Value (Basis = PP + Costs)',
+              sub: `${fmt(price)} purchase price + ${fmt(inputs.makeReadyCost || 0)} make-ready${
+                aduInYear1 && effectiveAduCost > 0 ? ` + ${fmt(effectiveAduCost)} ADU cost` : ''
+              } (not appreciation)`,
+              amount: `÷ ${fmt(basisValue)}`,
               type: 'normal',
             },
             {
               label: 'Year 1 Cap Rate',
-              sub: `${fmt(year1Noi)} ÷ ${fmt(price)} = ${(capRate / 100).toFixed(4)}`,
+              sub: `${fmt(year1Noi)} ÷ ${fmt(basisValue)} = ${(capRate / 100).toFixed(4)}`,
               amount: `${capRate.toFixed(2)}%`,
               type: 'total',
               tone: 'positive',
@@ -355,7 +369,7 @@ export default function MathReceiptModal({
           ],
           takeaway: `Think of Cap Rate like the interest rate on a CD. At ${capRate.toFixed(
             2
-          )}%, the property's unlevered yield is ${
+          )}%, the property's unlevered yield on basis is ${
             capRate < inputs.interestRate * 100
               ? `lower than your ${(inputs.interestRate * 100).toFixed(
                   2
@@ -366,13 +380,47 @@ export default function MathReceiptModal({
           }`,
         };
 
+      case 'dscr':
+        return {
+          badgeValue: `${dscr.toFixed(2)}x`,
+          badgeTone: dscr >= 1.0 ? 'positive' : 'neutral',
+          plainEnglish:
+            'Debt Service Coverage Ratio (DSCR) is the lender metric comparing gross monthly schedule rent against total monthly housing payment (PITIA). A 1.00x DSCR means gross rent exactly equals the mortgage + tax + insurance + HOA payment.',
+          formula: 'Gross Monthly Rent ÷ Total Monthly PITIA = DSCR',
+          lines: [
+            {
+              label: 'Gross Monthly Rent Schedule',
+              sub: `Across ${inputs.unitCount} ${inputs.unitCount === 1 ? 'unit' : 'units'}`,
+              amount: `${fmt(summary.totalMonthlyRent)}/mo`,
+              type: 'normal',
+            },
+            {
+              label: 'Divided by Total Monthly PITIA',
+              sub: `P&I ${fmt(summary.monthlyPmt)} + Tax ${fmt(monthlyPropertyTax)} + Ins ${fmt(
+                monthlyInsurance
+              )}${monthlyHoaFee > 0 ? ` + HOA ${fmt(monthlyHoaFee)}` : ''}`,
+              amount: `÷ ${fmt(totalMonthlyPitia)}/mo`,
+              type: 'normal',
+            },
+            {
+              label: 'DSCR Ratio',
+              sub: `${fmt(summary.totalMonthlyRent)}/mo ÷ ${fmt(totalMonthlyPitia)}/mo`,
+              amount: `${dscr.toFixed(2)}x`,
+              type: 'total',
+              tone: dscr >= 1.0 ? 'positive' : 'negative',
+            },
+          ],
+          takeaway:
+            'DSCR lenders compare gross rent straight against PITIA (without subtracting vacancy, maintenance, or property management). That is why a property can be close to 1.00x DSCR while still having negative real-world cash flow.',
+        };
+
       case 'cash-flow':
         return {
-          badgeValue: `${fmtSigned(monthlyCf)}/mo (${fmtSigned(year1Cf)}/yr)`,
-          badgeTone: monthlyCf >= 0 ? 'positive' : 'negative',
+          badgeValue: `${cocPct.toFixed(2)}% (${fmtSigned(monthlyCf)}/mo)`,
+          badgeTone: cocPct >= 0 ? 'positive' : 'negative',
           plainEnglish:
-            'The actual money left over (or out of pocket) each month after paying EVERY bill: property taxes, insurance, HOA, vacancy, maintenance, property management, AND the mortgage payment.',
-          formula: 'Net Operating Income (NOI) − Mortgage Principal & Interest = Net Cash Flow',
+            'Cash-on-Cash Return (CoC) measures the annual pre-tax cash flow a rental property generates relative to the actual out-of-pocket cash you invested to acquire and stabilize it. Unlike metrics that evaluate the property’s total value (like Cap Rate), CoC isolates the performance of your specific cash equity, factoring in the impact of mortgage financing.',
+          formula: 'Cash-on-Cash Return = (Annual Pre-Tax Cash Flow ÷ Total Cash Invested) × 100',
           lines: [
             {
               label: 'Monthly Rent Collected After Vacancy (EGI)',
@@ -384,7 +432,7 @@ export default function MathReceiptModal({
               type: 'normal',
             },
             {
-              label: 'Minus Operating Bills (Taxes, Ins, Mgmt, Maint, HOA)',
+              label: 'Minus Operating Expenses (Taxes, Ins, Mgmt, Maint, HOA)',
               sub: `Taxes ${fmt(annualTaxes / 12)} + Ins ${fmt(
                 annualInsurance / 12
               )} + Mgmt ${fmt(annualMgmt / 12)} + Maint ${fmt(annualMaint / 12)}${
@@ -396,14 +444,7 @@ export default function MathReceiptModal({
               tone: 'negative',
             },
             {
-              label: 'Equals Net Operating Income (NOI)',
-              sub: 'Money available to pay the bank',
-              amount: `${fmt(monthlyNoi)}/mo`,
-              amountSub: `${fmt(year1Noi)}/yr`,
-              type: 'subtotal',
-            },
-            {
-              label: 'Minus Mortgage Principal & Interest (P&I)',
+              label: 'Minus Annual Debt Service (Mortgage P&I)',
               sub: `${fmt(summary.loanAmount)} loan @ ${(inputs.interestRate * 100).toFixed(
                 2
               )}% (${inputs.loanTermYears || 30}-yr fixed)`,
@@ -413,18 +454,35 @@ export default function MathReceiptModal({
               tone: 'negative',
             },
             {
-              label: 'Equals Year 1 Net Cash Flow',
+              label: 'Equals Annual Pre-Tax Cash Flow',
               sub: `${fmt(monthlyNoi)}/mo NOI − ${fmt(summary.monthlyPmt)}/mo mortgage = ${fmtSigned(
                 monthlyCf
               )}/mo`,
-              amount: `${fmtSigned(monthlyCf)}/mo`,
-              amountSub: `${fmtSigned(year1Cf)}/yr`,
-              type: 'total',
+              amount: `${fmtSigned(year1Cf)}/yr`,
+              amountSub: `${fmtSigned(monthlyCf)}/mo`,
+              type: 'subtotal',
               tone: monthlyCf >= 0 ? 'positive' : 'negative',
+            },
+            {
+              label: 'Divided by Total Cash Invested (Cash into Project)',
+              sub: `${fmt(downPayment)} down payment (${Math.round(
+                inputs.downPaymentPct * 100
+              )}%) + ${fmt(inputs.makeReadyCost || 0)} make-ready${
+                aduInYear1 && effectiveAduCost > 0 ? ` + ${fmt(effectiveAduCost)} ADU cost` : ''
+              }`,
+              amount: `÷ ${fmt(summary.initialCashInvested)}`,
+              type: 'normal',
+            },
+            {
+              label: 'Equals Cash-on-Cash Return (CoC)',
+              sub: `(${fmtSigned(year1Cf)}/yr ÷ ${fmt(summary.initialCashInvested)}) × 100`,
+              amount: `${cocPct.toFixed(2)}%`,
+              type: 'total',
+              tone: cocPct >= 0 ? 'positive' : 'negative',
             },
           ],
           takeaway:
-            'Notice how DSCR only compares Gross Rent against PITIA (loan + tax + insurance + HOA), whereas Net Cash Flow also subtracts Vacancy, Maintenance, and Property Management so you see the true real-world bank account impact.',
+            'Example: If you invest $200,000 total cash (down payment + improvements) and the property nets $2,000/mo ($24,000/yr) after all operating expenses and your mortgage, your Cash-on-Cash Return is $24,000 ÷ $200,000 = 12.00%.',
         };
 
       case 'profit-5':

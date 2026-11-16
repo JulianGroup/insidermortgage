@@ -126,7 +126,7 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
   const initialLoan = inputs.purchasePrice - downPayment;
   let totalCashInvested = downPayment + inputs.makeReadyCost;
 
-  if (inputs.aduEnabled && effectiveAduCost && aduStartMonth === 0) {
+  if (inputs.aduEnabled && effectiveAduCost && aduStartYear === 1) {
     totalCashInvested += effectiveAduCost;
   }
 
@@ -135,7 +135,7 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
   let currentMonthlyRate = inputs.interestRate / 12;
 
   const baseAssetValue =
-    inputs.aduEnabled && aduStartMonth === 0
+    inputs.aduEnabled && aduStartYear === 1
       ? inputs.purchasePrice + effectiveAduCost
       : inputs.purchasePrice;
   let currentAssetVal = baseAssetValue;
@@ -154,7 +154,7 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
 
   for (let yr = 1; yr <= 10; yr++) {
     currentAssetVal = currentAssetVal * (1 + inputs.annualAppreciation);
-    if (inputs.aduEnabled && effectiveAduCost && aduStartMonth > 0 && yr === aduStartYear) {
+    if (inputs.aduEnabled && effectiveAduCost && aduStartYear > 1 && yr === aduStartYear) {
       currentAssetVal += effectiveAduCost;
     }
 
@@ -234,18 +234,18 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
     });
 
     const deferredAduOutlay =
-      inputs.aduEnabled && effectiveAduCost && aduStartMonth > 0 && yr === aduStartYear
+      inputs.aduEnabled && effectiveAduCost && aduStartYear > 1 && yr === aduStartYear
         ? effectiveAduCost
         : 0;
     cashFlowStream.push(netCashFlow - deferredAduOutlay);
   }
 
   const deferredAduOutlay5 =
-    inputs.aduEnabled && effectiveAduCost && aduStartMonth > 0 && aduStartYear <= 5
+    inputs.aduEnabled && effectiveAduCost && aduStartYear > 1 && aduStartYear <= 5
       ? effectiveAduCost
       : 0;
   const deferredAduOutlay10 =
-    inputs.aduEnabled && effectiveAduCost && aduStartMonth > 0 && aduStartYear <= 10
+    inputs.aduEnabled && effectiveAduCost && aduStartYear > 1 && aduStartYear <= 10
       ? effectiveAduCost
       : 0;
   const totalInvested5 = totalCashInvested + deferredAduOutlay5;

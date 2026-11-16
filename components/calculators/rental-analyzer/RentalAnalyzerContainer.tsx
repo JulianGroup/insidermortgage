@@ -125,7 +125,13 @@ export default function RentalAnalyzerContainer({
       const params = new URLSearchParams(window.location.search);
       const encoded = params.get('s');
       if (encoded) {
-        const decodedJson = decodeURIComponent(window.atob(encoded));
+        // Support both compact base64url and legacy encodeURIComponent base64
+        const b64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+        const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+        const rawStr = window.atob(padded);
+        const decodedJson = rawStr.startsWith('%7B')
+          ? decodeURIComponent(rawStr)
+          : decodeURIComponent(escape(rawStr));
         const parsedInputs = JSON.parse(decodedJson) as Partial<UnderwriteInputs>;
         if (parsedInputs && typeof parsedInputs === 'object') {
           const merged: UnderwriteInputs = {
@@ -314,10 +320,32 @@ export default function RentalAnalyzerContainer({
   const buildShareUrl = (): string => {
     if (typeof window === 'undefined') return '';
     try {
-      const encoded = window.btoa(encodeURIComponent(JSON.stringify(inputs)));
-      const url = new URL(window.location.href);
-      url.searchParams.set('s', encoded);
-      return url.toString();
+      // Only include fields that differ from INITIAL_DUPLEX_INPUTS (plus core address/units/price) to keep URL short
+      const compact: Record<string, unknown> = {
+        propertyAddress: inputs.propertyAddress,
+        unitCount: inputs.unitCount,
+        units: inputs.units.slice(0, inputs.unitCount),
+        purchasePrice: inputs.purchasePrice,
+      };
+      (Object.keys(inputs) as (keyof UnderwriteInputs)[]).forEach((key) => {
+        if (
+          key !== 'propertyAddress' &&
+          key !== 'unitCount' &&
+          key !== 'units' &&
+          key !== 'purchasePrice' &&
+          inputs[key] !== INITIAL_DUPLEX_INPUTS[key]
+        ) {
+          compact[key] = inputs[key];
+        }
+      });
+      const utf8Bytes = unescape(encodeURIComponent(JSON.stringify(compact)));
+      const b64url = window
+        .btoa(utf8Bytes)
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+      const originPath = `${window.location.origin}${window.location.pathname}`;
+      return `${originPath}?s=${b64url}`;
     } catch {
       return window.location.href;
     }
@@ -433,11 +461,11 @@ export default function RentalAnalyzerContainer({
       )}%`,
       '',
       'Open and interact with this exact scenario here:',
-      shareUrl,
+      `${shareUrl} `,
     ];
     window.location.href = `mailto:?subject=${encodeURIComponent(
       subject
-    )}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+    )}&body=${encodeURIComponent(bodyLines.join('\r\n'))}`;
   };
 
   return (

@@ -4,6 +4,7 @@ import React from 'react';
 import { UnderwriteInputs, UnderwriteSummary } from '../../../lib/financial-engine';
 import { MathMetricKey } from './MathReceiptModal';
 import InitialMonthlyPitiaCard from './InitialMonthlyPitiaCard';
+import { FeaturedDeal } from './featuredDeals';
 
 interface SummaryKpiCardsProps {
   inputs: UnderwriteInputs;
@@ -11,6 +12,7 @@ interface SummaryKpiCardsProps {
   isLockedPublic?: boolean;
   onRequestUnlock?: () => void;
   onOpenMath?: (metric: MathMetricKey) => void;
+  featuredDeal?: FeaturedDeal | null;
 }
 
 const currencyFmt = new Intl.NumberFormat('en-US', {
@@ -25,6 +27,7 @@ export default function SummaryKpiCards({
   isLockedPublic = false,
   onRequestUnlock,
   onOpenMath,
+  featuredDeal = null,
 }: SummaryKpiCardsProps) {
   const monthlyCashFlow = summary.year1CashFlow / 12;
   const monthlyNoi = summary.year1Noi / 12;
@@ -87,6 +90,113 @@ export default function SummaryKpiCards({
             </h3>
           </div>
         </div>
+
+        {featuredDeal && (
+          <div
+            style={{
+              backgroundColor: 'rgba(239, 181, 30, 0.1)',
+              border: '1px solid rgba(239, 181, 30, 0.45)',
+              borderRadius: '12px',
+              padding: '0.85rem 1rem',
+              marginBottom: '1.15rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.4rem',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '0.45rem',
+                fontSize: '0.82rem',
+                fontWeight: 700,
+                color: '#EFB51E',
+              }}
+            >
+              <span>⭐ Curated Deal · Identified by {featuredDeal.agent.name}</span>
+              {featuredDeal.agent.brokerage && (
+                <span style={{ color: '#CBD5E1', fontWeight: 500 }}>
+                  ({featuredDeal.agent.brokerage})
+                </span>
+              )}
+            </div>
+
+            {featuredDeal.dealHighlight && (
+              <div style={{ fontSize: '0.82rem', color: '#E2E8F0', lineHeight: 1.45 }}>
+                “{featuredDeal.dealHighlight}”
+              </div>
+            )}
+
+            <div
+              className="no-print"
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: '0.75rem 1.15rem',
+                fontSize: '0.8rem',
+                marginTop: '0.15rem',
+              }}
+            >
+              <a
+                href={`tel:${featuredDeal.agent.phone.replace(/[^+\d]/g, '')}`}
+                style={{
+                  color: '#FFFFFF',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.3rem',
+                }}
+              >
+                <span>📞</span>
+                <span>{featuredDeal.agent.phone}</span>
+              </a>
+
+              <a
+                href={`mailto:${featuredDeal.agent.email}?subject=${encodeURIComponent(
+                  `Inquiry: ${inputs.propertyAddress || featuredDeal.buttonLabel}`
+                )}`}
+                style={{
+                  color: '#93C5FD',
+                  fontWeight: 700,
+                  textDecoration: 'underline',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.3rem',
+                }}
+              >
+                <span>✉️</span>
+                <span>{featuredDeal.agent.email}</span>
+              </a>
+
+              {featuredDeal.listingUrl && (
+                <a
+                  href={featuredDeal.listingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    marginLeft: 'auto',
+                    color: '#EFB51E',
+                    fontWeight: 800,
+                    textDecoration: 'none',
+                    padding: '0.22rem 0.65rem',
+                    borderRadius: '999px',
+                    border: '1px solid rgba(239, 181, 30, 0.5)',
+                    backgroundColor: 'rgba(239, 181, 30, 0.14)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.3rem',
+                  }}
+                >
+                  🔗 View MLS Listing →
+                </a>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* 4 Core KPI Tiles (2x2 Quadrant) */}
         <div className="ra-kpi-grid">

@@ -21,6 +21,7 @@ import {
   detectPropertyState,
   extractStreetAddress,
 } from './stateDetector';
+import { FEATURED_DEALS, FeaturedDeal } from './featuredDeals';
 import './rental-analyzer.css';
 
 export interface RentalAnalyzerContainerProps {
@@ -120,10 +121,15 @@ export default function RentalAnalyzerContainer({
       // ignore storage errors
     }
 
-    // 2. Check URL for shared scenario (?s=...)
+    // 2. Check URL for shared scenario (?s=... and optional ?deal=...)
     try {
       const params = new URLSearchParams(window.location.search);
+      const dealParam = params.get('deal');
+      const matchedDeal = dealParam
+        ? FEATURED_DEALS.find((d) => d.id === dealParam) || null
+        : null;
       const encoded = params.get('s');
+
       if (encoded) {
         // Support both compact base64url and legacy encodeURIComponent base64
         const b64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
@@ -136,6 +142,7 @@ export default function RentalAnalyzerContainer({
         if (parsedInputs && typeof parsedInputs === 'object') {
           const merged: UnderwriteInputs = {
             ...INITIAL_DUPLEX_INPUTS,
+            ...(matchedDeal ? matchedDeal.inputs : {}),
             ...parsedInputs,
           };
           const nextUnits: UnitInput[] = DEFAULT_UNITS_CACHE.map((u, idx) =>
@@ -146,8 +153,22 @@ export default function RentalAnalyzerContainer({
             ...merged,
             units: nextUnits.slice(0, merged.unitCount || 1),
           });
-          setActivePreset('custom');
+          setActivePreset(matchedDeal ? matchedDeal.id : 'custom');
         }
+      } else if (matchedDeal) {
+        const merged: UnderwriteInputs = {
+          ...INITIAL_DUPLEX_INPUTS,
+          ...matchedDeal.inputs,
+        };
+        const nextUnits: UnitInput[] = DEFAULT_UNITS_CACHE.map((u, idx) =>
+          merged.units && merged.units[idx] ? { ...u, ...merged.units[idx] } : u
+        );
+        setUnitCache(nextUnits);
+        setInputs({
+          ...merged,
+          units: nextUnits.slice(0, merged.unitCount || 1),
+        });
+        setActivePreset(matchedDeal.id);
       }
     } catch {
       // ignore invalid URL parameter
@@ -215,61 +236,26 @@ export default function RentalAnalyzerContainer({
     });
   };
 
-  const loadPreset = (preset: 'tam-o-shanter' | 'crawford' | 'fourplex') => {
-    setActivePreset(preset);
-    if (preset === 'crawford') {
-      const crawfordCache: UnitInput[] = [
-        { id: 'unit-1', label: 'Single Family Home', monthlyRent: 4600 },
-        unitCache[1],
-        unitCache[2],
-        unitCache[3],
-      ];
-      setUnitCache(crawfordCache);
-      setInputs({
-        ...INITIAL_DUPLEX_INPUTS,
-        propertyAddress: '6234 Crawford St, San Diego, CA 92120',
-        unitCount: 1,
-        units: crawfordCache.slice(0, 1),
-        purchasePrice: 989000,
-        makeReadyCost: 10000,
-        monthlyMaintenance: 150,
-      });
-    } else if (preset === 'tam-o-shanter') {
-      const tamCache: UnitInput[] = [
-        { id: 'unit-1', label: 'Unit 1 (Primary)', monthlyRent: 2600 },
-        { id: 'unit-2', label: 'Unit 2 (Attached)', monthlyRent: 2200 },
-        unitCache[2],
-        unitCache[3],
-      ];
-      setUnitCache(tamCache);
-      setInputs({
-        ...INITIAL_DUPLEX_INPUTS,
-        propertyAddress: '535 Tam O Shanter Dr, San Marcos, CA 92069',
-        unitCount: 2,
-        units: tamCache.slice(0, 2),
-        purchasePrice: 880000,
-        makeReadyCost: 50000,
-        monthlyMaintenance: 200,
-      });
-    } else {
-      const fourplexCache: UnitInput[] = [
-        { id: 'unit-1', label: 'Unit 1 (2 Bed / 2 Bath)', monthlyRent: 2650 },
-        { id: 'unit-2', label: 'Unit 2 (2 Bed / 1 Bath)', monthlyRent: 2400 },
-        { id: 'unit-3', label: 'Unit 3 (2 Bed / 1 Bath)', monthlyRent: 2400 },
-        { id: 'unit-4', label: 'Unit 4 (1 Bed / 1 Bath)', monthlyRent: 2050 },
-      ];
-      setUnitCache(fourplexCache);
-      setInputs({
-        ...INITIAL_DUPLEX_INPUTS,
-        propertyAddress: 'Normal Heights Fourplex, San Diego, CA 92116',
-        unitCount: 4,
-        units: fourplexCache,
-        purchasePrice: 1450000,
-        makeReadyCost: 25000,
-        monthlyMaintenance: 400,
-      });
-    }
+  const loadFeaturedDeal = (deal: FeaturedDeal) => {
+    const merged: UnderwriteInputs = {
+      ...INITIAL_DUPLEX_INPUTS,
+      ...deal.inputs,
+    };
+    const nextUnits: UnitInput[] = DEFAULT_UNITS_CACHE.map((u, idx) =>
+      merged.units && merged.units[idx] ? { ...u, ...merged.units[idx] } : u
+    );
+    setActivePreset(deal.id);
+    setUnitCache(nextUnits);
+    setInputs({
+      ...merged,
+      units: nextUnits.slice(0, merged.unitCount || 1),
+    });
   };
+
+  const activeFeaturedDeal = useMemo(
+    () => FEATURED_DEALS.find((d) => d.id === activePreset) || null,
+    [activePreset]
+  );
 
   const summary = useMemo(() => runUnderwriteModel(inputs), [inputs]);
   const stateInfo = useMemo(
@@ -345,7 +331,10 @@ export default function RentalAnalyzerContainer({
         .replace(/\//g, '_')
         .replace(/=+$/, '');
       const originPath = `${window.location.origin}${window.location.pathname}`;
-      return `${originPath}?s=${b64url}`;
+      const dealSuffix = activeFeaturedDeal
+        ? `&deal=${encodeURIComponent(activeFeaturedDeal.id)}`
+        : '';
+      return `${originPath}?s=${b64url}${dealSuffix}`;
     } catch {
       return window.location.href;
     }
@@ -459,6 +448,18 @@ export default function RentalAnalyzerContainer({
       `• 5-Year IRR: ${summary.fiveYear.irrPct.toFixed(2)}% | 10-Year IRR: ${summary.tenYear.irrPct.toFixed(
         2
       )}%`,
+      ...(activeFeaturedDeal
+        ? [
+            '',
+            `Curated By: ${activeFeaturedDeal.agent.name}${
+              activeFeaturedDeal.agent.brokerage ? ` (${activeFeaturedDeal.agent.brokerage})` : ''
+            }`,
+            `Contact: ${activeFeaturedDeal.agent.phone} · ${activeFeaturedDeal.agent.email}`,
+            ...(activeFeaturedDeal.listingUrl
+              ? [`Listing URL: ${activeFeaturedDeal.listingUrl}`]
+              : []),
+          ]
+        : []),
       '',
       'Open and interact with this exact scenario here:',
       `${shareUrl} `,
@@ -568,74 +569,41 @@ export default function RentalAnalyzerContainer({
             </p>
           </div>
 
-          {/* Quick-Load Scenario Presets + Clear Property Button */}
+          {/* Featured Investor Deals + Action Bar */}
           <div className="no-print">
             <div
               style={{
                 fontSize: '0.73rem',
                 fontWeight: 700,
-                color: '#CBD5E1',
+                color: '#EFB51E',
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em',
                 marginBottom: '0.45rem',
               }}
             >
-              Quick-Load Property Benchmark or Enter Your Own:
+              ⭐ Featured Investor Deals — Curated by David, Rakesh &amp; Partner Agents:
             </div>
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-              <button
-                type="button"
-                onClick={() => loadPreset('crawford')}
-                style={{
-                  padding: '0.5rem 0.9rem',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255,255,255,0.28)',
-                  backgroundColor:
-                    activePreset === 'crawford' ? '#EFB51E' : 'rgba(255,255,255,0.1)',
-                  color: activePreset === 'crawford' ? '#060A2D' : '#FFFFFF',
-                  fontSize: '0.8rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                Case A: 6234 Crawford (1-Unit)
-              </button>
-
-              <button
-                type="button"
-                onClick={() => loadPreset('tam-o-shanter')}
-                style={{
-                  padding: '0.5rem 0.9rem',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255,255,255,0.28)',
-                  backgroundColor:
-                    activePreset === 'tam-o-shanter' ? '#EFB51E' : 'rgba(255,255,255,0.1)',
-                  color: activePreset === 'tam-o-shanter' ? '#060A2D' : '#FFFFFF',
-                  fontSize: '0.8rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                Case B: 535 Tam O Shanter (Duplex)
-              </button>
-
-              <button
-                type="button"
-                onClick={() => loadPreset('fourplex')}
-                style={{
-                  padding: '0.5rem 0.9rem',
-                  borderRadius: '8px',
-                  border: '1px solid rgba(255,255,255,0.28)',
-                  backgroundColor:
-                    activePreset === 'fourplex' ? '#EFB51E' : 'rgba(255,255,255,0.1)',
-                  color: activePreset === 'fourplex' ? '#060A2D' : '#FFFFFF',
-                  fontSize: '0.8rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                4-Unit Fourplex Sample
-              </button>
+              {FEATURED_DEALS.map((deal) => (
+                <button
+                  key={deal.id}
+                  type="button"
+                  onClick={() => loadFeaturedDeal(deal)}
+                  style={{
+                    padding: '0.5rem 0.9rem',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255,255,255,0.28)',
+                    backgroundColor:
+                      activePreset === deal.id ? '#EFB51E' : 'rgba(255,255,255,0.1)',
+                    color: activePreset === deal.id ? '#060A2D' : '#FFFFFF',
+                    fontSize: '0.8rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {deal.buttonLabel}
+                </button>
+              ))}
 
               <button
                 type="button"
@@ -881,6 +849,7 @@ export default function RentalAnalyzerContainer({
               isLockedPublic={isLockedPublic}
               onRequestUnlock={() => setIsModalOpen(true)}
               onOpenMath={(metric) => setActiveMathMetric(metric)}
+              featuredDeal={activeFeaturedDeal}
             />
 
             <AiInvestmentAnalysis

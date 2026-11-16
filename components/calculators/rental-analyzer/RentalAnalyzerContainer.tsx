@@ -9,7 +9,6 @@ import {
 } from '../../../lib/financial-engine';
 import DynamicUnitSchedule from './DynamicUnitSchedule';
 import InputControlPanel from './InputControlPanel';
-import InitialMonthlyPitiaCard from './InitialMonthlyPitiaCard';
 import WhatIfModules from './WhatIfModules';
 import SummaryKpiCards from './SummaryKpiCards';
 import ProFormaTable from './ProFormaTable';
@@ -507,8 +506,6 @@ export default function RentalAnalyzerContainer({
               onRequestUnlock={() => setIsModalOpen(true)}
               onOpenMath={(metric) => setActiveMathMetric(metric)}
             />
-
-            <InitialMonthlyPitiaCard inputs={inputs} />
 
             <AiInvestmentAnalysis
               inputs={inputs}

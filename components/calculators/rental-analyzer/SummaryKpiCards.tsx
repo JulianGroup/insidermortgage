@@ -3,6 +3,7 @@
 import React from 'react';
 import { UnderwriteInputs, UnderwriteSummary } from '../../../lib/financial-engine';
 import { MathMetricKey } from './MathReceiptModal';
+import InitialMonthlyPitiaCard from './InitialMonthlyPitiaCard';
 
 interface SummaryKpiCardsProps {
   inputs: UnderwriteInputs;
@@ -115,9 +116,29 @@ export default function SummaryKpiCards({
               cursor: 'pointer',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
-              <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
-                Cash on Cash (COC)
+            <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
+              Cash on Cash (COC)
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginTop: '0.25rem',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 800,
+                  color: cocPct >= 0 ? '#4ADE80' : '#FCA5A5',
+                  textDecoration: 'underline',
+                  textDecorationStyle: 'dotted',
+                  textUnderlineOffset: '4px',
+                }}
+              >
+                {cocPct.toFixed(2)}%
               </div>
               <span
                 className="no-print"
@@ -135,19 +156,6 @@ export default function SummaryKpiCards({
               >
                 ∑ Math
               </span>
-            </div>
-            <div
-              style={{
-                fontSize: '1.5rem',
-                fontWeight: 800,
-                color: cocPct >= 0 ? '#4ADE80' : '#FCA5A5',
-                marginTop: '0.25rem',
-                textDecoration: 'underline',
-                textDecorationStyle: 'dotted',
-                textUnderlineOffset: '4px',
-              }}
-            >
-              {cocPct.toFixed(2)}%
             </div>
             <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
               {currencyFmt.format(Math.round(summary.year1CashFlow))}/yr on{' '}
@@ -175,9 +183,29 @@ export default function SummaryKpiCards({
               cursor: 'pointer',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
-              <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
-                DSCR
+            <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
+              DSCR
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginTop: '0.25rem',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 800,
+                  color: dscr >= 1.0 ? '#4ADE80' : '#EFB51E',
+                  textDecoration: 'underline',
+                  textDecorationStyle: 'dotted',
+                  textUnderlineOffset: '4px',
+                }}
+              >
+                {dscr.toFixed(2)}%
               </div>
               <span
                 className="no-print"
@@ -195,19 +223,6 @@ export default function SummaryKpiCards({
               >
                 ∑ Math
               </span>
-            </div>
-            <div
-              style={{
-                fontSize: '1.5rem',
-                fontWeight: 800,
-                color: dscr >= 1.0 ? '#4ADE80' : '#EFB51E',
-                marginTop: '0.25rem',
-                textDecoration: 'underline',
-                textDecorationStyle: 'dotted',
-                textUnderlineOffset: '4px',
-              }}
-            >
-              {dscr.toFixed(2)}%
             </div>
             <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
               {currencyFmt.format(Math.round(summary.totalMonthlyRent))}/mo Rent ÷{' '}
@@ -236,9 +251,29 @@ export default function SummaryKpiCards({
               position: 'relative',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
-              <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
-                Net Operating Income (NOI)
+            <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
+              Net Operating Income (NOI)
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginTop: '0.25rem',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 800,
+                  color: '#EFB51E',
+                  textDecoration: 'underline',
+                  textDecorationStyle: 'dotted',
+                  textUnderlineOffset: '4px',
+                }}
+              >
+                {currencyFmt.format(Math.round(summary.year1Noi))}/yr
               </div>
               <span
                 className="no-print"
@@ -257,21 +292,9 @@ export default function SummaryKpiCards({
                 ∑ Math
               </span>
             </div>
-            <div
-              style={{
-                fontSize: '1.5rem',
-                fontWeight: 800,
-                color: '#EFB51E',
-                marginTop: '0.25rem',
-                textDecoration: 'underline',
-                textDecorationStyle: 'dotted',
-                textUnderlineOffset: '4px',
-              }}
-            >
-              {currencyFmt.format(Math.round(summary.year1Noi))}/yr
-            </div>
             <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.35 }}>
-              Net of vacancy, taxes, insurance, HOA, maintenance &amp; prop mgmt
+              {currencyFmt.format(Math.round(summary.schedule[0]?.effectiveGrossIncome ?? 0))} EGI -{' '}
+              {currencyFmt.format(Math.round(summary.schedule[0]?.operatingExpenses ?? 0))} Operating Exp.
             </div>
           </div>
 
@@ -295,9 +318,29 @@ export default function SummaryKpiCards({
               cursor: 'pointer',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
-              <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
-                Cap Rate
+            <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
+              Cap Rate
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginTop: '0.25rem',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 800,
+                  color: '#EFB51E',
+                  textDecoration: 'underline',
+                  textDecorationStyle: 'dotted',
+                  textUnderlineOffset: '4px',
+                }}
+              >
+                {capRate.toFixed(2)}%
               </div>
               <span
                 className="no-print"
@@ -316,19 +359,6 @@ export default function SummaryKpiCards({
                 ∑ Math
               </span>
             </div>
-            <div
-              style={{
-                fontSize: '1.5rem',
-                fontWeight: 800,
-                color: '#EFB51E',
-                marginTop: '0.25rem',
-                textDecoration: 'underline',
-                textDecorationStyle: 'dotted',
-                textUnderlineOffset: '4px',
-              }}
-            >
-              {capRate.toFixed(2)}%
-            </div>
             <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
               {currencyFmt.format(Math.round(summary.year1Noi))} on{' '}
               {currencyFmt.format(Math.round(basisValue))}
@@ -336,6 +366,9 @@ export default function SummaryKpiCards({
           </div>
         </div>
       </div>
+
+      {/* Monthly Housing Payment Breakdown (Above 5-Yr & 10-Yr Exit Horizon Return Cards) */}
+      <InitialMonthlyPitiaCard inputs={inputs} />
 
       {/* 5-Year & 10-Year Exit Horizon Return Cards */}
       <div style={{ position: 'relative' }}>

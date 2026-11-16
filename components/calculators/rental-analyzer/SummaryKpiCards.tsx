@@ -116,8 +116,8 @@ export default function SummaryKpiCards({
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
-              <div style={{ fontSize: '0.75rem', color: '#E2E8F0', textTransform: 'uppercase', fontWeight: 700 }}>
-                Cash on Cash Return
+              <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
+                Cash on Cash (COC)
               </div>
               <span
                 className="no-print"
@@ -141,7 +141,7 @@ export default function SummaryKpiCards({
                 fontSize: '1.5rem',
                 fontWeight: 800,
                 color: cocPct >= 0 ? '#4ADE80' : '#FCA5A5',
-                marginTop: '0.2rem',
+                marginTop: '0.25rem',
                 textDecoration: 'underline',
                 textDecorationStyle: 'dotted',
                 textUnderlineOffset: '4px',
@@ -149,26 +149,13 @@ export default function SummaryKpiCards({
             >
               {cocPct.toFixed(2)}%
             </div>
-            <div style={{ fontSize: '0.72rem', color: '#CBD5E1', marginTop: '0.3rem' }}>
-              CoC = Cash Flow ÷ Cash into Project
-            </div>
-            <div
-              style={{
-                fontSize: '0.88rem',
-                fontWeight: 800,
-                color: monthlyCashFlow >= 0 ? '#86EFAC' : '#FECACA',
-                marginTop: '0.15rem',
-              }}
-            >
-              {currencyFmt.format(Math.round(monthlyCashFlow))}/mo ={' '}
-              {currencyFmt.format(Math.round(summary.year1CashFlow))}/yr
-            </div>
-            <div style={{ fontSize: '0.72rem', color: '#94A3B8', marginTop: '0.2rem', lineHeight: 1.35 }}>
-              Cash into project: {currencyFmt.format(Math.round(summary.initialCashInvested))} (Down pmt + improvements)
+            <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
+              {currencyFmt.format(Math.round(summary.year1CashFlow))}/yr on{' '}
+              {currencyFmt.format(Math.round(summary.initialCashInvested))}
             </div>
           </div>
 
-          {/* Top-Right: DSCR = Rent / PITIA */}
+          {/* Top-Right: DSCR */}
           <div
             role="button"
             tabIndex={0}
@@ -189,8 +176,8 @@ export default function SummaryKpiCards({
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
-              <div style={{ fontSize: '0.75rem', color: '#CBD5E1', textTransform: 'uppercase', fontWeight: 700 }}>
-                DSCR = Rent ÷ PITIA
+              <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
+                DSCR
               </div>
               <span
                 className="no-print"
@@ -214,7 +201,7 @@ export default function SummaryKpiCards({
                 fontSize: '1.5rem',
                 fontWeight: 800,
                 color: dscr >= 1.0 ? '#4ADE80' : '#EFB51E',
-                marginTop: '0.2rem',
+                marginTop: '0.25rem',
                 textDecoration: 'underline',
                 textDecorationStyle: 'dotted',
                 textUnderlineOffset: '4px',
@@ -222,13 +209,13 @@ export default function SummaryKpiCards({
             >
               {dscr.toFixed(2)}%
             </div>
-            <div style={{ fontSize: '0.74rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
+            <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
               {currencyFmt.format(Math.round(summary.totalMonthlyRent))}/mo Rent ÷{' '}
               {currencyFmt.format(Math.round(totalMonthlyPitia))}/mo PITIA
             </div>
           </div>
 
-          {/* Bottom-Left: NOI = Gross Income - Operating Expenses */}
+          {/* Bottom-Left: Net Operating Income (NOI) */}
           <div
             role="button"
             tabIndex={0}
@@ -250,68 +237,8 @@ export default function SummaryKpiCards({
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
-              <div style={{ fontSize: '0.73rem', color: '#CBD5E1', textTransform: 'uppercase', fontWeight: 700 }}>
-                NOI = Gross Income − Operating Expenses
-              </div>
-              <span
-                className="no-print"
-                style={{
-                  fontSize: '0.65rem',
-                  fontWeight: 700,
-                  color: '#EFB51E',
-                  backgroundColor: 'rgba(239, 181, 30, 0.16)',
-                  border: '1px solid rgba(239, 181, 30, 0.35)',
-                  padding: '0.1rem 0.4rem',
-                  borderRadius: '4px',
-                  flexShrink: 0,
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                ∑ Math
-              </span>
-            </div>
-            <div
-              style={{
-                fontSize: '1.25rem',
-                fontWeight: 800,
-                color: '#EFB51E',
-                marginTop: '0.35rem',
-                textDecoration: 'underline',
-                textDecorationStyle: 'dotted',
-                textUnderlineOffset: '4px',
-              }}
-            >
-              {currencyFmt.format(Math.round(monthlyNoi))}/mo ={' '}
-              {currencyFmt.format(Math.round(summary.year1Noi))}/yr
-            </div>
-            <div style={{ fontSize: '0.72rem', color: '#94A3B8', marginTop: '0.3rem', lineHeight: 1.35 }}>
-              Net of vacancy, taxes, insurance, HOA, maintenance &amp; prop mgmt
-            </div>
-          </div>
-
-          {/* Bottom-Right: CAP RATE = NOI / VALUE */}
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => onOpenMath?.('cap-rate')}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                onOpenMath?.('cap-rate');
-              }
-            }}
-            title="Tap to see how Cap Rate is calculated"
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              border: '1px solid rgba(255, 255, 255, 0.18)',
-              borderRadius: '12px',
-              padding: '1rem',
-              cursor: 'pointer',
-            }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
-              <div style={{ fontSize: '0.75rem', color: '#CBD5E1', textTransform: 'uppercase', fontWeight: 700 }}>
-                Cap Rate = NOI ÷ Value
+              <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
+                Net Operating Income (NOI)
               </div>
               <span
                 className="no-print"
@@ -335,7 +262,66 @@ export default function SummaryKpiCards({
                 fontSize: '1.5rem',
                 fontWeight: 800,
                 color: '#EFB51E',
-                marginTop: '0.2rem',
+                marginTop: '0.25rem',
+                textDecoration: 'underline',
+                textDecorationStyle: 'dotted',
+                textUnderlineOffset: '4px',
+              }}
+            >
+              {currencyFmt.format(Math.round(summary.year1Noi))}/yr
+            </div>
+            <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.35 }}>
+              Net of vacancy, taxes, insurance, HOA, maintenance &amp; prop mgmt
+            </div>
+          </div>
+
+          {/* Bottom-Right: Cap Rate */}
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => onOpenMath?.('cap-rate')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onOpenMath?.('cap-rate');
+              }
+            }}
+            title="Tap to see how Cap Rate is calculated"
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
+              borderRadius: '12px',
+              padding: '1rem',
+              cursor: 'pointer',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
+              <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
+                Cap Rate
+              </div>
+              <span
+                className="no-print"
+                style={{
+                  fontSize: '0.65rem',
+                  fontWeight: 700,
+                  color: '#EFB51E',
+                  backgroundColor: 'rgba(239, 181, 30, 0.16)',
+                  border: '1px solid rgba(239, 181, 30, 0.35)',
+                  padding: '0.1rem 0.4rem',
+                  borderRadius: '4px',
+                  flexShrink: 0,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                ∑ Math
+              </span>
+            </div>
+            <div
+              style={{
+                fontSize: '1.5rem',
+                fontWeight: 800,
+                color: '#EFB51E',
+                marginTop: '0.25rem',
                 textDecoration: 'underline',
                 textDecorationStyle: 'dotted',
                 textUnderlineOffset: '4px',
@@ -343,11 +329,9 @@ export default function SummaryKpiCards({
             >
               {capRate.toFixed(2)}%
             </div>
-            <div style={{ fontSize: '0.72rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.35 }}>
-              Value is Basis (PP + Costs), not appreciation
-            </div>
-            <div style={{ fontSize: '0.74rem', fontWeight: 700, color: '#94A3B8', marginTop: '0.15rem' }}>
-              Value: {currencyFmt.format(Math.round(basisValue))}
+            <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
+              {currencyFmt.format(Math.round(summary.year1Noi))} on{' '}
+              {currencyFmt.format(Math.round(basisValue))}
             </div>
           </div>
         </div>

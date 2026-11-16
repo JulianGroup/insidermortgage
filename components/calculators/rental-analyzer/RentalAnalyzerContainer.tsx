@@ -16,12 +16,31 @@ import AiInvestmentAnalysis from './AiInvestmentAnalysis';
 import LeadCaptureModal from './LeadCaptureModal';
 import MathReceiptModal, { MathMetricKey } from './MathReceiptModal';
 import RentalAnalyzerPrintReport from './RentalAnalyzerPrintReport';
-import { getRentalReportPdfFileName, detectPropertyState } from './stateDetector';
+import {
+  getRentalReportPdfFileName,
+  detectPropertyState,
+  extractStreetAddress,
+} from './stateDetector';
 import './rental-analyzer.css';
 
 export interface RentalAnalyzerContainerProps {
   mode?: 'public' | 'admin';
 }
+
+interface SavedScenario {
+  id: string;
+  name: string;
+  savedAt: string;
+  inputs: UnderwriteInputs;
+}
+
+const SAVED_SCENARIOS_STORAGE_KEY = 'im_rental_saved_scenarios_v1';
+
+const currencyFmt = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 0,
+});
 
 const DEFAULT_UNITS_CACHE: UnitInput[] = [
   { id: 'unit-1', label: '3 Bed / 2 Bath Main House', monthlyRent: 2600 },
@@ -74,13 +93,60 @@ export default function RentalAnalyzerContainer({
   mode = 'public',
 }: RentalAnalyzerContainerProps) {
   const [activePreset, setActivePreset] = useState<
-    'tam-o-shanter' | 'crawford' | 'fourplex' | 'custom'
+    'tam-o-shanter' | 'crawford' | 'fourplex' | 'custom' | string
   >('tam-o-shanter');
   const [unitCache, setUnitCache] = useState<UnitInput[]>(DEFAULT_UNITS_CACHE);
   const [inputs, setInputs] = useState<UnderwriteInputs>(INITIAL_DUPLEX_INPUTS);
   const [publicUnlocked, setPublicUnlocked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeMathMetric, setActiveMathMetric] = useState<MathMetricKey | null>(null);
+  const [savedScenarios, setSavedScenarios] = useState<SavedScenario[]>([]);
+  const [saveFeedback, setSaveFeedback] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // 1. Load saved scenarios from localStorage
+    try {
+      const raw = window.localStorage.getItem(SAVED_SCENARIOS_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          setSavedScenarios(parsed);
+        }
+      }
+    } catch {
+      // ignore storage errors
+    }
+
+    // 2. Check URL for shared scenario (?s=...)
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const encoded = params.get('s');
+      if (encoded) {
+        const decodedJson = decodeURIComponent(window.atob(encoded));
+        const parsedInputs = JSON.parse(decodedJson) as Partial<UnderwriteInputs>;
+        if (parsedInputs && typeof parsedInputs === 'object') {
+          const merged: UnderwriteInputs = {
+            ...INITIAL_DUPLEX_INPUTS,
+            ...parsedInputs,
+          };
+          const nextUnits: UnitInput[] = DEFAULT_UNITS_CACHE.map((u, idx) =>
+            merged.units && merged.units[idx] ? { ...u, ...merged.units[idx] } : u
+          );
+          setUnitCache(nextUnits);
+          setInputs({
+            ...merged,
+            units: nextUnits.slice(0, merged.unitCount || 1),
+          });
+          setActivePreset('custom');
+        }
+      }
+    } catch {
+      // ignore invalid URL parameter
+    }
+  }, []);
 
   useEffect(() => {
     if (mode === 'public' && typeof window !== 'undefined') {
@@ -243,6 +309,135 @@ export default function RentalAnalyzerContainer({
         document.title = originalTitle;
       }, 1000);
     }
+  };
+
+  const buildShareUrl = (): string => {
+    if (typeof window === 'undefined') return '';
+    try {
+      const encoded = window.btoa(encodeURIComponent(JSON.stringify(inputs)));
+      const url = new URL(window.location.href);
+      url.searchParams.set('s', encoded);
+      return url.toString();
+    } catch {
+      return window.location.href;
+    }
+  };
+
+  const handleSaveScenario = () => {
+    if (typeof window === 'undefined') return;
+    const streetName = extractStreetAddress(inputs.propertyAddress);
+    const id = streetName.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'rental-property';
+    const entry: SavedScenario = {
+      id,
+      name: streetName,
+      savedAt: new Date().toISOString(),
+      inputs,
+    };
+    const nextList = [entry, ...savedScenarios.filter((s) => s.id !== id)].slice(0, 15);
+    setSavedScenarios(nextList);
+    setActivePreset(`saved:${id}`);
+    try {
+      window.localStorage.setItem(SAVED_SCENARIOS_STORAGE_KEY, JSON.stringify(nextList));
+    } catch {
+      // ignore storage quota errors
+    }
+    setSaveFeedback(true);
+    setTimeout(() => setSaveFeedback(false), 2200);
+  };
+
+  const handleLoadSavedScenario = (scenario: SavedScenario) => {
+    const merged: UnderwriteInputs = {
+      ...INITIAL_DUPLEX_INPUTS,
+      ...scenario.inputs,
+    };
+    const nextUnits: UnitInput[] = DEFAULT_UNITS_CACHE.map((u, idx) =>
+      merged.units && merged.units[idx] ? { ...u, ...merged.units[idx] } : u
+    );
+    setUnitCache(nextUnits);
+    setInputs({
+      ...merged,
+      units: nextUnits.slice(0, merged.unitCount || 1),
+    });
+    setActivePreset(`saved:${scenario.id}`);
+  };
+
+  const handleDeleteSavedScenario = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const nextList = savedScenarios.filter((s) => s.id !== id);
+    setSavedScenarios(nextList);
+    if (activePreset === `saved:${id}`) {
+      setActivePreset('custom');
+    }
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(SAVED_SCENARIOS_STORAGE_KEY, JSON.stringify(nextList));
+      } catch {
+        // ignore storage errors
+      }
+    }
+  };
+
+  const handleCopyShareLink = async () => {
+    if (typeof window === 'undefined') return;
+    const shareUrl = buildShareUrl();
+    try {
+      window.history.replaceState({}, '', shareUrl);
+      await navigator.clipboard.writeText(shareUrl);
+      setCopyFeedback(true);
+      setTimeout(() => setCopyFeedback(false), 2200);
+    } catch {
+      // fallback
+    }
+  };
+
+  const handleEmailScenario = () => {
+    if (typeof window === 'undefined') return;
+    const shareUrl = buildShareUrl();
+    try {
+      window.history.replaceState({}, '', shareUrl);
+    } catch {
+      // ignore history errors
+    }
+    const streetName = extractStreetAddress(inputs.propertyAddress);
+    const cocPct =
+      summary.initialCashInvested > 0
+        ? (summary.year1CashFlow / summary.initialCashInvested) * 100
+        : 0;
+    const monthlyTax = (inputs.purchasePrice * inputs.propertyTaxRate) / 12;
+    const monthlyIns = (inputs.purchasePrice * inputs.insuranceRate) / 12;
+    const totalPitia = summary.monthlyPmt + monthlyTax + monthlyIns + (inputs.monthlyHoa || 0);
+    const dscr = totalPitia > 0 ? summary.totalMonthlyRent / totalPitia : 0;
+    const aduMult = inputs.unitCount > 1 && inputs.aduCount === 2 ? 2 : 1;
+    const aduYr1 = inputs.aduEnabled && (inputs.aduStartMonth ?? 0) < 12;
+    const basis =
+      (inputs.purchasePrice || 0) +
+      (inputs.makeReadyCost || 0) +
+      (aduYr1 ? (inputs.aduCost || 0) * aduMult : 0);
+    const capRate = basis > 0 ? (summary.year1Noi / basis) * 100 : 0;
+
+    const subject = `Rental Property Scenario: ${streetName}`;
+    const bodyLines = [
+      `Rental Property Investment Scenario: ${inputs.propertyAddress || streetName}`,
+      '',
+      `• Purchase Price: ${currencyFmt.format(Math.round(inputs.purchasePrice))}`,
+      `• Cash on Cash (COC): ${cocPct.toFixed(2)}% (${currencyFmt.format(
+        Math.round(summary.year1CashFlow)
+      )}/yr on ${currencyFmt.format(Math.round(summary.initialCashInvested))})`,
+      `• DSCR: ${dscr.toFixed(2)}% (${currencyFmt.format(
+        Math.round(summary.totalMonthlyRent)
+      )}/mo Rent ÷ ${currencyFmt.format(Math.round(totalPitia))}/mo PITIA)`,
+      `• Net Operating Income (NOI): ${currencyFmt.format(Math.round(summary.year1Noi))}/yr`,
+      `• Cap Rate: ${capRate.toFixed(2)}%`,
+      `• 5-Year IRR: ${summary.fiveYear.irrPct.toFixed(2)}% | 10-Year IRR: ${summary.tenYear.irrPct.toFixed(
+        2
+      )}%`,
+      '',
+      'Open and interact with this exact scenario here:',
+      shareUrl,
+    ];
+    window.location.href = `mailto:?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
   };
 
   return (
@@ -437,27 +632,180 @@ export default function RentalAnalyzerContainer({
                 ✕ Clear / Enter Custom Property
               </button>
 
-              <button
-                type="button"
-                onClick={handlePrintReport}
+              <div
                 style={{
-                  padding: '0.5rem 0.95rem',
-                  borderRadius: '8px',
-                  border: '1px solid #EFB51E',
-                  backgroundColor: '#060A2D',
-                  color: '#EFB51E',
-                  fontSize: '0.8rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  display: 'inline-flex',
+                  display: 'flex',
+                  gap: '0.45rem',
+                  flexWrap: 'wrap',
                   alignItems: 'center',
-                  gap: '6px',
                   marginLeft: 'auto',
                 }}
               >
-                🖨 Save PDF Report (2 Pages)
-              </button>
+                <button
+                  type="button"
+                  onClick={handleSaveScenario}
+                  title={`Save "${extractStreetAddress(inputs.propertyAddress)}" on this device`}
+                  style={{
+                    padding: '0.5rem 0.85rem',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(74, 222, 128, 0.55)',
+                    backgroundColor: saveFeedback
+                      ? '#15803D'
+                      : 'rgba(34, 197, 94, 0.18)',
+                    color: '#FFFFFF',
+                    fontSize: '0.8rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}
+                >
+                  {saveFeedback ? '✓ Saved!' : '💾 Save Scenario'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleEmailScenario}
+                  title="Share this exact scenario via email link"
+                  style={{
+                    padding: '0.5rem 0.85rem',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255,255,255,0.32)',
+                    backgroundColor: 'rgba(255,255,255,0.12)',
+                    color: '#FFFFFF',
+                    fontSize: '0.8rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}
+                >
+                  ✉️ Email Scenario
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleCopyShareLink}
+                  title="Copy shareable link to this scenario"
+                  style={{
+                    padding: '0.5rem 0.85rem',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(255,255,255,0.32)',
+                    backgroundColor: copyFeedback
+                      ? '#0468E9'
+                      : 'rgba(255,255,255,0.12)',
+                    color: '#FFFFFF',
+                    fontSize: '0.8rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}
+                >
+                  {copyFeedback ? '✓ Link Copied!' : '🔗 Copy Link'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handlePrintReport}
+                  style={{
+                    padding: '0.5rem 0.95rem',
+                    borderRadius: '8px',
+                    border: '1px solid #EFB51E',
+                    backgroundColor: '#060A2D',
+                    color: '#EFB51E',
+                    fontSize: '0.8rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  🖨 Save PDF Report (2 Pages)
+                </button>
+              </div>
             </div>
+
+            {savedScenarios.length > 0 && (
+              <div
+                style={{
+                  marginTop: '0.85rem',
+                  paddingTop: '0.75rem',
+                  borderTop: '1px solid rgba(255,255,255,0.14)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '0.45rem',
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    color: '#EFB51E',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    marginRight: '0.25rem',
+                  }}
+                >
+                  Saved on Device:
+                </span>
+                {savedScenarios.map((sc) => {
+                  const isActive = activePreset === `saved:${sc.id}`;
+                  return (
+                    <div
+                      key={sc.id}
+                      onClick={() => handleLoadSavedScenario(sc)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          handleLoadSavedScenario(sc);
+                        }
+                      }}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.4rem',
+                        padding: '0.35rem 0.65rem',
+                        borderRadius: '999px',
+                        border: isActive
+                          ? '1px solid #EFB51E'
+                          : '1px solid rgba(255,255,255,0.25)',
+                        backgroundColor: isActive
+                          ? '#EFB51E'
+                          : 'rgba(255,255,255,0.1)',
+                        color: isActive ? '#060A2D' : '#FFFFFF',
+                        fontSize: '0.78rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <span>{sc.name}</span>
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        title={`Delete saved scenario "${sc.name}"`}
+                        onClick={(e) => handleDeleteSavedScenario(sc.id, e)}
+                        style={{
+                          fontSize: '0.75rem',
+                          fontWeight: 900,
+                          opacity: 0.75,
+                          padding: '0 2px',
+                        }}
+                      >
+                        ✕
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </section>

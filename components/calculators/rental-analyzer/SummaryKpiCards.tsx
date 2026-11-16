@@ -85,21 +85,6 @@ export default function SummaryKpiCards({
               {inputs.propertyAddress || 'Subject Investment Property'}
             </h3>
           </div>
-
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            <span
-              style={{
-                padding: '0.3rem 0.7rem',
-                borderRadius: '8px',
-                backgroundColor: 'rgba(255,255,255,0.1)',
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                color: '#E2E8F0',
-              }}
-            >
-              Total PITIA: <strong style={{ color: '#EFB51E' }}>{currencyFmt.format(Math.round(totalMonthlyPitia))}/mo</strong>
-            </span>
-          </div>
         </div>
 
         {/* 4 Core KPI Tiles (2x2 Quadrant) */}
@@ -235,7 +220,7 @@ export default function SummaryKpiCards({
                 textUnderlineOffset: '4px',
               }}
             >
-              {dscr.toFixed(2)}x
+              {dscr.toFixed(2)}%
             </div>
             <div style={{ fontSize: '0.74rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
               {currencyFmt.format(Math.round(summary.totalMonthlyRent))}/mo Rent ÷{' '}

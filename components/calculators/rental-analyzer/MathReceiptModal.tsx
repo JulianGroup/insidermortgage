@@ -382,10 +382,10 @@ export default function MathReceiptModal({
 
       case 'dscr':
         return {
-          badgeValue: `${dscr.toFixed(2)}x`,
+          badgeValue: `${dscr.toFixed(2)}%`,
           badgeTone: dscr >= 1.0 ? 'positive' : 'neutral',
           plainEnglish:
-            'Debt Service Coverage Ratio (DSCR) is the lender metric comparing gross monthly schedule rent against total monthly housing payment (PITIA). A 1.00x DSCR means gross rent exactly equals the mortgage + tax + insurance + HOA payment.',
+            'Debt Service Coverage Ratio (DSCR) is the lender metric comparing gross monthly schedule rent against total monthly housing payment (PITIA). A 1.00% DSCR means gross rent exactly equals the mortgage + tax + insurance + HOA payment.',
           formula: 'Gross Monthly Rent ÷ Total Monthly PITIA = DSCR',
           lines: [
             {
@@ -405,7 +405,7 @@ export default function MathReceiptModal({
             {
               label: 'DSCR Ratio',
               sub: `${fmt(summary.totalMonthlyRent)}/mo ÷ ${fmt(totalMonthlyPitia)}/mo`,
-              amount: `${dscr.toFixed(2)}x`,
+              amount: `${dscr.toFixed(2)}%`,
               type: 'total',
               tone: dscr >= 1.0 ? 'positive' : 'negative',
             },

@@ -229,8 +229,6 @@ export default function InitialMonthlyPitiaCard({ inputs }: InitialMonthlyPitiaC
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingBottom: '0.5rem',
-            borderBottom: '1px dashed #E2E8F0',
           }}
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#334155', fontWeight: 600 }}>
@@ -248,22 +246,6 @@ export default function InitialMonthlyPitiaCard({ inputs }: InitialMonthlyPitiaC
           <span style={{ fontWeight: 700, color: '#0F172A' }}>
             {currencyFmt.format(Math.round(monthlyHoaFee))}/mo
           </span>
-        </div>
-
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingTop: '0.25rem',
-            fontSize: '0.8rem',
-            color: '#64748B',
-          }}
-        >
-          <span>Annualized Total PITIA:</span>
-          <strong style={{ color: '#060A2D' }}>
-            {currencyFmt.format(Math.round(totalMonthlyPitia * 12))}/yr
-          </strong>
         </div>
       </div>
     </div>

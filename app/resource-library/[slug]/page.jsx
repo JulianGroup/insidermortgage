@@ -6,6 +6,7 @@ import {
   extractYouTubeId,
   getYouTubeThumbnail,
 } from '../../../src/lib/blog';
+import { buildPageMetadata } from '../../../src/lib/seoMetadata';
 
 export function generateStaticParams() {
   return getAllPublishedPosts().map((post) => ({
@@ -25,21 +26,20 @@ export async function generateMetadata({ params }) {
   const metaTitle = post.seoTitle || `${post.title} | Insider Mortgage`;
   const metaDesc = post.seoDescription || post.excerpt;
 
-  return {
+  return buildPageMetadata({
     title: metaTitle,
     description: metaDesc,
     authors: [{ name: author.name }],
     // Draft-sample posts stay out of Google until finalized.
     ...(post.isDraftSample ? { robots: { index: false, follow: false } } : {}),
     openGraph: {
-      title: metaTitle,
-      description: metaDesc,
       type: 'article',
       publishedTime: post.publishedAt,
       authors: [author.name],
       ...(ytThumb ? { images: [{ url: ytThumb }] } : {}),
     },
-  };
+    ...(ytThumb ? { twitter: { images: [ytThumb] } } : {}),
+  });
 }
 
 export default async function BlogArticlePage({ params }) {

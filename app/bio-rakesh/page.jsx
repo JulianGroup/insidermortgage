@@ -1,9 +1,10 @@
 import BioRakesh from '../../src/views/BioRakesh';
+import { buildPageMetadata } from '../../src/lib/seoMetadata';
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: 'Rakesh Jain | Insider Mortgage',
   description: 'Mortgage Loan Officer at Insider Mortgage',
-};
+});
 
 // Person schema linked to central organization entity graph
 const personSchema = {

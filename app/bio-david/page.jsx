@@ -1,9 +1,10 @@
 import BioDavid from '../../src/views/BioDavid';
+import { buildPageMetadata } from '../../src/lib/seoMetadata';
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: 'David Sider | Insider Mortgage',
   description: 'Managing Partner / Broker at Insider Mortgage',
-};
+});
 
 // Person schema linked to central organization entity graph
 const personSchema = {

@@ -1,10 +1,11 @@
 import Calculator from '../../../src/components/Calculator';
 import RelatedInsights from '../../../src/components/blog/RelatedInsights';
+import { buildPageMetadata } from '../../../src/lib/seoMetadata';
 
-export const metadata = {
+export const metadata = buildPageMetadata({
   title: 'Interactive Active Calculator | Insider Mortgage',
   description: 'Interactive mortgage tools to estimate monthly payments, analyze cash flow, and solve for missing variables.',
-};
+});
 
 export default function InteractiveActiveCalculatorPage() {
   return (

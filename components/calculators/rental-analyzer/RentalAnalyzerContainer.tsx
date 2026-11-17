@@ -627,16 +627,17 @@ export default function RentalAnalyzerContainer({
               >
                 ✕ Clear / Enter Custom Property
               </button>
+            </div>
 
-              <div
-                style={{
-                  display: 'flex',
-                  gap: '0.45rem',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  marginLeft: 'auto',
-                }}
-              >
+            <div
+              style={{
+                display: 'flex',
+                gap: '0.5rem',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                marginTop: '0.6rem',
+              }}
+            >
                 <button
                   type="button"
                   onClick={handleSaveScenario}
@@ -723,7 +724,6 @@ export default function RentalAnalyzerContainer({
                 >
                   🖨 Save PDF Report (2 Pages)
                 </button>
-              </div>
             </div>
 
             {savedScenarios.length > 0 && (

@@ -6,6 +6,7 @@ import RelatedInsights from '../components/blog/RelatedInsights';
 
 const STORAGE_KEY_ROWS = 'insider_mortgage_wa_rows_v1';
 const STORAGE_KEY_HELOC = 'insider_mortgage_wa_heloc_v1';
+const STORAGE_KEY_SAVED_SCENARIOS = 'insider_mortgage_wa_saved_scenarios_v1';
 
 const SAMPLE_ROWS = [
   { id: 1, description: 'First Mortgage', rate: '6.5', payment: '2500', balance: '400000', payoff: false },
@@ -19,20 +20,60 @@ export default function WeightedAverage() {
   const [rows, setRows] = useState(SAMPLE_ROWS);
   const [helocRate, setHelocRate] = useState(DEFAULT_HELOC_RATE);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [scenarioName, setScenarioName] = useState('');
+  const [savedScenarios, setSavedScenarios] = useState([]);
+  const [activeScenarioId, setActiveScenarioId] = useState(null);
+  const [saveFeedback, setSaveFeedback] = useState(false);
+  const [copyFeedback, setCopyFeedback] = useState(false);
 
-  // Load saved user entries from browser localStorage on mount
+  // Load saved scenarios, optional shared ?s= URL state, and last entries on mount
   useEffect(() => {
     try {
-      const savedRows = window.localStorage.getItem(STORAGE_KEY_ROWS);
-      if (savedRows) {
-        const parsed = JSON.parse(savedRows);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setRows(parsed);
+      const savedListRaw = window.localStorage.getItem(STORAGE_KEY_SAVED_SCENARIOS);
+      if (savedListRaw) {
+        const parsedList = JSON.parse(savedListRaw);
+        if (Array.isArray(parsedList)) {
+          setSavedScenarios(parsedList);
         }
       }
-      const savedHeloc = window.localStorage.getItem(STORAGE_KEY_HELOC);
-      if (savedHeloc !== null) {
-        setHelocRate(savedHeloc);
+
+      const params = new URLSearchParams(window.location.search);
+      const encoded = params.get('s');
+      let loadedFromUrl = false;
+      if (encoded) {
+        try {
+          const b64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+          const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+          const rawStr = window.atob(padded);
+          const decodedJson = decodeURIComponent(escape(rawStr));
+          const parsedUrl = JSON.parse(decodedJson);
+          if (parsedUrl && Array.isArray(parsedUrl.rows) && parsedUrl.rows.length > 0) {
+            setRows(parsedUrl.rows);
+            if (parsedUrl.helocRate !== undefined) {
+              setHelocRate(String(parsedUrl.helocRate));
+            }
+            if (typeof parsedUrl.name === 'string') {
+              setScenarioName(parsedUrl.name);
+            }
+            loadedFromUrl = true;
+          }
+        } catch {
+          // ignore malformed share URL parameter
+        }
+      }
+
+      if (!loadedFromUrl) {
+        const savedRows = window.localStorage.getItem(STORAGE_KEY_ROWS);
+        if (savedRows) {
+          const parsed = JSON.parse(savedRows);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setRows(parsed);
+          }
+        }
+        const savedHeloc = window.localStorage.getItem(STORAGE_KEY_HELOC);
+        if (savedHeloc !== null) {
+          setHelocRate(savedHeloc);
+        }
       }
     } catch (err) {
       console.warn('Unable to read from localStorage:', err);
@@ -140,6 +181,138 @@ export default function WeightedAverage() {
     minimumFractionDigits: 0
   }).format(val);
 
+  const getEffectiveScenarioName = () => scenarioName.trim() || 'Debt & HELOC Scenario';
+
+  const buildShareUrl = () => {
+    if (typeof window === 'undefined') return '';
+    try {
+      const payload = {
+        name: scenarioName.trim(),
+        helocRate,
+        rows,
+      };
+      const utf8Bytes = unescape(encodeURIComponent(JSON.stringify(payload)));
+      const b64url = window
+        .btoa(utf8Bytes)
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+      return `${window.location.origin}${window.location.pathname}?s=${b64url}`;
+    } catch {
+      return window.location.href;
+    }
+  };
+
+  const handleSaveScenario = () => {
+    if (typeof window === 'undefined') return;
+    let resolvedName = scenarioName.trim();
+    if (!resolvedName) {
+      let n = 1;
+      while (savedScenarios.some((s) => s.name === `Scenario ${n}`)) {
+        n += 1;
+      }
+      resolvedName = `Scenario ${n}`;
+      setScenarioName(resolvedName);
+    }
+    const id = resolvedName.toLowerCase().replace(/[^a-z0-9]+/g, '-') || `scenario-${Date.now()}`;
+    const entry = {
+      id,
+      name: resolvedName,
+      savedAt: new Date().toISOString(),
+      rows,
+      helocRate,
+    };
+    const nextList = [entry, ...savedScenarios.filter((s) => s.id !== id)].slice(0, 15);
+    setSavedScenarios(nextList);
+    setActiveScenarioId(id);
+    try {
+      window.localStorage.setItem(STORAGE_KEY_SAVED_SCENARIOS, JSON.stringify(nextList));
+    } catch (err) {
+      console.warn('Unable to save scenario to localStorage:', err);
+    }
+    setSaveFeedback(true);
+    setTimeout(() => setSaveFeedback(false), 2200);
+  };
+
+  const handleLoadSavedScenario = (sc) => {
+    if (Array.isArray(sc.rows) && sc.rows.length > 0) {
+      setRows(sc.rows);
+    }
+    if (sc.helocRate !== undefined) {
+      setHelocRate(String(sc.helocRate));
+    }
+    setScenarioName(sc.name || '');
+    setActiveScenarioId(sc.id);
+  };
+
+  const handleDeleteSavedScenario = (id, e) => {
+    e.stopPropagation();
+    const nextList = savedScenarios.filter((s) => s.id !== id);
+    setSavedScenarios(nextList);
+    if (activeScenarioId === id) {
+      setActiveScenarioId(null);
+    }
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem(STORAGE_KEY_SAVED_SCENARIOS, JSON.stringify(nextList));
+      } catch (err) {
+        console.warn('Unable to update saved scenarios:', err);
+      }
+    }
+  };
+
+  const handleCopyShareLink = async () => {
+    if (typeof window === 'undefined') return;
+    const shareUrl = buildShareUrl();
+    try {
+      window.history.replaceState({}, '', shareUrl);
+      await navigator.clipboard.writeText(shareUrl);
+      setCopyFeedback(true);
+      setTimeout(() => setCopyFeedback(false), 2200);
+    } catch {
+      // ignore clipboard errors
+    }
+  };
+
+  const handleEmailScenario = () => {
+    if (typeof window === 'undefined') return;
+    const shareUrl = buildShareUrl();
+    try {
+      window.history.replaceState({}, '', shareUrl);
+    } catch {
+      // ignore history errors
+    }
+    const effectiveName = getEffectiveScenarioName();
+    const subject = `Weighted Average & HELOC Scenario: ${effectiveName}`;
+    const debtLines = rows
+      .filter((r) => (parseFloat(r.balance) || 0) > 0 || (r.description || '').trim())
+      .map((r, idx) => {
+        const desc = (r.description || '').trim() || `Debt ${idx + 1}`;
+        const bal = formatCurrency(parseFloat(r.balance) || 0);
+        const rate = parseFloat(r.rate) || 0;
+        const pmt = formatCurrency(parseFloat(r.payment) || 0);
+        return `• ${desc}: ${bal} @ ${rate}% (${pmt}/mo)${r.payoff ? ' [Payoff w/ HELOC]' : ''}`;
+      });
+    const monthlySavings = totals.totalPayment - totals.newTotalPayment;
+
+    const bodyLines = [
+      `Weighted Average & HELOC Scenario: ${effectiveName}`,
+      '',
+      ...(debtLines.length > 0 ? ['Debts Included:', ...debtLines, ''] : []),
+      `Current Debt Summary:`,
+      `• Total Monthly Payment: ${formatCurrency(totals.totalPayment)}/mo | Weighted Avg Rate: ${totals.weightedAverageRate.toFixed(3)}% | Total Balance: ${formatCurrency(totals.totalBalance)}`,
+      '',
+      `HELOC Consolidation (${parseFloat(helocRate) || 0}% HELOC Rate):`,
+      `• HELOC Balance: ${formatCurrency(totals.helocBalance)} | New Total Payment: ${formatCurrency(totals.newTotalPayment)}/mo${monthlySavings > 0 ? ` (Save ${formatCurrency(monthlySavings)}/mo)` : ''}`,
+      `• New Weighted Avg Rate: ${totals.newWeightedAverageRate.toFixed(3)}%`,
+      '',
+      'Open and interact with this exact scenario here:',
+      `${shareUrl} `,
+    ];
+
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\r\n'))}`;
+  };
+
   return (
     <main style={{ minHeight: '80vh', backgroundColor: 'var(--bg-color)' }}>
       {/* Compact Header */}
@@ -156,45 +329,191 @@ export default function WeightedAverage() {
         <div className="container" style={{ maxWidth: '1120px' }}>
           
           <div style={{ backgroundColor: 'white', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)', overflow: 'hidden' }}>
-            {/* Top Action Bar for Clear All & Reset to Sample */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem', padding: '0.85rem 1.5rem', backgroundColor: '#F8FAFC', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
-              <span style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
-                🔒 Your entries are saved privately in your browser on this device.
-              </span>
+            {/* Top Action Bar: Scenario Name, Save, Email Share, Copy Link, Clear & Reset */}
+            <div style={{ padding: '0.85rem 1.5rem', backgroundColor: '#F8FAFC', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.65rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: '1 1 260px', flexWrap: 'wrap' }}>
+                  <input
+                    type="text"
+                    value={scenarioName}
+                    onChange={(e) => setScenarioName(e.target.value)}
+                    placeholder="Scenario name (e.g., Smith Debt Consolidation)"
+                    aria-label="Scenario name"
+                    style={{
+                      flex: '1 1 230px',
+                      maxWidth: '310px',
+                      padding: '0.42rem 0.7rem',
+                      fontSize: '0.84rem',
+                      borderRadius: '6px',
+                      border: '1px solid #CBD5E1',
+                      backgroundColor: 'white',
+                      color: '#0F172A',
+                    }}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSaveScenario}
+                    title="Save this scenario privately on your device"
+                    style={{
+                      padding: '0.42rem 0.85rem',
+                      fontSize: '0.82rem',
+                      fontWeight: 700,
+                      color: '#FFFFFF',
+                      backgroundColor: saveFeedback ? '#15803D' : '#166534',
+                      border: '1px solid #15803D',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {saveFeedback ? '✓ Saved!' : '💾 Save Scenario'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleEmailScenario}
+                    title="Share this exact scenario via email link"
+                    style={{
+                      padding: '0.42rem 0.85rem',
+                      fontSize: '0.82rem',
+                      fontWeight: 700,
+                      color: 'var(--primary)',
+                      backgroundColor: 'white',
+                      border: '1px solid #CBD5E1',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    ✉️ Email Scenario
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleCopyShareLink}
+                    title="Copy shareable link to this scenario"
+                    style={{
+                      padding: '0.42rem 0.85rem',
+                      fontSize: '0.82rem',
+                      fontWeight: 700,
+                      color: copyFeedback ? '#FFFFFF' : 'var(--primary)',
+                      backgroundColor: copyFeedback ? '#0468E9' : 'white',
+                      border: copyFeedback ? '1px solid #0468E9' : '1px solid #CBD5E1',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {copyFeedback ? '✓ Link Copied!' : '🔗 Copy Link'}
+                  </button>
+                </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                <button
-                  type="button"
-                  onClick={clearAllRows}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    onClick={clearAllRows}
+                    style={{
+                      padding: '0.4rem 0.85rem',
+                      fontSize: '0.82rem',
+                      fontWeight: 600,
+                      color: '#DC2626',
+                      backgroundColor: '#FEF2F2',
+                      border: '1px solid #FECACA',
+                      borderRadius: '6px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Clear All / Start Fresh
+                  </button>
+                  <button
+                    type="button"
+                    onClick={resetToSample}
+                    style={{
+                      padding: '0.4rem 0.85rem',
+                      fontSize: '0.82rem',
+                      fontWeight: 600,
+                      color: 'var(--primary)',
+                      backgroundColor: 'white',
+                      border: '1px solid #CBD5E1',
+                      borderRadius: '6px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Reset to Sample Numbers
+                  </button>
+                </div>
+              </div>
+
+              {savedScenarios.length > 0 && (
+                <div
                   style={{
-                    padding: '0.4rem 0.85rem',
-                    fontSize: '0.82rem',
-                    fontWeight: 600,
-                    color: '#DC2626',
-                    backgroundColor: '#FEF2F2',
-                    border: '1px solid #FECACA',
-                    borderRadius: '6px',
-                    cursor: 'pointer'
+                    marginTop: '0.7rem',
+                    paddingTop: '0.65rem',
+                    borderTop: '1px solid #E2E8F0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    gap: '0.45rem',
                   }}
                 >
-                  Clear All / Start Fresh
-                </button>
-                <button
-                  type="button"
-                  onClick={resetToSample}
-                  style={{
-                    padding: '0.4rem 0.85rem',
-                    fontSize: '0.82rem',
-                    fontWeight: 600,
-                    color: 'var(--primary)',
-                    backgroundColor: 'white',
-                    border: '1px solid #CBD5E1',
-                    borderRadius: '6px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  Reset to Sample Numbers
-                </button>
+                  <span
+                    style={{
+                      fontSize: '0.73rem',
+                      fontWeight: 700,
+                      color: 'var(--primary)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.04em',
+                      marginRight: '0.2rem',
+                    }}
+                  >
+                    Saved on Device:
+                  </span>
+                  {savedScenarios.map((sc) => {
+                    const isActive = activeScenarioId === sc.id;
+                    return (
+                      <div
+                        key={sc.id}
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => handleLoadSavedScenario(sc)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleLoadSavedScenario(sc);
+                          }
+                        }}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          padding: '0.28rem 0.65rem',
+                          borderRadius: '999px',
+                          border: isActive ? '1px solid var(--primary)' : '1px solid #CBD5E1',
+                          backgroundColor: isActive ? 'var(--primary)' : '#FFFFFF',
+                          color: isActive ? '#FFFFFF' : '#0F172A',
+                          fontSize: '0.78rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <span>{sc.name}</span>
+                        <span
+                          role="button"
+                          tabIndex={0}
+                          title={`Delete saved scenario "${sc.name}"`}
+                          onClick={(e) => handleDeleteSavedScenario(sc.id, e)}
+                          style={{
+                            fontSize: '0.72rem',
+                            fontWeight: 900,
+                            opacity: 0.75,
+                            padding: '0 2px',
+                          }}
+                        >
+                          ✕
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '0.45rem' }}>
+                🔒 Your entries and saved scenarios stay privately in your browser on this device.
               </div>
             </div>
 

@@ -726,6 +726,16 @@ const SpecialtyPage = ({ data }) => {
                   {page.title}
                 </Link>
               ))}
+              {[
+                { slug: 'bank-statement-loans', title: 'Bank Statement Loans' },
+                { slug: '1099-loans', title: '1099 Income Loans' },
+                { slug: 'mortgage-for-contractors', title: 'Mortgage for Contractors' },
+                { slug: 'refinance', title: 'Refinance' },
+              ].map(page => (
+                <Link key={page.slug} href={`/${page.slug}`} style={{ padding: '0.5rem 1rem', backgroundColor: 'white', border: '1px solid #E2E8F0', borderRadius: '999px', color: 'var(--primary)', textDecoration: 'none', fontSize: '0.9rem', fontWeight: '500', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                  {page.title}
+                </Link>
+              ))}
             </div>
           </div>
         </section>

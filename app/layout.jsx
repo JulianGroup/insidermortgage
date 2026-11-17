@@ -13,7 +13,7 @@ export const metadata = {
     title: 'Insider Mortgage | San Diego Mortgage Broker',
     description:
       'San Diego mortgage specialists helping self-employed borrowers, 1099 contractors, first-time home buyers, retirees, and real estate investors.',
-    url: 'https://insidermortgage.com/',
+    url: './',
     siteName: 'Insider Mortgage',
     images: [
       {

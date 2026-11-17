@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { NumericFormat } from 'react-number-format';
 import { UnderwriteInputs, runUnderwriteModel } from '../../../lib/financial-engine';
 
@@ -26,6 +26,8 @@ export default function WhatIfModules({
   isLockedPublic = false,
   onRequestUnlock,
 }: WhatIfModulesProps) {
+  const [showBreakEvenMath, setShowBreakEvenMath] = useState(false);
+
   const handleToggleRefi = () => {
     if (isLockedPublic && onRequestUnlock) {
       onRequestUnlock();
@@ -45,16 +47,26 @@ export default function WhatIfModules({
     if (!inputs.refiEnabled || isLockedPublic) return null;
     const before = runUnderwriteModel({ ...inputs, refiEnabled: false });
     const after = runUnderwriteModel(inputs);
+    const afterReset30 = inputs.refiReset30
+      ? after
+      : runUnderwriteModel({ ...inputs, refiReset30: true });
+    const afterKeepTerm = !inputs.refiReset30
+      ? after
+      : runUnderwriteModel({ ...inputs, refiReset30: false });
+
     const pmtBefore = before.monthlyPmt;
     const pmtAfter = after.postRefiMonthlyPmt ?? after.monthlyPmt;
     const monthlySavings = pmtBefore - pmtAfter;
     const closingCost = Math.max(0, inputs.refiClosingCost ?? 0);
-    const breakEvenMonths =
-      closingCost === 0
-        ? 0
-        : monthlySavings > 0
-          ? Math.ceil(closingCost / monthlySavings)
-          : null;
+
+    const calcBreakEven = (savings: number) =>
+      closingCost === 0 ? 0 : savings > 0 ? Math.ceil(closingCost / savings) : null;
+
+    const pmtReset30 = afterReset30.postRefiMonthlyPmt ?? afterReset30.monthlyPmt;
+    const savingsReset30 = pmtBefore - pmtReset30;
+    const pmtKeepTerm = afterKeepTerm.postRefiMonthlyPmt ?? afterKeepTerm.monthlyPmt;
+    const savingsKeepTerm = pmtBefore - pmtKeepTerm;
+
     return {
       before,
       after,
@@ -62,7 +74,19 @@ export default function WhatIfModules({
       pmtAfter,
       monthlySavings,
       closingCost,
-      breakEvenMonths,
+      breakEvenMonths: calcBreakEven(monthlySavings),
+      reset30: {
+        pmt: pmtReset30,
+        monthlySavings: savingsReset30,
+        breakEvenMonths: calcBreakEven(savingsReset30),
+        totalInterest10Yr: afterReset30.totalInterest10Yr,
+      },
+      keepTerm: {
+        pmt: pmtKeepTerm,
+        monthlySavings: savingsKeepTerm,
+        breakEvenMonths: calcBreakEven(savingsKeepTerm),
+        totalInterest10Yr: afterKeepTerm.totalInterest10Yr,
+      },
     };
   }, [inputs, isLockedPublic]);
 
@@ -355,21 +379,144 @@ export default function WhatIfModules({
                     }}
                   >
                     <span style={{ color: '#EFB51E', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                      Before vs. After Refinance (10-Yr View)
+                      Before vs. After Refinance
                     </span>
-                    <span style={{ color: '#E2E8F0' }}>
-                      Break-Even:{' '}
-                      <strong style={{ color: '#4ADE80' }}>
-                        {refiComparison.breakEvenMonths === null
-                          ? 'N/A (No Payment Savings)'
-                          : refiComparison.breakEvenMonths === 0
-                            ? 'Immediate (0 mos)'
-                            : `${refiComparison.breakEvenMonths} ${
-                                refiComparison.breakEvenMonths === 1 ? 'Month' : 'Months'
-                              }`}
-                      </strong>
-                    </span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                      <span style={{ color: '#E2E8F0' }}>
+                        Break-Even:{' '}
+                        <strong style={{ color: '#4ADE80' }}>
+                          {refiComparison.breakEvenMonths === null
+                            ? 'N/A (No Payment Savings)'
+                            : refiComparison.breakEvenMonths === 0
+                              ? 'Immediate (0 mos)'
+                              : `${refiComparison.breakEvenMonths} ${
+                                  refiComparison.breakEvenMonths === 1 ? 'Month' : 'Months'
+                                }`}
+                        </strong>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setShowBreakEvenMath((prev) => !prev)}
+                        style={{
+                          padding: '0.18rem 0.55rem',
+                          borderRadius: '999px',
+                          border: showBreakEvenMath ? '1px solid #EFB51E' : '1px solid rgba(255,255,255,0.28)',
+                          backgroundColor: showBreakEvenMath ? '#EFB51E' : 'rgba(255,255,255,0.12)',
+                          color: showBreakEvenMath ? '#060A2D' : '#F8FAFC',
+                          fontSize: '0.68rem',
+                          fontWeight: 800,
+                          cursor: 'pointer',
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        {showBreakEvenMath ? 'Hide Math' : 'Math'}
+                      </button>
+                    </div>
                   </div>
+
+                  {showBreakEvenMath && (
+                    <div
+                      style={{
+                        backgroundColor: '#F8FAFC',
+                        borderBottom: '1px solid #BFDBFE',
+                        padding: '0.75rem 0.85rem',
+                        fontSize: '0.76rem',
+                        color: '#1E293B',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '0.65rem',
+                      }}
+                    >
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                        <div style={{ fontWeight: 800, color: '#060A2D' }}>
+                          Break-Even Formula
+                        </div>
+                        <div style={{ color: '#475569' }}>
+                          <code>Break-Even (Months) = Refinance Closing Costs ÷ Monthly P&amp;I Savings</code>
+                          {' · '}Closing Costs:{' '}
+                          <strong>{currencyFmt.format(Math.round(refiComparison.closingCost))}</strong>
+                        </div>
+                      </div>
+
+                      <div className="ra-two-col" style={{ gap: '0.6rem' }}>
+                        {[
+                          {
+                            title: 'Option A: Reset to New 30-Year Term',
+                            active: Boolean(inputs.refiReset30),
+                            data: refiComparison.reset30,
+                            pros: 'Lower monthly P&I payment, faster monthly break-even, and stronger monthly cash flow / DSCR.',
+                            cons: 'Restarts the 30-year amortization clock, which increases total interest over the life of the loan and slows early principal paydown.',
+                          },
+                          {
+                            title: 'Option B: Keep Remaining Term (No Reset)',
+                            active: !inputs.refiReset30,
+                            data: refiComparison.keepTerm,
+                            pros: 'Keeps your original payoff timeline intact, builds equity faster, and saves more total interest over 10 years and the full loan.',
+                            cons: 'Higher monthly P&I payment than resetting to 30 years, resulting in a slower (or N/A) monthly payment break-even.',
+                          },
+                        ].map((opt) => {
+                          const beText =
+                            opt.data.breakEvenMonths === null
+                              ? 'N/A (No Payment Savings)'
+                              : opt.data.breakEvenMonths === 0
+                                ? '0 mos (Immediate)'
+                                : `${opt.data.breakEvenMonths} ${opt.data.breakEvenMonths === 1 ? 'Month' : 'Months'}`;
+                          return (
+                            <div
+                              key={opt.title}
+                              style={{
+                                backgroundColor: '#FFFFFF',
+                                border: opt.active ? '1.5px solid #0468E9' : '1px solid #CBD5E1',
+                                borderRadius: '8px',
+                                padding: '0.6rem 0.7rem',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '0.35rem',
+                              }}
+                            >
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.35rem' }}>
+                                <span style={{ fontWeight: 800, color: '#060A2D', fontSize: '0.75rem' }}>
+                                  {opt.title}
+                                </span>
+                                {opt.active && (
+                                  <span
+                                    style={{
+                                      fontSize: '0.62rem',
+                                      fontWeight: 800,
+                                      backgroundColor: '#DBEAFE',
+                                      color: '#1D4ED8',
+                                      padding: '0.1rem 0.4rem',
+                                      borderRadius: '999px',
+                                      textTransform: 'uppercase',
+                                    }}
+                                  >
+                                    Selected
+                                  </span>
+                                )}
+                              </div>
+                              <div style={{ color: '#334155', lineHeight: 1.4 }}>
+                                <div>
+                                  New P&amp;I: <strong>{currencyFmt.format(Math.round(opt.data.pmt))}/mo</strong>{' '}
+                                  ({opt.data.monthlySavings >= 0 ? 'saves ' : 'adds '}
+                                  <strong>{currencyFmt.format(Math.abs(Math.round(opt.data.monthlySavings)))}/mo</strong>)
+                                </div>
+                                <div>
+                                  Break-Even: <strong>{beText}</strong> · 10-Yr Interest:{' '}
+                                  <strong>{currencyFmt.format(Math.round(opt.data.totalInterest10Yr))}</strong>
+                                </div>
+                              </div>
+                              <div style={{ fontSize: '0.71rem', color: '#15803D', lineHeight: 1.35 }}>
+                                <strong>Pros:</strong> {opt.pros}
+                              </div>
+                              <div style={{ fontSize: '0.71rem', color: '#B45309', lineHeight: 1.35 }}>
+                                <strong>Cons:</strong> {opt.cons}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
 
                   <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
                     <thead>
@@ -384,7 +531,7 @@ export default function WhatIfModules({
                           After
                         </th>
                         <th style={{ padding: '0.45rem 0.65rem', textAlign: 'right', color: '#060A2D', fontWeight: 800 }}>
-                          Savings / Δ
+                          Savings
                         </th>
                       </tr>
                     </thead>

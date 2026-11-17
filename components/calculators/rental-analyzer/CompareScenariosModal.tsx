@@ -94,6 +94,73 @@ function computeScenarioMetrics(item: ComparableScenarioItem): ComputedScenario 
   };
 }
 
+const BASELINE_DEFAULTS: Partial<UnderwriteInputs> = {
+  downPaymentPct: 0.25,
+  interestRate: 0.075,
+  loanTermYears: 30,
+  makeReadyCost: 10000,
+  vacancyRate: 0.03,
+  propMgmtRate: 0.05,
+  propertyTaxRate: 0.0125,
+  insuranceRate: 0.0035,
+  monthlyHoa: 0,
+  monthlyMaintenance: 200,
+  propertyTaxGrowthRate: 0.02,
+  insuranceGrowthRate: 0.05,
+  annualRentGrowth: 0.03,
+  annualAppreciation: 0.04,
+  sellingCostPct: 0.05,
+  refiEnabled: false,
+  refiYear: 3,
+  refiNewRate: 0.0625,
+  refiReset30: true,
+  aduEnabled: false,
+  aduCount: 1,
+  aduCost: 200000,
+  aduRentMonthly: 2200,
+  aduStartMonth: 0,
+  aduConstructionMonths: 6,
+  aduMainRentDiscountPct: 0.25,
+};
+
+/** Builds a compact, clickable share URL that opens the exact scenario in the analyzer. */
+function buildScenarioShareUrl(item: ComparableScenarioItem): string {
+  if (typeof window === 'undefined') return '';
+  const originPath = `${window.location.origin}${window.location.pathname}`;
+  try {
+    const { inputs } = item;
+    const compact: Record<string, unknown> = {
+      propertyAddress: inputs.propertyAddress,
+      unitCount: inputs.unitCount,
+      units: inputs.units.slice(0, inputs.unitCount),
+      purchasePrice: inputs.purchasePrice,
+    };
+    (Object.keys(inputs) as (keyof UnderwriteInputs)[]).forEach((key) => {
+      if (
+        key !== 'propertyAddress' &&
+        key !== 'unitCount' &&
+        key !== 'units' &&
+        key !== 'purchasePrice' &&
+        inputs[key] !== BASELINE_DEFAULTS[key]
+      ) {
+        compact[key] = inputs[key];
+      }
+    });
+    const utf8Bytes = unescape(encodeURIComponent(JSON.stringify(compact)));
+    const b64url = window
+      .btoa(utf8Bytes)
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+    const dealSuffix = item.featuredDeal
+      ? `&deal=${encodeURIComponent(item.featuredDeal.id)}`
+      : '';
+    return `${originPath}?s=${b64url}${dealSuffix}`;
+  } catch {
+    return originPath;
+  }
+}
+
 /** Side-by-side comparison modal allowing users to select and compare 2 to 4 properties. */
 export default function CompareScenariosModal({
   isOpen,
@@ -166,6 +233,7 @@ export default function CompareScenariosModal({
       ]
         .filter(Boolean)
         .join(' ');
+      const shareUrl = buildScenarioShareUrl(c.item);
       lines.push(
         `${idx + 1}. ${inputs.propertyAddress || c.item.name} (${flags})`,
         `   • Purchase Price: ${fmt(inputs.purchasePrice)} | Total Cash Invested: ${fmt(
@@ -180,11 +248,15 @@ export default function CompareScenariosModal({
         `   • 5-Yr IRR: ${c.summary.fiveYear.irrPct.toFixed(
           2
         )}% | 10-Yr IRR: ${c.summary.tenYear.irrPct.toFixed(2)}%`,
+        `   • Open Scenario: ${shareUrl} `,
         ''
       );
     });
 
-    lines.push('Analyze on Insider Mortgage:', `${window.location.origin}/tools/rental-analyzer `);
+    lines.push(
+      'Open the analyzer to compare or edit scenarios:',
+      `${window.location.origin}/tools/rental-analyzer `
+    );
     window.location.href = `mailto:?subject=${encodeURIComponent(
       subject
     )}&body=${encodeURIComponent(lines.join('\r\n'))}`;

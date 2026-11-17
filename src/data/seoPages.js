@@ -3,7 +3,7 @@ export const seoPages = [
     slug: 'self-employed-programs',
     title: 'Self-Employed Borrowers',
     heroSubheadline: 'Mortgage Qualification & Alternative Income Documentation Strategies',
-    seoTitle: 'Self-Employed Borrowers | Mortgage Qualification & Alternative Income Strategies | Insider Mortgage',
+    seoTitle: 'San Diego Self-Employed Mortgages | Insider Mortgage',
     seoDescription: 'Being self-employed can create unexpected mortgage challenges. Discover traditional and alternative income documentation strategies tailored for business owners, entrepreneurs, freelancers, and independent contractors.',
     heroSubtitle: 'Being self-employed can offer tremendous financial opportunities, but when it comes to getting a mortgage, it can also create some unexpected challenges. For business owners, entrepreneurs, freelancers, and independent contractors, income often works differently. Even highly successful borrowers with excellent credit, substantial assets, and strong cash flow can find themselves struggling to qualify for a traditional mortgage.',
     introHeader: 'START WITH YOUR TAX RETURNS',
@@ -117,7 +117,7 @@ export const seoPages = [
     slug: 'first-time',
     title: 'FIRST-TIME HOME BUYERS',
     heroSubheadline: 'Step-by-Step Mortgage Guidance, Low-Down-Payment Strategies & Clear Numbers',
-    seoTitle: 'First-Time Home Buyer Mortgage Programs & Roadmap | Insider Mortgage',
+    seoTitle: 'San Diego First-Time Home Buyer Loans | Insider Mortgage',
     seoDescription: 'Navigate your first home purchase with confidence. Get a step-by-step roadmap, low-down-payment strategies, custom video breakdowns, and direct guidance from David Sider and Rakesh Jain.',
     heroSubtitle: [
       'Whether this is your first-time home purchase or you’ve done this before, buying a home is an exciting milestone, but navigating interest rates, down payment options, closing costs, and competitive offers can quickly feel overwhelming.',
@@ -319,7 +319,7 @@ export const seoPages = [
   {
     slug: 'mortgage-for-realtors',
     title: 'Mortgages for Realtors',
-    seoTitle: 'Mortgage Loans for Real Estate Agents & Realtors | Insider Mortgage',
+    seoTitle: 'San Diego Mortgages for Realtors | Insider Mortgage',
     seoDescription: 'Specialized mortgage programs for Realtors and Real Estate Agents. Overcome fluctuating commission income with our tailored loans.',
     heroSubtitle: 'You sell homes for a living. Let us help you finance yours. Specialized loan programs for commission-based Real Estate Agents.',
     introHeader: 'Financing for Real Estate Professionals',
@@ -348,7 +348,7 @@ export const seoPages = [
   {
     slug: 'mortgage-for-gig-workers',
     title: 'Mortgages for Gig Workers',
-    seoTitle: 'Can I Get a Mortgage with One Year Self-Employment? | Insider Mortgage',
+    seoTitle: 'San Diego 1-Year Self-Employed Mortgages | Insider Mortgage',
     seoDescription: 'Can I get a mortgage with one year self-employment? Yes! Discover flexible qualification for the modern freelancer and gig worker.',
     heroSubtitle: 'Turn your side hustle or gig economy income into homeownership. Flexible qualification for the modern freelancer.',
     introHeader: 'The Modern Gig Economy Mortgage',
@@ -377,7 +377,7 @@ export const seoPages = [
   {
     slug: 'mortgage-for-small-business',
     title: 'Mortgages for Small Business Owners',
-    seoTitle: 'Mortgage for Business Owner | Insider Mortgage',
+    seoTitle: 'San Diego Business Owner Mortgages | Insider Mortgage',
     seoDescription: 'Tailored home loans for small business owners. Secure a mortgage for business owner scenarios using bank statements or P&Ls to avoid strict tax return requirements.',
     heroSubtitle: 'You run the show. Securing a mortgage for business owner success should be easy, and reflect your true income.',
     introHeader: 'Financing Designed for Business Owners',
@@ -406,7 +406,7 @@ export const seoPages = [
   {
     slug: 'mortgage-for-llc',
     title: 'Mortgages for LLC Owners',
-    seoTitle: 'Mortgage Loans for LLC Owners & Members | Insider Mortgage',
+    seoTitle: 'San Diego LLC Owner Mortgages | Insider Mortgage',
     seoDescription: 'Specialized mortgage programs for LLC Owners and managing members. Use K-1s, bank statements, or P&Ls to qualify.',
     heroSubtitle: 'Navigate K-1s, distributions, and business write-offs with ease. Specialized home loans for LLC owners.',
     introHeader: 'Unlocking LLC Income',
@@ -435,7 +435,7 @@ export const seoPages = [
   {
     slug: 'mortgage-for-scorp',
     title: 'Mortgages for S-Corp Owners',
-    seoTitle: 'Mortgage Loans for S-Corp Owners | Insider Mortgage',
+    seoTitle: 'San Diego S-Corp Owner Mortgages | Insider Mortgage',
     seoDescription: 'Navigate W-2 salaries and K-1 distributions with our specialized mortgage programs for S-Corp owners.',
     heroSubtitle: 'We understand the balance between your W-2 salary and K-1 distributions. Expert financing for S-Corp owners.',
     introHeader: 'S-Corp Mortgage Experts',
@@ -465,7 +465,7 @@ export const seoPages = [
     slug: 'investor-loans',
     title: 'INVESTMENT PROPERTIES',
     heroSubheadline: 'Real Estate Investing Starts With the Right Strategy',
-    seoTitle: 'Investment Properties & Strategic Financing | Insider Mortgage',
+    seoTitle: 'San Diego Investment Property & DSCR Loans | Insider Mortgage',
     seoDescription: 'Financing strategies for residential investment properties, 1-4 units, and condominiums. Full doc, bank statement, and DSCR mortgage structuring from David Sider and Rakesh Jain.',
     heroSubtitle: [
       'There are many reasons investors choose to acquire real estate, and the right strategy begins with understanding what the investor hopes to accomplish.',

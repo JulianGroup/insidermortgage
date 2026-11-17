@@ -126,7 +126,10 @@ const BASELINE_DEFAULTS: Partial<UnderwriteInputs> = {
 /** Builds a compact, clickable share URL that opens the exact scenario in the analyzer. */
 function buildScenarioShareUrl(item: ComparableScenarioItem): string {
   if (typeof window === 'undefined') return '';
-  const originPath = `${window.location.origin}${window.location.pathname}`;
+  const pathname = window.location.pathname.endsWith('/')
+    ? window.location.pathname
+    : `${window.location.pathname}/`;
+  const originPath = `${window.location.origin}${pathname}`;
   try {
     const { inputs } = item;
     const compact: Record<string, unknown> = {
@@ -255,7 +258,7 @@ export default function CompareScenariosModal({
 
     lines.push(
       'Open the analyzer to compare or edit scenarios:',
-      `${window.location.origin}/tools/rental-analyzer `
+      `${window.location.origin}/tools/rental-analyzer/ `
     );
     window.location.href = `mailto:?subject=${encodeURIComponent(
       subject

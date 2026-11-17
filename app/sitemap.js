@@ -29,6 +29,7 @@ const STATIC_ROUTES = [
   '/refinance',
   '/resource-library',
   '/retirees',
+  '/tools/rental-analyzer',
 ];
 
 export default function sitemap() {

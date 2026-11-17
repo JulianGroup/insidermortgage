@@ -415,7 +415,10 @@ export default function RentalAnalyzerContainer({
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
         .replace(/=+$/, '');
-      const originPath = `${window.location.origin}${window.location.pathname}`;
+      const pathname = window.location.pathname.endsWith('/')
+        ? window.location.pathname
+        : `${window.location.pathname}/`;
+      const originPath = `${window.location.origin}${pathname}`;
       const dealSuffix = activeFeaturedDeal
         ? `&deal=${encodeURIComponent(activeFeaturedDeal.id)}`
         : '';

@@ -197,7 +197,10 @@ export default function WeightedAverage() {
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
         .replace(/=+$/, '');
-      return `${window.location.origin}${window.location.pathname}?s=${b64url}`;
+      const pathname = window.location.pathname.endsWith('/')
+        ? window.location.pathname
+        : `${window.location.pathname}/`;
+      return `${window.location.origin}${pathname}?s=${b64url}`;
     } catch {
       return window.location.href;
     }

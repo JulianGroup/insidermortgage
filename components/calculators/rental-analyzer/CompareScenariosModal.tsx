@@ -248,7 +248,7 @@ export default function CompareScenariosModal({
         `   • 5-Yr IRR: ${c.summary.fiveYear.irrPct.toFixed(
           2
         )}% | 10-Yr IRR: ${c.summary.tenYear.irrPct.toFixed(2)}%`,
-        `   • Open Scenario: ${shareUrl} `,
+        `   • Direct Scenario Link: ${shareUrl} `,
         ''
       );
     });

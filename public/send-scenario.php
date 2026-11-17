@@ -309,31 +309,42 @@ $fromAddress = 'noreply@insidermortgage.com';
 $replyTo = $shareWithTeam ? $senderEmail : 'dsrj@insidermtg.com';
 $toHeader = implode(', ', $finalRecipients);
 
-$headers = "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-$headers .= "From: Insider Mortgage <{$fromAddress}>\r\n";
-$headers .= "Reply-To: {$replyTo}\r\n";
+// 1. Prefer authenticated SSL SMTP via smtp.dreamhost.com:465 (proper SPF/DKIM & real 250 delivery)
+$smtpError = '';
+$sent = send_smtp_direct($finalRecipients, $toHeader, $subject, $htmlBody, $replyTo, $smtpError);
+$transport = $sent ? 'smtp' : '';
 
-$sent = @mail($toHeader, $subject, $htmlBody, $headers, "-f{$fromAddress}");
-
+// 2. Fallback to native PHP mail() if SMTP password is unavailable
 if (!$sent) {
-    $sent = send_smtp_direct($finalRecipients, $toHeader, $subject, $htmlBody, $replyTo);
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: Insider Mortgage <{$fromAddress}>\r\n";
+    $headers .= "Reply-To: {$replyTo}\r\n";
+    $sent = @mail($toHeader, $subject, $htmlBody, $headers, "-f{$fromAddress}");
+    if ($sent) {
+        $transport = 'mail';
+    }
 }
 
 if ($sent) {
-    echo json_encode(['status' => 'success', 'recipients' => $finalRecipients]);
+    echo json_encode(['status' => 'success', 'recipients' => $finalRecipients, 'transport' => $transport]);
 } else {
     http_response_code(500);
-    echo json_encode(['status' => 'error', 'message' => 'Unable to send email right now. Please try again.']);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Unable to send email right now. Please try again.',
+        'detail' => $smtpError,
+    ]);
 }
 
-function send_smtp_direct($recipientList, $toHeader, $subject, $htmlBody, $replyTo) {
+function send_smtp_direct($recipientList, $toHeader, $subject, $htmlBody, $replyTo, &$errorOut = '') {
     $host = 'smtp.dreamhost.com';
     $port = 465;
     $user = 'noreply@insidermortgage.com';
     $passFile = dirname(__DIR__) . '/insidermortgage-secrets/smtp.password';
     $pass = is_readable($passFile) ? trim((string) file_get_contents($passFile)) : '';
     if ($pass === '') {
+        $errorOut = 'smtp.password missing or unreadable';
         error_log('send-scenario.php: SMTP password file missing or empty');
         return false;
     }
@@ -347,6 +358,7 @@ function send_smtp_direct($recipientList, $toHeader, $subject, $htmlBody, $reply
 
     $socket = @stream_socket_client("ssl://{$host}:{$port}", $errno, $errstr, 12, STREAM_CLIENT_CONNECT, $ctx);
     if (!$socket) {
+        $errorOut = "connect failed: {$errstr}";
         return false;
     }
 
@@ -364,37 +376,52 @@ function send_smtp_direct($recipientList, $toHeader, $subject, $htmlBody, $reply
     };
 
     $res = $read();
-    if (substr($res, 0, 3) !== '220') { fclose($socket); return false; }
+    if (substr($res, 0, 3) !== '220') { $errorOut = "banner: {$res}"; fclose($socket); return false; }
 
     $send("EHLO insidermortgage.com");
     $read();
 
     $send("AUTH LOGIN");
     $res = $read();
-    if (substr($res, 0, 3) !== '334') { fclose($socket); return false; }
+    if (substr($res, 0, 3) !== '334') { $errorOut = "auth: {$res}"; fclose($socket); return false; }
 
     $send(base64_encode($user));
     $res = $read();
-    if (substr($res, 0, 3) !== '334') { fclose($socket); return false; }
+    if (substr($res, 0, 3) !== '334') { $errorOut = "user: {$res}"; fclose($socket); return false; }
 
     $send(base64_encode($pass));
     $res = $read();
-    if (substr($res, 0, 3) !== '235') { fclose($socket); return false; }
+    if (substr($res, 0, 3) !== '235') { $errorOut = "pass: {$res}"; fclose($socket); return false; }
 
     $send("MAIL FROM:<{$user}>");
     $res = $read();
-    if (substr($res, 0, 3) !== '250') { fclose($socket); return false; }
+    if (substr($res, 0, 3) !== '250') { $errorOut = "mail_from: {$res}"; fclose($socket); return false; }
 
+    $acceptedRcpts = 0;
     foreach ($recipientList as $rcpt) {
         $send("RCPT TO:<{$rcpt}>");
-        $read();
+        $rcptRes = $read();
+        $code = substr($rcptRes, 0, 3);
+        if ($code === '250' || $code === '251') {
+            $acceptedRcpts++;
+        } else {
+            $errorOut = "rcpt_to ({$rcpt}): {$rcptRes}";
+        }
+    }
+    if ($acceptedRcpts === 0) {
+        fclose($socket);
+        return false;
     }
 
     $send("DATA");
     $res = $read();
-    if (substr($res, 0, 3) !== '354') { fclose($socket); return false; }
+    if (substr($res, 0, 3) !== '354') { $errorOut = "data: {$res}"; fclose($socket); return false; }
 
-    $msg = "From: Insider Mortgage <{$user}>\r\n";
+    $dateHeader = gmdate('D, d M Y H:i:s +0000');
+    $msgId = '<wa-' . bin2hex(random_bytes(8)) . '@insidermortgage.com>';
+    $msg = "Date: {$dateHeader}\r\n";
+    $msg .= "Message-ID: {$msgId}\r\n";
+    $msg .= "From: Insider Mortgage <{$user}>\r\n";
     $msg .= "To: {$toHeader}\r\n";
     if ($replyTo) {
         $msg .= "Reply-To: {$replyTo}\r\n";
@@ -406,6 +433,9 @@ function send_smtp_direct($recipientList, $toHeader, $subject, $htmlBody, $reply
 
     $send($msg);
     $res = $read();
+    if (substr($res, 0, 3) !== '250') {
+        $errorOut = "send_data: {$res}";
+    }
 
     $send("QUIT");
     fclose($socket);

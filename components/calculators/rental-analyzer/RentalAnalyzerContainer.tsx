@@ -15,6 +15,7 @@ import ProFormaTable from './ProFormaTable';
 import AiInvestmentAnalysis from './AiInvestmentAnalysis';
 import LeadCaptureModal from './LeadCaptureModal';
 import MathReceiptModal, { MathMetricKey } from './MathReceiptModal';
+import CompareScenariosModal, { ComparableScenarioItem } from './CompareScenariosModal';
 import RentalAnalyzerPrintReport from './RentalAnalyzerPrintReport';
 import {
   getRentalReportPdfFileName,
@@ -104,6 +105,7 @@ export default function RentalAnalyzerContainer({
   const [savedScenarios, setSavedScenarios] = useState<SavedScenario[]>([]);
   const [saveFeedback, setSaveFeedback] = useState(false);
   const [copyFeedback, setCopyFeedback] = useState(false);
+  const [isCompareOpen, setIsCompareOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -252,12 +254,95 @@ export default function RentalAnalyzerContainer({
     });
   };
 
+  const summary = useMemo(() => runUnderwriteModel(inputs), [inputs]);
+
   const activeFeaturedDeal = useMemo(
     () => FEATURED_DEALS.find((d) => d.id === activePreset) || null,
     [activePreset]
   );
 
-  const summary = useMemo(() => runUnderwriteModel(inputs), [inputs]);
+  const availableCompareScenarios = useMemo<ComparableScenarioItem[]>(() => {
+    const items: ComparableScenarioItem[] = [];
+    const currentSnapshot = JSON.stringify(inputs);
+
+    const savedItems: ComparableScenarioItem[] = savedScenarios.map((sc) => ({
+      id: `saved:${sc.id}`,
+      name: sc.name,
+      sourceLabel: 'Saved on Device',
+      inputs: { ...INITIAL_DUPLEX_INPUTS, ...sc.inputs },
+    }));
+
+    const featuredItems: ComparableScenarioItem[] = FEATURED_DEALS.map((deal) => ({
+      id: `featured:${deal.id}`,
+      name: extractStreetAddress(deal.inputs.propertyAddress),
+      sourceLabel: 'Featured Deal',
+      inputs: { ...INITIAL_DUPLEX_INPUTS, ...deal.inputs },
+      featuredDeal: deal,
+    }));
+
+    const matchesExisting =
+      savedItems.some((s) => JSON.stringify(s.inputs) === currentSnapshot) ||
+      featuredItems.some((f) => JSON.stringify(f.inputs) === currentSnapshot);
+
+    if (!matchesExisting && (inputs.purchasePrice > 0 || summary.totalMonthlyRent > 0)) {
+      items.push({
+        id: 'current',
+        name: extractStreetAddress(inputs.propertyAddress),
+        sourceLabel: 'Current',
+        inputs,
+        featuredDeal: activeFeaturedDeal,
+      });
+    }
+
+    items.push(...savedItems, ...featuredItems);
+    return items;
+  }, [inputs, savedScenarios, activeFeaturedDeal, summary.totalMonthlyRent]);
+
+  const initialCompareSelectedIds = useMemo(() => {
+    const picked: string[] = [];
+    const currentItem = availableCompareScenarios.find((i) => i.id === 'current');
+    if (currentItem) {
+      picked.push(currentItem.id);
+    } else if (activePreset.startsWith('saved:')) {
+      if (availableCompareScenarios.some((i) => i.id === activePreset)) {
+        picked.push(activePreset);
+      }
+    } else if (activeFeaturedDeal) {
+      const fId = `featured:${activeFeaturedDeal.id}`;
+      if (availableCompareScenarios.some((i) => i.id === fId)) {
+        picked.push(fId);
+      }
+    }
+
+    for (const item of availableCompareScenarios) {
+      if (picked.length >= 2) break;
+      if (!picked.includes(item.id)) {
+        picked.push(item.id);
+      }
+    }
+    return picked;
+  }, [availableCompareScenarios, activePreset, activeFeaturedDeal]);
+
+  const handleLoadComparedScenario = (item: ComparableScenarioItem) => {
+    if (item.featuredDeal) {
+      loadFeaturedDeal(item.featuredDeal);
+      return;
+    }
+    const merged: UnderwriteInputs = {
+      ...INITIAL_DUPLEX_INPUTS,
+      ...item.inputs,
+    };
+    const nextUnits: UnitInput[] = DEFAULT_UNITS_CACHE.map((u, idx) =>
+      merged.units && merged.units[idx] ? { ...u, ...merged.units[idx] } : u
+    );
+    setUnitCache(nextUnits);
+    setInputs({
+      ...merged,
+      units: nextUnits.slice(0, merged.unitCount || 1),
+    });
+    setActivePreset(item.id.startsWith('saved:') ? item.id : 'custom');
+  };
+
   const stateInfo = useMemo(
     () => detectPropertyState(inputs.propertyAddress),
     [inputs.propertyAddress]
@@ -663,6 +748,27 @@ export default function RentalAnalyzerContainer({
 
                 <button
                   type="button"
+                  onClick={() => setIsCompareOpen(true)}
+                  title="Compare 2 to 4 properties side by side"
+                  style={{
+                    padding: '0.5rem 0.85rem',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(96, 165, 250, 0.6)',
+                    backgroundColor: 'rgba(4, 104, 233, 0.25)',
+                    color: '#FFFFFF',
+                    fontSize: '0.8rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}
+                >
+                  ⚖️ Compare Properties
+                </button>
+
+                <button
+                  type="button"
                   onClick={handleEmailScenario}
                   title="Share this exact scenario via email link"
                   style={{
@@ -1008,6 +1114,15 @@ export default function RentalAnalyzerContainer({
         onClose={() => setActiveMathMetric(null)}
         inputs={inputs}
         summary={summary}
+      />
+
+      {/* Side-by-Side 2-4 Property Comparison Modal */}
+      <CompareScenariosModal
+        isOpen={isCompareOpen}
+        onClose={() => setIsCompareOpen(false)}
+        availableScenarios={availableCompareScenarios}
+        initialSelectedIds={initialCompareSelectedIds}
+        onLoadScenario={handleLoadComparedScenario}
       />
 
       {/* Lead Capture Modal (Public Mode) */}

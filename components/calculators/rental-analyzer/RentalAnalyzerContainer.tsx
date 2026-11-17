@@ -84,6 +84,7 @@ const INITIAL_DUPLEX_INPUTS: UnderwriteInputs = {
   refiNewRate: 0.0625,
   refiReset30: true,
   refiClosingCost: 4000,
+  refiCashOut: 0,
   aduEnabled: false,
   aduCount: 1,
   aduCost: 200000,

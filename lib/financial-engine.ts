@@ -33,6 +33,7 @@ export interface UnderwriteInputs {
   refiNewRate?: number;      // e.g. 0.065
   refiReset30?: boolean;     // true = 30-yr reset, false = remaining term
   refiClosingCost?: number;  // upfront refinance closing costs ($)
+  refiCashOut?: number;      // optional cash-out equity pulled at refi ($)
 
   // What-If: ADU Project
   aduEnabled?: boolean;
@@ -159,6 +160,8 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
   const refiEffectiveYear = (inputs.refiYear || 3) + 1;
   const refiClosingCost =
     inputs.refiEnabled && inputs.refiNewRate ? Math.max(0, inputs.refiClosingCost ?? 0) : 0;
+  const refiCashOut =
+    inputs.refiEnabled && inputs.refiNewRate ? Math.max(0, inputs.refiCashOut ?? 0) : 0;
   let postRefiMonthlyPmt: number | undefined;
   let totalInterest10Yr = 0;
 
@@ -170,10 +173,12 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
 
     // Refinance evaluation at refiYear
     let yrRefiClosingCost = 0;
+    let yrRefiCashOut = 0;
     if (inputs.refiEnabled && yr === refiEffectiveYear && inputs.refiNewRate) {
       const termMonths = inputs.refiReset30
         ? 360
         : 360 - ((inputs.refiYear || 3) * 12);
+      currentLoanBalance += refiCashOut;
       currentMonthlyRate = inputs.refiNewRate / 12;
       currentPmt =
         currentLoanBalance *
@@ -181,6 +186,7 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
           (Math.pow(1 + currentMonthlyRate, termMonths) - 1));
       postRefiMonthlyPmt = currentPmt;
       yrRefiClosingCost = refiClosingCost;
+      yrRefiCashOut = refiCashOut;
     }
 
     if (yr > 1) {
@@ -253,7 +259,7 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
       inputs.aduEnabled && effectiveAduCost && aduStartYear > 1 && yr === aduStartYear
         ? effectiveAduCost
         : 0;
-    cashFlowStream.push(netCashFlow - deferredAduOutlay - yrRefiClosingCost);
+    cashFlowStream.push(netCashFlow - deferredAduOutlay - yrRefiClosingCost + yrRefiCashOut);
   }
 
   const deferredAduOutlay5 =
@@ -266,6 +272,8 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
       : 0;
   const refiCost5 = refiEffectiveYear <= 5 ? refiClosingCost : 0;
   const refiCost10 = refiEffectiveYear <= 10 ? refiClosingCost : 0;
+  const refiCashOut5 = refiEffectiveYear <= 5 ? refiCashOut : 0;
+  const refiCashOut10 = refiEffectiveYear <= 10 ? refiCashOut : 0;
   const totalInvested5 = totalCashInvested + deferredAduOutlay5;
   const totalInvested10 = totalCashInvested + deferredAduOutlay10;
 
@@ -274,7 +282,7 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
   const sellCost5 = val5 * inputs.sellingCostPct;
   const netProc5 = val5 - sellCost5 - schedule[4].remainingBalance;
   const cumCf5 = schedule.slice(0, 5).reduce((acc, row) => acc + row.netCashFlow, 0);
-  const profit5 = netProc5 + cumCf5 - totalInvested5 - refiCost5;
+  const profit5 = netProc5 + cumCf5 - totalInvested5 - refiCost5 + refiCashOut5;
   const irrFlows5 = [...cashFlowStream.slice(0, 5), cashFlowStream[5] + netProc5];
   const irr5 = calculateIRR(irrFlows5);
 
@@ -283,7 +291,7 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
   const sellCost10 = val10 * inputs.sellingCostPct;
   const netProc10 = val10 - sellCost10 - schedule[9].remainingBalance;
   const cumCf10 = schedule.reduce((acc, row) => acc + row.netCashFlow, 0);
-  const profit10 = netProc10 + cumCf10 - totalInvested10 - refiCost10;
+  const profit10 = netProc10 + cumCf10 - totalInvested10 - refiCost10 + refiCashOut10;
   const irrFlows10 = [...cashFlowStream.slice(0, 10), cashFlowStream[10] + netProc10];
   const irr10 = calculateIRR(irrFlows10);
 

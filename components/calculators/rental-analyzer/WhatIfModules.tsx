@@ -37,6 +37,7 @@ export default function WhatIfModules({
       refiNewRate: inputs.refiNewRate ?? 0.0625,
       refiReset30: inputs.refiReset30 ?? true,
       refiClosingCost: inputs.refiClosingCost ?? 4000,
+      refiCashOut: inputs.refiCashOut ?? 0,
     });
   };
 
@@ -158,7 +159,7 @@ export default function WhatIfModules({
                 🔄 What-If: Future Rate-and-Term Refinance
               </div>
               <div style={{ fontSize: '0.8rem', color: '#64748B' }}>
-                Model a future refinance once interest rates drop to boost net cash flow.
+                Model a future rate-and-term or cash-out refinance once interest rates drop.
               </div>
             </div>
             <button
@@ -274,31 +275,60 @@ export default function WhatIfModules({
                 </label>
               </div>
 
-              <div>
-                <label
-                  style={{
-                    display: 'block',
-                    fontSize: '0.8rem',
-                    fontWeight: 600,
-                    color: '#334155',
-                    marginBottom: '0.25rem',
-                  }}
-                >
-                  Refinance Closing Costs ($)
-                </label>
-                <NumericFormat
-                  thousandSeparator=","
-                  decimalScale={0}
-                  allowNegative={false}
-                  prefix="$"
-                  className="ra-input"
-                  style={{ fontWeight: 700 }}
-                  value={(inputs.refiClosingCost ?? 4000) === 0 ? '' : inputs.refiClosingCost ?? 4000}
-                  onValueChange={(values) =>
-                    onChange({ refiClosingCost: Math.max(0, Number(values.floatValue) || 0) })
-                  }
-                  placeholder="$0"
-                />
+              <div className="ra-two-col">
+                <div>
+                  <label
+                    style={{
+                      display: 'block',
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      color: '#334155',
+                      marginBottom: '0.25rem',
+                    }}
+                  >
+                    Refinance Closing Costs ($)
+                  </label>
+                  <NumericFormat
+                    thousandSeparator=","
+                    decimalScale={0}
+                    allowNegative={false}
+                    prefix="$"
+                    className="ra-input"
+                    style={{ fontWeight: 700 }}
+                    value={(inputs.refiClosingCost ?? 4000) === 0 ? '' : inputs.refiClosingCost ?? 4000}
+                    onValueChange={(values) =>
+                      onChange({ refiClosingCost: Math.max(0, Number(values.floatValue) || 0) })
+                    }
+                    placeholder="$0"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    style={{
+                      display: 'block',
+                      fontSize: '0.8rem',
+                      fontWeight: 600,
+                      color: '#334155',
+                      marginBottom: '0.25rem',
+                    }}
+                  >
+                    Cash-Out Amount ($)
+                  </label>
+                  <NumericFormat
+                    thousandSeparator=","
+                    decimalScale={0}
+                    allowNegative={false}
+                    prefix="$"
+                    className="ra-input"
+                    style={{ fontWeight: 700 }}
+                    value={(inputs.refiCashOut ?? 0) === 0 ? '' : inputs.refiCashOut ?? 0}
+                    onValueChange={(values) =>
+                      onChange({ refiCashOut: Math.max(0, Number(values.floatValue) || 0) })
+                    }
+                    placeholder="$0"
+                  />
+                </div>
               </div>
 
               {refiComparison && (

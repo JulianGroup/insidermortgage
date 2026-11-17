@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { NumericFormat } from 'react-number-format';
-import { UnderwriteInputs } from '../../../lib/financial-engine';
+import { UnderwriteInputs, runUnderwriteModel } from '../../../lib/financial-engine';
 
 interface WhatIfModulesProps {
   inputs: UnderwriteInputs;
@@ -33,8 +33,34 @@ export default function WhatIfModules({
       refiYear: inputs.refiYear ?? 3,
       refiNewRate: inputs.refiNewRate ?? 0.0625,
       refiReset30: inputs.refiReset30 ?? true,
+      refiClosingCost: inputs.refiClosingCost ?? 4000,
     });
   };
+
+  const refiComparison = useMemo(() => {
+    if (!inputs.refiEnabled || isLockedPublic) return null;
+    const before = runUnderwriteModel({ ...inputs, refiEnabled: false });
+    const after = runUnderwriteModel(inputs);
+    const pmtBefore = before.monthlyPmt;
+    const pmtAfter = after.postRefiMonthlyPmt ?? after.monthlyPmt;
+    const monthlySavings = pmtBefore - pmtAfter;
+    const closingCost = Math.max(0, inputs.refiClosingCost ?? 0);
+    const breakEvenMonths =
+      closingCost === 0
+        ? 0
+        : monthlySavings > 0
+          ? Math.ceil(closingCost / monthlySavings)
+          : null;
+    return {
+      before,
+      after,
+      pmtBefore,
+      pmtAfter,
+      monthlySavings,
+      closingCost,
+      breakEvenMonths,
+    };
+  }, [inputs, isLockedPublic]);
 
   const handleToggleAdu = () => {
     if (isLockedPublic && onRequestUnlock) {
@@ -244,6 +270,149 @@ export default function WhatIfModules({
                   Reset to Fresh 30-Yr Term
                 </label>
               </div>
+
+              <div>
+                <label
+                  style={{
+                    display: 'block',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    color: '#334155',
+                    marginBottom: '0.25rem',
+                  }}
+                >
+                  Refinance Closing Costs ($)
+                </label>
+                <NumericFormat
+                  thousandSeparator=","
+                  decimalScale={0}
+                  allowNegative={false}
+                  prefix="$"
+                  className="ra-input"
+                  style={{ fontWeight: 700 }}
+                  value={(inputs.refiClosingCost ?? 4000) === 0 ? '' : inputs.refiClosingCost ?? 4000}
+                  onValueChange={(values) =>
+                    onChange({ refiClosingCost: Math.max(0, Number(values.floatValue) || 0) })
+                  }
+                  placeholder="$0"
+                />
+              </div>
+
+              {refiComparison && (
+                <div
+                  style={{
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '10px',
+                    border: '1px solid #BFDBFE',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundColor: '#060A2D',
+                      color: '#FFFFFF',
+                      padding: '0.55rem 0.85rem',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      gap: '0.4rem',
+                      fontSize: '0.76rem',
+                      fontWeight: 800,
+                    }}
+                  >
+                    <span style={{ color: '#EFB51E', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      Before vs. After Refinance (10-Yr View)
+                    </span>
+                    <span style={{ color: '#E2E8F0' }}>
+                      Break-Even:{' '}
+                      <strong style={{ color: '#4ADE80' }}>
+                        {refiComparison.breakEvenMonths === null
+                          ? 'N/A (No Payment Savings)'
+                          : refiComparison.breakEvenMonths === 0
+                            ? 'Immediate (0 mos)'
+                            : `${refiComparison.breakEvenMonths} ${
+                                refiComparison.breakEvenMonths === 1 ? 'Month' : 'Months'
+                              }`}
+                      </strong>
+                    </span>
+                  </div>
+
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+                    <thead>
+                      <tr style={{ backgroundColor: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
+                        <th style={{ padding: '0.45rem 0.75rem', textAlign: 'left', color: '#475569', fontWeight: 700 }}>
+                          Metric
+                        </th>
+                        <th style={{ padding: '0.45rem 0.65rem', textAlign: 'right', color: '#64748B', fontWeight: 700 }}>
+                          Before Refi
+                        </th>
+                        <th style={{ padding: '0.45rem 0.75rem', textAlign: 'right', color: '#0468E9', fontWeight: 800 }}>
+                          After Refi
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        {
+                          label: 'Monthly P&I Payment',
+                          before: `${currencyFmt.format(Math.round(refiComparison.pmtBefore))}/mo`,
+                          after: `${currencyFmt.format(Math.round(refiComparison.pmtAfter))}/mo`,
+                          highlight: refiComparison.pmtAfter < refiComparison.pmtBefore,
+                        },
+                        {
+                          label: 'Total Interest (10 Yrs)',
+                          before: currencyFmt.format(Math.round(refiComparison.before.totalInterest10Yr)),
+                          after: currencyFmt.format(Math.round(refiComparison.after.totalInterest10Yr)),
+                          highlight:
+                            refiComparison.after.totalInterest10Yr < refiComparison.before.totalInterest10Yr,
+                        },
+                        {
+                          label: 'Loan Balance (End Yr 10)',
+                          before: currencyFmt.format(Math.round(refiComparison.before.tenYear.remainingBalance)),
+                          after: currencyFmt.format(Math.round(refiComparison.after.tenYear.remainingBalance)),
+                          highlight:
+                            refiComparison.after.tenYear.remainingBalance <
+                            refiComparison.before.tenYear.remainingBalance,
+                        },
+                        {
+                          label: '10-Yr Net Profit',
+                          before: currencyFmt.format(Math.round(refiComparison.before.tenYear.totalProfit)),
+                          after: currencyFmt.format(Math.round(refiComparison.after.tenYear.totalProfit)),
+                          highlight:
+                            refiComparison.after.tenYear.totalProfit > refiComparison.before.tenYear.totalProfit,
+                        },
+                        {
+                          label: '10-Yr IRR',
+                          before: `${refiComparison.before.tenYear.irrPct.toFixed(2)}%`,
+                          after: `${refiComparison.after.tenYear.irrPct.toFixed(2)}%`,
+                          highlight:
+                            refiComparison.after.tenYear.irrPct > refiComparison.before.tenYear.irrPct,
+                        },
+                      ].map((row) => (
+                        <tr key={row.label} style={{ borderBottom: '1px solid #F1F5F9' }}>
+                          <td style={{ padding: '0.45rem 0.75rem', fontWeight: 600, color: '#334155' }}>
+                            {row.label}
+                          </td>
+                          <td style={{ padding: '0.45rem 0.65rem', textAlign: 'right', color: '#64748B' }}>
+                            {row.before}
+                          </td>
+                          <td
+                            style={{
+                              padding: '0.45rem 0.75rem',
+                              textAlign: 'right',
+                              fontWeight: 800,
+                              color: row.highlight ? '#15803D' : '#060A2D',
+                            }}
+                          >
+                            {row.after}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           )}
         </div>

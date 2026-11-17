@@ -209,6 +209,52 @@ export default function InputControlPanel({
             <span>10.000%</span>
           </div>
         </div>
+
+        {/* Months Until Property Is Ready for Rent (0-24 Months) */}
+        <div style={{ marginTop: '1.1rem', paddingTop: '1rem', borderTop: '1px dashed #E2E8F0' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '0.35rem',
+            }}
+          >
+            <label style={{ fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
+              Months Until Ready for Rent
+            </label>
+            <span style={{ fontSize: '0.86rem', fontWeight: 700, color: '#060A2D' }}>
+              {(() => {
+                const m = inputs.makeReadyMonths ?? 0;
+                if (m === 0) return 'Ready Immediately (0 mos)';
+                if (m === 12) return '12 Months (1 Year)';
+                if (m === 24) return '24 Months (2 Years)';
+                return `${m} ${m === 1 ? 'Month' : 'Months'}`;
+              })()}
+            </span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={24}
+            step={1}
+            value={inputs.makeReadyMonths ?? 0}
+            onChange={(e) => onChange({ makeReadyMonths: Number(e.target.value) })}
+          />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              fontSize: '0.72rem',
+              color: '#94A3B8',
+              marginTop: '0.2rem',
+            }}
+          >
+            <span>0 mos (Immediate)</span>
+            <span>12 mos (1 Yr)</span>
+            <span>24 mos (2 Yrs)</span>
+          </div>
+        </div>
       </div>
 
       {/* Operating Expense Assumptions */}
@@ -416,7 +462,7 @@ export default function InputControlPanel({
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
               <label style={{ fontSize: '0.78rem', fontWeight: 600, color: '#334155' }}>
-                Tax Escalation (%/yr)
+                Property Tax Escalation (%/yr)
               </label>
               <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#060A2D' }}>
                 {((inputs.propertyTaxGrowthRate ?? 0.02) * 100).toFixed(1)}%
@@ -574,7 +620,7 @@ export default function InputControlPanel({
             }}
           >
             <label style={{ fontSize: '0.84rem', fontWeight: 600, color: '#334155' }}>
-              Exit Selling Cost / Friction (%)
+              Selling Cost (%)
             </label>
             <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#060A2D' }}>
               {(inputs.sellingCostPct * 100).toFixed(1)}%

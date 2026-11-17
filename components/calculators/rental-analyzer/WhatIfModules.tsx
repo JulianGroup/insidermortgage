@@ -344,74 +344,106 @@ export default function WhatIfModules({
                   <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
                     <thead>
                       <tr style={{ backgroundColor: '#F8FAFC', borderBottom: '1px solid #E2E8F0' }}>
-                        <th style={{ padding: '0.45rem 0.75rem', textAlign: 'left', color: '#475569', fontWeight: 700 }}>
+                        <th style={{ padding: '0.45rem 0.65rem', textAlign: 'left', color: '#475569', fontWeight: 700 }}>
                           Metric
                         </th>
-                        <th style={{ padding: '0.45rem 0.65rem', textAlign: 'right', color: '#64748B', fontWeight: 700 }}>
-                          Before Refi
+                        <th style={{ padding: '0.45rem 0.55rem', textAlign: 'right', color: '#64748B', fontWeight: 700 }}>
+                          Before
                         </th>
-                        <th style={{ padding: '0.45rem 0.75rem', textAlign: 'right', color: '#0468E9', fontWeight: 800 }}>
-                          After Refi
+                        <th style={{ padding: '0.45rem 0.55rem', textAlign: 'right', color: '#0468E9', fontWeight: 800 }}>
+                          After
+                        </th>
+                        <th style={{ padding: '0.45rem 0.65rem', textAlign: 'right', color: '#060A2D', fontWeight: 800 }}>
+                          Savings / Δ
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {[
-                        {
-                          label: 'Monthly P&I Payment',
-                          before: `${currencyFmt.format(Math.round(refiComparison.pmtBefore))}/mo`,
-                          after: `${currencyFmt.format(Math.round(refiComparison.pmtAfter))}/mo`,
-                          highlight: refiComparison.pmtAfter < refiComparison.pmtBefore,
-                        },
-                        {
-                          label: 'Total Interest (10 Yrs)',
-                          before: currencyFmt.format(Math.round(refiComparison.before.totalInterest10Yr)),
-                          after: currencyFmt.format(Math.round(refiComparison.after.totalInterest10Yr)),
-                          highlight:
-                            refiComparison.after.totalInterest10Yr < refiComparison.before.totalInterest10Yr,
-                        },
-                        {
-                          label: 'Loan Balance (End Yr 10)',
-                          before: currencyFmt.format(Math.round(refiComparison.before.tenYear.remainingBalance)),
-                          after: currencyFmt.format(Math.round(refiComparison.after.tenYear.remainingBalance)),
-                          highlight:
-                            refiComparison.after.tenYear.remainingBalance <
-                            refiComparison.before.tenYear.remainingBalance,
-                        },
-                        {
-                          label: '10-Yr Net Profit',
-                          before: currencyFmt.format(Math.round(refiComparison.before.tenYear.totalProfit)),
-                          after: currencyFmt.format(Math.round(refiComparison.after.tenYear.totalProfit)),
-                          highlight:
-                            refiComparison.after.tenYear.totalProfit > refiComparison.before.tenYear.totalProfit,
-                        },
-                        {
-                          label: '10-Yr IRR',
-                          before: `${refiComparison.before.tenYear.irrPct.toFixed(2)}%`,
-                          after: `${refiComparison.after.tenYear.irrPct.toFixed(2)}%`,
-                          highlight:
-                            refiComparison.after.tenYear.irrPct > refiComparison.before.tenYear.irrPct,
-                        },
-                      ].map((row) => (
-                        <tr key={row.label} style={{ borderBottom: '1px solid #F1F5F9' }}>
-                          <td style={{ padding: '0.45rem 0.75rem', fontWeight: 600, color: '#334155' }}>
-                            {row.label}
-                          </td>
-                          <td style={{ padding: '0.45rem 0.65rem', textAlign: 'right', color: '#64748B' }}>
-                            {row.before}
-                          </td>
-                          <td
-                            style={{
-                              padding: '0.45rem 0.75rem',
-                              textAlign: 'right',
-                              fontWeight: 800,
-                              color: row.highlight ? '#15803D' : '#060A2D',
-                            }}
-                          >
-                            {row.after}
-                          </td>
-                        </tr>
-                      ))}
+                      {(() => {
+                        const fmtSignedDollar = (val: number, suffix = '') => {
+                          const r = Math.round(val);
+                          if (r === 0) return `$0${suffix}`;
+                          return `${r > 0 ? '+' : '-'}${currencyFmt.format(Math.abs(r))}${suffix}`;
+                        };
+                        const pmtDiff = refiComparison.pmtBefore - refiComparison.pmtAfter;
+                        const intDiff =
+                          refiComparison.before.totalInterest10Yr -
+                          refiComparison.after.totalInterest10Yr;
+                        const balDiff =
+                          refiComparison.before.tenYear.remainingBalance -
+                          refiComparison.after.tenYear.remainingBalance;
+                        const profitDiff =
+                          refiComparison.after.tenYear.totalProfit -
+                          refiComparison.before.tenYear.totalProfit;
+                        const irrDiff =
+                          refiComparison.after.tenYear.irrPct -
+                          refiComparison.before.tenYear.irrPct;
+
+                        return [
+                          {
+                            label: 'Monthly P&I Payment',
+                            before: `${currencyFmt.format(Math.round(refiComparison.pmtBefore))}/mo`,
+                            after: `${currencyFmt.format(Math.round(refiComparison.pmtAfter))}/mo`,
+                            diffText: fmtSignedDollar(pmtDiff, '/mo'),
+                            diffNum: pmtDiff,
+                          },
+                          {
+                            label: 'Total Interest (10 Yrs)',
+                            before: currencyFmt.format(Math.round(refiComparison.before.totalInterest10Yr)),
+                            after: currencyFmt.format(Math.round(refiComparison.after.totalInterest10Yr)),
+                            diffText: fmtSignedDollar(intDiff),
+                            diffNum: intDiff,
+                          },
+                          {
+                            label: 'Loan Balance (End Yr 10)',
+                            before: currencyFmt.format(Math.round(refiComparison.before.tenYear.remainingBalance)),
+                            after: currencyFmt.format(Math.round(refiComparison.after.tenYear.remainingBalance)),
+                            diffText: fmtSignedDollar(balDiff),
+                            diffNum: balDiff,
+                          },
+                          {
+                            label: '10-Yr Net Profit',
+                            before: currencyFmt.format(Math.round(refiComparison.before.tenYear.totalProfit)),
+                            after: currencyFmt.format(Math.round(refiComparison.after.tenYear.totalProfit)),
+                            diffText: fmtSignedDollar(profitDiff),
+                            diffNum: profitDiff,
+                          },
+                          {
+                            label: '10-Yr IRR',
+                            before: `${refiComparison.before.tenYear.irrPct.toFixed(2)}%`,
+                            after: `${refiComparison.after.tenYear.irrPct.toFixed(2)}%`,
+                            diffText: `${irrDiff >= 0 ? '+' : ''}${irrDiff.toFixed(2)}%`,
+                            diffNum: irrDiff,
+                          },
+                        ];
+                      })().map((row) => {
+                        const isPositive = row.diffNum > 0.001;
+                        const isNegative = row.diffNum < -0.001;
+                        return (
+                          <tr key={row.label} style={{ borderBottom: '1px solid #F1F5F9' }}>
+                            <td style={{ padding: '0.45rem 0.65rem', fontWeight: 600, color: '#334155' }}>
+                              {row.label}
+                            </td>
+                            <td style={{ padding: '0.45rem 0.55rem', textAlign: 'right', color: '#64748B' }}>
+                              {row.before}
+                            </td>
+                            <td style={{ padding: '0.45rem 0.55rem', textAlign: 'right', fontWeight: 700, color: '#060A2D' }}>
+                              {row.after}
+                            </td>
+                            <td
+                              style={{
+                                padding: '0.45rem 0.65rem',
+                                textAlign: 'right',
+                                fontWeight: 800,
+                                color: isPositive ? '#15803D' : isNegative ? '#B91C1C' : '#64748B',
+                                whiteSpace: 'nowrap',
+                              }}
+                            >
+                              {row.diffText}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>

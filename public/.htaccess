@@ -2,10 +2,10 @@
 ErrorDocument 404 /404.html
 DirectoryIndex index.html
 
-# Consolidate www host to canonical non-www host (single 301 hop preserving original path)
+# Consolidate www host to canonical non-www host (single 301 hop preserving directory slash)
 RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www\.insidermortgage\.com$ [NC]
-RewriteRule ^ https://insidermortgage.com%{REQUEST_URI} [L,R=301]
+RewriteRule ^(.*?)(?:index\.html)?$ https://insidermortgage.com/$1 [L,R=301]
 
 # Redirect legacy /self-employed URLs to /self-employed-programs/
 RedirectMatch 301 ^/self-employed/?$ /self-employed-programs/

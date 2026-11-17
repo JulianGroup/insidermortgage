@@ -17,6 +17,9 @@ const currencyFmt = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 0,
 });
 
+// Toggle to true to re-enable the California ADU Construction Project module in the future
+const SHOW_ADU_MODULE = false;
+
 export default function WhatIfModules({
   inputs,
   onChange,
@@ -417,7 +420,8 @@ export default function WhatIfModules({
           )}
         </div>
 
-        {/* Module B: ADU Addition */}
+        {/* Module B: ADU Addition (retired for now; toggle SHOW_ADU_MODULE to restore) */}
+        {SHOW_ADU_MODULE && (
         <div
           style={{
             border: inputs.aduEnabled ? '2px solid #EFB51E' : '1px solid #E2E8F0',
@@ -680,6 +684,7 @@ export default function WhatIfModules({
             </div>
           )}
         </div>
+        )}
       </div>
     </div>
   );

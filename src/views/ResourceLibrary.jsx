@@ -10,7 +10,13 @@ import {
 import { AUTHORS } from '../data/taxonomy';
 
 export default function ResourceLibrary() {
-  const allPosts = useMemo(() => getAllPublishedPosts(), []);
+  const allPosts = useMemo(
+    () =>
+      getAllPublishedPosts().filter(
+        (p) => !p.isDraftSample && !/^draft\b/i.test(p.title)
+      ),
+    []
+  );
   const activeCategories = useMemo(() => getActiveCategories(), []);
 
   const [selectedCategory, setSelectedCategory] = useState('all');

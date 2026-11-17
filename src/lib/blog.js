@@ -74,7 +74,9 @@ export function getPostsForPlacement({
   excludeSlug,
   limit = 6,
 } = {}) {
-  const posts = getAllPublishedPosts().filter((p) => p.slug !== excludeSlug);
+  const posts = getAllPublishedPosts().filter(
+    (p) => !p.isDraftSample && !/^draft\b/i.test(p.title) && p.slug !== excludeSlug
+  );
 
   // Strict explicit-tag rule for personal bio pages
   if (bioTagId) {

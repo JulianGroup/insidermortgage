@@ -11,7 +11,7 @@ export default function ShareSnippetModal({ post }) {
   const origin =
     typeof window !== 'undefined' && window.location?.origin
       ? window.location.origin
-      : 'https://www.insidermtg.com';
+      : 'https://insidermortgage.com';
 
   const snippets = generateShareSnippets(post, origin);
 

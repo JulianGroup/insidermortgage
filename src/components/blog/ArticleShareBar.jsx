@@ -2,15 +2,13 @@
 import React, { useState, useEffect } from 'react';
 
 export default function ArticleShareBar({ post, theme = 'dark' }) {
-  const [pageUrl, setPageUrl] = useState(
-    `https://www.insidermtg.com/resource-library/${post?.slug || ''}/`
-  );
+  const canonicalUrl = `https://insidermortgage.com/resource-library/${post?.slug || ''}/`;
+  const [pageUrl] = useState(canonicalUrl);
   const [isIOS, setIsIOS] = useState(false);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setPageUrl(window.location.href);
       const ua = window.navigator.userAgent || '';
       const iOSDevice =
         /iPad|iPhone|iPod/.test(ua) ||

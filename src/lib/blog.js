@@ -176,7 +176,7 @@ function stripInlineMarkdown(text) {
     .replace(/`([^`]+)`/g, '$1');
 }
 
-export function generateShareSnippets(post, siteOrigin = 'https://www.insidermtg.com') {
+export function generateShareSnippets(post, siteOrigin = 'https://insidermortgage.com') {
   const author = getAuthorForPost(post);
   const cleanTitle = post.title.replace(/^Draft:\s*/i, '');
   const cleanExcerpt = stripInlineMarkdown(post.excerpt);

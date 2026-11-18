@@ -136,7 +136,7 @@ const KNOWN_PAGE_METADATA = {
     category: 'calculators'
   },
   '/geek-out/weighted-average': {
-    title: 'Weighted Average Interest Rate Calculator',
+    title: 'Blended Rate Calculator',
     description: 'Calculate blended rates across first and second mortgages or multiple properties.',
     category: 'calculators'
   },

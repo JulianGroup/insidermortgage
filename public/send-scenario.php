@@ -202,7 +202,7 @@ $htmlBody = "<!DOCTYPE html>
           <tr>
             <td style=\"background-color:#060A2D;padding:24px 26px;border-bottom:4px solid #EFB51E;\">
               <div style=\"font-size:11px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#EFB51E;margin-bottom:6px;\">
-                Insider Mortgage · Weighted Average &amp; HELOC Analyzer
+                Insider Mortgage · Blended Rate &amp; HELOC Analyzer
               </div>
               <h1 style=\"margin:0;font-size:22px;line-height:1.25;color:#FFFFFF;\">
                 {$safeScenarioTitle}
@@ -241,9 +241,9 @@ $htmlBody = "<!DOCTYPE html>
                   <td style=\"padding:12px 14px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;\">
                     <div style=\"font-size:12px;font-weight:bold;color:#64748B;text-transform:uppercase;\">Current Debt Summary</div>
                     <div style=\"margin-top:6px;font-size:14px;color:#0F172A;\">
+                      Total Balance: <strong>" . fmt_currency($totalBalance) . "</strong> &nbsp;|&nbsp;
                       Total Payment: <strong>" . fmt_currency($totalPayment) . "/mo</strong> &nbsp;|&nbsp;
-                      Weighted Avg Rate: <strong>" . number_format($weightedAvgRate, 3) . "%</strong> &nbsp;|&nbsp;
-                      Total Balance: <strong>" . fmt_currency($totalBalance) . "</strong>
+                      Blended Rate: <strong>" . number_format($weightedAvgRate, 3) . "%</strong>
                     </div>
                   </td>
                 </tr>
@@ -252,9 +252,9 @@ $htmlBody = "<!DOCTYPE html>
                   <td style=\"padding:12px 14px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;\">
                     <div style=\"font-size:12px;font-weight:bold;color:#B91C1C;text-transform:uppercase;\">Debt Being Paid Off with HELOC</div>
                     <div style=\"margin-top:6px;font-size:14px;color:#0F172A;\">
-                      Payoff Payment: <strong>" . fmt_currency($payoffPayment) . "/mo</strong> &nbsp;|&nbsp;
-                      Avg Payoff Rate: <strong>" . number_format($payoffWeightedRate, 3) . "%</strong> &nbsp;|&nbsp;
-                      HELOC Balance: <strong>" . fmt_currency($helocBalance) . "</strong>
+                      Total Balance: <strong>" . fmt_currency($helocBalance) . "</strong> &nbsp;|&nbsp;
+                      Total Payment: <strong>" . fmt_currency($payoffPayment) . "/mo</strong> &nbsp;|&nbsp;
+                      Blended Rate: <strong>" . number_format($payoffWeightedRate, 3) . "%</strong>
                     </div>
                   </td>
                 </tr>
@@ -265,8 +265,9 @@ $htmlBody = "<!DOCTYPE html>
                       After HELOC Consolidation ({$helocRateStr}% Interest-Only HELOC) {$savingsBadge}
                     </div>
                     <div style=\"margin-top:6px;font-size:15px;color:#060A2D;\">
+                      Total Balance: <strong>" . fmt_currency($totalBalance) . "</strong> &nbsp;|&nbsp;
                       New Total Payment: <strong>" . fmt_currency($newTotalPayment) . "/mo</strong> &nbsp;|&nbsp;
-                      New Weighted Rate: <strong>" . number_format($newWeightedRate, 3) . "%</strong>{$rateDropText}
+                      New Blended Rate: <strong>" . number_format($newWeightedRate, 3) . "%</strong>{$rateDropText}
                     </div>
                     <div style=\"margin-top:4px;font-size:12px;color:#475569;\">
                       HELOC interest-only payment on " . fmt_currency($helocBalance) . ": " . fmt_currency($helocPayment) . "/mo
@@ -280,7 +281,7 @@ $htmlBody = "<!DOCTYPE html>
                 <tr>
                   <td align=\"center\" style=\"padding:8px 0 6px;\">
                     <a href=\"{$safeShareUrl}\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"display:inline-block;background-color:#060A2D;color:#EFB51E;text-decoration:none;font-weight:bold;font-size:15px;padding:13px 26px;border-radius:999px;border:2px solid #EFB51E;\">
-                      Open Weighted Average Scenario →
+                      Open Blended Rate Scenario →
                     </a>
                   </td>
                 </tr>
@@ -304,7 +305,7 @@ $htmlBody = "<!DOCTYPE html>
 </body>
 </html>";
 
-$subject = "Weighted Average & HELOC Scenario: {$scenarioName}";
+$subject = "Blended Rate & HELOC Scenario: {$scenarioName}";
 $fromAddress = 'noreply@insidermortgage.com';
 $replyTo = $shareWithTeam ? $senderEmail : 'dsrj@insidermtg.com';
 $toHeader = implode(', ', $finalRecipients);

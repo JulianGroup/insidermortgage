@@ -35,7 +35,7 @@ export default function GeekOut() {
       )
     },
     {
-      title: "Weighted Average Calculator",
+      title: "Blended Rate Calculator",
       description: "Calculate the blended interest rate across multiple forms of debt and total monthly payments.",
       href: "/geek-out/weighted-average",
       icon: (

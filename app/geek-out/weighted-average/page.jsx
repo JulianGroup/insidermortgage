@@ -2,8 +2,8 @@ import WeightedAverage from '../../../src/views/WeightedAverage';
 import { buildPageMetadata } from '../../../src/lib/seoMetadata';
 
 export const metadata = buildPageMetadata({
-  title: 'Weighted Average Interest Rate Calculator | Insider Mortgage',
-  description: 'Calculate your combined weighted average interest rate across multiple forms of debt.',
+  title: 'Blended Rate Calculator | Insider Mortgage',
+  description: 'Calculate your blended interest rate across multiple debts and simulate consolidating into a HELOC.',
 });
 
 export default function Page() {

@@ -130,12 +130,12 @@ export const WHO_WE_SERVE_CATEGORIES = [
 export const CALCULATOR_TAGS = [
   {
     id: 'calc-weighted-avg',
-    label: 'Weighted Average & HELOC Calculator',
-    shortLabel: 'Weighted Avg Calculator',
+    label: 'Blended Rate & HELOC Calculator',
+    shortLabel: 'Blended Rate Calculator',
     route: '/geek-out/weighted-average',
     description:
       'Calculate your blended interest rate across all debts and test whether consolidating high-interest balances into a HELOC lowers your monthly outflow.',
-    ctaLabel: 'Open Weighted Average Calculator',
+    ctaLabel: 'Open Blended Rate Calculator',
   },
   {
     id: 'calc-prop19',

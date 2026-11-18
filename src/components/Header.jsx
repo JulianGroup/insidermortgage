@@ -120,7 +120,7 @@ const Header = () => {
                 className="mobile-sublink"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                • Weighted Average Calculator
+                • Blended Rate Calculator
               </Link>
               <Link
                 href="/geek-out/yield-curve"

@@ -386,7 +386,7 @@ export default function WeightedAverage() {
       {/* Compact Header */}
       <section style={{ padding: '2.25rem 1rem 1.5rem', textAlign: 'center', backgroundColor: 'var(--primary)', color: 'white' }}>
         <div className="container">
-          <h1 style={{ fontSize: '2rem', marginBottom: '0.35rem', color: 'white' }}>Weighted Average Calculator</h1>
+          <h1 style={{ fontSize: '2rem', marginBottom: '0.35rem', color: 'white' }}>Blended Rate Calculator</h1>
           <p style={{ fontSize: '1rem', opacity: 0.9, maxWidth: '720px', margin: '0 auto' }}>
             Enter your current debts to calculate your combined weighted average interest rate. Check the boxes to simulate consolidating debts into a HELOC.
           </p>
@@ -683,19 +683,19 @@ export default function WeightedAverage() {
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.85rem' }} className="wa-metrics-grid">
+                  <div style={{ backgroundColor: 'rgba(30, 58, 138, 0.03)', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Balance</span>
+                    <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.totalBalance)}</span>
+                  </div>
+
                   <div style={{ backgroundColor: 'rgba(30, 58, 138, 0.03)', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #10B981', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Monthly Payment</span>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Payment</span>
                     <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.totalPayment)}</span>
                   </div>
 
                   <div style={{ backgroundColor: 'rgba(30, 58, 138, 0.03)', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Weighted Avg Rate</span>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Blended Rate (%)</span>
                     <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{totals.weightedAverageRate.toFixed(3)}%</span>
-                  </div>
-
-                  <div style={{ backgroundColor: 'rgba(30, 58, 138, 0.03)', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Balance</span>
-                    <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.totalBalance)}</span>
                   </div>
                 </div>
               </div>
@@ -708,19 +708,19 @@ export default function WeightedAverage() {
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.85rem' }} className="wa-metrics-grid">
+                  <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Balance</span>
+                    <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.helocBalance)}</span>
+                  </div>
+
                   <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #10B981', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Monthly Payment</span>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Payment</span>
                     <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.payoffPayment)}</span>
                   </div>
 
                   <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Weighted Avg Rate</span>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Blended Rate (%)</span>
                     <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{totals.payoffWeightedAverageRate.toFixed(3)}%</span>
-                  </div>
-
-                  <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Balance</span>
-                    <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.helocBalance)}</span>
                   </div>
                 </div>
               </div>
@@ -744,6 +744,11 @@ export default function WeightedAverage() {
 
                 <div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.85rem' }} className="wa-metrics-grid">
+                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Balance</span>
+                      <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.newTotalBalance)}</span>
+                    </div>
+
                     <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #10B981', position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
                       <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>New Total Payment</span>
                       <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.newTotalPayment)}</span>
@@ -755,18 +760,13 @@ export default function WeightedAverage() {
                     </div>
 
                     <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>New Weighted Rate</span>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>New Blended Rate (%)</span>
                       <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{totals.newWeightedAverageRate.toFixed(3)}%</span>
                       {totals.newWeightedAverageRate < totals.weightedAverageRate && (
                         <div style={{ position: 'absolute', top: '-9px', right: '8px', backgroundColor: '#F59E0B', color: 'white', padding: '2px 7px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 'bold', boxShadow: 'var(--shadow-sm)' }}>
                           Drop of {(totals.weightedAverageRate - totals.newWeightedAverageRate).toFixed(2)}%
                         </div>
                       )}
-                    </div>
-
-                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Balance</span>
-                      <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.newTotalBalance)}</span>
                     </div>
                   </div>
 
@@ -785,7 +785,7 @@ export default function WeightedAverage() {
       <RelatedInsights
         calculatorId="calc-weighted-avg"
         title="How We Use Blended Debt & HELOC Math in Real Scenarios"
-        subtitle="Articles and video walkthroughs that pair with the Weighted Average Calculator."
+        subtitle="Articles and video walkthroughs that pair with the Blended Rate Calculator."
         background="#FFFFFF"
       />
 

@@ -205,7 +205,7 @@ $htmlBody = "<!DOCTYPE html>
           <tr>
             <td style=\"background-color:#060A2D;padding:24px 26px;border-bottom:4px solid #EFB51E;\">
               <div style=\"font-size:11px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#EFB51E;margin-bottom:6px;\">
-                Insider Mortgage · Blended Rate &amp; HELOC Analyzer
+                BLENDED RATE CALCULATOR &amp; CONSOLIDATION LOAN
               </div>
               <h1 style=\"margin:0;font-size:22px;line-height:1.25;color:#FFFFFF;\">
                 {$safeScenarioTitle}

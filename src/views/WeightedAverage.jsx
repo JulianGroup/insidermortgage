@@ -424,7 +424,9 @@ export default function WeightedAverage() {
       {/* Compact Header */}
       <section style={{ padding: '2.25rem 1rem 1.75rem', textAlign: 'center', backgroundColor: 'var(--primary)', color: 'white' }}>
         <div className="container" style={{ maxWidth: '820px' }}>
-          <h1 style={{ fontSize: '2rem', marginBottom: '0.65rem', color: 'white' }}>Blended Rate Calculator</h1>
+          <h1 style={{ fontSize: '2rem', lineHeight: 1.2, marginBottom: '0.75rem', color: 'white', letterSpacing: '0.02em' }}>
+            BLENDED RATE CALCULATOR<br />&amp;<br />CONSOLIDATION LOAN
+          </h1>
           <div style={{ fontSize: '0.96rem', lineHeight: 1.55, opacity: 0.92, display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
             <p style={{ margin: 0 }}>
               Your Blended Rate is the weighted average interest rate across your existing debts, taking into account each debt&apos;s outstanding balance and interest rate.

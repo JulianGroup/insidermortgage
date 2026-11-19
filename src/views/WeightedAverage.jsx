@@ -749,7 +749,7 @@ export default function WeightedAverage() {
               {/* Section 2: NEW DEBT CONSOLIDATION LOAN */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
                 <div style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--primary)', letterSpacing: '0.04em', textTransform: 'uppercase', paddingLeft: '0.15rem' }}>
-                  NEW DEBT CONSOLIDATION LOAN:
+                  NEW DEBT CONSOLIDATION LOAN <span style={{ fontWeight: 600, textTransform: 'none', color: '#475569' }}>(for illustration purposes only):</span>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '1rem', alignItems: 'stretch', padding: '0.8rem 1rem', backgroundColor: 'rgba(30, 58, 138, 0.05)', border: '1px solid rgba(30, 58, 138, 0.16)', borderRadius: '10px' }} className="wa-summary-row">

@@ -681,13 +681,16 @@ export default function WeightedAverage() {
                         />
                       </td>
                       <td style={{ padding: '0.4rem 0.6rem' }}>
-                        <input 
-                          type="text" 
-                          value={row.rate} 
-                          onChange={(e) => updateRow(row.id, 'rate', e.target.value)}
-                          placeholder="0.00"
-                          style={{ width: '100%', padding: '0.45rem 0.65rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '0.95rem' }}
-                        />
+                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                          <input 
+                            type="text" 
+                            value={row.rate} 
+                            onChange={(e) => updateRow(row.id, 'rate', e.target.value)}
+                            placeholder="0.00"
+                            style={{ width: '100%', padding: '0.45rem 1.7rem 0.45rem 0.65rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '0.95rem' }}
+                          />
+                          <span style={{ position: 'absolute', right: '0.65rem', color: '#64748B', fontSize: '0.92rem', fontWeight: 600, pointerEvents: 'none' }}>%</span>
+                        </div>
                       </td>
                       <td style={{ padding: '0.4rem', textAlign: 'center' }}>
                         <button 
@@ -791,8 +794,8 @@ export default function WeightedAverage() {
                       </span>
                     </div>
 
-                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.25rem' }}>
-                      <label htmlFor="new-consolidation-rate" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>
+                    <div style={{ backgroundColor: '#FDE047', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '2px solid #EAB308', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.25rem' }}>
+                      <label htmlFor="new-consolidation-rate" style={{ color: '#060A2D', fontSize: '0.8rem', fontWeight: 700 }}>
                         New Rate (%)
                       </label>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
@@ -804,18 +807,18 @@ export default function WeightedAverage() {
                             if (e.target.value === '' || /^\d*\.?\d*$/.test(e.target.value)) setHelocRate(e.target.value);
                           }}
                           style={{
-                            width: '78px',
+                            width: '82px',
                             padding: '0.25rem 0.45rem',
                             borderRadius: '6px',
-                            border: '1px solid #CBD5E1',
+                            border: '1px solid #CA8A04',
                             fontSize: '1.2rem',
                             fontWeight: 800,
                             textAlign: 'center',
-                            color: 'var(--primary)',
-                            backgroundColor: '#F8FAFC',
+                            color: '#060A2D',
+                            backgroundColor: '#FEF9C3',
                           }}
                         />
-                        <span style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--primary)' }}>%</span>
+                        <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#060A2D' }}>%</span>
                       </div>
                     </div>
                   </div>

@@ -5,7 +5,8 @@ import CurrencyInput from '../components/CurrencyInput';
 import RelatedInsights from '../components/blog/RelatedInsights';
 
 const STORAGE_KEY_ROWS = 'insider_mortgage_wa_rows_v1';
-const STORAGE_KEY_HELOC = 'insider_mortgage_wa_heloc_v1';
+const STORAGE_KEY_HELOC = 'insider_mortgage_wa_rate_v2';
+const STORAGE_KEY_LOAN_TYPE = 'insider_mortgage_wa_loan_type_v1';
 const STORAGE_KEY_SAVED_SCENARIOS = 'insider_mortgage_wa_saved_scenarios_v1';
 const STORAGE_KEY_USER_EMAIL = 'insider_mortgage_wa_user_email_v1';
 
@@ -15,10 +16,12 @@ const SAMPLE_ROWS = [
   { id: 3, description: 'Credit Card', rate: '22.9', payment: '400', balance: '12000', payoff: true }
 ];
 
-const DEFAULT_HELOC_RATE = '8.5';
+const DEFAULT_HELOC_RATE = '7.375';
+const DEFAULT_FIXED_RATE = '7.75';
 
 export default function WeightedAverage() {
   const [rows, setRows] = useState(SAMPLE_ROWS);
+  const [loanType, setLoanType] = useState('heloc'); // 'heloc' | 'fixed'
   const [helocRate, setHelocRate] = useState(DEFAULT_HELOC_RATE);
   const [isHydrated, setIsHydrated] = useState(false);
   const [scenarioName, setScenarioName] = useState('');
@@ -62,6 +65,9 @@ export default function WeightedAverage() {
           const parsedUrl = JSON.parse(decodedJson);
           if (parsedUrl && Array.isArray(parsedUrl.rows) && parsedUrl.rows.length > 0) {
             setRows(parsedUrl.rows);
+            if (parsedUrl.loanType === 'fixed' || parsedUrl.loanType === 'heloc') {
+              setLoanType(parsedUrl.loanType);
+            }
             if (parsedUrl.helocRate !== undefined) {
               setHelocRate(String(parsedUrl.helocRate));
             }
@@ -83,6 +89,10 @@ export default function WeightedAverage() {
             setRows(parsed);
           }
         }
+        const savedLoanType = window.localStorage.getItem(STORAGE_KEY_LOAN_TYPE);
+        if (savedLoanType === 'fixed' || savedLoanType === 'heloc') {
+          setLoanType(savedLoanType);
+        }
         const savedHeloc = window.localStorage.getItem(STORAGE_KEY_HELOC);
         if (savedHeloc !== null) {
           setHelocRate(savedHeloc);
@@ -95,16 +105,17 @@ export default function WeightedAverage() {
     }
   }, []);
 
-  // Save user entries to browser localStorage whenever rows or helocRate change
+  // Save user entries to browser localStorage whenever rows, loanType, or helocRate change
   useEffect(() => {
     if (!isHydrated) return;
     try {
       window.localStorage.setItem(STORAGE_KEY_ROWS, JSON.stringify(rows));
+      window.localStorage.setItem(STORAGE_KEY_LOAN_TYPE, loanType);
       window.localStorage.setItem(STORAGE_KEY_HELOC, helocRate);
     } catch (err) {
       console.warn('Unable to write to localStorage:', err);
     }
-  }, [rows, helocRate, isHydrated]);
+  }, [rows, loanType, helocRate, isHydrated]);
 
   const addRow = () => {
     if (rows.length < 10) {
@@ -126,7 +137,13 @@ export default function WeightedAverage() {
 
   const resetToSample = () => {
     setRows(SAMPLE_ROWS);
+    setLoanType('heloc');
     setHelocRate(DEFAULT_HELOC_RATE);
+  };
+
+  const handleLoanTypeChange = (nextType) => {
+    setLoanType(nextType);
+    setHelocRate(nextType === 'fixed' ? DEFAULT_FIXED_RATE : DEFAULT_HELOC_RATE);
   };
 
   const updateRow = (id, field, value) => {
@@ -169,14 +186,27 @@ export default function WeightedAverage() {
     const weightedAverageRate = totalBalance > 0 ? (weightedRateSum / totalBalance) : 0;
     const payoffWeightedAverageRate = helocBalance > 0 ? (payoffWeightedRateSum / helocBalance) : 0;
 
-    // HELOC Calculations
-    const parsedHelocRate = parseFloat(helocRate) || 0;
-    // Assuming Interest-Only payments for the HELOC draw period
-    const helocPayment = (helocBalance * (parsedHelocRate / 100)) / 12; 
+    // Consolidation Loan Calculations (HELOC = Interest Only; Fixed 2nd = 30-Yr Amort P&I)
+    const parsedNewRate = parseFloat(helocRate) || 0;
+    const monthlyRate = (parsedNewRate / 100) / 12;
+    let helocPayment = 0;
+    if (helocBalance > 0) {
+      if (loanType === 'fixed') {
+        const n = 360; // 30-year amortization
+        helocPayment =
+          monthlyRate > 0
+            ? (helocBalance * (monthlyRate * Math.pow(1 + monthlyRate, n))) /
+              (Math.pow(1 + monthlyRate, n) - 1)
+            : helocBalance / n;
+      } else {
+        // Interest-Only payments for the HELOC draw period
+        helocPayment = helocBalance * monthlyRate;
+      }
+    }
     
     const newTotalBalance = totalBalance; // Balance shifts but total remains the same
     const newTotalPayment = unchangedPayment + helocPayment;
-    const newWeightedRateSum = unchangedWeightedRateSum + (helocBalance * parsedHelocRate);
+    const newWeightedRateSum = unchangedWeightedRateSum + (helocBalance * parsedNewRate);
     const newWeightedAverageRate = newTotalBalance > 0 ? (newWeightedRateSum / newTotalBalance) : 0;
 
     return { 
@@ -184,7 +214,7 @@ export default function WeightedAverage() {
       payoffPayment, payoffWeightedAverageRate,
       helocBalance, helocPayment, newTotalPayment, newTotalBalance, newWeightedAverageRate
     };
-  }, [rows, helocRate]);
+  }, [rows, helocRate, loanType]);
 
   // General Rule: US Dollar format with NO cents
   const formatCurrency = (val) => new Intl.NumberFormat('en-US', { 
@@ -201,6 +231,7 @@ export default function WeightedAverage() {
     try {
       const payload = {
         name: scenarioName.trim(),
+        loanType,
         helocRate,
         rows,
       };
@@ -236,6 +267,7 @@ export default function WeightedAverage() {
       name: resolvedName,
       savedAt: new Date().toISOString(),
       rows,
+      loanType,
       helocRate,
     };
     const nextList = [entry, ...savedScenarios.filter((s) => s.id !== id)].slice(0, 15);
@@ -253,6 +285,11 @@ export default function WeightedAverage() {
   const handleLoadSavedScenario = (sc) => {
     if (Array.isArray(sc.rows) && sc.rows.length > 0) {
       setRows(sc.rows);
+    }
+    if (sc.loanType === 'fixed' || sc.loanType === 'heloc') {
+      setLoanType(sc.loanType);
+    } else {
+      setLoanType('heloc');
     }
     if (sc.helocRate !== undefined) {
       setHelocRate(String(sc.helocRate));
@@ -352,6 +389,7 @@ export default function WeightedAverage() {
           note: emailNote.trim(),
           scenarioName: getEffectiveScenarioName(),
           shareUrl,
+          loanType,
           helocRate,
           rows,
           totals,
@@ -384,12 +422,20 @@ export default function WeightedAverage() {
   return (
     <main style={{ minHeight: '80vh', backgroundColor: 'var(--bg-color)' }}>
       {/* Compact Header */}
-      <section style={{ padding: '2.25rem 1rem 1.5rem', textAlign: 'center', backgroundColor: 'var(--primary)', color: 'white' }}>
-        <div className="container">
-          <h1 style={{ fontSize: '2rem', marginBottom: '0.35rem', color: 'white' }}>Blended Rate Calculator</h1>
-          <p style={{ fontSize: '1rem', opacity: 0.9, maxWidth: '720px', margin: '0 auto' }}>
-            Enter your current debts to calculate your combined weighted average interest rate. Check the boxes to simulate consolidating debts into a HELOC.
-          </p>
+      <section style={{ padding: '2.25rem 1rem 1.75rem', textAlign: 'center', backgroundColor: 'var(--primary)', color: 'white' }}>
+        <div className="container" style={{ maxWidth: '820px' }}>
+          <h1 style={{ fontSize: '2rem', marginBottom: '0.65rem', color: 'white' }}>Blended Rate Calculator</h1>
+          <div style={{ fontSize: '0.96rem', lineHeight: 1.55, opacity: 0.92, display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
+            <p style={{ margin: 0 }}>
+              Your Blended Rate is the weighted average interest rate across your existing debts, taking into account each debt&apos;s outstanding balance and interest rate.
+            </p>
+            <p style={{ margin: 0 }}>
+              Enter your current loan balances and interest rates below to calculate your Blended Rate and explore a sample Debt Consolidation Second Mortgage that could simplify your payments and potentially reduce your borrowing costs.
+            </p>
+            <p style={{ margin: 0, fontSize: '0.88rem', opacity: 0.85 }}>
+              Actual loan rates, terms, and closing costs will depend on your individual financial circumstances. Schedule a consultation with Team Insider to explore your options and determine whether debt consolidation makes sense for you.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -590,11 +636,11 @@ export default function WeightedAverage() {
               <table style={{ width: '100%', minWidth: '800px', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr style={{ borderBottom: '2px solid rgba(0,0,0,0.08)' }}>
-                    <th style={{ padding: '0.5rem 0.6rem', textAlign: 'center', color: 'var(--primary)', fontWeight: '600', width: '85px', fontSize: '0.82rem', lineHeight: '1.15' }}>Payoff w/<br/>HELOC</th>
+                    <th style={{ padding: '0.5rem 0.6rem', textAlign: 'center', color: 'var(--primary)', fontWeight: '600', width: '95px', fontSize: '0.82rem', lineHeight: '1.15' }}>Payoff w/<br/>New Loan</th>
                     <th style={{ padding: '0.5rem 0.6rem', textAlign: 'left', color: 'var(--primary)', fontWeight: '600', fontSize: '0.9rem' }}>Description</th>
-                    <th style={{ padding: '0.5rem 0.6rem', textAlign: 'left', color: 'var(--primary)', fontWeight: '600', width: '15%', fontSize: '0.9rem' }}>Rate (%)</th>
-                    <th style={{ padding: '0.5rem 0.6rem', textAlign: 'left', color: 'var(--primary)', fontWeight: '600', width: '20%', fontSize: '0.9rem' }}>Monthly Payment ($)</th>
                     <th style={{ padding: '0.5rem 0.6rem', textAlign: 'left', color: 'var(--primary)', fontWeight: '600', width: '20%', fontSize: '0.9rem' }}>Balance ($)</th>
+                    <th style={{ padding: '0.5rem 0.6rem', textAlign: 'left', color: 'var(--primary)', fontWeight: '600', width: '20%', fontSize: '0.9rem' }}>Payment /mo ($)</th>
+                    <th style={{ padding: '0.5rem 0.6rem', textAlign: 'left', color: 'var(--primary)', fontWeight: '600', width: '15%', fontSize: '0.9rem' }}>Rate (%)</th>
                     <th style={{ padding: '0.5rem', width: '42px' }}></th>
                   </tr>
                 </thead>
@@ -619,11 +665,10 @@ export default function WeightedAverage() {
                         />
                       </td>
                       <td style={{ padding: '0.4rem 0.6rem' }}>
-                        <input 
-                          type="text" 
-                          value={row.rate} 
-                          onChange={(e) => updateRow(row.id, 'rate', e.target.value)}
-                          placeholder="0.00"
+                        <CurrencyInput 
+                          value={row.balance} 
+                          onChange={(val) => updateRow(row.id, 'balance', val)}
+                          placeholder="0"
                           style={{ width: '100%', padding: '0.45rem 0.65rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '0.95rem' }}
                         />
                       </td>
@@ -636,10 +681,11 @@ export default function WeightedAverage() {
                         />
                       </td>
                       <td style={{ padding: '0.4rem 0.6rem' }}>
-                        <CurrencyInput 
-                          value={row.balance} 
-                          onChange={(val) => updateRow(row.id, 'balance', val)}
-                          placeholder="0"
+                        <input 
+                          type="text" 
+                          value={row.rate} 
+                          onChange={(e) => updateRow(row.id, 'rate', e.target.value)}
+                          placeholder="0.00"
                           style={{ width: '100%', padding: '0.45rem 0.65rem', borderRadius: '4px', border: '1px solid #ddd', fontSize: '0.95rem' }}
                         />
                       </td>
@@ -672,86 +718,159 @@ export default function WeightedAverage() {
               )}
             </div>
 
-            {/* Tighter Results Dashboard: All 3 Sections Visible Together */}
-            <div style={{ borderTop: '2px solid rgba(0,0,0,0.08)', backgroundColor: '#F8FAFC', padding: '1rem 1.5rem 1.25rem' }}>
-              
-              {/* Row 1: Current Debt Summary */}
-              <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '1rem', alignItems: 'center', padding: '0.75rem 1rem', backgroundColor: 'white', borderRadius: '10px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', marginBottom: '0.65rem' }} className="wa-summary-row">
+            {/* Results Dashboard: Aligned Vertically with Balance / Payment / Rate */}
+            <div style={{ borderTop: '2px solid rgba(0,0,0,0.08)', backgroundColor: '#F8FAFC', padding: '1.15rem 1.5rem 1.4rem', display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+
+              {/* Section 1: Debt Being Paid Off */}
+              <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '1rem', alignItems: 'center', padding: '0.75rem 1rem', backgroundColor: 'rgba(239, 68, 68, 0.035)', border: '1px solid rgba(239, 68, 68, 0.16)', borderRadius: '10px' }} className="wa-summary-row">
                 <div>
-                  <h2 style={{ color: 'var(--primary)', fontSize: '1.1rem', margin: 0, lineHeight: 1.2 }}>Current Debt Summary</h2>
-                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>All entered debts combined</span>
+                  <h2 style={{ color: 'var(--primary)', fontSize: '1.05rem', margin: 0, lineHeight: 1.2 }}>Debt Being Paid Off</h2>
+                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.78rem' }}>(with the New Consolidation Loan)</span>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.85rem' }} className="wa-metrics-grid">
-                  <div style={{ backgroundColor: 'rgba(30, 58, 138, 0.03)', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Balance</span>
-                    <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.totalBalance)}</span>
+                  <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>Total Payoff</span>
+                    <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.helocBalance)}</span>
                   </div>
 
-                  <div style={{ backgroundColor: 'rgba(30, 58, 138, 0.03)', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #10B981', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Payment</span>
-                    <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.totalPayment)}</span>
+                  <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #10B981', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>Current Payments</span>
+                    <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.payoffPayment)}</span>
                   </div>
 
-                  <div style={{ backgroundColor: 'rgba(30, 58, 138, 0.03)', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Blended Rate (%)</span>
-                    <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{totals.weightedAverageRate.toFixed(3)}%</span>
+                  <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>Blended Rate</span>
+                    <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--primary)' }}>{totals.payoffWeightedAverageRate.toFixed(3)}%</span>
                   </div>
                 </div>
               </div>
 
-              {/* Row 2: Debt Being Paid Off */}
-              <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '1rem', alignItems: 'center', padding: '0.75rem 1rem', backgroundColor: 'rgba(239, 68, 68, 0.03)', border: '1px solid rgba(239, 68, 68, 0.14)', borderRadius: '10px', marginBottom: '0.65rem' }} className="wa-summary-row">
-                <div>
-                  <h2 style={{ color: 'var(--primary)', fontSize: '1.1rem', margin: 0, lineHeight: 1.2 }}>Debt Being Paid Off</h2>
-                  <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>Checked debts selected above</span>
+              {/* Section 2: NEW DEBT CONSOLIDATION LOAN */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: 'var(--primary)', letterSpacing: '0.04em', textTransform: 'uppercase', paddingLeft: '0.15rem' }}>
+                  NEW DEBT CONSOLIDATION LOAN:
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.85rem' }} className="wa-metrics-grid">
-                  <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Balance</span>
-                    <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.helocBalance)}</span>
-                  </div>
-
-                  <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #10B981', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Payment</span>
-                    <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.payoffPayment)}</span>
-                  </div>
-
-                  <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Blended Rate (%)</span>
-                    <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{totals.payoffWeightedAverageRate.toFixed(3)}%</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Row 3: HELOC Consolidation Scenario */}
-              <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '1rem', alignItems: 'center', padding: '0.85rem 1rem', backgroundColor: 'rgba(30, 58, 138, 0.06)', border: '1px solid rgba(30, 58, 138, 0.15)', borderRadius: '10px' }} className="wa-summary-row">
-                <div>
-                  <h2 style={{ color: 'var(--primary)', fontSize: '1.1rem', margin: 0, lineHeight: 1.2 }}>HELOC Consolidation</h2>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', marginTop: '0.4rem' }}>
-                    <label style={{ fontWeight: '600', color: 'var(--primary)', fontSize: '0.82rem' }}>New HELOC Rate (%):</label>
-                    <input 
-                      type="text" 
-                      value={helocRate} 
-                      onChange={(e) => {
-                        if (e.target.value === '' || /^\d*\.?\d*$/.test(e.target.value)) setHelocRate(e.target.value);
+                <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '1rem', alignItems: 'stretch', padding: '0.8rem 1rem', backgroundColor: 'rgba(30, 58, 138, 0.05)', border: '1px solid rgba(30, 58, 138, 0.16)', borderRadius: '10px' }} className="wa-summary-row">
+                  {/* Yellow Loan Type Dropdown Box */}
+                  <div style={{ backgroundColor: '#FDE047', border: '2px solid #EAB308', borderRadius: '8px', padding: '0.6rem 0.75rem', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                    <select
+                      aria-label="New Debt Consolidation Loan Type"
+                      value={loanType}
+                      onChange={(e) => handleLoanTypeChange(e.target.value)}
+                      style={{
+                        width: '100%',
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        outline: 'none',
+                        color: '#060A2D',
+                        fontSize: '1.05rem',
+                        fontWeight: 800,
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                        padding: '0.2rem 0.25rem',
                       }}
-                      style={{ width: '64px', padding: '0.25rem 0.4rem', borderRadius: '4px', border: '1px solid #cbd5e1', fontSize: '0.95rem', fontWeight: 'bold', textAlign: 'center', backgroundColor: 'white' }}
-                    />
+                    >
+                      <option value="heloc">HELOC 2nd</option>
+                      <option value="fixed">Fixed 2nd</option>
+                    </select>
                   </div>
-                </div>
 
-                <div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.85rem' }} className="wa-metrics-grid">
-                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>Total Balance</span>
-                      <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.newTotalBalance)}</span>
+                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.2rem' }}>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>Loan Amount</span>
+                      <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.helocBalance)}</span>
                     </div>
 
-                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #10B981', position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>New Total Payment</span>
-                      <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.newTotalPayment)}</span>
+                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #10B981', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.15rem' }}>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>New Payment /mo ($)</span>
+                      <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.helocPayment)}</span>
+                      <span style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B' }}>
+                        {loanType === 'fixed' ? '30-Yr Amort P&I' : 'Interest Only'}
+                      </span>
+                    </div>
+
+                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '0.25rem' }}>
+                      <label htmlFor="new-consolidation-rate" style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>
+                        New Rate (%)
+                      </label>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        <input
+                          id="new-consolidation-rate"
+                          type="text"
+                          value={helocRate}
+                          onChange={(e) => {
+                            if (e.target.value === '' || /^\d*\.?\d*$/.test(e.target.value)) setHelocRate(e.target.value);
+                          }}
+                          style={{
+                            width: '78px',
+                            padding: '0.25rem 0.45rem',
+                            borderRadius: '6px',
+                            border: '1px solid #CBD5E1',
+                            fontSize: '1.2rem',
+                            fontWeight: 800,
+                            textAlign: 'center',
+                            color: 'var(--primary)',
+                            backgroundColor: '#F8FAFC',
+                          }}
+                        />
+                        <span style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--primary)' }}>%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ fontSize: '0.78rem', color: '#DC2626', fontWeight: 500, paddingLeft: '0.25rem', lineHeight: 1.4 }}>
+                  {loanType === 'fixed'
+                    ? '* Actual Fixed Rate Second rate and payment will be based on your specific variables (FICO, cLTV, Loan Amount). Default rate and payment shown is based on a 60% cLTV and FICO >740 with P&I Payments.'
+                    : '* Actual HELOC rate and payment will be based on your specific variables (FICO, cLTV, Loan Amount). Default rate and payment shown is based on an 80% cLTV and FICO >740 with Interest Only payments during draw period on a loan amount > $250,000.'}
+                </div>
+              </div>
+
+              {/* Section 3: Current Debt Summary vs. NEW Debt Summary */}
+              <div style={{ backgroundColor: 'white', borderRadius: '10px', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
+                {/* Row A: Current Debt Summary */}
+                <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '1rem', alignItems: 'center', padding: '0.85rem 1rem', borderBottom: '1px solid #E2E8F0' }} className="wa-summary-row">
+                  <div>
+                    <h2 style={{ color: 'var(--primary)', fontSize: '1.05rem', margin: 0, lineHeight: 1.2 }}>Current Debt Summary</h2>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.78rem' }}>(All entered debts combined)</span>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.85rem' }} className="wa-metrics-grid">
+                    <div style={{ backgroundColor: 'rgba(30, 58, 138, 0.03)', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>Total Debt</span>
+                      <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.totalBalance)}</span>
+                    </div>
+
+                    <div style={{ backgroundColor: 'rgba(30, 58, 138, 0.03)', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #10B981', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>Current Total Payments</span>
+                      <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.totalPayment)}</span>
+                    </div>
+
+                    <div style={{ backgroundColor: 'rgba(30, 58, 138, 0.03)', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>Previous Blended Rate</span>
+                      <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--primary)' }}>{totals.weightedAverageRate.toFixed(3)}%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Row B: NEW Debt Summary */}
+                <div style={{ display: 'grid', gridTemplateColumns: '240px 1fr', gap: '1rem', alignItems: 'center', padding: '0.9rem 1rem', backgroundColor: 'rgba(16, 185, 129, 0.04)' }} className="wa-summary-row">
+                  <div>
+                    <h2 style={{ color: 'var(--primary)', fontSize: '1.05rem', margin: 0, lineHeight: 1.2 }}>NEW Debt Summary</h2>
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.78rem' }}>(Remaining debts combined with New Loan)</span>
+                  </div>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.85rem' }} className="wa-metrics-grid">
+                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #6366F1', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>Total Debt</span>
+                      <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.newTotalBalance)}</span>
+                    </div>
+
+                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #10B981', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>New Total Payments</span>
+                      <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--primary)' }}>{formatCurrency(totals.newTotalPayment)}</span>
                       {totals.newTotalPayment < totals.totalPayment && (
                         <div style={{ position: 'absolute', top: '-9px', right: '8px', backgroundColor: '#10B981', color: 'white', padding: '2px 7px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 'bold', boxShadow: 'var(--shadow-sm)' }}>
                           Save {formatCurrency(totals.totalPayment - totals.newTotalPayment)}/mo
@@ -759,19 +878,15 @@ export default function WeightedAverage() {
                       )}
                     </div>
 
-                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', position: 'relative', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '0.5rem', flexWrap: 'wrap' }}>
-                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.82rem', fontWeight: 600 }}>New Blended Rate (%)</span>
-                      <span style={{ fontSize: '1.45rem', fontWeight: 'bold', color: 'var(--primary)' }}>{totals.newWeightedAverageRate.toFixed(3)}%</span>
+                    <div style={{ backgroundColor: 'white', padding: '0.65rem 0.85rem', borderRadius: '8px', borderLeft: '4px solid #F59E0B', position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.2rem' }}>
+                      <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600 }}>New Blended Rate</span>
+                      <span style={{ fontSize: '1.4rem', fontWeight: 'bold', color: 'var(--primary)' }}>{totals.newWeightedAverageRate.toFixed(3)}%</span>
                       {totals.newWeightedAverageRate < totals.weightedAverageRate && (
                         <div style={{ position: 'absolute', top: '-9px', right: '8px', backgroundColor: '#F59E0B', color: 'white', padding: '2px 7px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 'bold', boxShadow: 'var(--shadow-sm)' }}>
                           Drop of {(totals.weightedAverageRate - totals.newWeightedAverageRate).toFixed(2)}%
                         </div>
                       )}
                     </div>
-                  </div>
-
-                  <div style={{ textAlign: 'right', marginTop: '0.4rem', color: 'var(--text-secondary)', fontSize: '0.8rem' }}>
-                    * HELOC balance of <strong>{formatCurrency(totals.helocBalance)}</strong> with an interest-only monthly payment of <strong>{formatCurrency(totals.helocPayment)}</strong>.
                   </div>
                 </div>
               </div>

@@ -128,6 +128,9 @@ $fallbackUrl = 'https://insidermortgage.com/geek-out/weighted-average/';
 $shareUrl = (strpos($rawShareUrl, 'https://insidermortgage.com/') === 0) ? $rawShareUrl : $fallbackUrl;
 
 $rows = is_array($data['rows'] ?? null) ? array_slice($data['rows'], 0, 10) : [];
+$loanType = (($data['loanType'] ?? 'heloc') === 'fixed') ? 'fixed' : 'heloc';
+$loanTypeLabel = ($loanType === 'fixed') ? 'Fixed 2nd (30-Yr Amort P&amp;I)' : 'HELOC 2nd (Interest-Only)';
+$loanBadgeText = ($loanType === 'fixed') ? 'Fixed 2nd Payoff' : 'HELOC Payoff';
 $helocRate = (float)($data['helocRate'] ?? 0);
 $totals = is_array($data['totals'] ?? null) ? $data['totals'] : [];
 
@@ -155,14 +158,14 @@ foreach ($rows as $idx => $r) {
     $isPayoff = !empty($r['payoff']);
     $rowBg = $isPayoff ? '#FEF2F2' : '#FFFFFF';
     $badgeHtml = $isPayoff
-        ? '<span style="display:inline-block;background:#EFB51E;color:#060A2D;font-size:11px;font-weight:bold;padding:2px 7px;border-radius:999px;">HELOC Payoff</span>'
+        ? "<span style=\"display:inline-block;background:#EFB51E;color:#060A2D;font-size:11px;font-weight:bold;padding:2px 7px;border-radius:999px;\">{$loanBadgeText}</span>"
         : '<span style="color:#64748B;font-size:12px;">Keep</span>';
 
     $debtRowsHtml .= "<tr style=\"background:{$rowBg};\">"
         . "<td style=\"padding:9px 10px;border-bottom:1px solid #E2E8F0;font-weight:600;color:#0F172A;\">" . esc($desc) . "</td>"
-        . "<td style=\"padding:9px 10px;border-bottom:1px solid #E2E8F0;text-align:right;color:#334155;\">" . number_format($rate, 3) . "%</td>"
-        . "<td style=\"padding:9px 10px;border-bottom:1px solid #E2E8F0;text-align:right;color:#334155;\">" . fmt_currency($pmt) . "/mo</td>"
         . "<td style=\"padding:9px 10px;border-bottom:1px solid #E2E8F0;text-align:right;font-weight:600;color:#0F172A;\">" . fmt_currency($bal) . "</td>"
+        . "<td style=\"padding:9px 10px;border-bottom:1px solid #E2E8F0;text-align:right;color:#334155;\">" . fmt_currency($pmt) . "/mo</td>"
+        . "<td style=\"padding:9px 10px;border-bottom:1px solid #E2E8F0;text-align:right;color:#334155;\">" . number_format($rate, 3) . "%</td>"
         . "<td style=\"padding:9px 10px;border-bottom:1px solid #E2E8F0;text-align:center;\">{$badgeHtml}</td>"
         . "</tr>";
 }
@@ -222,9 +225,9 @@ $htmlBody = "<!DOCTYPE html>
                 <thead>
                   <tr style=\"background-color:#F8FAFC;\">
                     <th style=\"padding:9px 10px;text-align:left;border-bottom:2px solid #CBD5E1;color:#060A2D;\">Description</th>
-                    <th style=\"padding:9px 10px;text-align:right;border-bottom:2px solid #CBD5E1;color:#060A2D;\">Rate</th>
-                    <th style=\"padding:9px 10px;text-align:right;border-bottom:2px solid #CBD5E1;color:#060A2D;\">Payment</th>
                     <th style=\"padding:9px 10px;text-align:right;border-bottom:2px solid #CBD5E1;color:#060A2D;\">Balance</th>
+                    <th style=\"padding:9px 10px;text-align:right;border-bottom:2px solid #CBD5E1;color:#060A2D;\">Payment /mo</th>
+                    <th style=\"padding:9px 10px;text-align:right;border-bottom:2px solid #CBD5E1;color:#060A2D;\">Rate</th>
                     <th style=\"padding:9px 10px;text-align:center;border-bottom:2px solid #CBD5E1;color:#060A2D;\">Action</th>
                   </tr>
                 </thead>
@@ -250,10 +253,10 @@ $htmlBody = "<!DOCTYPE html>
                 <tr><td style=\"height:10px;\"></td></tr>
                 <tr>
                   <td style=\"padding:12px 14px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;\">
-                    <div style=\"font-size:12px;font-weight:bold;color:#B91C1C;text-transform:uppercase;\">Debt Being Paid Off with HELOC</div>
+                    <div style=\"font-size:12px;font-weight:bold;color:#B91C1C;text-transform:uppercase;\">Debt Being Paid Off (with New Consolidation Loan)</div>
                     <div style=\"margin-top:6px;font-size:14px;color:#0F172A;\">
-                      Total Balance: <strong>" . fmt_currency($helocBalance) . "</strong> &nbsp;|&nbsp;
-                      Total Payment: <strong>" . fmt_currency($payoffPayment) . "/mo</strong> &nbsp;|&nbsp;
+                      Total Payoff: <strong>" . fmt_currency($helocBalance) . "</strong> &nbsp;|&nbsp;
+                      Current Payments: <strong>" . fmt_currency($payoffPayment) . "/mo</strong> &nbsp;|&nbsp;
                       Blended Rate: <strong>" . number_format($payoffWeightedRate, 3) . "%</strong>
                     </div>
                   </td>
@@ -262,15 +265,15 @@ $htmlBody = "<!DOCTYPE html>
                 <tr>
                   <td style=\"padding:14px;background:#FFFBEB;border:2px solid #EFB51E;border-radius:8px;\">
                     <div style=\"font-size:12px;font-weight:bold;color:#92400E;text-transform:uppercase;\">
-                      After HELOC Consolidation ({$helocRateStr}% Interest-Only HELOC) {$savingsBadge}
+                      NEW Debt Summary · {$loanTypeLabel} @ {$helocRateStr}% {$savingsBadge}
                     </div>
                     <div style=\"margin-top:6px;font-size:15px;color:#060A2D;\">
-                      Total Balance: <strong>" . fmt_currency($totalBalance) . "</strong> &nbsp;|&nbsp;
-                      New Total Payment: <strong>" . fmt_currency($newTotalPayment) . "/mo</strong> &nbsp;|&nbsp;
+                      Total Debt: <strong>" . fmt_currency($totalBalance) . "</strong> &nbsp;|&nbsp;
+                      New Total Payments: <strong>" . fmt_currency($newTotalPayment) . "/mo</strong> &nbsp;|&nbsp;
                       New Blended Rate: <strong>" . number_format($newWeightedRate, 3) . "%</strong>{$rateDropText}
                     </div>
                     <div style=\"margin-top:4px;font-size:12px;color:#475569;\">
-                      HELOC interest-only payment on " . fmt_currency($helocBalance) . ": " . fmt_currency($helocPayment) . "/mo
+                      New consolidation loan payment on " . fmt_currency($helocBalance) . ": " . fmt_currency($helocPayment) . "/mo ({$loanTypeLabel})
                     </div>
                   </td>
                 </tr>

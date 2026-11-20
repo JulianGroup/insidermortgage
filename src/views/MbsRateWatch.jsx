@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { doc, onSnapshot, setDoc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import RelatedInsights from '../components/blog/RelatedInsights';
+import Us10YrDailyLogModal from '../components/Us10YrDailyLogModal';
 
 const FIRESTORE_COLLECTION = 'marketWatch';
 const FIRESTORE_DOC_ID = 'liveQuotes';
@@ -146,6 +147,7 @@ export default function MbsRateWatch() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState(null);
   const [firebaseConnected, setFirebaseConnected] = useState(false);
+  const [showUs10YrLog, setShowUs10YrLog] = useState(false);
 
   // Admin modal state
   const [showAdmin, setShowAdmin] = useState(false);
@@ -561,9 +563,33 @@ export default function MbsRateWatch() {
               const change = formatChange(item);
               const colorClass = change.isPositive ? 'lb-green' : 'lb-red';
               const rangePct = getRangePercent(item);
+              const isUs10Yr = item.id === 'us-10yr';
 
               return (
-                <article key={item.id} className="lb-instrument-card">
+                <article
+                  key={item.id}
+                  className={`lb-instrument-card${
+                    isUs10Yr ? ' lb-instrument-card-clickable' : ''
+                  }`}
+                  onClick={isUs10Yr ? () => setShowUs10YrLog(true) : undefined}
+                  onKeyDown={
+                    isUs10Yr
+                      ? (e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setShowUs10YrLog(true);
+                          }
+                        }
+                      : undefined
+                  }
+                  role={isUs10Yr ? 'button' : undefined}
+                  tabIndex={isUs10Yr ? 0 : undefined}
+                  title={
+                    isUs10Yr
+                      ? 'Click to view US 10-Year T-Note Daily Session Log'
+                      : undefined
+                  }
+                >
                   {/* Top Dark Header Bar (Matches RateWatch Reference + Land-book Polish) */}
                   <header className="lb-card-topbar">
                     <div className="lb-card-title-group">
@@ -579,11 +605,12 @@ export default function MbsRateWatch() {
                         type="button"
                         className="lb-info-btn"
                         title={item.tooltip}
-                        onClick={() =>
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setActiveTooltip(
                             activeTooltip === item.id ? null : item.id
-                          )
-                        }
+                          );
+                        }}
                         aria-label={`About ${item.title}`}
                       >
                         ?
@@ -682,6 +709,13 @@ export default function MbsRateWatch() {
                     {/* Bottom-Right Directional Corner Triangle */}
                     <div className={`lb-corner-wedge ${colorClass}`} />
                   </div>
+
+                  {isUs10Yr && (
+                    <div className="lb-card-log-footer">
+                      <span>Daily Trading Session Log (5:00 AM – 12:30 PM PT)</span>
+                      <span className="lb-card-log-cta">View Table →</span>
+                    </div>
+                  )}
                 </article>
               );
             })}
@@ -773,6 +807,11 @@ export default function MbsRateWatch() {
         title="Lock vs. Float & Loan Estimate Strategy Breakdowns"
         subtitle="How MBS pricing, points, and lender credits work in practice."
         background="#FFFFFF"
+      />
+
+      <Us10YrDailyLogModal
+        isOpen={showUs10YrLog}
+        onClose={() => setShowUs10YrLog(false)}
       />
 
       <style dangerouslySetInnerHTML={{ __html: `
@@ -1271,6 +1310,43 @@ export default function MbsRateWatch() {
         .lb-instrument-card:hover {
           transform: translateY(-3px);
           box-shadow: 0 20px 44px rgba(15, 23, 42, 0.11);
+        }
+
+        .lb-instrument-card-clickable {
+          cursor: pointer;
+          border-color: #CBD5E1;
+        }
+
+        .lb-instrument-card-clickable:hover,
+        .lb-instrument-card-clickable:focus-visible {
+          border-color: #F2C230;
+          box-shadow: 0 22px 46px rgba(6, 26, 51, 0.16);
+          outline: none;
+        }
+
+        .lb-card-log-footer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.75rem;
+          padding: 0.6rem 1.35rem;
+          background: #F8FAFC;
+          border-top: 1px solid #E2E8F0;
+          font-size: 0.78rem;
+          font-weight: 600;
+          color: #475569;
+        }
+
+        .lb-card-log-cta {
+          color: #061A33;
+          font-weight: 700;
+          white-space: nowrap;
+        }
+
+        .lb-instrument-card-clickable:hover .lb-card-log-footer {
+          background: #FFFBEB;
+          border-top-color: #FDE68A;
+          color: #061A33;
         }
 
         /* Card Header Bar */

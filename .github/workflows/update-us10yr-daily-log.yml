@@ -1,0 +1,25 @@
+name: Sync US 10-Year T-Note Daily Session Log
+
+on:
+  schedule:
+    # Runs Mon-Fri at 19:35 UTC (12:35 PM PDT) and 20:35 UTC (12:35 PM PST)
+    - cron: '35 19 * * 1-5'
+    - cron: '35 20 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  sync-us10yr-log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Sync US 10-Year T-Note Daily Log to Firestore
+        run: node scripts/sync-us10yr-daily-log.mjs

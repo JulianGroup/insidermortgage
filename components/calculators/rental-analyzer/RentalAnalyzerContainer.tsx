@@ -16,6 +16,7 @@ import AiInvestmentAnalysis from './AiInvestmentAnalysis';
 import LeadCaptureModal from './LeadCaptureModal';
 import MathReceiptModal, { MathMetricKey } from './MathReceiptModal';
 import CompareScenariosModal, { ComparableScenarioItem } from './CompareScenariosModal';
+import EmailRentalScenarioModal, { EmailScenarioOption } from './EmailRentalScenarioModal';
 import RentalAnalyzerPrintReport from './RentalAnalyzerPrintReport';
 import {
   getRentalReportPdfFileName,
@@ -37,12 +38,6 @@ interface SavedScenario {
 }
 
 const SAVED_SCENARIOS_STORAGE_KEY = 'im_rental_saved_scenarios_v1';
-
-const currencyFmt = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  maximumFractionDigits: 0,
-});
 
 const DEFAULT_UNITS_CACHE: UnitInput[] = [
   { id: 'unit-1', label: '3 Bed / 2 Bath Main House', monthlyRent: 2600 },
@@ -102,12 +97,11 @@ export default function RentalAnalyzerContainer({
   >('tam-o-shanter');
   const [unitCache, setUnitCache] = useState<UnitInput[]>(DEFAULT_UNITS_CACHE);
   const [inputs, setInputs] = useState<UnderwriteInputs>(INITIAL_DUPLEX_INPUTS);
-  const [publicUnlocked, setPublicUnlocked] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [activeMathMetric, setActiveMathMetric] = useState<MathMetricKey | null>(null);
   const [savedScenarios, setSavedScenarios] = useState<SavedScenario[]>([]);
   const [saveFeedback, setSaveFeedback] = useState(false);
-  const [copyFeedback, setCopyFeedback] = useState(false);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
 
   useEffect(() => {
@@ -179,20 +173,6 @@ export default function RentalAnalyzerContainer({
       // ignore invalid URL parameter
     }
   }, []);
-
-  useEffect(() => {
-    if (mode === 'public' && typeof window !== 'undefined') {
-      try {
-        if (window.sessionStorage.getItem('im_rental_analyzer_unlocked') === 'true') {
-          setPublicUnlocked(true);
-        }
-      } catch {
-        // ignore storage errors
-      }
-    }
-  }, [mode]);
-
-  const isLockedPublic = mode === 'public' && !publicUnlocked;
 
   const handlePatchInputs = (patch: Partial<UnderwriteInputs>) => {
     setInputs((prev) => ({
@@ -376,10 +356,6 @@ export default function RentalAnalyzerContainer({
   }, [inputs.propertyAddress]);
 
   const handlePrintReport = () => {
-    if (isLockedPublic) {
-      setIsModalOpen(true);
-      return;
-    }
     if (typeof window !== 'undefined') {
       const targetTitle = getRentalReportPdfFileName(inputs.propertyAddress);
       const originalTitle = document.title;
@@ -391,25 +367,29 @@ export default function RentalAnalyzerContainer({
     }
   };
 
-  const buildShareUrl = (): string => {
-    if (typeof window === 'undefined') return '';
+  const buildShareUrlForInputs = (
+    targetInputs: UnderwriteInputs,
+    featuredDealId?: string | null
+  ): string => {
+    const publicBaseUrl = 'https://insidermortgage.com/tools/rental-analyzer/';
+    if (typeof window === 'undefined') return publicBaseUrl;
     try {
       // Only include fields that differ from INITIAL_DUPLEX_INPUTS (plus core address/units/price) to keep URL short
       const compact: Record<string, unknown> = {
-        propertyAddress: inputs.propertyAddress,
-        unitCount: inputs.unitCount,
-        units: inputs.units.slice(0, inputs.unitCount),
-        purchasePrice: inputs.purchasePrice,
+        propertyAddress: targetInputs.propertyAddress,
+        unitCount: targetInputs.unitCount,
+        units: targetInputs.units.slice(0, targetInputs.unitCount),
+        purchasePrice: targetInputs.purchasePrice,
       };
-      (Object.keys(inputs) as (keyof UnderwriteInputs)[]).forEach((key) => {
+      (Object.keys(targetInputs) as (keyof UnderwriteInputs)[]).forEach((key) => {
         if (
           key !== 'propertyAddress' &&
           key !== 'unitCount' &&
           key !== 'units' &&
           key !== 'purchasePrice' &&
-          inputs[key] !== INITIAL_DUPLEX_INPUTS[key]
+          targetInputs[key] !== INITIAL_DUPLEX_INPUTS[key]
         ) {
-          compact[key] = inputs[key];
+          compact[key] = targetInputs[key];
         }
       });
       const utf8Bytes = unescape(encodeURIComponent(JSON.stringify(compact)));
@@ -418,18 +398,57 @@ export default function RentalAnalyzerContainer({
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
         .replace(/=+$/, '');
-      const pathname = window.location.pathname.endsWith('/')
-        ? window.location.pathname
-        : `${window.location.pathname}/`;
-      const originPath = `${window.location.origin}${pathname}`;
-      const dealSuffix = activeFeaturedDeal
-        ? `&deal=${encodeURIComponent(activeFeaturedDeal.id)}`
+      const dealSuffix = featuredDealId
+        ? `&deal=${encodeURIComponent(featuredDealId)}`
         : '';
-      return `${originPath}?s=${b64url}${dealSuffix}`;
+      return `${publicBaseUrl}?s=${b64url}${dealSuffix}`;
     } catch {
-      return window.location.href;
+      return publicBaseUrl;
     }
   };
+
+  const emailScenarioOptions = useMemo<EmailScenarioOption[]>(() => {
+    const options: EmailScenarioOption[] = [];
+    const currentSnapshot = JSON.stringify(inputs);
+
+    const savedOptions: EmailScenarioOption[] = savedScenarios.map((sc) => ({
+      id: `saved:${sc.id}`,
+      name: sc.name,
+      sourceLabel: 'Saved on Device',
+      inputs: { ...INITIAL_DUPLEX_INPUTS, ...sc.inputs },
+    }));
+
+    const matchingSaved = savedOptions.find(
+      (s) => JSON.stringify(s.inputs) === currentSnapshot
+    );
+
+    if (matchingSaved) {
+      // Put matching saved scenario first and mark it as Current Scenario
+      options.push({
+        ...matchingSaved,
+        sourceLabel: 'Current Scenario',
+        featuredDeal: activeFeaturedDeal,
+      });
+      for (const s of savedOptions) {
+        if (s.id !== matchingSaved.id) {
+          options.push(s);
+        }
+      }
+    } else {
+      options.push({
+        id: 'current',
+        name: extractStreetAddress(inputs.propertyAddress),
+        sourceLabel: 'Current Scenario',
+        inputs,
+        featuredDeal: activeFeaturedDeal,
+      });
+      options.push(...savedOptions);
+    }
+
+    return options;
+  }, [inputs, savedScenarios, activeFeaturedDeal]);
+
+  const defaultEmailScenarioId = emailScenarioOptions[0]?.id ?? 'current';
 
   const handleSaveScenario = () => {
     if (typeof window === 'undefined') return;
@@ -483,81 +502,6 @@ export default function RentalAnalyzerContainer({
         // ignore storage errors
       }
     }
-  };
-
-  const handleCopyShareLink = async () => {
-    if (typeof window === 'undefined') return;
-    const shareUrl = buildShareUrl();
-    try {
-      window.history.replaceState({}, '', shareUrl);
-      await navigator.clipboard.writeText(shareUrl);
-      setCopyFeedback(true);
-      setTimeout(() => setCopyFeedback(false), 2200);
-    } catch {
-      // fallback
-    }
-  };
-
-  const handleEmailScenario = () => {
-    if (typeof window === 'undefined') return;
-    const shareUrl = buildShareUrl();
-    try {
-      window.history.replaceState({}, '', shareUrl);
-    } catch {
-      // ignore history errors
-    }
-    const streetName = extractStreetAddress(inputs.propertyAddress);
-    const cocPct =
-      summary.initialCashInvested > 0
-        ? (summary.year1CashFlow / summary.initialCashInvested) * 100
-        : 0;
-    const monthlyTax = (inputs.purchasePrice * inputs.propertyTaxRate) / 12;
-    const monthlyIns = (inputs.purchasePrice * inputs.insuranceRate) / 12;
-    const totalPitia = summary.monthlyPmt + monthlyTax + monthlyIns + (inputs.monthlyHoa || 0);
-    const dscr = totalPitia > 0 ? summary.totalMonthlyRent / totalPitia : 0;
-    const aduMult = inputs.unitCount > 1 && inputs.aduCount === 2 ? 2 : 1;
-    const aduYr1 = inputs.aduEnabled && (inputs.aduStartMonth ?? 0) < 12;
-    const basis =
-      (inputs.purchasePrice || 0) +
-      (inputs.makeReadyCost || 0) +
-      (aduYr1 ? (inputs.aduCost || 0) * aduMult : 0);
-    const capRate = basis > 0 ? (summary.year1Noi / basis) * 100 : 0;
-
-    const subject = `Rental Property Scenario: ${streetName}`;
-    const bodyLines = [
-      `Rental Property Investment Scenario: ${inputs.propertyAddress || streetName}`,
-      '',
-      `• Purchase Price: ${currencyFmt.format(Math.round(inputs.purchasePrice))}`,
-      `• Cash on Cash (COC): ${cocPct.toFixed(2)}% (${currencyFmt.format(
-        Math.round(summary.year1CashFlow)
-      )}/yr on ${currencyFmt.format(Math.round(summary.initialCashInvested))})`,
-      `• DSCR: ${dscr.toFixed(2)}% (${currencyFmt.format(
-        Math.round(summary.totalMonthlyRent)
-      )}/mo Rent ÷ ${currencyFmt.format(Math.round(totalPitia))}/mo PITIA)`,
-      `• Net Operating Income (NOI): ${currencyFmt.format(Math.round(summary.year1Noi))}/yr`,
-      `• Cap Rate: ${capRate.toFixed(2)}%`,
-      `• 5-Year IRR: ${summary.fiveYear.irrPct.toFixed(2)}% | 10-Year IRR: ${summary.tenYear.irrPct.toFixed(
-        2
-      )}%`,
-      ...(activeFeaturedDeal
-        ? [
-            '',
-            `Curated By: ${activeFeaturedDeal.agent.name}${
-              activeFeaturedDeal.agent.brokerage ? ` (${activeFeaturedDeal.agent.brokerage})` : ''
-            }`,
-            `Contact: ${activeFeaturedDeal.agent.phone} · ${activeFeaturedDeal.agent.email}`,
-            ...(activeFeaturedDeal.listingUrl
-              ? [`Listing URL: ${activeFeaturedDeal.listingUrl}`]
-              : []),
-          ]
-        : []),
-      '',
-      'Open and interact with this exact scenario here:',
-      `${shareUrl} `,
-    ];
-    window.location.href = `mailto:?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(bodyLines.join('\r\n'))}`;
   };
 
   return (
@@ -644,7 +588,7 @@ export default function RentalAnalyzerContainer({
                 lineHeight: 1.15,
               }}
             >
-              Rental Property Investment Analyzer | 1–4 Units &amp; ADU Calculator
+              Rental Property Investment Analyzer
             </h1>
             <p
               style={{
@@ -775,8 +719,8 @@ export default function RentalAnalyzerContainer({
 
                 <button
                   type="button"
-                  onClick={handleEmailScenario}
-                  title="Share this exact scenario via email link"
+                  onClick={() => setIsEmailModalOpen(true)}
+                  title="Email this scenario or your saved scenarios"
                   style={{
                     padding: '0.5rem 0.85rem',
                     borderRadius: '8px',
@@ -792,29 +736,6 @@ export default function RentalAnalyzerContainer({
                   }}
                 >
                   ✉️ Email Scenario
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleCopyShareLink}
-                  title="Copy shareable link to this scenario"
-                  style={{
-                    padding: '0.5rem 0.85rem',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(255,255,255,0.32)',
-                    backgroundColor: copyFeedback
-                      ? '#0468E9'
-                      : 'rgba(255,255,255,0.12)',
-                    color: '#FFFFFF',
-                    fontSize: '0.8rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                  }}
-                >
-                  {copyFeedback ? '✓ Link Copied!' : '🔗 Copy Link'}
                 </button>
 
                 <button
@@ -941,15 +862,11 @@ export default function RentalAnalyzerContainer({
             <InputControlPanel
               inputs={inputs}
               onChange={handlePatchInputs}
-              isLockedPublic={isLockedPublic}
-              onRequestUnlock={() => setIsModalOpen(true)}
             />
 
             <WhatIfModules
               inputs={inputs}
               onChange={handlePatchInputs}
-              isLockedPublic={isLockedPublic}
-              onRequestUnlock={() => setIsModalOpen(true)}
             />
           </div>
 
@@ -958,8 +875,6 @@ export default function RentalAnalyzerContainer({
             <SummaryKpiCards
               inputs={inputs}
               summary={summary}
-              isLockedPublic={isLockedPublic}
-              onRequestUnlock={() => setIsModalOpen(true)}
               onOpenMath={(metric) => setActiveMathMetric(metric)}
               featuredDeal={activeFeaturedDeal}
             />
@@ -967,8 +882,6 @@ export default function RentalAnalyzerContainer({
             <AiInvestmentAnalysis
               inputs={inputs}
               summary={summary}
-              isLockedPublic={isLockedPublic}
-              onRequestUnlock={() => setIsModalOpen(true)}
             />
           </div>
         </div>
@@ -1105,8 +1018,6 @@ export default function RentalAnalyzerContainer({
           <ProFormaTable
             inputs={inputs}
             summary={summary}
-            isLockedPublic={isLockedPublic}
-            onRequestUnlock={() => setIsModalOpen(true)}
             onPrintReport={handlePrintReport}
             onOpenMath={(metric) => setActiveMathMetric(metric)}
           />
@@ -1131,14 +1042,20 @@ export default function RentalAnalyzerContainer({
         onLoadScenario={handleLoadComparedScenario}
       />
 
-      {/* Lead Capture Modal (Public Mode) */}
+      {/* Email Investment Property Analyzer Scenario Modal */}
+      <EmailRentalScenarioModal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        scenarioOptions={emailScenarioOptions}
+        defaultSelectedId={defaultEmailScenarioId}
+        buildShareUrlForInputs={buildShareUrlForInputs}
+      />
+
+      {/* Custom Loan Quote Modal (Public Mode) */}
       <LeadCaptureModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onUnlocked={() => {
-          setPublicUnlocked(true);
-          setIsModalOpen(false);
-        }}
+        onUnlocked={() => setIsModalOpen(false)}
         inputs={inputs}
         summary={summary}
       />

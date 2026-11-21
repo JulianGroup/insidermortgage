@@ -153,17 +153,17 @@ export default function LeadCaptureModal({
               marginBottom: '0.35rem',
             }}
           >
-            Instant Underwriting Access
+            Insider Mortgage
           </div>
           <h3
             id="ra-lead-modal-title"
             style={{ margin: 0, fontSize: '1.35rem', fontWeight: 800, color: '#FFFFFF' }}
           >
-            Unlock Your 10-Year Pro-Forma, IRR &amp; ADU/Refi Model
+            Request a Custom Investment Loan Quote
           </h3>
           <p style={{ margin: '0.4rem 0 0', fontSize: '0.86rem', color: '#CBD5E1', lineHeight: 1.5 }}>
-            Enter your contact info below to immediately unlock the 5-year &amp; 10-year IRR analysis,
-            ADU/Refinance modeling, and printable PDF report for{' '}
+            Share your contact details below and David Sider &amp; Rakesh Jain will review financing
+            options and custom rates for{' '}
             <strong style={{ color: '#EFB51E' }}>
               {inputs.propertyAddress || 'your investment property'}
             </strong>
@@ -370,8 +370,8 @@ export default function LeadCaptureModal({
             }}
           >
             {submitting
-              ? 'Unlocking Your Full 10-Year Pro-Forma…'
-              : 'Unlock 10-Year Pro-Forma, ADU Model & PDF →'}
+              ? 'Sending Your Quote Request…'
+              : 'Request Custom Loan Quote →'}
           </button>
         </form>
       </div>

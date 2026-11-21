@@ -89,14 +89,29 @@ const INITIAL_DUPLEX_INPUTS: UnderwriteInputs = {
   aduMainRentDiscountPct: 0.25,
 };
 
+const INITIAL_BLANK_INPUTS: UnderwriteInputs = {
+  ...INITIAL_DUPLEX_INPUTS,
+  propertyAddress: '',
+  unitCount: 1,
+  units: BLANK_UNITS_CACHE.slice(0, 1).map((u) => ({ ...u })),
+  purchasePrice: 0,
+  makeReadyCost: 0,
+  monthlyHoa: 0,
+  monthlyMaintenance: 0,
+  refiEnabled: false,
+  aduEnabled: false,
+};
+
 export default function RentalAnalyzerContainer({
   mode = 'public',
 }: RentalAnalyzerContainerProps) {
   const [activePreset, setActivePreset] = useState<
     'tam-o-shanter' | 'crawford' | 'fourplex' | 'custom' | string
-  >('tam-o-shanter');
-  const [unitCache, setUnitCache] = useState<UnitInput[]>(DEFAULT_UNITS_CACHE);
-  const [inputs, setInputs] = useState<UnderwriteInputs>(INITIAL_DUPLEX_INPUTS);
+  >('custom');
+  const [unitCache, setUnitCache] = useState<UnitInput[]>(() =>
+    BLANK_UNITS_CACHE.map((u) => ({ ...u }))
+  );
+  const [inputs, setInputs] = useState<UnderwriteInputs>(INITIAL_BLANK_INPUTS);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [activeMathMetric, setActiveMathMetric] = useState<MathMetricKey | null>(null);
@@ -639,29 +654,6 @@ export default function RentalAnalyzerContainer({
                   {deal.buttonLabel}
                 </button>
               ))}
-
-              <button
-                type="button"
-                onClick={clearPropertyOptions}
-                style={{
-                  padding: '0.5rem 0.95rem',
-                  borderRadius: '8px',
-                  border:
-                    activePreset === 'custom'
-                      ? '2px solid #EFB51E'
-                      : '1px solid rgba(248, 113, 113, 0.65)',
-                  backgroundColor:
-                    activePreset === 'custom'
-                      ? '#EFB51E'
-                      : 'rgba(239, 68, 68, 0.22)',
-                  color: activePreset === 'custom' ? '#060A2D' : '#FECACA',
-                  fontSize: '0.8rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                }}
-              >
-                ✕ Clear / Enter Custom Property
-              </button>
             </div>
 
             <div
@@ -694,6 +686,27 @@ export default function RentalAnalyzerContainer({
                   }}
                 >
                   {saveFeedback ? '✓ Saved!' : '💾 Save Scenario'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={clearPropertyOptions}
+                  title="Clear all inputs and start a blank scenario"
+                  style={{
+                    padding: '0.5rem 0.85rem',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(248, 113, 113, 0.65)',
+                    backgroundColor: 'rgba(239, 68, 68, 0.22)',
+                    color: '#FECACA',
+                    fontSize: '0.8rem',
+                    fontWeight: 800,
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}
+                >
+                  ✕ Clear Current Scenario
                 </button>
 
                 <button
@@ -845,6 +858,37 @@ export default function RentalAnalyzerContainer({
         <div className="ra-main-grid">
           {/* Left Column: Unit Schedule & Acquisition/OpEx/Exit Sliders */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div
+              className="no-print"
+              style={{
+                backgroundColor: '#EFF6FF',
+                border: '1px solid #BFDBFE',
+                borderLeft: '4px solid #060A2D',
+                borderRadius: '12px',
+                padding: '0.9rem 1.1rem',
+                color: '#0F172A',
+                fontSize: '0.9rem',
+                lineHeight: 1.5,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '0.73rem',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  color: '#0468E9',
+                  marginBottom: '0.25rem',
+                }}
+              >
+                How to Use This Analyzer
+              </div>
+              <p style={{ margin: 0 }}>
+                Enter your investment property&apos;s information in the four boxes below to see
+                our analysis. You can save your scenario and share your deal with others anytime.
+              </p>
+            </div>
+
             <DynamicUnitSchedule
               propertyAddress={inputs.propertyAddress}
               onAddressChange={(propertyAddress) => {

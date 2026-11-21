@@ -614,8 +614,8 @@ export default function RentalAnalyzerContainer({
               }}
             >
               Underwrite Single Family, Condos, and 2 - 4 unit properties with dynamic
-              unit-level rent schedules, 5-year &amp; 10-year Newton-Raphson IRR, future refinance
-              scenarios, and California ADU value-add projections.
+              unit-level rent schedules, 5-year &amp; 10-year Newton-Raphson IRR, and future
+              refinance scenarios.
             </p>
           </div>
 
@@ -686,27 +686,6 @@ export default function RentalAnalyzerContainer({
                   }}
                 >
                   {saveFeedback ? '✓ Saved!' : '💾 Save Scenario'}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={clearPropertyOptions}
-                  title="Clear all inputs and start a blank scenario"
-                  style={{
-                    padding: '0.5rem 0.85rem',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(248, 113, 113, 0.65)',
-                    backgroundColor: 'rgba(239, 68, 68, 0.22)',
-                    color: '#FECACA',
-                    fontSize: '0.8rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                  }}
-                >
-                  ✕ Clear Current Scenario
                 </button>
 
                 <button

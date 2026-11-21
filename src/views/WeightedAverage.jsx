@@ -402,7 +402,7 @@ export default function WeightedAverage() {
       }
       setEmailStatus({
         type: 'success',
-        message: `✓ Branded HTML report sent to ${[
+        message: `✓ Scenario email sent to ${[
           trimmedUser,
           ...parsedOthers,
           ...(shareWithTeam ? ['dsrj@insidermtg.com'] : []),
@@ -956,11 +956,14 @@ export default function WeightedAverage() {
             >
               <div>
                 <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#EFB51E', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  ✉️ Branded HTML Report
+                  ✉️ Insider Mortgage
                 </div>
-                <h3 id="wa-email-modal-title" style={{ margin: '0.15rem 0 0', fontSize: '1.1rem', fontWeight: 800, color: '#FFFFFF' }}>
-                  Email Scenario: {getEffectiveScenarioName()}
+                <h3 id="wa-email-modal-title" style={{ margin: '0.15rem 0 0', fontSize: '1.08rem', fontWeight: 800, color: '#FFFFFF', lineHeight: 1.25 }}>
+                  BLENDED RATE CALCULATOR
                 </h3>
+                <div style={{ fontSize: '0.86rem', fontWeight: 500, color: 'rgba(255, 255, 255, 0.88)', marginTop: '0.1rem' }}>
+                  with Consolidation Option
+                </div>
               </div>
               <button
                 type="button"
@@ -1128,7 +1131,7 @@ export default function WeightedAverage() {
                     cursor: emailSending ? 'not-allowed' : 'pointer',
                   }}
                 >
-                  {emailSending ? 'Sending...' : '✉️ Send HTML Email'}
+                  {emailSending ? 'Sending...' : '✉️ Send Email'}
                 </button>
               </div>
             </form>

@@ -13,6 +13,8 @@ interface DynamicUnitScheduleProps {
   onUnitChange: (index: number, updated: Partial<UnitInput>) => void;
   totalMonthlyRent: number;
   onClearProperty?: () => void;
+  onSaveScenario?: () => void;
+  saveFeedback?: boolean;
 }
 
 const UNIT_OPTIONS: Array<{ count: 1 | 2 | 3 | 4; title: string; subtitle: string }> = [
@@ -37,6 +39,8 @@ export default function DynamicUnitSchedule({
   onUnitChange,
   totalMonthlyRent,
   onClearProperty,
+  onSaveScenario,
+  saveFeedback = false,
 }: DynamicUnitScheduleProps) {
   return (
     <div className="ra-card">
@@ -73,21 +77,29 @@ export default function DynamicUnitSchedule({
           </h2>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexWrap: 'wrap' }}>
-          <span
-            style={{
-              fontSize: '0.73rem',
-              fontWeight: 700,
-              padding: '0.25rem 0.65rem',
-              borderRadius: '999px',
-              backgroundColor: 'rgba(4, 104, 233, 0.1)',
-              color: '#0468E9',
-              textTransform: 'uppercase',
-              letterSpacing: '0.04em',
-            }}
-          >
-            {unitCount === 1 ? 'SFR (1 Unit)' : `${unitCount}-Unit Multi-Family`}
-          </span>
+        <div className="no-print" style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', flexWrap: 'wrap' }}>
+          {onSaveScenario && (
+            <button
+              type="button"
+              onClick={onSaveScenario}
+              style={{
+                fontSize: '0.75rem',
+                fontWeight: 700,
+                padding: '0.3rem 0.72rem',
+                borderRadius: '999px',
+                backgroundColor: saveFeedback ? '#15803D' : '#DCFCE7',
+                color: saveFeedback ? '#FFFFFF' : '#166534',
+                border: saveFeedback ? '1px solid #15803D' : '1px solid #86EFAC',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+              }}
+              title="Save this property scenario on your device"
+            >
+              {saveFeedback ? '✓ Saved!' : '💾 Save Scenario'}
+            </button>
+          )}
 
           {onClearProperty && (
             <button
@@ -96,16 +108,16 @@ export default function DynamicUnitSchedule({
               style={{
                 fontSize: '0.75rem',
                 fontWeight: 700,
-                padding: '0.25rem 0.65rem',
+                padding: '0.3rem 0.72rem',
                 borderRadius: '999px',
                 backgroundColor: '#FEE2E2',
                 color: '#B91C1C',
                 border: '1px solid #FECACA',
                 cursor: 'pointer',
               }}
-              title="Clear preset property and start blank"
+              title="Reset all inputs to a blank scenario"
             >
-              ✕ Clear Property
+              ✕ Reset Inputs
             </button>
           )}
         </div>

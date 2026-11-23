@@ -613,13 +613,15 @@ export default function RentalAnalyzerContainer({
                 lineHeight: 1.55,
               }}
             >
-              Underwrite Single Family, Condos, and 2 - 4 unit properties with dynamic
-              unit-level rent schedules, 5-year &amp; 10-year Newton-Raphson IRR, and future
-              refinance scenarios.
+              Team Insider developed this Investment Property Analyzer to help you quickly assess
+              a property&apos;s income potential, cash flow, financing costs, and long-term
+              investment performance. Whether your priority is appreciation, Cash-on-Cash Return,
+              or a combination of both, this tool helps you make more informed investment
+              decisions.
             </p>
           </div>
 
-          {/* Featured Investor Deals + Action Bar */}
+          {/* Featured Investor Picks + Saved Properties */}
           <div className="no-print">
             <div
               style={{
@@ -631,7 +633,7 @@ export default function RentalAnalyzerContainer({
                 marginBottom: '0.45rem',
               }}
             >
-              ⭐ Featured Investor Deals — Curated by David, Rakesh &amp; Partner Agents:
+              ⭐ Featured Investor Picks — Curated by Team Insider &amp; Partner Agents:
             </div>
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
               {FEATURED_DEALS.map((deal) => (
@@ -656,107 +658,14 @@ export default function RentalAnalyzerContainer({
               ))}
             </div>
 
-            <div
-              style={{
-                display: 'flex',
-                gap: '0.5rem',
-                flexWrap: 'wrap',
-                alignItems: 'center',
-                marginTop: '0.6rem',
-              }}
-            >
-                <button
-                  type="button"
-                  onClick={handleSaveScenario}
-                  title={`Save "${extractStreetAddress(inputs.propertyAddress)}" on this device`}
-                  style={{
-                    padding: '0.5rem 0.85rem',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(74, 222, 128, 0.55)',
-                    backgroundColor: saveFeedback
-                      ? '#15803D'
-                      : 'rgba(34, 197, 94, 0.18)',
-                    color: '#FFFFFF',
-                    fontSize: '0.8rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                  }}
-                >
-                  {saveFeedback ? '✓ Saved!' : '💾 Save Scenario'}
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setIsCompareOpen(true)}
-                  title="Compare 2 to 4 properties side by side"
-                  style={{
-                    padding: '0.5rem 0.85rem',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(96, 165, 250, 0.6)',
-                    backgroundColor: 'rgba(4, 104, 233, 0.25)',
-                    color: '#FFFFFF',
-                    fontSize: '0.8rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                  }}
-                >
-                  ⚖️ Compare Properties
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setIsEmailModalOpen(true)}
-                  title="Email this scenario or your saved scenarios"
-                  style={{
-                    padding: '0.5rem 0.85rem',
-                    borderRadius: '8px',
-                    border: '1px solid rgba(255,255,255,0.32)',
-                    backgroundColor: 'rgba(255,255,255,0.12)',
-                    color: '#FFFFFF',
-                    fontSize: '0.8rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                  }}
-                >
-                  ✉️ Email Scenario
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handlePrintReport}
-                  style={{
-                    padding: '0.5rem 0.95rem',
-                    borderRadius: '8px',
-                    border: '1px solid #EFB51E',
-                    backgroundColor: '#060A2D',
-                    color: '#EFB51E',
-                    fontSize: '0.8rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                  }}
-                >
-                  🖨 Save PDF Report (2 Pages)
-                </button>
-            </div>
-
             {savedScenarios.length > 0 && (
               <div
                 style={{
                   marginTop: '0.85rem',
-                  paddingTop: '0.75rem',
-                  borderTop: '1px solid rgba(255,255,255,0.14)',
+                  padding: '0.65rem 0.9rem',
+                  borderRadius: '10px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.09)',
+                  border: '1px solid rgba(239, 181, 30, 0.35)',
                   display: 'flex',
                   alignItems: 'center',
                   flexWrap: 'wrap',
@@ -773,7 +682,7 @@ export default function RentalAnalyzerContainer({
                     marginRight: '0.25rem',
                   }}
                 >
-                  Saved on Device:
+                  Saved Properties on this Device:
                 </span>
                 {savedScenarios.map((sc) => {
                   const isActive = activePreset === `saved:${sc.id}`;
@@ -880,6 +789,8 @@ export default function RentalAnalyzerContainer({
               onUnitChange={handleUnitChange}
               totalMonthlyRent={summary.totalMonthlyRent}
               onClearProperty={clearPropertyOptions}
+              onSaveScenario={handleSaveScenario}
+              saveFeedback={saveFeedback}
             />
 
             <InputControlPanel
@@ -893,8 +804,126 @@ export default function RentalAnalyzerContainer({
             />
           </div>
 
-          {/* Right Column: Summary KPI Cards, Initial Monthly PITIA, AI Analysis, and Advisor Callout */}
+          {/* Right Column: Scenario Actions, Summary KPI Cards, Initial Monthly PITIA, AI Analysis */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            <div
+              className="no-print"
+              style={{
+                backgroundColor: '#EFF6FF',
+                border: '1px solid #BFDBFE',
+                borderLeft: '4px solid #060A2D',
+                borderRadius: '12px',
+                padding: '0.9rem 1.1rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.55rem',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '0.73rem',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  color: '#0468E9',
+                }}
+              >
+                Compare, Share &amp; Export
+              </div>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                  gap: '0.7rem',
+                  alignItems: 'start',
+                }}
+              >
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                  <button
+                    type="button"
+                    onClick={() => setIsCompareOpen(true)}
+                    title="Compare 2 to 4 properties side by side"
+                    style={{
+                      width: '100%',
+                      padding: '0.5rem 0.75rem',
+                      borderRadius: '8px',
+                      border: '1px solid #0468E9',
+                      backgroundColor: '#0468E9',
+                      color: '#FFFFFF',
+                      fontSize: '0.8rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '5px',
+                    }}
+                  >
+                    ⚖️ Compare Properties
+                  </button>
+                  <span style={{ fontSize: '0.74rem', color: '#475569', lineHeight: 1.4 }}>
+                    Generate a multi-property comparison report on saved scenarios.
+                  </span>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                  <button
+                    type="button"
+                    onClick={() => setIsEmailModalOpen(true)}
+                    title="Email this scenario or your saved scenarios"
+                    style={{
+                      width: '100%',
+                      padding: '0.5rem 0.75rem',
+                      borderRadius: '8px',
+                      border: '1px solid #060A2D',
+                      backgroundColor: '#FFFFFF',
+                      color: '#060A2D',
+                      fontSize: '0.8rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '5px',
+                    }}
+                  >
+                    ✉️ Email Scenario
+                  </button>
+                  <span style={{ fontSize: '0.74rem', color: '#475569', lineHeight: 1.4 }}>
+                    Email your current or saved scenarios to yourself or others.
+                  </span>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                  <button
+                    type="button"
+                    onClick={handlePrintReport}
+                    title="Download a 2-page PDF report of this scenario"
+                    style={{
+                      width: '100%',
+                      padding: '0.5rem 0.75rem',
+                      borderRadius: '8px',
+                      border: '1px solid #060A2D',
+                      backgroundColor: '#060A2D',
+                      color: '#EFB51E',
+                      fontSize: '0.8rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '5px',
+                    }}
+                  >
+                    🖨 Download PDF Report
+                  </button>
+                  <span style={{ fontSize: '0.74rem', color: '#475569', lineHeight: 1.4 }}>
+                    Print or save a clean 2-page PDF summary of this property.
+                  </span>
+                </div>
+              </div>
+            </div>
+
             <SummaryKpiCards
               inputs={inputs}
               summary={summary}

@@ -269,6 +269,11 @@
   z-index: 2;
 }
 
+.ra-table td:first-child {
+  z-index: 1;
+  border-right: 1px solid #E2E8F0;
+}
+
 .ra-table td {
   padding: 0.6rem 0.5rem;
   text-align: right;
@@ -279,6 +284,11 @@
 
 .ra-table tr:nth-child(even) td {
   background: #F8FAFC;
+}
+
+.ra-table td.ra-highlight-col {
+  background: #FEFCE8;
+  font-weight: 600;
 }
 
 .ra-table tr:hover td {

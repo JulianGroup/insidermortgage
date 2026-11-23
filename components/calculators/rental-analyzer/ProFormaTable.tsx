@@ -33,33 +33,26 @@ export default function ProFormaTable({
       return;
     }
 
-    const headers = [
-      'Year',
-      'Monthly Gross Rent',
-      'Effective Gross Income (EGI)',
-      'Operating Expenses',
-      'Net Operating Income (NOI)',
-      'Annual Debt Service',
-      'Annual Net Cash Flow',
-      'Monthly Net Cash Flow',
-      'Projected Property Value',
-      'Remaining Loan Balance',
-      'Gross Equity',
-    ];
+    const sellingPctLabel = `${(inputs.sellingCostPct * 100).toFixed(0)}%`;
+    const headers = ['Metric', ...summary.schedule.map((row) => `Year ${row.year}`)];
 
-    const rows = summary.schedule.map((row) => [
-      `Year ${row.year}`,
-      Math.round(row.monthlyGrossRent),
-      Math.round(row.effectiveGrossIncome),
-      Math.round(row.operatingExpenses),
-      Math.round(row.noi),
-      Math.round(row.annualDebtService),
-      Math.round(row.netCashFlow),
-      Math.round(row.netCashFlow / 12),
-      Math.round(row.propertyValue),
-      Math.round(row.remainingBalance),
-      Math.round(row.propertyValue - row.remainingBalance),
-    ]);
+    const rows = [
+      ['Gross Rent (Monthly)', ...summary.schedule.map((r) => Math.round(r.monthlyGrossRent))],
+      ['Effective Gross Income (EGI)', ...summary.schedule.map((r) => Math.round(r.effectiveGrossIncome))],
+      ['Operating Expenses', ...summary.schedule.map((r) => -Math.round(r.operatingExpenses))],
+      ['Net Operating Income (NOI)', ...summary.schedule.map((r) => Math.round(r.noi))],
+      ['Annual Debt Service', ...summary.schedule.map((r) => -Math.round(r.annualDebtService))],
+      ['Annual Net Cash Flow', ...summary.schedule.map((r) => Math.round(r.netCashFlow))],
+      ['Monthly Net Cash Flow', ...summary.schedule.map((r) => Math.round(r.netCashFlow / 12))],
+      ['Projected Property Value', ...summary.schedule.map((r) => Math.round(r.propertyValue))],
+      ['Remaining Loan Balance', ...summary.schedule.map((r) => Math.round(r.remainingBalance))],
+      [
+        `Net Equity (After ${sellingPctLabel})`,
+        ...summary.schedule.map((r) =>
+          Math.round(r.propertyValue * (1 - inputs.sellingCostPct) - r.remainingBalance)
+        ),
+      ],
+    ];
 
     const csvContent =
       'data:text/csv;charset=utf-8,' +
@@ -155,128 +148,172 @@ export default function ProFormaTable({
         <table className="ra-table">
           <thead>
             <tr>
-              <th>Year</th>
-              <th>
-                Gross Rent
-                <br />
-                <span style={{ fontWeight: 500, color: '#CBD5E1', fontSize: '0.67rem' }}>(Monthly)</span>
-              </th>
-              <th>
-                Effective
-                <br />
-                Gross (EGI)
-              </th>
-              <th>
-                Operating
-                <br />
-                Expenses
-              </th>
-              <th>
-                Net Operating
-                <br />
-                Income (NOI)
-              </th>
-              <th>
-                Annual Debt
-                <br />
-                Service
-              </th>
-              <th>
-                Annual Net
-                <br />
-                Cash Flow
-              </th>
-              <th>
-                Monthly
-                <br />
-                Cash Flow
-              </th>
-              <th>
-                Property
-                <br />
-                Value
-              </th>
-              <th>
-                Loan
-                <br />
-                Balance
-              </th>
-              <th>
-                Net Equity
-                <br />
-                <span style={{ fontWeight: 500, color: '#EFB51E', fontSize: '0.67rem' }}>(After 5%)</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {summary.schedule.map((row) => {
-              const isRefiStart =
-                inputs.refiEnabled && row.year === (inputs.refiYear ?? 3) + 1;
-              const isMilestone = row.year === 5 || row.year === 10;
-              const netSaleEquity =
-                row.propertyValue * (1 - inputs.sellingCostPct) - row.remainingBalance;
-
-              return (
-                <tr
-                  key={row.year}
-                  className={isMilestone || isRefiStart ? 'ra-highlight-row' : ''}
-                >
-                  <td style={{ fontWeight: 700, color: '#060A2D' }}>
-                    Year {row.year}
+              <th style={{ minWidth: '175px' }}>Metric</th>
+              {summary.schedule.map((row) => {
+                const isRefiStart =
+                  inputs.refiEnabled && row.year === (inputs.refiYear ?? 3) + 1;
+                const isMilestone = row.year === 5 || row.year === 10;
+                return (
+                  <th
+                    key={row.year}
+                    style={{
+                      color: isMilestone ? '#EFB51E' : '#FFFFFF',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    <div>Year {row.year}</div>
                     {isRefiStart && (
                       <span
                         style={{
-                          marginLeft: '0.4rem',
-                          fontSize: '0.68rem',
+                          display: 'inline-block',
+                          marginTop: '2px',
+                          fontSize: '0.62rem',
                           backgroundColor: '#DBEAFE',
                           color: '#1D4ED8',
-                          padding: '0.1rem 0.4rem',
+                          padding: '0.05rem 0.35rem',
                           borderRadius: '999px',
+                          textTransform: 'none',
+                          letterSpacing: 0,
                         }}
                       >
                         Refi
                       </span>
                     )}
-                  </td>
-                  <td>{currencyFmt.format(Math.round(row.monthlyGrossRent))}</td>
-                  <td>{currencyFmt.format(Math.round(row.effectiveGrossIncome))}</td>
-                  <td style={{ color: '#64748B' }}>
-                    -{currencyFmt.format(Math.round(row.operatingExpenses))}
-                  </td>
-                  <td style={{ fontWeight: 700, color: '#060A2D' }}>
-                    {currencyFmt.format(Math.round(row.noi))}
-                  </td>
-                  <td style={{ color: '#475569' }}>
-                    -{currencyFmt.format(Math.round(row.annualDebtService))}
-                  </td>
-                  <td
-                    style={{
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {(
+              [
+                {
+                  key: 'monthlyGrossRent',
+                  label: 'Gross Rent (Monthly)',
+                  labelStyle: { fontWeight: 700, color: '#060A2D' },
+                  render: (row) => ({
+                    text: currencyFmt.format(Math.round(row.monthlyGrossRent)),
+                  }),
+                },
+                {
+                  key: 'effectiveGrossIncome',
+                  label: 'Effective Gross (EGI)',
+                  labelStyle: { fontWeight: 700, color: '#060A2D' },
+                  render: (row) => ({
+                    text: currencyFmt.format(Math.round(row.effectiveGrossIncome)),
+                  }),
+                },
+                {
+                  key: 'operatingExpenses',
+                  label: 'Operating Expenses',
+                  labelStyle: { fontWeight: 600, color: '#475569' },
+                  render: (row) => ({
+                    text: `-${currencyFmt.format(Math.round(row.operatingExpenses))}`,
+                    style: { color: '#64748B' },
+                  }),
+                },
+                {
+                  key: 'noi',
+                  label: 'Net Operating Income (NOI)',
+                  labelStyle: { fontWeight: 800, color: '#060A2D' },
+                  render: (row) => ({
+                    text: currencyFmt.format(Math.round(row.noi)),
+                    style: { fontWeight: 700, color: '#060A2D' },
+                  }),
+                },
+                {
+                  key: 'annualDebtService',
+                  label: 'Annual Debt Service',
+                  labelStyle: { fontWeight: 600, color: '#475569' },
+                  render: (row) => ({
+                    text: `-${currencyFmt.format(Math.round(row.annualDebtService))}`,
+                    style: { color: '#475569' },
+                  }),
+                },
+                {
+                  key: 'netCashFlow',
+                  label: 'Annual Net Cash Flow',
+                  labelStyle: { fontWeight: 800, color: '#060A2D' },
+                  render: (row) => ({
+                    text: currencyFmt.format(Math.round(row.netCashFlow)),
+                    style: {
                       fontWeight: 700,
                       color: row.netCashFlow >= 0 ? '#15803D' : '#B91C1C',
-                    }}
-                  >
-                    {currencyFmt.format(Math.round(row.netCashFlow))}
-                  </td>
-                  <td
-                    style={{
+                    },
+                  }),
+                },
+                {
+                  key: 'monthlyCashFlow',
+                  label: 'Monthly Cash Flow',
+                  labelStyle: { fontWeight: 700, color: '#060A2D' },
+                  render: (row) => ({
+                    text: `${currencyFmt.format(Math.round(row.netCashFlow / 12))}/mo`,
+                    style: {
                       fontWeight: 600,
                       color: row.netCashFlow >= 0 ? '#15803D' : '#B91C1C',
-                    }}
-                  >
-                    {currencyFmt.format(Math.round(row.netCashFlow / 12))}/mo
-                  </td>
-                  <td style={{ fontWeight: 600 }}>
-                    {currencyFmt.format(Math.round(row.propertyValue))}
-                  </td>
-                  <td style={{ color: '#475569' }}>
-                    {currencyFmt.format(Math.round(row.remainingBalance))}
-                  </td>
-                  <td style={{ fontWeight: 700, color: '#0468E9' }}>
-                    {currencyFmt.format(Math.round(netSaleEquity))}
-                  </td>
-                </tr>
-              );
-            })}
+                    },
+                  }),
+                },
+                {
+                  key: 'propertyValue',
+                  label: 'Property Value',
+                  labelStyle: { fontWeight: 700, color: '#060A2D' },
+                  render: (row) => ({
+                    text: currencyFmt.format(Math.round(row.propertyValue)),
+                    style: { fontWeight: 600 },
+                  }),
+                },
+                {
+                  key: 'remainingBalance',
+                  label: 'Loan Balance',
+                  labelStyle: { fontWeight: 600, color: '#475569' },
+                  render: (row) => ({
+                    text: currencyFmt.format(Math.round(row.remainingBalance)),
+                    style: { color: '#475569' },
+                  }),
+                },
+                {
+                  key: 'netSaleEquity',
+                  label: `Net Equity (After ${(inputs.sellingCostPct * 100).toFixed(0)}%)`,
+                  labelStyle: { fontWeight: 800, color: '#0468E9' },
+                  render: (row) => {
+                    const netSaleEquity =
+                      row.propertyValue * (1 - inputs.sellingCostPct) - row.remainingBalance;
+                    return {
+                      text: currencyFmt.format(Math.round(netSaleEquity)),
+                      style: { fontWeight: 700, color: '#0468E9' },
+                    };
+                  },
+                },
+              ] as Array<{
+                key: string;
+                label: string;
+                labelStyle?: React.CSSProperties;
+                render: (row: (typeof summary.schedule)[number]) => {
+                  text: string;
+                  style?: React.CSSProperties;
+                };
+              }>
+            ).map((metric) => (
+              <tr key={metric.key}>
+                <td style={metric.labelStyle}>{metric.label}</td>
+                {summary.schedule.map((row) => {
+                  const isRefiStart =
+                    inputs.refiEnabled && row.year === (inputs.refiYear ?? 3) + 1;
+                  const isMilestone = row.year === 5 || row.year === 10;
+                  const cell = metric.render(row);
+                  return (
+                    <td
+                      key={row.year}
+                      className={isMilestone || isRefiStart ? 'ra-highlight-col' : ''}
+                      style={cell.style}
+                    >
+                      {cell.text}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

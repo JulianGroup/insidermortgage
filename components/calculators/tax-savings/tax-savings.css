@@ -1,0 +1,140 @@
+.ftb-tax-root {
+  background-color: #f8fafc;
+  color: #0f172a;
+  min-height: 100vh;
+}
+
+.ftb-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.ftb-split-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.ftb-sticky-col {
+  position: sticky;
+  top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ftb-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.4rem 1.5rem;
+  box-shadow: 0 4px 16px rgba(6, 10, 45, 0.05);
+}
+
+.ftb-card-navy {
+  background: linear-gradient(155deg, #060a2d 0%, #0c1764 100%);
+  color: #ffffff;
+  border: 2px solid #efb51e;
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 16px 36px -10px rgba(6, 10, 45, 0.28);
+}
+
+.ftb-two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.ftb-input {
+  width: 100%;
+  padding: 0.58rem 0.78rem;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ftb-input:focus {
+  outline: none;
+  border-color: #0468e9;
+  box-shadow: 0 0 0 3px rgba(4, 104, 233, 0.15);
+}
+
+.ftb-input:disabled {
+  background-color: #f1f5f9;
+  color: #64748b;
+  cursor: not-allowed;
+}
+
+.ftb-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.35rem;
+}
+
+.ftb-segment-group {
+  display: inline-flex;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.ftb-segment-btn {
+  border: none;
+  background: transparent;
+  color: #334155;
+  padding: 0.45rem 0.78rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.ftb-segment-btn.active {
+  background: #060a2d;
+  color: #efb51e;
+}
+
+.ftb-method-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+@media (max-width: 960px) {
+  .ftb-split-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ftb-sticky-col {
+    position: static;
+  }
+
+  .ftb-method-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .ftb-two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .ftb-card,
+  .ftb-card-navy {
+    padding: 1.15rem;
+  }
+}

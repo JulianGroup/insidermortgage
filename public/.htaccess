@@ -10,6 +10,9 @@ RewriteRule ^(.*?)(?:index\.html)?$ https://insidermortgage.com/$1 [L,R=301]
 # Short alias for Rental Property Investment Analyzer (case-insensitive, preserves query string)
 RewriteRule ^ra/?$ /tools/rental-analyzer/ [L,R=301,NC]
 
+# Short alias for First-Time Home Buyer Tax Savings Calculator (case-insensitive, preserves query string)
+RewriteRule ^tax/?$ /geek-out/first-time-buyer-tax-savings/ [L,R=301,NC]
+
 # Redirect legacy /self-employed URLs to /self-employed-programs/
 RedirectMatch 301 ^/self-employed/?$ /self-employed-programs/
 

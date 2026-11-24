@@ -36,6 +36,9 @@ export interface TaxSavingsResult {
   // Federal breakdown
   deductiblePmi: number;
   fedStandardDeduction: number;
+  fedNonItemizerCharity: number;
+  fedCharityFloor: number;
+  fedItemizedCharity: number;
   fedSaltCap: number;
   fedSaltBuyer: number;
   fedSaltRenter: number;
@@ -274,6 +277,15 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
   const fedStandardDeduction =
     status === 'MFJ' ? 32200 : status === 'HOH' ? 24150 : 16100;
 
+  // 2026 Federal Charitable Rules:
+  // - Non-itemizers: up to $1,000 ($2,000 MFJ) above-the-line charitable deduction
+  // - Itemizers (Schedule A): 0.5% of AGI floor on charitable contributions
+  const fedNonItemizerCharityCap = status === 'MFJ' ? 2000 : 1000;
+  const fedNonItemizerCharity = Math.min(charity, fedNonItemizerCharityCap);
+  const fedCharityFloor = 0.005 * w2Wages;
+  const fedItemizedCharity = Math.max(0, charity - fedCharityFloor);
+  const fedStdTotal = fedStandardDeduction + fedNonItemizerCharity;
+
   const fedSaltCap = Math.max(10000, 40400 - 0.3 * Math.max(0, w2Wages - 505000));
   const fedSaltBuyer = Math.min(fedSaltCap, effectiveStateTaxPaid + annualPropertyTax);
   const fedSaltRenter = Math.min(fedSaltCap, effectiveStateTaxPaid);
@@ -281,12 +293,13 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
   const fedDeductibleMortgageInterest =
     loanAmount > 0 ? (Math.min(loanAmount, 750000) / loanAmount) * year1Interest : 0;
 
+  const fedItemizedRenter = fedSaltRenter + fedItemizedCharity;
   const fedItemizedBuyer =
-    fedDeductibleMortgageInterest + deductiblePmi + fedSaltBuyer + charity;
+    fedDeductibleMortgageInterest + deductiblePmi + fedSaltBuyer + fedItemizedCharity;
 
-  const fedRenterDeduction = Math.max(fedStandardDeduction, fedSaltRenter + charity);
-  const fedBuyerDeduction = Math.max(fedStandardDeduction, fedItemizedBuyer);
-  const fedBuyerItemizes = fedItemizedBuyer > fedStandardDeduction;
+  const fedRenterDeduction = Math.max(fedStdTotal, fedItemizedRenter);
+  const fedBuyerDeduction = Math.max(fedStdTotal, fedItemizedBuyer);
+  const fedBuyerItemizes = fedItemizedBuyer > fedStdTotal;
 
   const fedTaxRenter = progressiveFedTax2026(Math.max(0, w2Wages - fedRenterDeduction), status);
   const fedTaxBuyer = progressiveFedTax2026(Math.max(0, w2Wages - fedBuyerDeduction), status);
@@ -382,6 +395,9 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
     effectiveStateTaxPaid,
     deductiblePmi,
     fedStandardDeduction,
+    fedNonItemizerCharity,
+    fedCharityFloor,
+    fedItemizedCharity,
     fedSaltCap,
     fedSaltBuyer,
     fedSaltRenter,

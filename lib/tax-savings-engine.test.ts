@@ -177,4 +177,68 @@ describe('2026 Tax Savings Engine', () => {
     expect(ut0).toBeGreaterThan(0);
     expect(ut1).toBeLessThanOrEqual(ut0);
   });
+
+  it('applies 2026 Federal non-itemizer charity caps ($1k Single/HOH, $2k MFJ) and 0.5% AGI itemizer floor', () => {
+    // On $150k wages: 0.5% floor = $750.
+    // With $500 charity (<= $750 floor): non-itemizer gets $500, itemizer gets $0 charity.
+    const lowCharitySingle = calculateTaxSavings2026({
+      ...DEFAULT_CA_INPUTS,
+      w2Wages: 150000,
+      annualCharity: 500,
+    });
+    expect(lowCharitySingle.fedCharityFloor).toBe(750);
+    expect(lowCharitySingle.fedNonItemizerCharity).toBe(500);
+    expect(lowCharitySingle.fedItemizedCharity).toBe(0);
+    expect(lowCharitySingle.fedRenterDeduction).toBe(16100 + 500);
+
+    // With $3,000 charity on $150k wages:
+    // Single renter taking standard deduction gets $16,100 + $1,000 = $17,100.
+    // Itemizing buyer deducts $3,000 - $750 = $2,250 charity.
+    const highCharitySingle = calculateTaxSavings2026({
+      ...DEFAULT_CA_INPUTS,
+      w2Wages: 150000,
+      annualCharity: 3000,
+    });
+    expect(highCharitySingle.fedNonItemizerCharity).toBe(1000);
+    expect(highCharitySingle.fedItemizedCharity).toBe(2250);
+    expect(highCharitySingle.fedRenterDeduction).toBe(16100 + 1000);
+
+    // MFJ non-itemizer cap is $2,000
+    const highCharityMfj = calculateTaxSavings2026({
+      ...DEFAULT_CA_INPUTS,
+      filingStatus: 'MFJ',
+      w2Wages: 150000,
+      annualCharity: 3000,
+    });
+    expect(highCharityMfj.fedNonItemizerCharity).toBe(2000);
+    expect(highCharityMfj.fedItemizedCharity).toBe(2250);
+    expect(highCharityMfj.fedRenterDeduction).toBe(32200 + 2000);
+
+    // HOH non-itemizer cap is $1,000
+    const highCharityHoh = calculateTaxSavings2026({
+      ...DEFAULT_CA_INPUTS,
+      filingStatus: 'HOH',
+      w2Wages: 150000,
+      annualCharity: 3000,
+    });
+    expect(highCharityHoh.fedNonItemizerCharity).toBe(1000);
+    expect(highCharityHoh.fedRenterDeduction).toBe(24150 + 1000);
+
+    // Buyer itemizing threshold compares fedItemizedBuyer against fedStandardDeduction + fedNonItemizerCharity
+    const borderlineMfj = calculateTaxSavings2026({
+      ...DEFAULT_CA_INPUTS,
+      state: 'WA',
+      purchasePrice: 400000,
+      downPaymentPct: 0.2, // $320k loan -> ~$19.8k yr1 interest
+      monthlyPmi: 0,
+      propertyTaxRate: 0.0095, // $3,800/yr
+      filingStatus: 'MFJ',
+      w2Wages: 150000,
+      annualCharity: 2000,
+    });
+    // fedItemizedBuyer is ~$24.8k < $32,200 + $2,000 ($34,200) -> does NOT itemize
+    expect(borderlineMfj.fedBuyerItemizes).toBe(false);
+    expect(borderlineMfj.fedBuyerDeduction).toBe(32200 + 2000);
+    expect(borderlineMfj.fedTaxSavingsAnnual).toBe(0);
+  });
 });

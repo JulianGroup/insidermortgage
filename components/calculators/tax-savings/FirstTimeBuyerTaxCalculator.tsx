@@ -15,11 +15,19 @@ import {
 import EmailTaxScenarioModal from './EmailTaxScenarioModal';
 import './tax-savings.css';
 
+interface W2Entry {
+  id: string;
+  employer: string;
+  box1Wages: number;
+  box17StateTax: number;
+}
+
 interface SavedTaxScenario {
   id: string;
   name: string;
   savedAt: string;
   inputs: TaxSavingsInputs;
+  w2Entries?: W2Entry[];
   horizonMode: 'full' | 'closing';
   closingMonth: number;
   pmiManuallyEdited?: boolean;
@@ -35,6 +43,75 @@ const currencyFmt = new Intl.NumberFormat('en-US', {
 });
 
 const INITIAL_CA_EST_TAX = estimateStateWageTax2026(150000, 'CA', 'Single', 0);
+
+const INITIAL_W2_ENTRIES: W2Entry[] = [
+  {
+    id: 'w2-1',
+    employer: '',
+    box1Wages: 150000,
+    box17StateTax: INITIAL_CA_EST_TAX,
+  },
+];
+
+function syncW2StateTax(
+  entries: W2Entry[],
+  state: TaxStateCode,
+  status: FilingStatus,
+  dependents: number,
+  manuallyEdited: boolean
+): W2Entry[] {
+  if (state === 'WA' || state === 'FL') {
+    return entries.map((e) => ({ ...e, box17StateTax: 0 }));
+  }
+  if (manuallyEdited) {
+    return entries;
+  }
+  const totalWages = entries.reduce((sum, e) => sum + Math.max(0, e.box1Wages || 0), 0);
+  if (totalWages <= 0) {
+    return entries.map((e) => ({ ...e, box17StateTax: 0 }));
+  }
+  const totalEst = estimateStateWageTax2026(totalWages, state, status, dependents);
+  const rawShares = entries.map((e) => {
+    const w = Math.max(0, e.box1Wages || 0);
+    return w > 0 ? Math.floor((totalEst * w) / totalWages) : 0;
+  });
+  const allocatedSum = rawShares.reduce((sum, v) => sum + v, 0);
+  const remainder = totalEst - allocatedSum;
+  const firstWageIdx = entries.findIndex((e) => Math.max(0, e.box1Wages || 0) > 0);
+  return entries.map((e, idx) => ({
+    ...e,
+    box17StateTax: idx === firstWageIdx ? rawShares[idx] + remainder : rawShares[idx],
+  }));
+}
+
+function normalizeLoadedW2Entries(
+  savedEntries: unknown,
+  mergedInputs: TaxSavingsInputs
+): W2Entry[] {
+  if (Array.isArray(savedEntries) && savedEntries.length > 0) {
+    return savedEntries.map((item, idx) => {
+      const rec = (item && typeof item === 'object' ? item : {}) as Partial<W2Entry>;
+      return {
+        id: typeof rec.id === 'string' && rec.id ? rec.id : `w2-${idx + 1}`,
+        employer: typeof rec.employer === 'string' ? rec.employer : '',
+        box1Wages: Math.max(0, Number(rec.box1Wages) || 0),
+        box17StateTax: Math.max(0, Number(rec.box17StateTax) || 0),
+      };
+    });
+  }
+  const base: W2Entry[] = [
+    {
+      id: 'w2-1',
+      employer: '',
+      box1Wages: Math.max(0, mergedInputs.w2Wages || 0),
+      box17StateTax: Math.max(0, mergedInputs.w2StateTaxPaid || 0),
+    },
+  ];
+  if (mergedInputs.filingStatus === 'MFJ') {
+    base.push({ id: 'w2-2', employer: '', box1Wages: 0, box17StateTax: 0 });
+  }
+  return base;
+}
 
 const INITIAL_INPUTS: TaxSavingsInputs = {
   purchasePrice: 750000,
@@ -78,6 +155,7 @@ const CLOSING_MONTH_OPTIONS: Array<{ month: number; name: string; monthsOwned: n
 
 export default function FirstTimeBuyerTaxCalculator() {
   const [inputs, setInputs] = useState<TaxSavingsInputs>(INITIAL_INPUTS);
+  const [w2Entries, setW2Entries] = useState<W2Entry[]>(INITIAL_W2_ENTRIES);
   const [downMode, setDownMode] = useState<'pct' | 'dollar'>('pct');
   const [horizonMode, setHorizonMode] = useState<'full' | 'closing'>('full');
   const [closingMonth, setClosingMonth] = useState<number>(7);
@@ -123,7 +201,21 @@ export default function FirstTimeBuyerTaxCalculator() {
             ...INITIAL_INPUTS,
             ...parsed.inputs,
           };
-          setInputs(mergedInputs);
+          const loadedEntries = normalizeLoadedW2Entries(parsed.w2Entries, mergedInputs);
+          const totalWages = loadedEntries.reduce(
+            (sum, e) => sum + Math.max(0, e.box1Wages || 0),
+            0
+          );
+          const totalStateTax =
+            mergedInputs.state === 'WA' || mergedInputs.state === 'FL'
+              ? 0
+              : loadedEntries.reduce((sum, e) => sum + Math.max(0, e.box17StateTax || 0), 0);
+          setW2Entries(loadedEntries);
+          setInputs({
+            ...mergedInputs,
+            w2Wages: totalWages,
+            w2StateTaxPaid: totalStateTax,
+          });
           if (parsed.horizonMode === 'closing' || parsed.horizonMode === 'full') {
             setHorizonMode(parsed.horizonMode);
           }
@@ -139,7 +231,7 @@ export default function FirstTimeBuyerTaxCalculator() {
           }
           setPmiManuallyEdited(Boolean(parsed.pmiManuallyEdited));
           const autoEst = estimateStateWageTax2026(
-            mergedInputs.w2Wages,
+            totalWages,
             mergedInputs.state,
             mergedInputs.filingStatus,
             mergedInputs.dependents
@@ -149,7 +241,7 @@ export default function FirstTimeBuyerTaxCalculator() {
               ? parsed.stateTaxManuallyEdited
               : mergedInputs.state !== 'WA' &&
                   mergedInputs.state !== 'FL' &&
-                  Math.abs(mergedInputs.w2StateTaxPaid - autoEst) > 2
+                  Math.abs(totalStateTax - autoEst) > 2
           );
         }
       }
@@ -244,46 +336,101 @@ export default function FirstTimeBuyerTaxCalculator() {
     });
   };
 
-  const applyTaxProfileUpdate = (patch: Partial<TaxSavingsInputs>) => {
-    setInputs((prev) => {
-      const next: TaxSavingsInputs = { ...prev, ...patch };
-      if (next.state === 'WA' || next.state === 'FL') {
-        next.w2StateTaxPaid = 0;
-      } else if (!stateTaxManuallyEdited) {
-        next.w2StateTaxPaid = estimateStateWageTax2026(
-          next.w2Wages,
-          next.state,
-          next.filingStatus,
-          next.dependents
-        );
-      }
-      return next;
-    });
+  const applyW2AndTaxUpdate = (
+    nextEntries: W2Entry[],
+    patch: Partial<TaxSavingsInputs> = {},
+    manualOverride?: boolean
+  ) => {
+    const nextState = patch.state ?? inputs.state;
+    const nextStatus = patch.filingStatus ?? inputs.filingStatus;
+    const nextDependents = patch.dependents ?? inputs.dependents;
+    const isManual = manualOverride ?? stateTaxManuallyEdited;
+
+    const syncedEntries = syncW2StateTax(
+      nextEntries,
+      nextState,
+      nextStatus,
+      nextDependents,
+      isManual
+    );
+    const totalWages = syncedEntries.reduce(
+      (sum, e) => sum + Math.max(0, e.box1Wages || 0),
+      0
+    );
+    const totalStateTax =
+      nextState === 'WA' || nextState === 'FL'
+        ? 0
+        : syncedEntries.reduce((sum, e) => sum + Math.max(0, e.box17StateTax || 0), 0);
+
+    setW2Entries(syncedEntries);
+    setInputs((prev) => ({
+      ...prev,
+      ...patch,
+      w2Wages: totalWages,
+      w2StateTaxPaid: totalStateTax,
+    }));
   };
 
   const handleStateChange = (nextState: TaxStateCode) => {
     const cfg = STATE_TAX_DEFAULTS[nextState];
-    applyTaxProfileUpdate({
+    applyW2AndTaxUpdate(w2Entries, {
       state: nextState,
       propertyTaxRate: cfg.defaultPropTaxRate,
     });
   };
 
+  const handleFilingStatusChange = (nextStatus: FilingStatus) => {
+    let nextEntries = w2Entries;
+    if (nextStatus === 'MFJ' && w2Entries.length < 2) {
+      const nextId = w2Entries.some((e) => e.id === 'w2-2') ? `w2-${Date.now()}` : 'w2-2';
+      nextEntries = [
+        ...w2Entries,
+        { id: nextId, employer: '', box1Wages: 0, box17StateTax: 0 },
+      ];
+    } else if (
+      nextStatus !== 'MFJ' &&
+      w2Entries.length === 2 &&
+      !w2Entries[1].employer.trim() &&
+      w2Entries[1].box1Wages === 0 &&
+      w2Entries[1].box17StateTax === 0
+    ) {
+      nextEntries = w2Entries.slice(0, 1);
+    }
+    applyW2AndTaxUpdate(nextEntries, { filingStatus: nextStatus });
+  };
+
+  const handleUpdateW2Entry = (id: string, patch: Partial<W2Entry>) => {
+    const isBox17Edit = patch.box17StateTax !== undefined;
+    if (isBox17Edit) {
+      setStateTaxManuallyEdited(true);
+    }
+    const nextEntries = w2Entries.map((e) => (e.id === id ? { ...e, ...patch } : e));
+    applyW2AndTaxUpdate(nextEntries, {}, isBox17Edit ? true : undefined);
+  };
+
+  const handleAddW2Entry = () => {
+    if (w2Entries.length >= 6) return;
+    const nextEntries = [
+      ...w2Entries,
+      { id: `w2-${Date.now()}`, employer: '', box1Wages: 0, box17StateTax: 0 },
+    ];
+    applyW2AndTaxUpdate(nextEntries);
+  };
+
+  const handleRemoveW2Entry = (id: string) => {
+    if (w2Entries.length <= 1) return;
+    const nextEntries = w2Entries.filter((e) => e.id !== id);
+    applyW2AndTaxUpdate(nextEntries);
+  };
+
   const handleResetStateTaxEstimate = () => {
     setStateTaxManuallyEdited(false);
-    setInputs((prev) => ({
-      ...prev,
-      w2StateTaxPaid: estimateStateWageTax2026(
-        prev.w2Wages,
-        prev.state,
-        prev.filingStatus,
-        prev.dependents
-      ),
-    }));
+    applyW2AndTaxUpdate(w2Entries, {}, false);
   };
 
   const handleReset = () => {
     setInputs(INITIAL_INPUTS);
+    setW2Entries(INITIAL_W2_ENTRIES);
     setDownMode('pct');
     setHorizonMode('full');
     setClosingMonth(7);
@@ -299,6 +446,7 @@ export default function FirstTimeBuyerTaxCalculator() {
       const payload = {
         name: scenarioName.trim(),
         inputs,
+        w2Entries,
         horizonMode,
         closingMonth,
         pmiManuallyEdited,
@@ -337,6 +485,7 @@ export default function FirstTimeBuyerTaxCalculator() {
       name: resolvedName,
       savedAt: new Date().toISOString(),
       inputs,
+      w2Entries,
       horizonMode,
       closingMonth,
       pmiManuallyEdited,
@@ -359,7 +508,21 @@ export default function FirstTimeBuyerTaxCalculator() {
       ...INITIAL_INPUTS,
       ...sc.inputs,
     };
-    setInputs(merged);
+    const loadedEntries = normalizeLoadedW2Entries(sc.w2Entries, merged);
+    const totalWages = loadedEntries.reduce(
+      (sum, e) => sum + Math.max(0, e.box1Wages || 0),
+      0
+    );
+    const totalStateTax =
+      merged.state === 'WA' || merged.state === 'FL'
+        ? 0
+        : loadedEntries.reduce((sum, e) => sum + Math.max(0, e.box17StateTax || 0), 0);
+    setW2Entries(loadedEntries);
+    setInputs({
+      ...merged,
+      w2Wages: totalWages,
+      w2StateTaxPaid: totalStateTax,
+    });
     setHorizonMode(sc.horizonMode === 'closing' ? 'closing' : 'full');
     setClosingMonth(
       typeof sc.closingMonth === 'number' && sc.closingMonth >= 1 && sc.closingMonth <= 12
@@ -368,7 +531,7 @@ export default function FirstTimeBuyerTaxCalculator() {
     );
     setPmiManuallyEdited(Boolean(sc.pmiManuallyEdited));
     const autoEst = estimateStateWageTax2026(
-      merged.w2Wages,
+      totalWages,
       merged.state,
       merged.filingStatus,
       merged.dependents
@@ -378,7 +541,7 @@ export default function FirstTimeBuyerTaxCalculator() {
         ? sc.stateTaxManuallyEdited
         : merged.state !== 'WA' &&
             merged.state !== 'FL' &&
-            Math.abs(merged.w2StateTaxPaid - autoEst) > 2
+            Math.abs(totalStateTax - autoEst) > 2
     );
     setScenarioName(sc.name || '');
     setActiveScenarioId(sc.id);
@@ -466,7 +629,17 @@ export default function FirstTimeBuyerTaxCalculator() {
                 lineHeight: 1.15,
               }}
             >
-              First-Time Home Buyer Tax Savings &amp; Net Monthly Payment Calculator
+              <span style={{ display: 'block' }}>First-Time Home Buyer Tax Savings</span>
+              <span
+                style={{
+                  display: 'block',
+                  color: '#EFB51E',
+                  fontSize: 'clamp(1.25rem, 2.3vw, 1.75rem)',
+                  marginTop: '0.2rem',
+                }}
+              >
+                RENT vs OWN Calculator
+              </span>
             </h1>
             <p
               style={{
@@ -480,6 +653,22 @@ export default function FirstTimeBuyerTaxCalculator() {
               monthly housing cost compared to renting — tailored for California, Washington,
               Utah, Arizona, and Florida buyers.
             </p>
+            <div
+              style={{
+                marginTop: '0.85rem',
+                padding: '0.65rem 0.9rem',
+                borderRadius: '10px',
+                backgroundColor: 'rgba(239, 181, 30, 0.14)',
+                border: '1px solid rgba(239, 181, 30, 0.45)',
+                color: '#FEF3C7',
+                fontSize: '0.84rem',
+                fontWeight: 600,
+                lineHeight: 1.45,
+              }}
+            >
+              Please consult a qualified CPA or tax professional to confirm how these 2026 tax
+              rules apply to your individual tax return.
+            </div>
           </div>
         </div>
       </section>
@@ -679,8 +868,40 @@ export default function FirstTimeBuyerTaxCalculator() {
       {/* Main Split Workspace */}
       <div className="ftb-container" style={{ marginTop: '1.25rem' }}>
         <div className="ftb-split-grid">
-          {/* LEFT COLUMN: 2-Step Interactive Form */}
+          {/* LEFT COLUMN: Instructions + 2-Step Interactive Form */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            {/* Getting Started Instructions */}
+            <div
+              style={{
+                backgroundColor: '#EFF6FF',
+                border: '1px solid #BFDBFE',
+                borderLeft: '4px solid #060A2D',
+                borderRadius: '12px',
+                padding: '0.9rem 1.1rem',
+                color: '#0F172A',
+                fontSize: '0.88rem',
+                lineHeight: 1.5,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '0.73rem',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  color: '#0468E9',
+                  marginBottom: '0.25rem',
+                }}
+              >
+                How to Use This Calculator
+              </div>
+              <p style={{ margin: 0 }}>
+                Enter your expected purchase price, down payment, and interest rate in Step 1. For
+                Step 2, have your prior-year W-2 handy so you can enter Box 1 (Wages) and Box 17
+                (State Income Tax Paid). You can save your progress at any time and come back later.
+              </p>
+            </div>
+
             {/* Step 1: Home & Loan Details */}
             <div className="ftb-card">
               <div
@@ -1095,7 +1316,7 @@ export default function FirstTimeBuyerTaxCalculator() {
                       className="ftb-input"
                       value={inputs.dependents}
                       onChange={(e) =>
-                        applyTaxProfileUpdate({
+                        applyW2AndTaxUpdate(w2Entries, {
                           dependents: Math.max(0, parseInt(e.target.value || '0', 10) || 0),
                         })
                       }
@@ -1122,7 +1343,7 @@ export default function FirstTimeBuyerTaxCalculator() {
                           inputs.filingStatus === opt.value ? 'active' : ''
                         }`}
                         style={{ padding: '0.55rem 0.4rem', fontSize: '0.78rem' }}
-                        onClick={() => applyTaxProfileUpdate({ filingStatus: opt.value })}
+                        onClick={() => handleFilingStatusChange(opt.value)}
                       >
                         {opt.label}
                       </button>
@@ -1130,14 +1351,11 @@ export default function FirstTimeBuyerTaxCalculator() {
                   </div>
                 </div>
 
-                {/* Prior-Year W-2 Box 1 Wages */}
+                {/* Prior-Year W-2 Boxes (Supports Separate W-2s for Married Filing Jointly or Multiple Jobs) */}
                 <div>
-                  <div className="ftb-label">
-                    <label
-                      htmlFor="ftb-w2-wages"
-                      style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}
-                    >
-                      <span>Prior-Year W-2 Box 1 Wages</span>
+                  <div className="ftb-label" style={{ marginBottom: '0.45rem' }}>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem' }}>
+                      <span>Prior-Year W-2 Income &amp; State Tax</span>
                       <button
                         type="button"
                         onClick={() => setShowWagesTooltip((v) => !v)}
@@ -1161,15 +1379,30 @@ export default function FirstTimeBuyerTaxCalculator() {
                       >
                         ?
                       </button>
-                    </label>
-                    <span style={{ fontSize: '0.72rem', color: '#64748B', fontWeight: 500 }}>
-                      Combined if joint
                     </span>
+                    {w2Entries.length < 6 && (
+                      <button
+                        type="button"
+                        onClick={handleAddW2Entry}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          padding: 0,
+                          fontSize: '0.74rem',
+                          fontWeight: 700,
+                          color: '#0468E9',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        + Add Another W-2
+                      </button>
+                    )}
                   </div>
+
                   {showWagesTooltip && (
                     <div
                       style={{
-                        marginBottom: '0.45rem',
+                        marginBottom: '0.55rem',
                         padding: '0.5rem 0.7rem',
                         borderRadius: '8px',
                         backgroundColor: '#EFF6FF',
@@ -1183,102 +1416,233 @@ export default function FirstTimeBuyerTaxCalculator() {
                       deductions.
                     </div>
                   )}
-                  <NumericFormat
-                    id="ftb-w2-wages"
-                    className="ftb-input"
-                    value={inputs.w2Wages}
-                    thousandSeparator=","
-                    prefix="$"
-                    decimalScale={0}
-                    allowNegative={false}
-                    onValueChange={(vals) =>
-                      applyTaxProfileUpdate({ w2Wages: vals.floatValue ?? 0 })
-                    }
-                  />
-                </div>
 
-                {/* W-2 Box 17 State Income Tax & Charity */}
-                <div className="ftb-two-col">
-                  <div>
-                    <label className="ftb-label" htmlFor="ftb-w2-state-tax">
-                      <span>W-2 Box 17 State Tax Paid</span>
-                      {!isNoWageTaxState && !stateTaxManuallyEdited && (
-                        <span style={{ fontSize: '0.7rem', color: '#0468E9', fontWeight: 600 }}>
-                          Auto-est.
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {w2Entries.map((entry, idx) => {
+                      const cardHeading =
+                        inputs.filingStatus === 'MFJ' && idx === 0
+                          ? 'Spouse 1 — Prior-Year W-2'
+                          : inputs.filingStatus === 'MFJ' && idx === 1
+                          ? 'Spouse 2 — Prior-Year W-2'
+                          : w2Entries.length === 1
+                          ? 'Prior-Year W-2'
+                          : `W-2 #${idx + 1}`;
+                      const canRemove =
+                        w2Entries.length > 1 && (inputs.filingStatus !== 'MFJ' || w2Entries.length > 2);
+
+                      return (
+                        <div
+                          key={entry.id}
+                          style={{
+                            backgroundColor: '#F8FAFC',
+                            border: '1px solid #E2E8F0',
+                            borderRadius: '10px',
+                            padding: '0.75rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '0.6rem',
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              gap: '0.5rem',
+                            }}
+                          >
+                            <span
+                              style={{
+                                fontSize: '0.75rem',
+                                fontWeight: 800,
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.04em',
+                                color: '#060A2D',
+                              }}
+                            >
+                              {cardHeading}
+                            </span>
+                            {canRemove && (
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveW2Entry(entry.id)}
+                                style={{
+                                  background: 'none',
+                                  border: 'none',
+                                  padding: 0,
+                                  fontSize: '0.72rem',
+                                  fontWeight: 700,
+                                  color: '#B91C1C',
+                                  cursor: 'pointer',
+                                }}
+                              >
+                                ✕ Remove
+                              </button>
+                            )}
+                          </div>
+
+                          <div>
+                            <label
+                              className="ftb-label"
+                              htmlFor={`ftb-w2-employer-${entry.id}`}
+                              style={{ fontSize: '0.78rem' }}
+                            >
+                              Employer
+                            </label>
+                            <input
+                              id={`ftb-w2-employer-${entry.id}`}
+                              type="text"
+                              className="ftb-input"
+                              placeholder="Employer name (optional)"
+                              value={entry.employer}
+                              onChange={(e) =>
+                                handleUpdateW2Entry(entry.id, { employer: e.target.value })
+                              }
+                            />
+                          </div>
+
+                          <div className="ftb-two-col">
+                            <div>
+                              <label
+                                className="ftb-label"
+                                htmlFor={`ftb-w2-box1-${entry.id}`}
+                                style={{ fontSize: '0.78rem' }}
+                              >
+                                Box 1 on Prior Year W-2
+                              </label>
+                              <NumericFormat
+                                id={`ftb-w2-box1-${entry.id}`}
+                                className="ftb-input"
+                                value={entry.box1Wages}
+                                thousandSeparator=","
+                                prefix="$"
+                                decimalScale={0}
+                                allowNegative={false}
+                                onValueChange={(vals) =>
+                                  handleUpdateW2Entry(entry.id, {
+                                    box1Wages: vals.floatValue ?? 0,
+                                  })
+                                }
+                              />
+                            </div>
+
+                            <div>
+                              <label
+                                className="ftb-label"
+                                htmlFor={`ftb-w2-box17-${entry.id}`}
+                                style={{ fontSize: '0.78rem' }}
+                              >
+                                <span>Box 17 on Prior Year W-2</span>
+                                {!isNoWageTaxState && !stateTaxManuallyEdited && (
+                                  <span
+                                    style={{
+                                      fontSize: '0.68rem',
+                                      color: '#0468E9',
+                                      fontWeight: 600,
+                                    }}
+                                  >
+                                    Auto-est.
+                                  </span>
+                                )}
+                              </label>
+                              <NumericFormat
+                                id={`ftb-w2-box17-${entry.id}`}
+                                className="ftb-input"
+                                disabled={isNoWageTaxState}
+                                value={isNoWageTaxState ? 0 : entry.box17StateTax}
+                                thousandSeparator=","
+                                prefix="$"
+                                decimalScale={0}
+                                allowNegative={false}
+                                onValueChange={(vals) =>
+                                  handleUpdateW2Entry(entry.id, {
+                                    box17StateTax: vals.floatValue ?? 0,
+                                  })
+                                }
+                              />
+                              {isNoWageTaxState && (
+                                <div
+                                  style={{
+                                    fontSize: '0.71rem',
+                                    color: '#0468E9',
+                                    fontWeight: 600,
+                                    marginTop: '0.24rem',
+                                  }}
+                                >
+                                  No state wage income tax in WA/FL
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {(w2Entries.length > 1 || (!isNoWageTaxState && stateTaxManuallyEdited)) && (
+                    <div
+                      style={{
+                        marginTop: '0.45rem',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                        gap: '0.4rem',
+                        fontSize: '0.75rem',
+                        color: '#334155',
+                      }}
+                    >
+                      {w2Entries.length > 1 && (
+                        <span>
+                          Combined W-2 Box 1: <strong>{currencyFmt.format(inputs.w2Wages)}</strong>{' '}
+                          · Combined W-2 Box 17:{' '}
+                          <strong>
+                            {currencyFmt.format(isNoWageTaxState ? 0 : inputs.w2StateTaxPaid)}
+                          </strong>
                         </span>
                       )}
-                    </label>
-                    <NumericFormat
-                      id="ftb-w2-state-tax"
-                      className="ftb-input"
-                      disabled={isNoWageTaxState}
-                      value={isNoWageTaxState ? 0 : inputs.w2StateTaxPaid}
-                      thousandSeparator=","
-                      prefix="$"
-                      decimalScale={0}
-                      allowNegative={false}
-                      onValueChange={(vals) => {
-                        setStateTaxManuallyEdited(true);
-                        setInputs((prev) => ({
-                          ...prev,
-                          w2StateTaxPaid: vals.floatValue ?? 0,
-                        }));
-                      }}
-                    />
-                    {isNoWageTaxState ? (
-                      <div
-                        style={{
-                          fontSize: '0.73rem',
-                          color: '#0468E9',
-                          fontWeight: 600,
-                          marginTop: '0.28rem',
-                        }}
-                      >
-                        No state wage income tax in WA/FL
-                      </div>
-                    ) : (
-                      stateTaxManuallyEdited && (
+                      {!isNoWageTaxState && stateTaxManuallyEdited && (
                         <button
                           type="button"
                           onClick={handleResetStateTaxEstimate}
                           style={{
-                            marginTop: '0.28rem',
                             background: 'none',
                             border: 'none',
                             padding: 0,
-                            fontSize: '0.72rem',
+                            fontSize: '0.73rem',
                             fontWeight: 700,
                             color: '#0468E9',
                             cursor: 'pointer',
                             textDecoration: 'underline',
                           }}
                         >
-                          Reset to auto-estimate
+                          Reset Box 17 to auto-estimate
                         </button>
-                      )
-                    )}
-                  </div>
+                      )}
+                    </div>
+                  )}
+                </div>
 
-                  <div>
-                    <label className="ftb-label" htmlFor="ftb-charity">
-                      Annual Charitable Donations
-                    </label>
-                    <NumericFormat
-                      id="ftb-charity"
-                      className="ftb-input"
-                      value={inputs.annualCharity}
-                      thousandSeparator=","
-                      prefix="$"
-                      decimalScale={0}
-                      allowNegative={false}
-                      onValueChange={(vals) =>
-                        setInputs((prev) => ({
-                          ...prev,
-                          annualCharity: vals.floatValue ?? 0,
-                        }))
-                      }
-                    />
-                  </div>
+                {/* Annual Charitable Donations */}
+                <div>
+                  <label className="ftb-label" htmlFor="ftb-charity">
+                    Annual Charitable Donations
+                  </label>
+                  <NumericFormat
+                    id="ftb-charity"
+                    className="ftb-input"
+                    value={inputs.annualCharity}
+                    thousandSeparator=","
+                    prefix="$"
+                    decimalScale={0}
+                    allowNegative={false}
+                    onValueChange={(vals) =>
+                      setInputs((prev) => ({
+                        ...prev,
+                        annualCharity: vals.floatValue ?? 0,
+                      }))
+                    }
+                  />
                 </div>
               </div>
             </div>
@@ -1795,7 +2159,19 @@ export default function FirstTimeBuyerTaxCalculator() {
                           <strong>{currencyFmt.format(Math.round(result.fedSaltBuyer))}</strong>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                          <span style={{ color: '#475569' }}>Renter Baseline Deduction:</span>
+                          <span style={{ color: '#475569' }}>
+                            Deductible Charity (after 0.5% AGI floor):
+                          </span>
+                          <strong>{currencyFmt.format(Math.round(result.fedItemizedCharity))}</strong>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <span style={{ color: '#475569' }}>
+                            {result.fedNonItemizerCharity > 0 &&
+                            result.fedSaltRenter + result.fedItemizedCharity <=
+                              result.fedStandardDeduction + result.fedNonItemizerCharity
+                              ? 'Renter Baseline Deduction (Std + non-itemizer charity):'
+                              : 'Renter Baseline Deduction:'}
+                          </span>
                           <strong>{currencyFmt.format(Math.round(result.fedRenterDeduction))}</strong>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -2056,10 +2432,13 @@ export default function FirstTimeBuyerTaxCalculator() {
                   MAGI under $505,000, phasing down by 30% above $505,000 to a $10,000 floor.
                 </li>
                 <li>
-                  <strong>Prior-Year W-2 Box 1, Box 17 &amp; Charitable Contributions:</strong> Box 1
-                  wages reflect taxable pay after pre-tax 401(k)/HSA deductions; Box 17 state wage
-                  taxes (auto-estimated by state/income or editable from your W-2) and charitable
-                  gifts establish how close you already are to itemizing.
+                  <strong>Prior-Year W-2 Box 1, Box 17 &amp; 2026 Charitable Rules:</strong> Box 1
+                  wages reflect taxable pay after pre-tax 401(k)/HSA deductions, while Box 17 state
+                  wage taxes (auto-estimated or editable from your W-2) help determine your SALT
+                  baseline. Under 2026 Federal charitable rules, non-itemizers can deduct up to
+                  $1,000 ($2,000 Married Filing Jointly) above the line on top of the Standard
+                  Deduction, while Schedule A itemizers are subject to a 0.5% of AGI floor on
+                  charitable contributions.
                 </li>
                 <li>
                   <strong>State-Specific 2026 Rules:</strong> <strong>CA</strong> uses progressive

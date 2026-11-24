@@ -2409,7 +2409,10 @@ export default function FirstTimeBuyerTaxCalculator() {
                               >
                                 <strong>
                                   Federal Tax Savings ({monthsInTaxYear} mos
-                                  {effRatePct > 0 ? ` · ~${effRatePct.toFixed(1)}% eff. rate` : ''}):
+                                  {effRatePct > 0
+                                    ? ` · ~${effRatePct.toFixed(1)}% blended rate on the extra deduction`
+                                    : ''}
+                                  ):
                                 </strong>
                                 <strong>
                                   {currencyFmt.format(Math.round(result.fedTaxSavingsAnnual))} (
@@ -2442,6 +2445,45 @@ export default function FirstTimeBuyerTaxCalculator() {
                         </div>
                       ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.22rem' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span style={{ color: '#475569' }}>
+                              Months 1–{monthsInTaxYear} Mortgage Interest (capped at{' '}
+                              {inputs.state === 'CA' ? '$1M' : '$750k'} loan):
+                            </span>
+                            <strong>
+                              {currencyFmt.format(Math.round(result.stateDeductibleMortgageInterest))}
+                            </strong>
+                          </div>
+                          {inputs.state !== 'CA' && result.deductiblePmi > 0 && (
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                              <span style={{ color: '#475569' }}>
+                                Deductible PMI (phases out $100k–$110k):
+                              </span>
+                              <strong>{currencyFmt.format(Math.round(result.deductiblePmi))}</strong>
+                            </div>
+                          )}
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span style={{ color: '#475569' }}>
+                              {inputs.state === 'CA'
+                                ? 'Property Taxes (no CA SALT cap):'
+                                : inputs.state === 'AZ'
+                                ? 'Property Taxes (capped at $10,000 AZ SALT cap):'
+                                : `Property Taxes (capped at ${currencyFmt.format(Math.round(result.fedSaltCap))}):`}
+                            </span>
+                            <strong>
+                              {currencyFmt.format(Math.round(result.statePropertyTaxDeduction))}
+                            </strong>
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span style={{ color: '#475569' }}>
+                              {inputs.state === 'UT'
+                                ? 'Deductible Charity (after 0.5% AGI floor):'
+                                : 'Charitable Contributions:'}
+                            </span>
+                            <strong>
+                              {currencyFmt.format(Math.round(result.stateCharityDeduction))}
+                            </strong>
+                          </div>
                           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <span style={{ color: '#475569' }}>State Renter Baseline Deduction:</span>
                             <strong>

@@ -57,6 +57,9 @@ export interface TaxSavingsResult {
   // State breakdown
   stateLabel: string;
   stateStandardDeduction: number;
+  stateDeductibleMortgageInterest: number;
+  statePropertyTaxDeduction: number;
+  stateCharityDeduction: number;
   stateRenterDeduction: number;
   stateBuyerDeduction: number;
   stateBuyerItemizes: boolean;
@@ -320,6 +323,9 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
 
   // --- 2026 State Calculation ---
   let stateStandardDeduction = 0;
+  let stateDeductibleMortgageInterest = 0;
+  let statePropertyTaxDeduction = 0;
+  let stateCharityDeduction = 0;
   let stateRenterDeduction = 0;
   let stateBuyerDeduction = 0;
   let stateBuyerItemizes = false;
@@ -330,6 +336,9 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
     stateStandardDeduction = status === 'Single' ? 5900 : 11800;
     const caMortgageInterest =
       loanAmount > 0 ? (Math.min(loanAmount, 1000000) / loanAmount) * year1Interest : 0;
+    stateDeductibleMortgageInterest = caMortgageInterest;
+    statePropertyTaxDeduction = annualPropertyTax;
+    stateCharityDeduction = charity;
     const caItemized = caMortgageInterest + annualPropertyTax + charity;
     stateRenterDeduction = Math.max(stateStandardDeduction, charity);
     stateBuyerDeduction = Math.max(stateStandardDeduction, caItemized);
@@ -343,6 +352,9 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
   } else if (inputs.state === 'UT') {
     stateStandardDeduction = fedStandardDeduction;
     const utahPropTaxDed = Math.min(fedSaltCap, annualPropertyTax);
+    stateDeductibleMortgageInterest = fedDeductibleMortgageInterest;
+    statePropertyTaxDeduction = utahPropTaxDed;
+    stateCharityDeduction = fedItemizedCharity;
     const fedDedExStateRenter = Math.max(fedStandardDeduction, charity);
     const fedDedExStateBuyer = Math.max(
       fedStandardDeduction,
@@ -371,6 +383,9 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
   } else if (inputs.state === 'AZ') {
     stateStandardDeduction = fedStandardDeduction;
     const azPropTaxDed = Math.min(10000, annualPropertyTax);
+    stateDeductibleMortgageInterest = fedDeductibleMortgageInterest;
+    statePropertyTaxDeduction = azPropTaxDed;
+    stateCharityDeduction = charity;
     stateRenterDeduction = Math.max(fedStandardDeduction, charity);
     const azItemizedBuyer =
       fedDeductibleMortgageInterest + deductiblePmi + azPropTaxDed + charity;
@@ -426,6 +441,9 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
     fedTaxSavingsMonthly,
     stateLabel: STATE_TAX_DEFAULTS[inputs.state].name,
     stateStandardDeduction,
+    stateDeductibleMortgageInterest,
+    statePropertyTaxDeduction,
+    stateCharityDeduction,
     stateRenterDeduction,
     stateBuyerDeduction,
     stateBuyerItemizes,

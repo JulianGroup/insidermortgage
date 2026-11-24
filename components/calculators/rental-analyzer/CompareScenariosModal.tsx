@@ -264,6 +264,245 @@ export default function CompareScenariosModal({
     )}&body=${encodeURIComponent(lines.join('\r\n'))}`;
   };
 
+  const handleDownloadComparisonPdf = () => {
+    if (typeof window === 'undefined' || selectedComputed.length < 2) return;
+
+    const escHtml = (val: string) =>
+      val
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+
+    const dateStr = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
+    const renderPrintSection = (title: string) =>
+      `<tr class="sec"><td colspan="${selectedComputed.length + 1}">${escHtml(title)}</td></tr>`;
+
+    const renderPrintRow = (
+      label: string,
+      values: string[],
+      bestIdx: number | null = null,
+      subLabel?: string
+    ) => {
+      const cells = values
+        .map((v, idx) => {
+          const isBest = bestIdx === idx;
+          return `<td class="${isBest ? 'best' : ''}">${escHtml(v)}${
+            isBest ? ' <span class="badge">BEST</span>' : ''
+          }</td>`;
+        })
+        .join('');
+      return `<tr><td class="lbl"><div>${escHtml(label)}</div>${
+        subLabel ? `<div class="sub">${escHtml(subLabel)}</div>` : ''
+      }</td>${cells}</tr>`;
+    };
+
+    const headerCols = selectedComputed
+      .map(
+        (c) =>
+          `<th><div class="src">${escHtml(c.item.sourceLabel)}</div><div class="pname">${escHtml(
+            c.item.name
+          )}</div></th>`
+      )
+      .join('');
+
+    const bodyRows = [
+      renderPrintSection('1. Acquisition & Cash Required'),
+      renderPrintRow(
+        'Units & Strategy',
+        selectedComputed.map((c) => {
+          const { inputs } = c.item;
+          const parts = [`${inputs.unitCount} ${inputs.unitCount === 1 ? 'Unit' : 'Units'}`];
+          if (inputs.aduEnabled) {
+            parts.push(`+ ${inputs.unitCount > 1 && inputs.aduCount === 2 ? '2 ADUs' : 'ADU'}`);
+          }
+          if (inputs.refiEnabled) {
+            parts.push(`+ Yr ${inputs.refiYear ?? 3} Refi`);
+          }
+          return parts.join(' ');
+        })
+      ),
+      renderPrintRow(
+        'Purchase Price',
+        selectedComputed.map((c) => fmt(c.item.inputs.purchasePrice))
+      ),
+      renderPrintRow(
+        'Down Payment',
+        selectedComputed.map(
+          (c) => `${fmt(c.downPayment)} (${Math.round(c.item.inputs.downPaymentPct * 100)}%)`
+        )
+      ),
+      renderPrintRow(
+        'Loan Amount & Rate',
+        selectedComputed.map(
+          (c) =>
+            `${fmt(c.loanAmount)} @ ${Number((c.item.inputs.interestRate * 100).toFixed(3))}%`
+        )
+      ),
+      renderPrintRow(
+        'Make-Ready + Yr 1 ADU Cost',
+        selectedComputed.map((c) => fmt(c.makeReadyAndYr1AduCost))
+      ),
+      renderPrintRow(
+        'Total Cash into Project',
+        selectedComputed.map((c) => fmt(c.summary.initialCashInvested)),
+        bestCashInvestedIdx,
+        'Lowest upfront cash highlighted'
+      ),
+      renderPrintSection('2. Monthly Rent, PITIA & Cash Flow'),
+      renderPrintRow(
+        'Gross Monthly Rent',
+        selectedComputed.map((c) => `${fmt(c.summary.totalMonthlyRent)}/mo`)
+      ),
+      renderPrintRow(
+        'Initial Monthly PITIA',
+        selectedComputed.map((c) => `${fmt(c.totalMonthlyPitia)}/mo`)
+      ),
+      renderPrintRow(
+        'Year 1 Net Cash Flow',
+        selectedComputed.map(
+          (c) => `${fmt(c.monthlyCashFlow)}/mo (${fmt(c.summary.year1CashFlow)}/yr)`
+        ),
+        bestCashFlowIdx
+      ),
+      renderPrintSection('3. Investment Overview (2x2 KPIs)'),
+      renderPrintRow(
+        'Cash on Cash (COC)',
+        selectedComputed.map((c) => `${c.cocPct.toFixed(2)}%`),
+        bestCocIdx
+      ),
+      renderPrintRow(
+        'DSCR (Rent / PITIA)',
+        selectedComputed.map((c) => `${c.dscr.toFixed(2)}%`),
+        bestDscrIdx
+      ),
+      renderPrintRow(
+        'Net Operating Income (NOI)',
+        selectedComputed.map((c) => `${fmt(c.summary.year1Noi)}/yr`),
+        bestNoiIdx
+      ),
+      renderPrintRow(
+        'Cap Rate (on Basis)',
+        selectedComputed.map((c) => `${c.capRate.toFixed(2)}%`),
+        bestCapRateIdx
+      ),
+      renderPrintSection('4. 5-Year & 10-Year Horizons'),
+      renderPrintRow(
+        '5-Yr Net Lifetime Profit & ROI',
+        selectedComputed.map(
+          (c) =>
+            `${fmt(c.summary.fiveYear.totalProfit)} (${c.summary.fiveYear.totalRoiPct.toFixed(1)}%)`
+        )
+      ),
+      renderPrintRow(
+        '5-Yr IRR',
+        selectedComputed.map((c) => `${c.summary.fiveYear.irrPct.toFixed(2)}%`),
+        bestIrr5Idx
+      ),
+      renderPrintRow(
+        '10-Yr Net Lifetime Profit & ROI',
+        selectedComputed.map(
+          (c) =>
+            `${fmt(c.summary.tenYear.totalProfit)} (${c.summary.tenYear.totalRoiPct.toFixed(1)}%)`
+        )
+      ),
+      renderPrintRow(
+        '10-Yr IRR',
+        selectedComputed.map((c) => `${c.summary.tenYear.irrPct.toFixed(2)}%`),
+        bestIrr10Idx
+      ),
+      renderPrintRow(
+        'Day-1 Break-Even Rent Needed',
+        selectedComputed.map((c) => `${fmt(c.breakEvenRent)}/mo`)
+      ),
+    ].join('');
+
+    const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Insider Mortgage - Side-by-Side Investment Property Analysis</title>
+  <style>
+    @page { size: landscape; margin: 0.45in; }
+    * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color: #0F172A; background: #FFFFFF; }
+    .hdr { background: #060A2D; color: #FFFFFF; padding: 14px 18px; border-bottom: 4px solid #EFB51E; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
+    .eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #EFB51E; }
+    h1 { margin: 3px 0 0; font-size: 18px; font-weight: 800; }
+    .meta { text-align: right; font-size: 11px; color: #CBD5E1; }
+    table { width: 100%; border-collapse: collapse; border: 1px solid #CBD5E1; font-size: 11px; }
+    th { background: #F8FAFC; border-bottom: 2px solid #060A2D; padding: 8px 10px; text-align: right; vertical-align: bottom; }
+    th.mcol { text-align: left; text-transform: uppercase; font-size: 10px; color: #475569; letter-spacing: 0.04em; width: 22%; }
+    .src { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #0468E9; }
+    .pname { font-size: 12px; font-weight: 800; color: #060A2D; margin-top: 2px; }
+    tr.sec td { background: #EFF6FF; color: #0468E9; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 6px 10px; border-top: 1px solid #DBEAFE; border-bottom: 1px solid #DBEAFE; text-align: left; }
+    td { padding: 6px 10px; border-bottom: 1px solid #E2E8F0; text-align: right; font-weight: 600; }
+    td.lbl { text-align: left; background: #F8FAFC; color: #334155; font-weight: 600; }
+    .sub { font-size: 9px; font-weight: 500; color: #64748B; }
+    td.best { background: #F0FDF4; color: #15803D; font-weight: 800; }
+    .badge { display: inline-block; font-size: 8px; font-weight: 800; color: #15803D; background: #DCFCE7; border: 1px solid #86EFAC; padding: 1px 4px; border-radius: 3px; margin-left: 4px; }
+    .ftr { margin-top: 10px; padding: 8px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; font-size: 10px; color: #475569; display: flex; justify-content: space-between; }
+  </style>
+</head>
+<body>
+  <div class="hdr">
+    <div>
+      <div class="eyebrow">Insider Mortgage · Investment Property Analyzer</div>
+      <h1>Side-by-Side Investment Property Analysis (${selectedComputed.length} Properties)</h1>
+    </div>
+    <div class="meta">
+      <div>Generated ${escHtml(dateStr)}</div>
+      <div>insidermortgage.com/ra</div>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr><th class="mcol">Underwriting Metric</th>${headerCols}</tr>
+    </thead>
+    <tbody>${bodyRows}</tbody>
+  </table>
+  <div class="ftr">
+    <div><strong>David Sider</strong> (NMLS #254108 · CA DRE #01193796) &amp; <strong>Rakesh Jain</strong> (NMLS #240594 · CA DRE #01336748) · Insider Mortgage powered by C2 Financial Corp (NMLS #135622)</div>
+    <div>(858) 848-5653 · dsrj@insidermtg.com</div>
+  </div>
+</body>
+</html>`;
+
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = '0';
+    document.body.appendChild(iframe);
+
+    const doc = iframe.contentWindow?.document;
+    if (!doc || !iframe.contentWindow) {
+      document.body.removeChild(iframe);
+      return;
+    }
+
+    doc.open();
+    doc.write(html);
+    doc.close();
+
+    setTimeout(() => {
+      iframe.contentWindow?.focus();
+      iframe.contentWindow?.print();
+      setTimeout(() => {
+        if (iframe.parentNode) {
+          iframe.parentNode.removeChild(iframe);
+        }
+      }, 1500);
+    }, 150);
+  };
+
   const bestCashInvestedIdx = getBestIndex(
     selectedComputed.map((c) => c.summary.initialCashInvested),
     'min'
@@ -392,8 +631,8 @@ export default function CompareScenariosModal({
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        backgroundColor: 'rgba(6, 10, 45, 0.7)',
-        backdropFilter: 'blur(4px)',
+        backgroundColor: 'rgba(2, 6, 23, 0.84)',
+        backdropFilter: 'blur(6px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -413,8 +652,8 @@ export default function CompareScenariosModal({
           maxHeight: '92vh',
           display: 'flex',
           flexDirection: 'column',
-          boxShadow: '0 25px 50px -12px rgba(6, 10, 45, 0.45)',
-          border: '2px solid #060A2D',
+          boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.22), 0 32px 72px -12px rgba(0, 0, 0, 0.85)',
+          border: '2px solid #EFB51E',
           overflow: 'hidden',
         }}
       >
@@ -423,8 +662,9 @@ export default function CompareScenariosModal({
           style={{
             backgroundColor: '#060A2D',
             color: '#FFFFFF',
-            padding: '0.95rem 1.2rem',
+            padding: '1rem 1.25rem',
             flexShrink: 0,
+            borderBottom: '3px solid #EFB51E',
           }}
         >
           <div
@@ -432,11 +672,11 @@ export default function CompareScenariosModal({
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
-              flexWrap: 'wrap',
-              gap: '0.75rem',
+              flexWrap: 'nowrap',
+              gap: '1rem',
             }}
           >
-            <div>
+            <div style={{ minWidth: 0 }}>
               <h3
                 id="compare-modal-title"
                 style={{
@@ -499,43 +739,25 @@ export default function CompareScenariosModal({
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-              {selectedComputed.length >= 2 && (
-                <button
-                  type="button"
-                  onClick={handleEmailComparison}
-                  style={{
-                    backgroundColor: '#EFB51E',
-                    color: '#060A2D',
-                    border: 'none',
-                    borderRadius: '999px',
-                    padding: '0.4rem 0.85rem',
-                    fontSize: '0.8rem',
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                  }}
-                >
-                  ✉️ Email Comparison
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={onClose}
-                aria-label="Close comparison"
-                style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.12)',
-                  color: '#FFFFFF',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  borderRadius: '999px',
-                  padding: '0.38rem 0.8rem',
-                  fontSize: '0.8rem',
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                ✕ Close
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close comparison"
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.14)',
+                color: '#FFFFFF',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '999px',
+                padding: '0.38rem 0.85rem',
+                fontSize: '0.8rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                flexShrink: 0,
+                whiteSpace: 'nowrap',
+              }}
+            >
+              ✕ Close
+            </button>
           </div>
 
           {/* Property Picker Bar */}
@@ -613,6 +835,77 @@ export default function CompareScenariosModal({
                   </label>
                 );
               })}
+            </div>
+
+            {/* Action Buttons Below Saved Scenarios */}
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: '0.55rem',
+                marginTop: '0.8rem',
+                paddingTop: '0.7rem',
+                borderTop: '1px solid rgba(255,255,255,0.14)',
+              }}
+            >
+              <button
+                type="button"
+                disabled={selectedComputed.length < 2}
+                onClick={handleEmailComparison}
+                title={
+                  selectedComputed.length < 2
+                    ? 'Select at least 2 properties to email comparison'
+                    : 'Email this side-by-side comparison'
+                }
+                style={{
+                  backgroundColor: selectedComputed.length >= 2 ? '#EFB51E' : 'rgba(239, 181, 30, 0.28)',
+                  color: selectedComputed.length >= 2 ? '#060A2D' : 'rgba(255, 255, 255, 0.55)',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '0.45rem 0.95rem',
+                  fontSize: '0.8rem',
+                  fontWeight: 800,
+                  cursor: selectedComputed.length >= 2 ? 'pointer' : 'not-allowed',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                }}
+              >
+                ✉️ Email Comparison
+              </button>
+
+              <button
+                type="button"
+                disabled={selectedComputed.length < 2}
+                onClick={handleDownloadComparisonPdf}
+                title={
+                  selectedComputed.length < 2
+                    ? 'Select at least 2 properties to download PDF report'
+                    : 'Print or save this side-by-side comparison as a PDF'
+                }
+                style={{
+                  backgroundColor: selectedComputed.length >= 2 ? '#FFFFFF' : 'rgba(255, 255, 255, 0.12)',
+                  color: selectedComputed.length >= 2 ? '#060A2D' : 'rgba(255, 255, 255, 0.55)',
+                  border: selectedComputed.length >= 2 ? '1px solid #FFFFFF' : '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '8px',
+                  padding: '0.45rem 0.95rem',
+                  fontSize: '0.8rem',
+                  fontWeight: 800,
+                  cursor: selectedComputed.length >= 2 ? 'pointer' : 'not-allowed',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                }}
+              >
+                🖨 Download PDF Report
+              </button>
+
+              {selectedComputed.length < 2 && (
+                <span style={{ fontSize: '0.74rem', color: '#94A3B8' }}>
+                  Select at least 2 properties to enable Email &amp; PDF export.
+                </span>
+              )}
             </div>
           </div>
         </div>

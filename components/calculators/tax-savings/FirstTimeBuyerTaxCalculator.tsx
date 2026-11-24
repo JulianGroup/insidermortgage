@@ -1412,8 +1412,10 @@ export default function FirstTimeBuyerTaxCalculator() {
                         lineHeight: 1.4,
                       }}
                     >
-                      Found in Box 1 of your W-2; already accounts for pre-tax 401(k)/HSA
-                      deductions.
+                      <strong>Box 1</strong> shows taxable wages after pre-tax 401(k)/HSA
+                      deductions. <strong>Box 17</strong> reflects state income tax withheld from
+                      wages and serves as a convenient estimate of state tax paid (adjust if you
+                      make estimated payments or expect a refund).
                     </div>
                   )}
 
@@ -1619,6 +1621,21 @@ export default function FirstTimeBuyerTaxCalculator() {
                           Reset Box 17 to auto-estimate
                         </button>
                       )}
+                    </div>
+                  )}
+
+                  {!isNoWageTaxState && (
+                    <div
+                      style={{
+                        marginTop: '0.4rem',
+                        fontSize: '0.73rem',
+                        color: '#64748B',
+                        lineHeight: 1.4,
+                      }}
+                    >
+                      Note: W-2 Box 17 reflects state tax withheld from wages and is used as an
+                      estimate of state income tax paid — adjust if you make estimated payments or
+                      expect a large state refund.
                     </div>
                   )}
                 </div>
@@ -2180,22 +2197,47 @@ export default function FirstTimeBuyerTaxCalculator() {
                           </span>
                           <strong>{currencyFmt.format(Math.round(result.fedBuyerDeduction))}</strong>
                         </div>
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            borderTop: '1px dashed #CBD5E1',
-                            paddingTop: '0.25rem',
-                            marginTop: '0.15rem',
-                            color: '#15803D',
-                          }}
-                        >
-                          <strong>Federal Tax Savings ({monthsInTaxYear} mos):</strong>
-                          <strong>
-                            {currencyFmt.format(Math.round(result.fedTaxSavingsAnnual))} (
-                            {currencyFmt.format(Math.round(result.fedTaxSavingsMonthly))}/mo)
-                          </strong>
-                        </div>
+                        {(() => {
+                          const fedIncremental = Math.max(
+                            0,
+                            result.fedBuyerDeduction - result.fedRenterDeduction
+                          );
+                          const effRatePct =
+                            fedIncremental > 0 && result.fedTaxSavingsAnnual > 0
+                              ? (result.fedTaxSavingsAnnual / fedIncremental) * 100
+                              : 0;
+                          return (
+                            <>
+                              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <span style={{ color: '#060A2D', fontWeight: 600 }}>
+                                  Incremental Deduction from Owning:
+                                </span>
+                                <strong style={{ color: '#0468E9' }}>
+                                  +{currencyFmt.format(Math.round(fedIncremental))}
+                                </strong>
+                              </div>
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                  borderTop: '1px dashed #CBD5E1',
+                                  paddingTop: '0.25rem',
+                                  marginTop: '0.15rem',
+                                  color: '#15803D',
+                                }}
+                              >
+                                <strong>
+                                  Federal Tax Savings ({monthsInTaxYear} mos
+                                  {effRatePct > 0 ? ` · ~${effRatePct.toFixed(1)}% eff. rate` : ''}):
+                                </strong>
+                                <strong>
+                                  {currencyFmt.format(Math.round(result.fedTaxSavingsAnnual))} (
+                                  {currencyFmt.format(Math.round(result.fedTaxSavingsMonthly))}/mo)
+                                </strong>
+                              </div>
+                            </>
+                          );
+                        })()}
                       </div>
                     </div>
 
@@ -2232,6 +2274,22 @@ export default function FirstTimeBuyerTaxCalculator() {
                             </span>
                             <strong>
                               {currencyFmt.format(Math.round(result.stateBuyerDeduction))}
+                            </strong>
+                          </div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span style={{ color: '#060A2D', fontWeight: 600 }}>
+                              Incremental State Deduction from Owning:
+                            </span>
+                            <strong style={{ color: '#0468E9' }}>
+                              +
+                              {currencyFmt.format(
+                                Math.round(
+                                  Math.max(
+                                    0,
+                                    result.stateBuyerDeduction - result.stateRenterDeduction
+                                  )
+                                )
+                              )}
                             </strong>
                           </div>
                           <div style={{ fontSize: '0.74rem', color: '#64748B', marginTop: '0.15rem' }}>
@@ -2428,26 +2486,29 @@ export default function FirstTimeBuyerTaxCalculator() {
                 <li>
                   <strong>$750,000 Federal Mortgage Interest Cap &amp; $40,400 SALT Cap:</strong>{' '}
                   Federal mortgage interest is prorated up to $750,000 in acquisition debt. State
-                  and local taxes (W-2 Box 17 state tax + property tax) are capped at $40,400 for
-                  MAGI under $505,000, phasing down by 30% above $505,000 to a $10,000 floor.
+                  and local taxes (state income tax + property tax) are capped at $40,400 for MAGI
+                  under $505,000, phasing down progressively by 30% above $505,000 until reaching a
+                  $10,000 floor at approximately $606,333 MAGI.
                 </li>
                 <li>
                   <strong>Prior-Year W-2 Box 1, Box 17 &amp; 2026 Charitable Rules:</strong> Box 1
-                  wages reflect taxable pay after pre-tax 401(k)/HSA deductions, while Box 17 state
-                  wage taxes (auto-estimated or editable from your W-2) help determine your SALT
-                  baseline. Under 2026 Federal charitable rules, non-itemizers can deduct up to
-                  $1,000 ($2,000 Married Filing Jointly) above the line on top of the Standard
-                  Deduction, while Schedule A itemizers are subject to a 0.5% of AGI floor on
-                  charitable contributions.
+                  wages reflect taxable pay after pre-tax 401(k)/HSA deductions. Box 17 reports
+                  state wage withholding and serves as an editable starting estimate for state
+                  income tax paid when computing your SALT baseline. Under 2026 Federal charitable
+                  rules, non-itemizers can deduct up to $1,000 ($2,000 Married Filing Jointly)
+                  above the line on top of the Standard Deduction, while Schedule A itemizers are
+                  subject to a 0.5% of AGI floor on charitable contributions.
                 </li>
                 <li>
-                  <strong>State-Specific 2026 Rules:</strong> <strong>CA</strong> uses progressive
-                  1%–12.3% brackets (+1% over $1M) with exact Single, HOH, and MFJ schedules,
-                  $5,900/$11,800 standard deduction, $1M mortgage interest cap, and no SALT cap.{' '}
+                  <strong>State-Specific 2026 Rules:</strong> <strong>CA</strong> runs separately
+                  from the Federal SALT cap, using progressive 1%–12.3% brackets (+1% over $1M) with
+                  exact Single, HOH, and MFJ schedules, $5,900/$11,800 standard deduction, and a
+                  $1M mortgage interest cap (subject to California itemizing rules).{' '}
                   <strong>UT</strong> uses a 4.45% flat tax with its 6% Taxpayer Tax Credit (subject
                   to income phase-out). <strong>AZ</strong> uses a 2.50% flat tax conforming to
                   federal deductions (excluding state income tax). <strong>WA &amp; FL</strong> have
-                  0% state wage income tax.
+                  0% state wage income tax (optional federal state sales-tax elections are excluded
+                  to keep estimates conservative).
                 </li>
               </ul>
             </div>
@@ -2485,7 +2546,8 @@ export default function FirstTimeBuyerTaxCalculator() {
                 educational, self-help estimate only and does not constitute tax, legal, or
                 accounting advice. Consult a qualified CPA or tax advisor regarding your individual
                 Schedule A deductions, Alternative Minimum Tax (AMT), partial-year Year 1 home
-                ownership, age 65+ additional deductions, or other personal tax circumstances.
+                ownership, age 65+ additional deductions, California high-income itemized deduction
+                phase-downs, optional sales-tax elections, or other personal tax circumstances.
               </p>
               <p style={{ margin: 0 }}>
                 <strong>2. Realizing Monthly Cash-Flow Savings:</strong> Tax savings are realized

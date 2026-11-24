@@ -30,6 +30,8 @@ export interface TaxSavingsResult {
   monthlyHoa: number;
   grossMonthlyPitia: number;
   year1Interest: number;
+  year1PrincipalPaid: number;
+  monthlyPrincipalAvg: number;
   annualPropertyTax: number;
   effectiveStateTaxPaid: number;
 
@@ -236,17 +238,27 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
     }
   }
 
-  // Exact interest summed across months owned in tax year (1..monthsInTaxYear)
+  // Exact interest & principal summed across months owned in tax year (1..monthsInTaxYear)
   let year1Interest = 0;
-  if (loanAmount > 0 && monthlyRate > 0) {
-    let remainingBalance = loanAmount;
-    for (let m = 1; m <= monthsInTaxYear; m++) {
-      const interestThisMonth = remainingBalance * monthlyRate;
-      const principalThisMonth = Math.max(0, monthlyPi - interestThisMonth);
-      year1Interest += interestThisMonth;
-      remainingBalance = Math.max(0, remainingBalance - principalThisMonth);
+  let year1PrincipalPaid = 0;
+  if (loanAmount > 0 && totalMonths > 0) {
+    if (monthlyRate > 0) {
+      let remainingBalance = loanAmount;
+      for (let m = 1; m <= monthsInTaxYear; m++) {
+        const interestThisMonth = remainingBalance * monthlyRate;
+        const principalThisMonth = Math.min(
+          remainingBalance,
+          Math.max(0, monthlyPi - interestThisMonth)
+        );
+        year1Interest += interestThisMonth;
+        year1PrincipalPaid += principalThisMonth;
+        remainingBalance = Math.max(0, remainingBalance - principalThisMonth);
+      }
+    } else {
+      year1PrincipalPaid = Math.min(loanAmount, monthlyPi * monthsInTaxYear);
     }
   }
+  const monthlyPrincipalAvg = year1PrincipalPaid / monthsInTaxYear;
 
   const propTaxRate = Math.max(0, inputs.propertyTaxRate || 0);
   const monthlyPropertyTax = (price * propTaxRate) / 12;
@@ -391,6 +403,8 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
     monthlyHoa,
     grossMonthlyPitia,
     year1Interest,
+    year1PrincipalPaid,
+    monthlyPrincipalAvg,
     annualPropertyTax,
     effectiveStateTaxPaid,
     deductiblePmi,

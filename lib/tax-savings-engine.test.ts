@@ -259,4 +259,18 @@ describe('2026 Tax Savings Engine', () => {
     expect(borderlineMfj.fedBuyerDeduction).toBe(32200 + 2000);
     expect(borderlineMfj.fedTaxSavingsAnnual).toBe(0);
   });
+
+  it('computes exact year1PrincipalPaid and monthlyPrincipalAvg matching amortized P&I', () => {
+    const fullYr = calculateTaxSavings2026(DEFAULT_CA_INPUTS);
+    expect(fullYr.year1PrincipalPaid).toBeGreaterThan(7800);
+    expect(fullYr.year1PrincipalPaid + fullYr.year1Interest).toBeCloseTo(
+      fullYr.monthlyPi * 12,
+      2
+    );
+    expect(fullYr.monthlyPrincipalAvg).toBeCloseTo(fullYr.year1PrincipalPaid / 12, 4);
+
+    const sixMo = calculateTaxSavings2026({ ...DEFAULT_CA_INPUTS, monthsInTaxYear: 6 });
+    expect(sixMo.year1PrincipalPaid + sixMo.year1Interest).toBeCloseTo(sixMo.monthlyPi * 6, 2);
+    expect(sixMo.monthlyPrincipalAvg).toBeCloseTo(sixMo.year1PrincipalPaid / 6, 4);
+  });
 });

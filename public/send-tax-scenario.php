@@ -150,6 +150,10 @@ $stateTaxSavingsMonthly = (float)($sc['stateTaxSavingsMonthly'] ?? 0);
 $monthlyPi = (float)($sc['monthlyPi'] ?? 0);
 $monthlyPropertyTax = (float)($sc['monthlyPropertyTax'] ?? 0);
 $otherHousingMonthly = (float)($sc['otherHousingMonthly'] ?? 0);
+$currentRent = (float)($sc['currentRent'] ?? 0);
+$appreciationRatePct = (float)($sc['appreciationRatePct'] ?? 0);
+$monthlyPrincipalAvg = (float)($sc['monthlyPrincipalAvg'] ?? 0);
+$year1PrincipalPaid = (float)($sc['year1PrincipalPaid'] ?? 0);
 
 $betterOffStandardDeduction = !empty($sc['betterOffStandardDeduction']) || ($annualTaxSavings <= 0);
 $fedBuyerItemizes = !empty($sc['fedBuyerItemizes']);
@@ -185,6 +189,68 @@ $savingsHeadlineHtml = $annualTaxSavings > 0
     : "<div style=\"margin-top:12px;padding:10px 12px;background:#F8FAFC;border:1px solid #CBD5E1;border-radius:8px;color:#475569;font-size:14px;font-weight:bold;\">"
       . "\$0/mo (\$0 for period) Estimated Tax Savings — Standard Deduction is higher"
       . "</div>";
+
+$cleanApprecPct = max(0.0, $appreciationRatePct);
+$projAppreciation = ($purchasePrice > 0 && $cleanApprecPct > 0)
+    ? ($purchasePrice * ($cleanApprecPct / 100.0) * ($monthsInTaxYear / 12.0))
+    : 0.0;
+$totalEquity = max(0.0, $year1PrincipalPaid) + $projAppreciation;
+$monthlyEquityAvg = $totalEquity / $monthsInTaxYear;
+$apprecStr = rtrim(rtrim(number_format($cleanApprecPct, 2), '0'), '.');
+if ($apprecStr === '') {
+    $apprecStr = '0';
+}
+
+$rentEquityHtml = '';
+if ($currentRent > 0 || $totalEquity > 0) {
+    $rows = '';
+    if ($currentRent > 0) {
+        $netDeltaMo = $netMonthlyCashFlow - $currentRent;
+        $deltaLabel = abs($netDeltaMo) < 0.5
+            ? '$0/mo (matches rent)'
+            : ($netDeltaMo > 0
+                ? '+' . fmt_currency($netDeltaMo) . '/mo more than rent'
+                : fmt_currency(abs($netDeltaMo)) . '/mo less than rent');
+        $rows .= "<tr style=\"background:#FFFFFF;\">"
+            . "<td style=\"padding:8px 10px;border-bottom:1px solid #E2E8F0;color:#475569;\">Current Monthly Rent</td>"
+            . "<td style=\"padding:8px 10px;border-bottom:1px solid #E2E8F0;text-align:right;font-weight:700;color:#0F172A;\">" . fmt_currency($currentRent) . "/mo</td>"
+            . "</tr>"
+            . "<tr style=\"background:#F8FAFC;\">"
+            . "<td style=\"padding:8px 10px;border-bottom:1px solid #E2E8F0;color:#060A2D;font-weight:700;\">After-Tax Net PITIA vs. Rent</td>"
+            . "<td style=\"padding:8px 10px;border-bottom:1px solid #E2E8F0;text-align:right;font-weight:700;color:#060A2D;\">{$deltaLabel}</td>"
+            . "</tr>";
+    }
+    if ($totalEquity > 0) {
+        $rows .= "<tr style=\"background:#FFFFFF;\">"
+            . "<td style=\"padding:8px 10px;border-bottom:1px solid #E2E8F0;color:#475569;\">Principal Reduction ({$monthsInTaxYear} mos)</td>"
+            . "<td style=\"padding:8px 10px;border-bottom:1px solid #E2E8F0;text-align:right;font-weight:700;color:#0F172A;\">+" . fmt_currency($year1PrincipalPaid) . " (" . fmt_currency($monthlyPrincipalAvg) . "/mo)</td>"
+            . "</tr>"
+            . "<tr style=\"background:#F8FAFC;\">"
+            . "<td style=\"padding:8px 10px;border-bottom:1px solid #E2E8F0;color:#475569;\">Projected Appreciation ({$apprecStr}%/yr)</td>"
+            . "<td style=\"padding:8px 10px;border-bottom:1px solid #E2E8F0;text-align:right;font-weight:700;color:#0F172A;\">+" . fmt_currency($projAppreciation) . "</td>"
+            . "</tr>"
+            . "<tr style=\"background:#F0FDF4;\">"
+            . "<td style=\"padding:9px 10px;border-bottom:1px solid #E2E8F0;font-weight:800;color:#14532D;\">Total Equity Built (Non-Cash Wealth)</td>"
+            . "<td style=\"padding:9px 10px;border-bottom:1px solid #E2E8F0;text-align:right;font-weight:800;color:#15803D;\">+" . fmt_currency($totalEquity) . " (" . fmt_currency($monthlyEquityAvg) . "/mo)</td>"
+            . "</tr>";
+    }
+    if ($currentRent > 0 && $totalEquity > 0) {
+        $netDeltaMo = $netMonthlyCashFlow - $currentRent;
+        $netWealth = $totalEquity - ($netDeltaMo * $monthsInTaxYear);
+        $netWealthMo = $netWealth / $monthsInTaxYear;
+        $sign = $netWealth >= 0 ? '+' : '-';
+        $mSign = $netWealthMo >= 0 ? '+' : '-';
+        $rows .= "<tr style=\"background:#EFF6FF;\">"
+            . "<td style=\"padding:9px 10px;font-weight:800;color:#060A2D;\">Net Wealth Impact vs. Renting ({$monthsInTaxYear} mos)</td>"
+            . "<td style=\"padding:9px 10px;text-align:right;font-weight:800;color:#0468E9;\">{$sign}" . fmt_currency(abs($netWealth)) . " ({$mSign}" . fmt_currency(abs($netWealthMo)) . "/mo)</td>"
+            . "</tr>";
+    }
+    $rentEquityHtml = "<h2 style=\"margin:0 0 10px;font-size:14px;color:#060A2D;text-transform:uppercase;letter-spacing:0.5px;\">"
+        . "Rent vs. Own &amp; Projected Equity Building"
+        . "</h2>"
+        . "<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-collapse:collapse;border:1px solid #E2E8F0;font-size:13px;margin-bottom:22px;\">"
+        . "<tbody>{$rows}</tbody></table>";
+}
 
 $safeScenarioTitle = esc($scenarioName);
 $safeShareUrl = esc($shareUrl);
@@ -272,6 +338,8 @@ $htmlBody = "<!DOCTYPE html>
                   </tr>
                 </tbody>
               </table>
+
+              {$rentEquityHtml}
 
               <h2 style=\"margin:0 0 10px;font-size:14px;color:#060A2D;text-transform:uppercase;letter-spacing:0.5px;\">
                 2. Home, Loan &amp; 2026 Tax Profile Inputs

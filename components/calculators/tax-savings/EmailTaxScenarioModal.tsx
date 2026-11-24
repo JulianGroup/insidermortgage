@@ -10,6 +10,8 @@ interface EmailTaxScenarioModalProps {
   inputs: TaxSavingsInputs;
   result: TaxSavingsResult;
   horizonLabel: string;
+  currentRent?: number;
+  appreciationRatePct?: number;
   buildShareUrl: () => string;
 }
 
@@ -22,6 +24,8 @@ export default function EmailTaxScenarioModal({
   inputs,
   result,
   horizonLabel,
+  currentRent = 0,
+  appreciationRatePct = 0,
   buildShareUrl,
 }: EmailTaxScenarioModalProps) {
   const [userEmail, setUserEmail] = useState('');
@@ -138,6 +142,10 @@ export default function EmailTaxScenarioModal({
             monthlyPi: result.monthlyPi,
             monthlyPropertyTax: result.monthlyPropertyTax,
             otherHousingMonthly,
+            currentRent,
+            appreciationRatePct,
+            monthlyPrincipalAvg: result.monthlyPrincipalAvg,
+            year1PrincipalPaid: result.year1PrincipalPaid,
             betterOffStandardDeduction: result.annualTaxSavings <= 0,
             fedBuyerItemizes: result.fedBuyerItemizes,
             stateBuyerItemizes: result.stateBuyerItemizes,

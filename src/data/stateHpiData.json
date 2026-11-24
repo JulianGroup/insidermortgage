@@ -1,0 +1,190 @@
+{
+  "source": "FHFA All-Transactions House Price Index (Quarterly, Not Seasonally Adjusted) via St. Louis Fed FRED",
+  "fhfaCalculatorUrl": "https://www.fhfa.gov/data/hpi/hpi-calculator",
+  "fetchedAt": "2026-11-24T03:40:54.168Z",
+  "windowYears": 20,
+  "startQuarter": "Q2 2006",
+  "endQuarter": "Q2 2026",
+  "states": {
+    "CA": {
+      "code": "CA",
+      "name": "California",
+      "seriesId": "CASTHPI",
+      "fredUrl": "https://fred.stlouisfed.org/series/CASTHPI",
+      "startDate": "2006-04-01",
+      "startQuarter": "Q2 2006",
+      "startIndex": 643.96,
+      "endDate": "2026-04-01",
+      "endQuarter": "Q2 2026",
+      "endIndex": 974.97,
+      "totalGrowthPct": 51.4,
+      "cagr20YrPct": 2.1,
+      "cycleCheckpoints": {
+        "preCrashPeak": {
+          "quarter": "Q3 2006",
+          "index": 646.07
+        },
+        "greatRecessionTrough": {
+          "quarter": "Q1 2012",
+          "index": 380.93
+        },
+        "preCovid2019": {
+          "quarter": "Q4 2019",
+          "index": 662.82
+        },
+        "peakToTroughPct": -41,
+        "troughToLatestPct": 155.9
+      }
+    },
+    "WA": {
+      "code": "WA",
+      "name": "Washington",
+      "seriesId": "WASTHPI",
+      "fredUrl": "https://fred.stlouisfed.org/series/WASTHPI",
+      "startDate": "2006-04-01",
+      "startQuarter": "Q2 2006",
+      "startIndex": 459.56,
+      "endDate": "2026-04-01",
+      "endQuarter": "Q2 2026",
+      "endIndex": 1033.33,
+      "totalGrowthPct": 124.85,
+      "cagr20YrPct": 4.13,
+      "cycleCheckpoints": {
+        "preCrashPeak": {
+          "quarter": "Q4 2007",
+          "index": 501.72
+        },
+        "greatRecessionTrough": {
+          "quarter": "Q2 2012",
+          "index": 375.29
+        },
+        "preCovid2019": {
+          "quarter": "Q4 2019",
+          "index": 662.85
+        },
+        "peakToTroughPct": -25.2,
+        "troughToLatestPct": 175.3
+      }
+    },
+    "UT": {
+      "code": "UT",
+      "name": "Utah",
+      "seriesId": "UTSTHPI",
+      "fredUrl": "https://fred.stlouisfed.org/series/UTSTHPI",
+      "startDate": "2006-04-01",
+      "startQuarter": "Q2 2006",
+      "startIndex": 328.24,
+      "endDate": "2026-04-01",
+      "endQuarter": "Q2 2026",
+      "endIndex": 864.92,
+      "totalGrowthPct": 163.5,
+      "cagr20YrPct": 4.96,
+      "cycleCheckpoints": {
+        "preCrashPeak": {
+          "quarter": "Q4 2007",
+          "index": 383.13
+        },
+        "greatRecessionTrough": {
+          "quarter": "Q2 2011",
+          "index": 299.1
+        },
+        "preCovid2019": {
+          "quarter": "Q4 2019",
+          "index": 515.76
+        },
+        "peakToTroughPct": -21.9,
+        "troughToLatestPct": 189.2
+      }
+    },
+    "AZ": {
+      "code": "AZ",
+      "name": "Arizona",
+      "seriesId": "AZSTHPI",
+      "fredUrl": "https://fred.stlouisfed.org/series/AZSTHPI",
+      "startDate": "2006-04-01",
+      "startQuarter": "Q2 2006",
+      "startIndex": 416.51,
+      "endDate": "2026-04-01",
+      "endQuarter": "Q2 2026",
+      "endIndex": 731.21,
+      "totalGrowthPct": 75.56,
+      "cagr20YrPct": 2.85,
+      "cycleCheckpoints": {
+        "preCrashPeak": {
+          "quarter": "Q4 2006",
+          "index": 423.79
+        },
+        "greatRecessionTrough": {
+          "quarter": "Q2 2011",
+          "index": 228.76
+        },
+        "preCovid2019": {
+          "quarter": "Q4 2019",
+          "index": 432.25
+        },
+        "peakToTroughPct": -46,
+        "troughToLatestPct": 219.6
+      }
+    },
+    "FL": {
+      "code": "FL",
+      "name": "Florida",
+      "seriesId": "FLSTHPI",
+      "fredUrl": "https://fred.stlouisfed.org/series/FLSTHPI",
+      "startDate": "2006-04-01",
+      "startQuarter": "Q2 2006",
+      "startIndex": 473.15,
+      "endDate": "2026-04-01",
+      "endQuarter": "Q2 2026",
+      "endIndex": 825.7,
+      "totalGrowthPct": 74.51,
+      "cagr20YrPct": 2.82,
+      "cycleCheckpoints": {
+        "preCrashPeak": {
+          "quarter": "Q4 2006",
+          "index": 479.92
+        },
+        "greatRecessionTrough": {
+          "quarter": "Q2 2012",
+          "index": 265.25
+        },
+        "preCovid2019": {
+          "quarter": "Q4 2019",
+          "index": 478.55
+        },
+        "peakToTroughPct": -44.7,
+        "troughToLatestPct": 211.3
+      }
+    },
+    "US": {
+      "code": "US",
+      "name": "U.S. National",
+      "seriesId": "USSTHPI",
+      "fredUrl": "https://fred.stlouisfed.org/series/USSTHPI",
+      "startDate": "2006-04-01",
+      "startQuarter": "Q2 2006",
+      "startIndex": 372.01,
+      "endDate": "2026-04-01",
+      "endQuarter": "Q2 2026",
+      "endIndex": 719.87,
+      "totalGrowthPct": 93.51,
+      "cagr20YrPct": 3.36,
+      "cycleCheckpoints": {
+        "preCrashPeak": {
+          "quarter": "Q1 2007",
+          "index": 380.31
+        },
+        "greatRecessionTrough": {
+          "quarter": "Q2 2012",
+          "index": 308.14
+        },
+        "preCovid2019": {
+          "quarter": "Q4 2019",
+          "index": 443.49
+        },
+        "peakToTroughPct": -19,
+        "troughToLatestPct": 133.6
+      }
+    }
+  }
+}

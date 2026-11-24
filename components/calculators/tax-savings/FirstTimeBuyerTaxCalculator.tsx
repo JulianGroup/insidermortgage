@@ -13,6 +13,8 @@ import {
   TaxStateCode,
 } from '../../../lib/tax-savings-engine';
 import EmailTaxScenarioModal from './EmailTaxScenarioModal';
+import StateHpiExplainerModal from './StateHpiExplainerModal';
+import stateHpiData from '../../../src/data/stateHpiData.json';
 import './tax-savings.css';
 
 interface W2Entry {
@@ -30,6 +32,9 @@ interface SavedTaxScenario {
   w2Entries?: W2Entry[];
   horizonMode: 'full' | 'closing';
   closingMonth: number;
+  currentRent?: number;
+  appreciationRatePct?: number;
+  appreciationManuallyEdited?: boolean;
   pmiManuallyEdited?: boolean;
   stateTaxManuallyEdited?: boolean;
 }
@@ -159,6 +164,12 @@ export default function FirstTimeBuyerTaxCalculator() {
   const [downMode, setDownMode] = useState<'pct' | 'dollar'>('pct');
   const [horizonMode, setHorizonMode] = useState<'full' | 'closing'>('full');
   const [closingMonth, setClosingMonth] = useState<number>(7);
+  const [currentRent, setCurrentRent] = useState<number>(0);
+  const [appreciationRatePct, setAppreciationRatePct] = useState<number>(
+    stateHpiData.states.CA.cagr20YrPct
+  );
+  const [appreciationManuallyEdited, setAppreciationManuallyEdited] = useState(false);
+  const [isHpiModalOpen, setIsHpiModalOpen] = useState(false);
   const [pmiManuallyEdited, setPmiManuallyEdited] = useState(false);
   const [stateTaxManuallyEdited, setStateTaxManuallyEdited] = useState(false);
   const [showMathDrawer, setShowMathDrawer] = useState(false);
@@ -225,6 +236,19 @@ export default function FirstTimeBuyerTaxCalculator() {
             parsed.closingMonth <= 12
           ) {
             setClosingMonth(parsed.closingMonth);
+          }
+          if (typeof parsed.currentRent === 'number' && parsed.currentRent >= 0) {
+            setCurrentRent(parsed.currentRent);
+          }
+          if (
+            typeof parsed.appreciationRatePct === 'number' &&
+            parsed.appreciationRatePct >= 0
+          ) {
+            setAppreciationRatePct(parsed.appreciationRatePct);
+            setAppreciationManuallyEdited(Boolean(parsed.appreciationManuallyEdited));
+          } else {
+            setAppreciationRatePct(stateHpiData.states[mergedInputs.state].cagr20YrPct);
+            setAppreciationManuallyEdited(false);
           }
           if (typeof parsed.name === 'string') {
             setScenarioName(parsed.name);
@@ -373,6 +397,9 @@ export default function FirstTimeBuyerTaxCalculator() {
 
   const handleStateChange = (nextState: TaxStateCode) => {
     const cfg = STATE_TAX_DEFAULTS[nextState];
+    if (!appreciationManuallyEdited) {
+      setAppreciationRatePct(stateHpiData.states[nextState].cagr20YrPct);
+    }
     applyW2AndTaxUpdate(w2Entries, {
       state: nextState,
       propertyTaxRate: cfg.defaultPropTaxRate,
@@ -434,6 +461,9 @@ export default function FirstTimeBuyerTaxCalculator() {
     setDownMode('pct');
     setHorizonMode('full');
     setClosingMonth(7);
+    setCurrentRent(0);
+    setAppreciationRatePct(stateHpiData.states.CA.cagr20YrPct);
+    setAppreciationManuallyEdited(false);
     setPmiManuallyEdited(false);
     setStateTaxManuallyEdited(false);
     setActiveScenarioId(null);
@@ -449,6 +479,9 @@ export default function FirstTimeBuyerTaxCalculator() {
         w2Entries,
         horizonMode,
         closingMonth,
+        currentRent,
+        appreciationRatePct,
+        appreciationManuallyEdited,
         pmiManuallyEdited,
         stateTaxManuallyEdited,
       };
@@ -488,6 +521,9 @@ export default function FirstTimeBuyerTaxCalculator() {
       w2Entries,
       horizonMode,
       closingMonth,
+      currentRent,
+      appreciationRatePct,
+      appreciationManuallyEdited,
       pmiManuallyEdited,
       stateTaxManuallyEdited,
     };
@@ -529,6 +565,14 @@ export default function FirstTimeBuyerTaxCalculator() {
         ? sc.closingMonth
         : 7
     );
+    setCurrentRent(typeof sc.currentRent === 'number' && sc.currentRent >= 0 ? sc.currentRent : 0);
+    if (typeof sc.appreciationRatePct === 'number' && sc.appreciationRatePct >= 0) {
+      setAppreciationRatePct(sc.appreciationRatePct);
+      setAppreciationManuallyEdited(Boolean(sc.appreciationManuallyEdited));
+    } else {
+      setAppreciationRatePct(stateHpiData.states[merged.state].cagr20YrPct);
+      setAppreciationManuallyEdited(false);
+    }
     setPmiManuallyEdited(Boolean(sc.pmiManuallyEdited));
     const autoEst = estimateStateWageTax2026(
       totalWages,
@@ -589,6 +633,29 @@ export default function FirstTimeBuyerTaxCalculator() {
   );
 
   const periodTaxSavingsSuffix = monthsInTaxYear === 12 ? '/yr' : ` (${monthsInTaxYear} mos)`;
+
+  // Rent vs. Own & Equity projections (separate from cash flow)
+  const stateHpi = stateHpiData.states[inputs.state];
+  const cleanAppreciationPct = Math.max(
+    0,
+    Number.isFinite(appreciationRatePct) ? appreciationRatePct : 0
+  );
+  const hasRent = currentRent > 0;
+  const grossDeltaMonthly =
+    hasInterestRate && hasRent ? result.grossMonthlyPitia - currentRent : 0;
+  const netDeltaMonthly =
+    hasInterestRate && hasRent ? result.netMonthlyCashFlow - currentRent : 0;
+  const projectedAppreciationPeriod =
+    inputs.purchasePrice * (cleanAppreciationPct / 100) * (monthsInTaxYear / 12);
+  const monthlyAppreciationAvg = projectedAppreciationPeriod / Math.max(1, monthsInTaxYear);
+  const principalPaidPeriod = hasInterestRate ? result.year1PrincipalPaid : 0;
+  const monthlyPrincipalAvg = hasInterestRate ? result.monthlyPrincipalAvg : 0;
+  const totalEquityPeriod = principalPaidPeriod + projectedAppreciationPeriod;
+  const totalEquityMonthlyAvg = totalEquityPeriod / Math.max(1, monthsInTaxYear);
+  const netWealthImpactMonthly =
+    hasInterestRate && hasRent ? totalEquityMonthlyAvg - netDeltaMonthly : 0;
+  const netWealthImpactPeriod =
+    hasInterestRate && hasRent ? totalEquityPeriod - netDeltaMonthly * monthsInTaxYear : 0;
 
   return (
     <div className="ftb-tax-root" style={{ paddingBottom: '4rem' }}>
@@ -1173,6 +1240,29 @@ export default function FirstTimeBuyerTaxCalculator() {
                       }}
                     />
                   </div>
+                </div>
+
+                {/* Current Monthly Rent (Optional - powers Rent vs. Own comparison) */}
+                <div style={{ marginTop: '1rem' }}>
+                  <label className="ftb-label" htmlFor="ftb-current-rent">
+                    <span>Current Monthly Rent</span>
+                    <span style={{ fontSize: '0.71rem', color: '#64748B', fontWeight: 600 }}>
+                      Optional · powers Rent vs. Own comparison
+                    </span>
+                  </label>
+                  <NumericFormat
+                    id="ftb-current-rent"
+                    className="ftb-input"
+                    value={currentRent || ''}
+                    placeholder="Enter current rent (e.g. $3,200)"
+                    thousandSeparator=","
+                    prefix="$"
+                    decimalScale={0}
+                    allowNegative={false}
+                    onValueChange={(vals) => {
+                      setCurrentRent(vals.floatValue ?? 0);
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -1874,6 +1964,91 @@ export default function FirstTimeBuyerTaxCalculator() {
                 </div>
               </div>
 
+              {/* Rent vs. Own Monthly Cash Flow Comparison */}
+              {hasInterestRate && hasRent && (
+                <div
+                  style={{
+                    backgroundColor: 'rgba(15, 23, 42, 0.55)',
+                    border: '1px solid rgba(148, 163, 184, 0.28)',
+                    borderRadius: '12px',
+                    padding: '0.75rem 0.9rem',
+                    marginBottom: '0.95rem',
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: '0.7rem',
+                      fontWeight: 800,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.06em',
+                      color: '#93C5FD',
+                      marginBottom: '0.45rem',
+                    }}
+                  >
+                    Rent vs. Own · Monthly Cash Flow
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      fontSize: '0.78rem',
+                      color: '#CBD5E1',
+                      marginBottom: '0.25rem',
+                    }}
+                  >
+                    <span>Current Monthly Rent</span>
+                    <span>{currencyFmt.format(Math.round(currentRent))}/mo</span>
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      fontSize: '0.78rem',
+                      color: '#CBD5E1',
+                      marginBottom: '0.45rem',
+                    }}
+                  >
+                    <span>Gross PITIA vs. Rent</span>
+                    <span>
+                      {Math.round(grossDeltaMonthly) > 0
+                        ? `+${currencyFmt.format(Math.round(grossDeltaMonthly))}/mo`
+                        : Math.round(grossDeltaMonthly) < 0
+                        ? `-${currencyFmt.format(Math.round(Math.abs(grossDeltaMonthly)))}/mo`
+                        : '$0/mo'}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      borderTop: '1px solid rgba(255, 255, 255, 0.14)',
+                      paddingTop: '0.45rem',
+                      gap: '0.5rem',
+                      flexWrap: 'wrap',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#FFFFFF' }}>
+                      After-Tax PITIA vs. Rent
+                    </span>
+                    <span
+                      style={{
+                        fontSize: '0.95rem',
+                        fontWeight: 800,
+                        color:
+                          Math.round(netDeltaMonthly) <= 0 ? '#4ADE80' : '#EFB51E',
+                      }}
+                    >
+                      {Math.round(netDeltaMonthly) > 0
+                        ? `+${currencyFmt.format(Math.round(netDeltaMonthly))}/mo more than rent`
+                        : Math.round(netDeltaMonthly) < 0
+                        ? `${currencyFmt.format(Math.round(Math.abs(netDeltaMonthly)))}/mo less than rent`
+                        : '$0/mo (matches rent)'}
+                    </span>
+                  </div>
+                </div>
+              )}
+
               {/* Standard Deduction Verdict Callout */}
               {hasInterestRate && result.annualTaxSavings <= 0 && (
                 <div
@@ -2327,6 +2502,374 @@ export default function FirstTimeBuyerTaxCalculator() {
               </div>
             </div>
 
+            {/* Card 2: Wealth & Equity Building (Rent vs. Own) - Separate from Cash Flow */}
+            <div
+              className="ftb-card"
+              style={{
+                border: '1px solid #CBD5E1',
+                backgroundColor: '#FFFFFF',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.5rem',
+                  flexWrap: 'wrap',
+                  marginBottom: '0.35rem',
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: '0.7rem',
+                    fontWeight: 800,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                    color: '#0468E9',
+                    backgroundColor: '#EFF6FF',
+                    border: '1px solid #BFDBFE',
+                    borderRadius: '999px',
+                    padding: '0.2rem 0.6rem',
+                  }}
+                >
+                  Non-Cash Equity · Separate From PITIA Cash Flow
+                </span>
+              </div>
+
+              <h3
+                style={{
+                  margin: '0 0 0.25rem',
+                  fontSize: '1.15rem',
+                  fontWeight: 800,
+                  color: '#060A2D',
+                }}
+              >
+                Wealth &amp; Equity Building (Rent vs. Own)
+              </h3>
+              <p
+                style={{
+                  margin: '0 0 1rem',
+                  fontSize: '0.8rem',
+                  color: '#475569',
+                  lineHeight: 1.45,
+                }}
+              >
+                Estimated equity gained over your{' '}
+                <strong>
+                  {monthsInTaxYear === 12 ? '12-month' : `${monthsInTaxYear}-month`}
+                </strong>{' '}
+                horizon from paying down loan principal and home price appreciation.
+              </p>
+
+              {/* Expected Annual Appreciation Control + Presets + HPI Explainer Link */}
+              <div
+                style={{
+                  backgroundColor: '#F8FAFC',
+                  border: '1px solid #E2E8F0',
+                  borderRadius: '12px',
+                  padding: '0.85rem 0.95rem',
+                  marginBottom: '0.95rem',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    flexWrap: 'wrap',
+                    marginBottom: '0.55rem',
+                  }}
+                >
+                  <label
+                    htmlFor="ftb-appreciation-rate"
+                    style={{
+                      fontSize: '0.8rem',
+                      fontWeight: 700,
+                      color: '#0F172A',
+                    }}
+                  >
+                    Expected Annual Appreciation (%)
+                  </label>
+                  <div style={{ width: '110px' }}>
+                    <NumericFormat
+                      id="ftb-appreciation-rate"
+                      className="ftb-input"
+                      style={{ padding: '0.42rem 0.6rem', textAlign: 'right', fontWeight: 700 }}
+                      value={cleanAppreciationPct}
+                      suffix="%"
+                      decimalScale={2}
+                      allowNegative={false}
+                      onValueChange={(vals) => {
+                        const raw = vals.floatValue ?? 0;
+                        const clamped = Math.min(25, Math.max(0, raw));
+                        setAppreciationRatePct(clamped);
+                        setAppreciationManuallyEdited(true);
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Preset Pills */}
+                <div
+                  style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '0.4rem',
+                    marginBottom: '0.6rem',
+                  }}
+                >
+                  {[
+                    { label: '0% Flat', rate: 0, isStateAvg: false },
+                    { label: '3.0% Balanced', rate: 3, isStateAvg: false },
+                    {
+                      label: `${inputs.state} 20-Yr FHFA Avg (${stateHpi.cagr20YrPct}%)`,
+                      rate: stateHpi.cagr20YrPct,
+                      isStateAvg: true,
+                    },
+                  ].map((preset) => {
+                    const isSelected = Math.abs(cleanAppreciationPct - preset.rate) < 0.005;
+                    return (
+                      <button
+                        key={preset.label}
+                        type="button"
+                        onClick={() => {
+                          setAppreciationRatePct(preset.rate);
+                          setAppreciationManuallyEdited(!preset.isStateAvg);
+                        }}
+                        style={{
+                          padding: '0.32rem 0.65rem',
+                          borderRadius: '999px',
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          border: isSelected ? '1px solid #0468E9' : '1px solid #CBD5E1',
+                          backgroundColor: isSelected ? '#0468E9' : '#FFFFFF',
+                          color: isSelected ? '#FFFFFF' : '#334155',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        {preset.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Clickable Appreciation Methodology Trigger */}
+                <button
+                  type="button"
+                  onClick={() => setIsHpiModalOpen(true)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    cursor: 'pointer',
+                    color: '#0468E9',
+                    fontSize: '0.76rem',
+                    fontWeight: 700,
+                    textAlign: 'left',
+                    textDecoration: 'underline',
+                    textUnderlineOffset: '2px',
+                  }}
+                >
+                  📊 How we calculated {stateHpi.name}&apos;s {stateHpi.cagr20YrPct}% 20-Yr FHFA Avg →
+                </button>
+              </div>
+
+              {/* Principal + Appreciation Breakdown */}
+              <div
+                style={{
+                  border: '1px solid #E2E8F0',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  marginBottom: '0.9rem',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.65rem 0.9rem',
+                    borderBottom: '1px solid #E2E8F0',
+                    backgroundColor: '#FFFFFF',
+                    fontSize: '0.82rem',
+                    gap: '0.5rem',
+                    flexWrap: 'wrap',
+                  }}
+                >
+                  <div>
+                    <div style={{ fontWeight: 700, color: '#0F172A' }}>
+                      Principal Reduction (Loan Paydown)
+                    </div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748B' }}>
+                      Forced equity from your monthly P&amp;I payments
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    {hasInterestRate ? (
+                      <>
+                        <div style={{ fontWeight: 800, color: '#060A2D' }}>
+                          +{currencyFmt.format(Math.round(principalPaidPeriod))}
+                        </div>
+                        <div style={{ fontSize: '0.72rem', color: '#64748B' }}>
+                          {currencyFmt.format(Math.round(monthlyPrincipalAvg))}/mo avg
+                        </div>
+                      </>
+                    ) : (
+                      <span style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 600 }}>
+                        Enter rate above
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.65rem 0.9rem',
+                    borderBottom: '1px solid #E2E8F0',
+                    backgroundColor: '#FFFFFF',
+                    fontSize: '0.82rem',
+                    gap: '0.5rem',
+                    flexWrap: 'wrap',
+                  }}
+                >
+                  <div>
+                    <div style={{ fontWeight: 700, color: '#0F172A' }}>
+                      Projected Appreciation ({Number(cleanAppreciationPct.toFixed(2))}%/yr)
+                    </div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748B' }}>
+                      On {currencyFmt.format(Math.round(inputs.purchasePrice))} home value
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontWeight: 800, color: '#060A2D' }}>
+                      +{currencyFmt.format(Math.round(projectedAppreciationPeriod))}
+                    </div>
+                    <div style={{ fontSize: '0.72rem', color: '#64748B' }}>
+                      {currencyFmt.format(Math.round(monthlyAppreciationAvg))}/mo avg
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '0.75rem 0.9rem',
+                    backgroundColor: '#F0FDF4',
+                    gap: '0.5rem',
+                    flexWrap: 'wrap',
+                  }}
+                >
+                  <div>
+                    <div style={{ fontSize: '0.84rem', fontWeight: 800, color: '#14532D' }}>
+                      Total Equity Built ({monthsInTaxYear === 12 ? 'Year 1' : `${monthsInTaxYear} Mos`})
+                    </div>
+                    <div style={{ fontSize: '0.72rem', color: '#166534' }}>
+                      Principal Paydown + Appreciation
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#15803D' }}>
+                      +{currencyFmt.format(Math.round(totalEquityPeriod))}
+                    </div>
+                    <div style={{ fontSize: '0.73rem', fontWeight: 700, color: '#166534' }}>
+                      +{currencyFmt.format(Math.round(totalEquityMonthlyAvg))}/mo avg
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Net Wealth Impact vs. Renting */}
+              {hasInterestRate && hasRent ? (
+                <div
+                  style={{
+                    backgroundColor:
+                      netWealthImpactPeriod >= 0 ? '#EFF6FF' : '#FFFBEB',
+                    border:
+                      netWealthImpactPeriod >= 0
+                        ? '1px solid #93C5FD'
+                        : '1px solid #FDE68A',
+                    borderRadius: '12px',
+                    padding: '0.8rem 0.95rem',
+                    marginBottom: '0.8rem',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      flexWrap: 'wrap',
+                      marginBottom: '0.35rem',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.83rem', fontWeight: 800, color: '#060A2D' }}>
+                      Net Wealth Impact vs. Renting ({monthsInTaxYear === 12 ? 'Year 1' : `${monthsInTaxYear} Mos`})
+                    </span>
+                    <span
+                      style={{
+                        fontSize: '1rem',
+                        fontWeight: 800,
+                        color: netWealthImpactPeriod >= 0 ? '#0468E9' : '#B45309',
+                      }}
+                    >
+                      {netWealthImpactPeriod >= 0 ? '+' : '-'}
+                      {currencyFmt.format(Math.round(Math.abs(netWealthImpactPeriod)))} (
+                      {netWealthImpactMonthly >= 0 ? '+' : '-'}
+                      {currencyFmt.format(Math.round(Math.abs(netWealthImpactMonthly)))}/mo)
+                    </span>
+                  </div>
+                  <div style={{ fontSize: '0.74rem', color: '#334155', lineHeight: 1.45 }}>
+                    {currencyFmt.format(Math.round(totalEquityPeriod))} equity built{' '}
+                    {Math.round(netDeltaMonthly) >= 0 ? 'minus' : 'plus'}{' '}
+                    {currencyFmt.format(Math.round(Math.abs(netDeltaMonthly) * monthsInTaxYear))}{' '}
+                    {Math.round(netDeltaMonthly) >= 0
+                      ? 'extra after-tax housing cash spent vs. your current rent.'
+                      : 'after-tax monthly cash saved vs. your current rent.'}
+                  </div>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    backgroundColor: '#F8FAFC',
+                    border: '1px dashed #CBD5E1',
+                    borderRadius: '10px',
+                    padding: '0.65rem 0.85rem',
+                    marginBottom: '0.8rem',
+                    fontSize: '0.76rem',
+                    color: '#475569',
+                  }}
+                >
+                  {!hasRent
+                    ? 'Enter your Current Monthly Rent in Step 1 to see your Net Wealth Impact vs. Renting.'
+                    : 'Enter your mortgage interest rate in Step 1 to calculate Net Wealth Impact vs. Renting.'}
+                </div>
+              )}
+
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: '0.71rem',
+                  color: '#64748B',
+                  lineHeight: 1.45,
+                }}
+              >
+                Principal paydown and projected appreciation build non-cash equity, not spendable
+                monthly cash flow. Historical 20-year FHFA state HPI appreciation (
+                {stateHpiData.startQuarter}–{stateHpiData.endQuarter}) reflects multiple housing
+                cycles and does not guarantee future appreciation. Net Wealth Impact excludes
+                maintenance, transaction/selling costs, and down-payment opportunity cost.
+              </p>
+            </div>
+
             {/* CTA Card: Want a Custom Scenario or Pre-Approval? */}
             <div
               className="ftb-card"
@@ -2596,7 +3139,20 @@ export default function FirstTimeBuyerTaxCalculator() {
         inputs={effectiveInputs}
         result={result}
         horizonLabel={horizonLabel}
+        currentRent={currentRent}
+        appreciationRatePct={cleanAppreciationPct}
         buildShareUrl={buildShareUrl}
+      />
+
+      {/* State 20-Year FHFA HPI Explainer Modal */}
+      <StateHpiExplainerModal
+        isOpen={isHpiModalOpen}
+        onClose={() => setIsHpiModalOpen(false)}
+        selectedState={inputs.state}
+        onApplyStateHpiRate={(rate) => {
+          setAppreciationRatePct(rate);
+          setAppreciationManuallyEdited(false);
+        }}
       />
     </div>
   );

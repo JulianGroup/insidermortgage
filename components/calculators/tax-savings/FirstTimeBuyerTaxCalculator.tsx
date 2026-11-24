@@ -1864,8 +1864,14 @@ export default function FirstTimeBuyerTaxCalculator() {
                   marginBottom: '0.9rem',
                 }}
               >
-                Tax savings are realized when filing tax returns or by updating your W-4
-                withholding.
+                <div>
+                  Tax savings are realized when filing tax returns or by updating your W-4
+                  withholding.
+                </div>
+                <div style={{ marginTop: '0.3rem', color: '#94A3B8' }}>
+                  Estimated after-tax monthly housing cost — not your actual monthly mortgage
+                  payment (you pay Gross Monthly PITIA to your lender).
+                </div>
               </div>
 
               {/* Standard Deduction Verdict Callout */}
@@ -2492,7 +2498,8 @@ export default function FirstTimeBuyerTaxCalculator() {
                 </li>
                 <li>
                   <strong>Prior-Year W-2 Box 1, Box 17 &amp; 2026 Charitable Rules:</strong> Box 1
-                  wages reflect taxable pay after pre-tax 401(k)/HSA deductions. Box 17 reports
+                  wages reflect taxable pay after pre-tax 401(k)/HSA deductions and are used as an
+                  estimate for AGI/MAGI (Married Filing Separately is not modeled). Box 17 reports
                   state wage withholding and serves as an editable starting estimate for state
                   income tax paid when computing your SALT baseline. Under 2026 Federal charitable
                   rules, non-itemizers can deduct up to $1,000 ($2,000 Married Filing Jointly)
@@ -2506,9 +2513,9 @@ export default function FirstTimeBuyerTaxCalculator() {
                   $1M mortgage interest cap (subject to California itemizing rules).{' '}
                   <strong>UT</strong> uses a 4.45% flat tax with its 6% Taxpayer Tax Credit (subject
                   to income phase-out). <strong>AZ</strong> uses a 2.50% flat tax conforming to
-                  federal deductions (excluding state income tax). <strong>WA &amp; FL</strong> have
-                  0% state wage income tax (optional federal state sales-tax elections are excluded
-                  to keep estimates conservative).
+                  federal deductions (excluding state income tax) with a $10,000 state SALT cap.{' '}
+                  <strong>WA &amp; FL</strong> have 0% state wage income tax (optional federal state
+                  sales-tax elections are excluded to keep estimates conservative).
                 </li>
               </ul>
             </div>

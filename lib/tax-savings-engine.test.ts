@@ -106,6 +106,24 @@ describe('2026 Tax Savings Engine', () => {
     expect(az.stateTaxSavingsAnnual).toBeCloseTo(expectedIncremental * 0.025, 2);
   });
 
+  it('enforces Arizona $10,000 state SALT cap on high-value AZ homes', () => {
+    const azHighValue = calculateTaxSavings2026({
+      ...DEFAULT_CA_INPUTS,
+      state: 'AZ',
+      purchasePrice: 2500000,
+      downPaymentPct: 0.2,
+      monthlyPmi: 0,
+      propertyTaxRate: 0.006, // $15,000/yr property tax -> capped at $10,000 for AZ
+      w2Wages: 300000,
+      w2StateTaxPaid: 7000,
+    });
+    expect(azHighValue.annualPropertyTax).toBe(15000);
+    // AZ itemized buyer = fedDeductibleMortgageInterest + $10,000 (AZ SALT cap) + $1,000 charity
+    const expectedAzDeduction = azHighValue.fedDeductibleMortgageInterest + 10000 + 1000;
+    expect(azHighValue.stateBuyerDeduction).toBeCloseTo(expectedAzDeduction, 2);
+    expect(azHighValue.stateTaxSavingsAnnual).toBeCloseTo((expectedAzDeduction - 16100) * 0.025, 2);
+  });
+
   it('computes Utah 6% Taxpayer Tax Credit savings with income phase-out', () => {
     const ut = calculateTaxSavings2026({
       ...DEFAULT_CA_INPUTS,

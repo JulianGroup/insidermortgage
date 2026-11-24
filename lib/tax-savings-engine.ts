@@ -128,13 +128,13 @@ const CA_SINGLE_BRACKETS_2026: TaxBracket[] = [
 
 const CA_HOH_BRACKETS_2026: TaxBracket[] = [
   { upTo: 22927, rate: 0.01 },
-  { upTo: 54317, rate: 0.02 },
+  { upTo: 54316, rate: 0.02 },
   { upTo: 70018, rate: 0.04 },
-  { upTo: 86655, rate: 0.06 },
+  { upTo: 86654, rate: 0.06 },
   { upTo: 102356, rate: 0.08 },
-  { upTo: 522228, rate: 0.093 },
-  { upTo: 626675, rate: 0.103 },
-  { upTo: 1044456, rate: 0.113 },
+  { upTo: 522385, rate: 0.093 },
+  { upTo: 626864, rate: 0.103 },
+  { upTo: 1044771, rate: 0.113 },
   { upTo: Infinity, rate: 0.123 },
 ];
 
@@ -327,14 +327,14 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
     const caTaxBuyer = progressiveCaTax2026(Math.max(0, w2Wages - stateBuyerDeduction), status);
     stateTaxSavingsAnnual = Math.max(0, caTaxRenter - caTaxBuyer);
     stateExplanationNote =
-      'California allows mortgage interest up to $1M loan balance and full property tax deductibility with no SALT cap.';
+      'California has its own itemized deduction rules ($5,900 Single / $11,800 MFJ & HOH standard deduction, up to $1M qualifying acquisition debt) and is calculated separately from the Federal SALT cap.';
   } else if (inputs.state === 'UT') {
     stateStandardDeduction = fedStandardDeduction;
     const utahPropTaxDed = Math.min(fedSaltCap, annualPropertyTax);
     const fedDedExStateRenter = Math.max(fedStandardDeduction, charity);
     const fedDedExStateBuyer = Math.max(
       fedStandardDeduction,
-      fedDeductibleMortgageInterest + deductiblePmi + utahPropTaxDed + charity
+      fedDeductibleMortgageInterest + deductiblePmi + utahPropTaxDed + fedItemizedCharity
     );
     stateRenterDeduction = fedDedExStateRenter;
     stateBuyerDeduction = fedDedExStateBuyer;
@@ -358,7 +358,7 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
       'Utah taxes income at a flat 4.45% and provides a 6% Taxpayer Tax Credit based on federal deductions (excluding state income tax) subject to income phase-out.';
   } else if (inputs.state === 'AZ') {
     stateStandardDeduction = fedStandardDeduction;
-    const azPropTaxDed = Math.min(fedSaltCap, annualPropertyTax);
+    const azPropTaxDed = Math.min(10000, annualPropertyTax);
     stateRenterDeduction = Math.max(fedStandardDeduction, charity);
     const azItemizedBuyer =
       fedDeductibleMortgageInterest + deductiblePmi + azPropTaxDed + charity;
@@ -369,7 +369,7 @@ export function calculateTaxSavings2026(inputs: TaxSavingsInputs): TaxSavingsRes
     const azTaxBuyer = 0.025 * Math.max(0, w2Wages - stateBuyerDeduction);
     stateTaxSavingsAnnual = Math.max(0, azTaxRenter - azTaxBuyer);
     stateExplanationNote =
-      'Arizona taxes income at a flat 2.50% and conforms to 2026 Federal deductions (excluding state income taxes paid).';
+      'Arizona taxes income at a flat 2.50% and conforms to federal deductions (excluding state income taxes paid) with a $10,000 state SALT cap.';
   } else {
     stateTaxSavingsAnnual = 0;
     stateExplanationNote = `No state wage income tax in ${inputs.state}.`;

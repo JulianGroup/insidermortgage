@@ -696,7 +696,7 @@ export default function FirstTimeBuyerTaxCalculator() {
                 lineHeight: 1.15,
               }}
             >
-              <span style={{ display: 'block' }}>First-Time Home Buyer Tax Savings</span>
+              <span style={{ display: 'block' }}>First-Time Home Buyer Tax Savings Calculator</span>
               <span
                 style={{
                   display: 'block',
@@ -705,7 +705,7 @@ export default function FirstTimeBuyerTaxCalculator() {
                   marginTop: '0.2rem',
                 }}
               >
-                RENT vs OWN Calculator
+                Rent vs Buy
               </span>
             </h1>
             <p
@@ -716,9 +716,9 @@ export default function FirstTimeBuyerTaxCalculator() {
                 lineHeight: 1.55,
               }}
             >
-              See how 2026 Federal and State homeowner tax deductions reduce your true after-tax
-              monthly housing cost compared to renting — tailored for California, Washington,
-              Utah, Arizona, and Florida buyers.
+              Compare renting vs buying with 2026 federal and state tax savings. See your after-tax
+              monthly housing cost and Year 1 equity vs. renting. For buyers in CA, WA, UT, AZ and
+              FL.
             </p>
             <div
               style={{

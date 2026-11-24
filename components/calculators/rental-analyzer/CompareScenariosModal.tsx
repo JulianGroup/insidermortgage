@@ -169,16 +169,15 @@ export default function CompareScenariosModal({
   isOpen,
   onClose,
   availableScenarios,
-  initialSelectedIds,
   onLoadScenario,
 }: CompareScenariosModalProps) {
-  const [selectedIds, setSelectedIds] = useState<string[]>(initialSelectedIds);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   useEffect(() => {
     if (isOpen) {
-      setSelectedIds(initialSelectedIds.slice(0, 4));
+      setSelectedIds([]);
     }
-  }, [isOpen, initialSelectedIds]);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -438,28 +437,66 @@ export default function CompareScenariosModal({
             }}
           >
             <div>
-              <div
+              <h3
+                id="compare-modal-title"
                 style={{
-                  fontSize: '0.7rem',
+                  margin: 0,
+                  fontSize: '0.82rem',
                   fontWeight: 800,
                   textTransform: 'uppercase',
                   letterSpacing: '0.07em',
                   color: '#EFB51E',
                 }}
               >
-                ⚖️ Side-by-Side Underwriting Comparison
-              </div>
-              <h3
-                id="compare-modal-title"
+                ⚖️ Side-by-Side Investment Property Analysis
+              </h3>
+              <div
                 style={{
-                  margin: '0.15rem 0 0',
-                  fontSize: '1.15rem',
-                  fontWeight: 800,
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                  gap: '0.65rem 1.25rem',
+                  marginTop: '0.55rem',
+                  fontSize: '0.88rem',
+                  fontWeight: 700,
                   color: '#FFFFFF',
                 }}
               >
-                Compare 2 to 4 Properties
-              </h3>
+                {[
+                  { num: 1, text: `Select up to 4 properties to compare (${selectedIds.length}/4)` },
+                  { num: 2, text: 'Review the report' },
+                  { num: 3, text: 'Save as PDF / Email Comparison' },
+                ].map((step) => (
+                  <div
+                    key={step.num}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '0.45rem',
+                    }}
+                  >
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '24px',
+                        height: '24px',
+                        borderRadius: '50%',
+                        backgroundColor: '#060A2D',
+                        border: '1.5px solid #EFB51E',
+                        color: '#EFB51E',
+                        fontWeight: 800,
+                        fontSize: '0.78rem',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {step.num}
+                    </span>
+                    <span>{step.text}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
@@ -509,44 +546,32 @@ export default function CompareScenariosModal({
               borderTop: '1px solid rgba(255,255,255,0.14)',
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '0.4rem',
-                marginBottom: '0.45rem',
-                fontSize: '0.74rem',
-                color: '#CBD5E1',
-              }}
-            >
-              <span>
-                Select 2 to 4 properties to compare ({selectedIds.length}/4 selected):
-              </span>
-              {selectedIds.length >= 4 && (
-                <span style={{ color: '#EFB51E', fontWeight: 700 }}>
-                  Maximum of 4 properties reached — uncheck one to swap
-                </span>
-              )}
-            </div>
+            {selectedIds.length >= 4 && (
+              <div
+                style={{
+                  marginBottom: '0.45rem',
+                  fontSize: '0.74rem',
+                  color: '#EFB51E',
+                  fontWeight: 700,
+                }}
+              >
+                Maximum of 4 properties reached — uncheck one to swap
+              </div>
+            )}
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem' }}>
               {availableScenarios.map((item) => {
                 const isSelected = selectedIds.includes(item.id);
                 const isDisabled = !isSelected && selectedIds.length >= 4;
                 return (
-                  <button
+                  <label
                     key={item.id}
-                    type="button"
-                    disabled={isDisabled}
-                    onClick={() => handleToggleScenario(item.id)}
-                    title={isDisabled ? 'Max 4 properties selected' : `Toggle ${item.name}`}
+                    title={isDisabled ? 'Max 4 properties selected' : `Select ${item.name}`}
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '0.4rem',
-                      padding: '0.35rem 0.7rem',
+                      gap: '0.45rem',
+                      padding: '0.35rem 0.72rem',
                       borderRadius: '999px',
                       border: isSelected
                         ? '1px solid #EFB51E'
@@ -559,9 +584,22 @@ export default function CompareScenariosModal({
                       fontSize: '0.76rem',
                       fontWeight: 700,
                       cursor: isDisabled ? 'not-allowed' : 'pointer',
+                      userSelect: 'none',
                     }}
                   >
-                    <span>{isSelected ? '✓' : '+'}</span>
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      disabled={isDisabled}
+                      onChange={() => handleToggleScenario(item.id)}
+                      style={{
+                        width: '14px',
+                        height: '14px',
+                        margin: 0,
+                        accentColor: '#060A2D',
+                        cursor: isDisabled ? 'not-allowed' : 'pointer',
+                      }}
+                    />
                     <span>{item.name}</span>
                     <span
                       style={{
@@ -572,7 +610,7 @@ export default function CompareScenariosModal({
                     >
                       ({item.sourceLabel})
                     </span>
-                  </button>
+                  </label>
                 );
               })}
             </div>

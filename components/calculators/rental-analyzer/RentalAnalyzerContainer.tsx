@@ -662,78 +662,83 @@ export default function RentalAnalyzerContainer({
               <div
                 style={{
                   marginTop: '0.85rem',
-                  padding: '0.65rem 0.9rem',
+                  padding: '0.75rem 1rem',
                   borderRadius: '10px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.09)',
-                  border: '1px solid rgba(239, 181, 30, 0.35)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexWrap: 'wrap',
-                  gap: '0.45rem',
+                  backgroundColor: 'rgba(255, 255, 255, 0.18)',
+                  border: '1px solid rgba(239, 181, 30, 0.45)',
                 }}
               >
-                <span
+                <div
                   style={{
                     fontSize: '0.72rem',
                     fontWeight: 700,
                     color: '#EFB51E',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
-                    marginRight: '0.25rem',
+                    marginBottom: '0.45rem',
                   }}
                 >
                   Saved Properties on this Device:
-                </span>
-                {savedScenarios.map((sc) => {
-                  const isActive = activePreset === `saved:${sc.id}`;
-                  return (
-                    <div
-                      key={sc.id}
-                      onClick={() => handleLoadSavedScenario(sc)}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          handleLoadSavedScenario(sc);
-                        }
-                      }}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '0.4rem',
-                        padding: '0.35rem 0.65rem',
-                        borderRadius: '999px',
-                        border: isActive
-                          ? '1px solid #EFB51E'
-                          : '1px solid rgba(255,255,255,0.25)',
-                        backgroundColor: isActive
-                          ? '#EFB51E'
-                          : 'rgba(255,255,255,0.1)',
-                        color: isActive ? '#060A2D' : '#FFFFFF',
-                        fontSize: '0.78rem',
-                        fontWeight: 700,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <span>{sc.name}</span>
-                      <span
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    gap: '0.45rem',
+                  }}
+                >
+                  {savedScenarios.map((sc) => {
+                    const isActive = activePreset === `saved:${sc.id}`;
+                    return (
+                      <div
+                        key={sc.id}
+                        onClick={() => handleLoadSavedScenario(sc)}
                         role="button"
                         tabIndex={0}
-                        title={`Delete saved scenario "${sc.name}"`}
-                        onClick={(e) => handleDeleteSavedScenario(sc.id, e)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleLoadSavedScenario(sc);
+                          }
+                        }}
                         style={{
-                          fontSize: '0.75rem',
-                          fontWeight: 900,
-                          opacity: 0.75,
-                          padding: '0 2px',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          padding: '0.35rem 0.65rem',
+                          borderRadius: '999px',
+                          border: isActive
+                            ? '1px solid #EFB51E'
+                            : '1px solid rgba(255,255,255,0.35)',
+                          backgroundColor: isActive
+                            ? '#EFB51E'
+                            : 'rgba(255,255,255,0.14)',
+                          color: isActive ? '#060A2D' : '#FFFFFF',
+                          fontSize: '0.78rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
                         }}
                       >
-                        ✕
-                      </span>
-                    </div>
-                  );
-                })}
+                        <span>{sc.name}</span>
+                        <span
+                          role="button"
+                          tabIndex={0}
+                          title={`Delete saved scenario "${sc.name}"`}
+                          onClick={(e) => handleDeleteSavedScenario(sc.id, e)}
+                          style={{
+                            fontSize: '0.75rem',
+                            fontWeight: 900,
+                            opacity: 0.75,
+                            padding: '0 2px',
+                          }}
+                        >
+                          ✕
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
           </div>

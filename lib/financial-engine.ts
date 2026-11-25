@@ -13,7 +13,8 @@ export interface UnderwriteInputs {
   downPaymentPct: number;    // default 0.25
   interestRate: number;      // default 0.075
   loanTermYears: number;     // default 30
-  makeReadyCost: number;     // default 10000
+  closingCosts?: number;     // default 0 (buyer closing costs: cash out, no property value lift)
+  makeReadyCost: number;     // default 10000 (rehab/make-ready: adds 1:1 to starting property value)
   makeReadyMonths?: number;  // 0 to 24 months until property is ready for rent
   vacancyRate: number;       // default 0.03
   propMgmtRate: number;      // default 0.05
@@ -129,7 +130,9 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
 
   const downPayment = inputs.purchasePrice * inputs.downPaymentPct;
   const initialLoan = inputs.purchasePrice - downPayment;
-  let totalCashInvested = downPayment + inputs.makeReadyCost;
+  const closingCosts = Math.max(0, inputs.closingCosts || 0);
+  const makeReadyCost = Math.max(0, inputs.makeReadyCost || 0);
+  let totalCashInvested = downPayment + closingCosts + makeReadyCost;
 
   if (inputs.aduEnabled && effectiveAduCost && aduStartYear === 1) {
     totalCashInvested += effectiveAduCost;
@@ -140,9 +143,9 @@ export function runUnderwriteModel(inputs: UnderwriteInputs): UnderwriteSummary 
   let currentMonthlyRate = inputs.interestRate / 12;
 
   const baseAssetValue =
-    inputs.aduEnabled && aduStartYear === 1
-      ? inputs.purchasePrice + effectiveAduCost
-      : inputs.purchasePrice;
+    inputs.purchasePrice +
+    makeReadyCost +
+    (inputs.aduEnabled && aduStartYear === 1 ? effectiveAduCost : 0);
   let currentAssetVal = baseAssetValue;
   let currentMonthlyBaseRent = totalBaseMonthlyRent;
 

@@ -170,7 +170,9 @@ export default function MathReceiptModal({
         },
         {
           label: 'Minus Your Original Day-1 Cash Invested',
-          sub: `${fmt(downPayment)} down payment + ${fmt(inputs.makeReadyCost)} make-ready${
+          sub: `${fmt(downPayment)} down payment${
+            (inputs.closingCosts || 0) > 0 ? ` + ${fmt(inputs.closingCosts || 0)} closing costs` : ''
+          } + ${fmt(inputs.makeReadyCost)} make-ready${
             effectiveAduCost > 0 ? ` + ${fmt(effectiveAduCost)} ADU` : ''
           }`,
           amount: `−${fmt(summary.initialCashInvested)}`,
@@ -202,7 +204,9 @@ export default function MathReceiptModal({
     const lines: ReceiptLine[] = [
       {
         label: 'Day 1 (Money You Put In)',
-        sub: `Down payment (${Math.round(inputs.downPaymentPct * 100)}%) + make-ready costs`,
+        sub: `Down payment (${Math.round(inputs.downPaymentPct * 100)}%)${
+          (inputs.closingCosts || 0) > 0 ? ' + closing costs' : ''
+        } + make-ready costs`,
         amount: `−${fmt(summary.initialCashInvested)}`,
         type: 'subtract',
         tone: 'negative',
@@ -520,7 +524,11 @@ export default function MathReceiptModal({
               label: 'Divided by Total Cash Invested (Cash into Project)',
               sub: `${fmt(downPayment)} down payment (${Math.round(
                 inputs.downPaymentPct * 100
-              )}%) + ${fmt(inputs.makeReadyCost || 0)} make-ready${
+              )}%)${
+                (inputs.closingCosts || 0) > 0
+                  ? ` + ${fmt(inputs.closingCosts || 0)} closing costs`
+                  : ''
+              } + ${fmt(inputs.makeReadyCost || 0)} make-ready${
                 aduInYear1 && effectiveAduCost > 0 ? ` + ${fmt(effectiveAduCost)} ADU cost` : ''
               }`,
               amount: `÷ ${fmt(summary.initialCashInvested)}`,

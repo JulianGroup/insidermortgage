@@ -129,6 +129,19 @@
   }
 }
 
+.ra-three-col {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+}
+
+@media (min-width: 540px) {
+  .ra-three-col {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 /* Cards & Surfaces */
 .ra-card {
   background: #FFFFFF;

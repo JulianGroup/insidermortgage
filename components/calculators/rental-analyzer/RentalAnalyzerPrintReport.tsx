@@ -210,6 +210,10 @@ export default function RentalAnalyzerPrintReport({
                 <strong>{(inputs.interestRate * 100).toFixed(3)}%</strong>
               </div>
               <div className="ra-print-kv">
+                <span>Purchase Closing Costs</span>
+                <strong>{currencyFmt.format(inputs.closingCosts || 0)}</strong>
+              </div>
+              <div className="ra-print-kv">
                 <span>Make-Ready / Rehab Budget</span>
                 <strong>{currencyFmt.format(inputs.makeReadyCost)}</strong>
               </div>
@@ -483,6 +487,10 @@ export default function RentalAnalyzerPrintReport({
             <span className="ra-print-dot-sep">·</span>
             <span className="ra-print-assumptions-text">
               Exit Friction: <strong>{(inputs.sellingCostPct * 100).toFixed(1)}%</strong>
+            </span>
+            <span className="ra-print-dot-sep">·</span>
+            <span className="ra-print-assumptions-text">
+              Rehab Value Lift: <strong>1:1 to Property Value</strong> (Closing Costs: Cash In Only)
             </span>
           </div>
           {(inputs.refiEnabled || inputs.aduEnabled) && (

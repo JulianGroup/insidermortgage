@@ -42,7 +42,7 @@ export interface UnderwritingInsights {
     appreciation: number;
     principalPaydown: number;
     cashFlow: number;
-    frictionCosts: number; // selling costs + make-ready (negative)
+    frictionCosts: number; // selling costs + closing costs (negative)
     appreciationSharePct: number; // share of gross gains
   };
   stress: StressScenario[];

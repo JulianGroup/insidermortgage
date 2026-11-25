@@ -275,7 +275,7 @@ export default function AiInvestmentAnalysis({
                 <strong style={{ color: insights.profitSources.cashFlow >= 0 ? '#15803D' : '#B91C1C' }}>
                   {currencyFmt.format(Math.round(insights.profitSources.cashFlow))}
                 </strong>
-                , less selling &amp; make-ready costs{' '}
+                , less selling &amp; closing costs{' '}
                 <strong>{currencyFmt.format(Math.round(insights.profitSources.frictionCosts))}</strong>.{' '}
                 <strong>{insights.profitSources.appreciationSharePct.toFixed(0)}%</strong> of gains come from appreciation.
               </p>

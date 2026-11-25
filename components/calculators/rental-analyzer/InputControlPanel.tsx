@@ -52,16 +52,17 @@ export default function InputControlPanel({
           </h2>
         </div>
 
-        <div className="ra-two-col" style={{ marginBottom: '1.1rem' }}>
+        <div className="ra-three-col" style={{ marginBottom: '1.1rem' }}>
           {/* Purchase Price */}
           <div>
             <label
               style={{
                 display: 'block',
-                fontSize: '0.84rem',
+                fontSize: '0.8rem',
                 fontWeight: 600,
                 color: '#334155',
                 marginBottom: '0.35rem',
+                whiteSpace: 'nowrap',
               }}
             >
               Purchase Price ($)
@@ -72,15 +73,47 @@ export default function InputControlPanel({
               allowNegative={false}
               prefix="$"
               className="ra-input"
-              style={{ fontWeight: 700 }}
+              style={{ fontWeight: 700, padding: '0.6rem 0.7rem' }}
               value={inputs.purchasePrice === 0 ? '' : inputs.purchasePrice}
               onValueChange={(values) =>
                 onChange({ purchasePrice: Math.max(0, Number(values.floatValue) || 0) })
               }
               placeholder="$0"
             />
-            <span style={{ fontSize: '0.73rem', color: '#64748B' }}>
-              Loan Amount: {currencyFmt.format(loanAmountDollar)}
+            <span style={{ display: 'block', fontSize: '0.71rem', color: '#64748B', marginTop: '0.25rem' }}>
+              Loan: {currencyFmt.format(loanAmountDollar)}
+            </span>
+          </div>
+
+          {/* Purchase Closing Costs ($) */}
+          <div>
+            <label
+              style={{
+                display: 'block',
+                fontSize: '0.8rem',
+                fontWeight: 600,
+                color: '#334155',
+                marginBottom: '0.35rem',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Closing Costs ($)
+            </label>
+            <NumericFormat
+              thousandSeparator=","
+              decimalScale={0}
+              allowNegative={false}
+              prefix="$"
+              className="ra-input"
+              style={{ fontWeight: 700, padding: '0.6rem 0.7rem' }}
+              value={!inputs.closingCosts ? '' : inputs.closingCosts}
+              onValueChange={(values) =>
+                onChange({ closingCosts: Math.max(0, Number(values.floatValue) || 0) })
+              }
+              placeholder="$0"
+            />
+            <span style={{ display: 'block', fontSize: '0.71rem', color: '#64748B', marginTop: '0.25rem' }}>
+              Cash in only (no value lift)
             </span>
           </div>
 
@@ -89,13 +122,14 @@ export default function InputControlPanel({
             <label
               style={{
                 display: 'block',
-                fontSize: '0.84rem',
+                fontSize: '0.8rem',
                 fontWeight: 600,
                 color: '#334155',
                 marginBottom: '0.35rem',
+                whiteSpace: 'nowrap',
               }}
             >
-              Make-Ready / Rehab Cost ($)
+              Make-Ready / Rehab ($)
             </label>
             <NumericFormat
               thousandSeparator=","
@@ -103,15 +137,15 @@ export default function InputControlPanel({
               allowNegative={false}
               prefix="$"
               className="ra-input"
-              style={{ fontWeight: 700 }}
+              style={{ fontWeight: 700, padding: '0.6rem 0.7rem' }}
               value={inputs.makeReadyCost === 0 ? '' : inputs.makeReadyCost}
               onValueChange={(values) =>
                 onChange({ makeReadyCost: Math.max(0, Number(values.floatValue) || 0) })
               }
               placeholder="$0"
             />
-            <span style={{ fontSize: '0.73rem', color: '#64748B' }}>
-              Closing + initial turn-key reserves
+            <span style={{ display: 'block', fontSize: '0.71rem', color: '#64748B', marginTop: '0.25rem' }}>
+              Adds 1:1 to property value
             </span>
           </div>
         </div>
@@ -634,6 +668,25 @@ export default function InputControlPanel({
             value={Number((inputs.sellingCostPct * 100).toFixed(1))}
             onChange={(e) => onChange({ sellingCostPct: Number(e.target.value) / 100 })}
           />
+        </div>
+
+        {/* Valuation & Cost Basis Assumption Disclosure */}
+        <div
+          style={{
+            marginTop: '0.95rem',
+            padding: '0.65rem 0.75rem',
+            backgroundColor: '#F8FAFC',
+            border: '1px solid #E2E8F0',
+            borderRadius: '8px',
+            fontSize: '0.74rem',
+            color: '#475569',
+            lineHeight: 1.45,
+          }}
+        >
+          <strong style={{ color: '#060A2D' }}>Valuation Assumption:</strong> Make-Ready / Rehab Cost
+          increases starting property value <strong>1:1</strong> (compounding with annual
+          appreciation). Purchase Closing Costs are treated as upfront cash invested only and do not
+          increase property value.
         </div>
       </div>
     </div>

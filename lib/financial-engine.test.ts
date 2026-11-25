@@ -31,8 +31,9 @@ describe('Rental Property Financial Engine', () => {
     expect(Math.round(res.monthlyPmt)).toBe(5186);
     expect(Math.round(res.year1Noi)).toBe(35043);
     expect(Math.round(res.year1CashFlow)).toBe(-27194);
-    expect(res.fiveYear.irrPct).toBeCloseTo(3.60, 1);
-    expect(res.tenYear.irrPct).toBeCloseTo(5.84, 1);
+    expect(res.schedule[0].propertyValue).toBeCloseTo((989000 + 10000) * 1.04, 2);
+    expect(res.fiveYear.irrPct).toBeCloseTo(4.25, 1);
+    expect(res.tenYear.irrPct).toBeCloseTo(6.08, 1);
   });
 
   it('Test Case B: 535 Tam O Shanter Dr (2-Unit Duplex Baseline)', () => {
@@ -68,8 +69,9 @@ describe('Rental Property Financial Engine', () => {
     expect(Math.round(res.monthlyPmt)).toBe(4615);
     expect(Math.round(res.year1Noi)).toBe(38998);
     expect(Math.round(res.year1CashFlow)).toBe(-16379);
-    expect(res.fiveYear.irrPct).toBeCloseTo(3.33, 1);
-    expect(res.tenYear.irrPct).toBeCloseTo(6.67, 1);
+    expect(res.schedule[0].propertyValue).toBeCloseTo((880000 + 50000) * 1.04, 2);
+    expect(res.fiveYear.irrPct).toBeCloseTo(6.53, 1);
+    expect(res.tenYear.irrPct).toBeCloseTo(7.81, 1);
   });
 
   it('Test Case C: Realistic Maintenance Budget, Escalations & DSCR Convention', () => {
@@ -120,5 +122,57 @@ describe('Rental Property Financial Engine', () => {
     expect(Math.round(totalPitia)).toBe(5788);
     const dscr = res.totalMonthlyRent / totalPitia;
     expect(dscr).toBeCloseTo(0.83, 2);
+  });
+
+  it('Test Case D: Purchase Closing Costs vs 1:1 Make-Ready / Rehab Property Value Lift', () => {
+    const baseInputs: UnderwriteInputs = {
+      propertyAddress: 'Test Property, San Diego, CA 92120',
+      unitCount: 1,
+      units: [{ id: 'u1', label: 'Unit 1', monthlyRent: 5000 }],
+      purchasePrice: 1000000,
+      downPaymentPct: 0.25,
+      interestRate: 0.07,
+      loanTermYears: 30,
+      closingCosts: 0,
+      makeReadyCost: 0,
+      vacancyRate: 0.03,
+      propMgmtRate: 0.05,
+      propertyTaxRate: 0.0125,
+      insuranceRate: 0.0035,
+      monthlyHoa: 0,
+      annualRentGrowth: 0.03,
+      annualAppreciation: 0.04,
+      sellingCostPct: 0.05,
+    };
+
+    const baseline = runUnderwriteModel(baseInputs);
+    const withClosingOnly = runUnderwriteModel({ ...baseInputs, closingCosts: 15000 });
+    const withRehabOnly = runUnderwriteModel({ ...baseInputs, makeReadyCost: 50000 });
+    const withBoth = runUnderwriteModel({
+      ...baseInputs,
+      closingCosts: 15000,
+      makeReadyCost: 50000,
+    });
+
+    // Closing costs add to cash invested only (no property value or operating expense change)
+    expect(withClosingOnly.initialCashInvested).toBe(baseline.initialCashInvested + 15000);
+    expect(withClosingOnly.schedule[0].propertyValue).toBeCloseTo(
+      baseline.schedule[0].propertyValue,
+      2
+    );
+    expect(withClosingOnly.year1Noi).toBeCloseTo(baseline.year1Noi, 2);
+    expect(withClosingOnly.tenYear.totalProfit).toBeCloseTo(
+      baseline.tenYear.totalProfit - 15000,
+      2
+    );
+
+    // Make-ready/rehab adds 1:1 to starting property value and cash invested, not property tax
+    expect(withRehabOnly.initialCashInvested).toBe(baseline.initialCashInvested + 50000);
+    expect(withRehabOnly.schedule[0].propertyValue).toBeCloseTo((1000000 + 50000) * 1.04, 2);
+    expect(withRehabOnly.year1Noi).toBeCloseTo(baseline.year1Noi, 2);
+
+    // Combined
+    expect(withBoth.initialCashInvested).toBe(250000 + 15000 + 50000);
+    expect(withBoth.schedule[0].propertyValue).toBeCloseTo((1000000 + 50000) * 1.04, 2);
   });
 });

@@ -98,6 +98,7 @@ const BASELINE_DEFAULTS: Partial<UnderwriteInputs> = {
   downPaymentPct: 0.25,
   interestRate: 0.075,
   loanTermYears: 30,
+  closingCosts: 0,
   makeReadyCost: 10000,
   vacancyRate: 0.03,
   propMgmtRate: 0.05,
@@ -343,6 +344,10 @@ export default function CompareScenariosModal({
           (c) =>
             `${fmt(c.loanAmount)} @ ${Number((c.item.inputs.interestRate * 100).toFixed(3))}%`
         )
+      ),
+      renderPrintRow(
+        'Purchase Closing Costs',
+        selectedComputed.map((c) => fmt(c.item.inputs.closingCosts || 0))
       ),
       renderPrintRow(
         'Make-Ready + Yr 1 ADU Cost',
@@ -1125,6 +1130,10 @@ export default function CompareScenariosModal({
                         (c.item.inputs.interestRate * 100).toFixed(3)
                       )}%`
                   )
+                )}
+                {renderMetricRow(
+                  'Purchase Closing Costs',
+                  selectedComputed.map((c) => fmt(c.item.inputs.closingCosts || 0))
                 )}
                 {renderMetricRow(
                   'Make-Ready + Yr 1 ADU Cost',

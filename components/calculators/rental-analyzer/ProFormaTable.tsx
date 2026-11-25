@@ -590,6 +590,12 @@ export default function ProFormaTable({
             principal &amp; interest (P&amp;I) mortgage payments (<code>Monthly P&amp;I × 12</code>).
             Subtracting Debt Service from NOI yields <strong>Net Cash Flow</strong>.
           </div>
+          <div>
+            <strong style={{ color: '#060A2D' }}>Property Value &amp; Closing Costs:</strong>{' '}
+            Make-Ready / Rehab Cost increases starting property value <strong>1:1</strong> and
+            compounds with annual appreciation. Purchase Closing Costs add to{' '}
+            <strong>Total Cash Invested</strong> only (no property value lift).
+          </div>
         </div>
       </div>
 

@@ -2,9 +2,12 @@
 
 import React from 'react';
 import { UnderwriteInputs, computeMortgagePmt } from '../../../lib/financial-engine';
+import { MathMetricKey } from './MathReceiptModal';
 
 interface InitialMonthlyPitiaCardProps {
   inputs: UnderwriteInputs;
+  totalMonthlyRent?: number;
+  onOpenMath?: (metric: MathMetricKey) => void;
 }
 
 const currencyFmt = new Intl.NumberFormat('en-US', {
@@ -13,8 +16,12 @@ const currencyFmt = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 0,
 });
 
-/** Displays the initial monthly PITIA breakdown card with loan amount and interest rate. */
-export default function InitialMonthlyPitiaCard({ inputs }: InitialMonthlyPitiaCardProps) {
+/** Displays the initial monthly PITIA breakdown card with loan amount, interest rate, and DSCR ratio. */
+export default function InitialMonthlyPitiaCard({
+  inputs,
+  totalMonthlyRent,
+  onOpenMath,
+}: InitialMonthlyPitiaCardProps) {
   const downPaymentDollar = Math.round(inputs.purchasePrice * inputs.downPaymentPct);
   const loanAmountDollar = Math.round(inputs.purchasePrice - downPaymentDollar);
 
@@ -29,6 +36,12 @@ export default function InitialMonthlyPitiaCard({ inputs }: InitialMonthlyPitiaC
   const totalMonthlyPitia =
     monthlyPi + monthlyPropertyTax + monthlyInsurance + monthlyHoaFee;
 
+  const grossMonthlyRent =
+    totalMonthlyRent ??
+    inputs.units.reduce((sum, unit) => sum + (Number(unit.monthlyRent) || 0), 0);
+  const dscr = totalMonthlyPitia > 0 ? grossMonthlyRent / totalMonthlyPitia : 0;
+  const isDscrHealthy = dscr >= 1.0;
+
   const rateDisplay = Number((inputs.interestRate * 100).toFixed(3));
 
   return (
@@ -42,7 +55,7 @@ export default function InitialMonthlyPitiaCard({ inputs }: InitialMonthlyPitiaC
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: '0.5rem',
+          gap: '0.65rem',
           marginBottom: '1rem',
         }}
       >
@@ -65,16 +78,51 @@ export default function InitialMonthlyPitiaCard({ inputs }: InitialMonthlyPitiaC
 
         <div
           style={{
-            backgroundColor: '#060A2D',
-            color: '#EFB51E',
-            padding: '0.4rem 0.9rem',
-            borderRadius: '10px',
-            fontWeight: 800,
-            fontSize: '1.15rem',
+            display: 'flex',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '0.6rem',
           }}
         >
-          {currencyFmt.format(Math.round(totalMonthlyPitia))}
-          <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#CBD5E1' }}>/mo</span>
+          {totalMonthlyPitia > 0 && (
+            <button
+              type="button"
+              onClick={() => onOpenMath?.('dscr')}
+              title={`DSCR = ${currencyFmt.format(Math.round(grossMonthlyRent))}/mo Rent ÷ ${currencyFmt.format(Math.round(totalMonthlyPitia))}/mo PITIA. Tap to view math.`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.3rem',
+                fontSize: '0.82rem',
+                fontWeight: 800,
+                padding: '0.36rem 0.8rem',
+                borderRadius: '999px',
+                backgroundColor: isDscrHealthy ? '#DCFCE7' : '#FEF3C7',
+                color: isDscrHealthy ? '#15803D' : '#B45309',
+                border: isDscrHealthy ? '1px solid #BBF7D0' : '1px solid #FDE68A',
+                letterSpacing: '0.02em',
+                whiteSpace: 'nowrap',
+                cursor: onOpenMath ? 'pointer' : 'default',
+              }}
+            >
+              <span>✦</span>
+              <span>DSCR {dscr.toFixed(3)}</span>
+            </button>
+          )}
+
+          <div
+            style={{
+              backgroundColor: '#060A2D',
+              color: '#EFB51E',
+              padding: '0.4rem 0.9rem',
+              borderRadius: '10px',
+              fontWeight: 800,
+              fontSize: '1.15rem',
+            }}
+          >
+            {currencyFmt.format(Math.round(totalMonthlyPitia))}
+            <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#CBD5E1' }}>/mo</span>
+          </div>
         </div>
       </div>
 

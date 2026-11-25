@@ -480,7 +480,11 @@ export default function SummaryKpiCards({
       </div>
 
       {/* Monthly Housing Payment Breakdown (Above 5-Yr & 10-Yr Exit Horizon Return Cards) */}
-      <InitialMonthlyPitiaCard inputs={inputs} />
+      <InitialMonthlyPitiaCard
+        inputs={inputs}
+        totalMonthlyRent={summary.totalMonthlyRent}
+        onOpenMath={onOpenMath}
+      />
 
       {/* 5-Year & 10-Year Exit Horizon Return Cards */}
       <div style={{ position: 'relative' }}>

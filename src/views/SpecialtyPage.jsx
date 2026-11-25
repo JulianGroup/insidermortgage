@@ -7,6 +7,20 @@ import ScheduleCallForm from '../components/ScheduleCallForm';
 import RelatedInsights from '../components/blog/RelatedInsights';
 import './SelfEmployed.css';
 
+const renderInlineBold = (text) => {
+  if (typeof text !== 'string' || !text.includes('**')) return text;
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, idx) =>
+    part.startsWith('**') && part.endsWith('**') ? (
+      <strong key={idx} style={{ color: 'var(--primary)' }}>
+        {part.slice(2, -2)}
+      </strong>
+    ) : (
+      part
+    )
+  );
+};
+
 const ExpandableCard = ({ card, accentColor = 'var(--secondary)' }) => {
   const [expanded, setExpanded] = useState(false);
   const hasMore = Array.isArray(card.moreParagraphs) && card.moreParagraphs.length > 0;
@@ -130,7 +144,7 @@ const SpecialtyPage = ({ data }) => {
         )}
 
         {data.secondSection && (
-          <section className="section" style={{ paddingBottom: '2rem', paddingTop: data.showBlogsAfterFirstSection ? '2rem' : '2.5rem' }}>
+          <section className="section" style={{ paddingBottom: '0.75rem', paddingTop: data.showBlogsAfterFirstSection ? '2rem' : '2.5rem' }}>
             <div className="container" style={{ maxWidth: '850px' }}>
               <div
                 style={{
@@ -424,7 +438,7 @@ const SpecialtyPage = ({ data }) => {
           </section>
         )}
 
-        <section className="section bg-color">
+        <section className="section bg-color" style={data.secondSection ? { paddingTop: '1.25rem' } : undefined}>
           <div className="container">
             {data.commonIssuesSection && (
               <div style={{ marginBottom: '4rem' }}>
@@ -532,7 +546,7 @@ const SpecialtyPage = ({ data }) => {
             )}
 
             {data.gridCards && data.gridCards.length > 0 && (
-              <div className="programs-grid">
+              <div className="programs-grid" style={data.secondSection ? { marginTop: 0 } : undefined}>
                 {data.gridCards.map((card, idx) => (
                   <div
                     className={`program-card ${card.isDoubleWide ? 'program-card-double-wide' : ''}`}
@@ -548,11 +562,11 @@ const SpecialtyPage = ({ data }) => {
                     {card.paragraphs ? (
                       card.paragraphs.map((p, pIdx) => (
                         <p key={pIdx} style={{ marginBottom: pIdx < card.paragraphs.length - 1 ? '1rem' : 0 }}>
-                          {p}
+                          {renderInlineBold(p)}
                         </p>
                       ))
                     ) : card.text ? (
-                      <p>{card.text}</p>
+                      <p>{renderInlineBold(card.text)}</p>
                     ) : null}
 
                     {card.subsections && card.subsections.map((sub, sIdx) => (
@@ -569,7 +583,7 @@ const SpecialtyPage = ({ data }) => {
                         </h4>
                         {sub.paragraphs && sub.paragraphs.map((sp, spIdx) => (
                           <p key={spIdx} style={{ color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: spIdx < sub.paragraphs.length - 1 ? '1rem' : 0 }}>
-                            {sp}
+                            {renderInlineBold(sp)}
                           </p>
                         ))}
                         {sub.formulaBox && (
@@ -657,12 +671,12 @@ const SpecialtyPage = ({ data }) => {
                               lineHeight: 1.6,
                             }}
                           >
-                            {sub.callout}
+                            {renderInlineBold(sub.callout)}
                           </div>
                         )}
                         {sub.closingParagraph && (
                           <p style={{ color: 'var(--text-secondary)', lineHeight: 1.7, marginTop: '1rem', marginBottom: 0 }}>
-                            {sub.closingParagraph}
+                            {renderInlineBold(sub.closingParagraph)}
                           </p>
                         )}
                       </div>

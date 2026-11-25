@@ -860,8 +860,9 @@ export default function MathReceiptModal({
                       {line.amountSub && (
                         <div
                           style={{
-                            fontSize: line.amountSubTone ? '0.78rem' : '0.74rem',
+                            fontSize: line.amountSubTone ? (isTotal ? '1.02rem' : '0.88rem') : '0.74rem',
                             fontWeight: line.amountSubTone ? 800 : 600,
+                            lineHeight: line.amountSubTone ? 1.2 : undefined,
                             marginTop: line.amountSubTone ? '2px' : undefined,
                             color:
                               line.amountSubTone === 'positive'

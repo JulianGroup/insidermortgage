@@ -220,7 +220,7 @@ export default function BlogPostView({ post }) {
               marginBottom: '1.75rem',
             }}
           >
-            {post.excerpt}
+            {post.subheadline || post.excerpt}
           </p>
 
           {/* Author Byline */}
@@ -341,13 +341,43 @@ export default function BlogPostView({ post }) {
               border: '1px solid #E2E8F0',
             }}
           >
-            {(post.sections || []).map((sec, idx) => (
+            {(post.sections || []).map((sec, idx) => {
+              const isTakeaway = sec.variant === 'takeaway';
+              const isToolCta = sec.variant === 'tool-cta';
+              return (
               <div
                 key={idx}
                 style={{
                   marginBottom: idx < post.sections.length - 1 ? '2.35rem' : '1rem',
-                  paddingTop: idx > 0 && sec.dividerAbove ? '1.75rem' : 0,
-                  borderTop: idx > 0 && sec.dividerAbove ? '1px solid #E2E8F0' : 'none',
+                  paddingTop:
+                    isTakeaway || isToolCta
+                      ? undefined
+                      : idx > 0 && sec.dividerAbove
+                      ? '1.75rem'
+                      : 0,
+                  borderTop:
+                    isTakeaway || isToolCta
+                      ? 'none'
+                      : idx > 0 && sec.dividerAbove
+                      ? '1px solid #E2E8F0'
+                      : 'none',
+                  ...(isTakeaway
+                    ? {
+                        padding: '1.45rem 1.6rem',
+                        borderRadius: '12px',
+                        backgroundColor: 'rgba(239, 181, 30, 0.1)',
+                        borderLeft: '4px solid var(--accent, #EFB51E)',
+                      }
+                    : {}),
+                  ...(isToolCta
+                    ? {
+                        padding: '1.55rem 1.7rem',
+                        borderRadius: '14px',
+                        backgroundColor: '#F8FAFC',
+                        border: '1.5px solid rgba(4, 104, 233, 0.25)',
+                        borderLeft: '4px solid var(--secondary, #0468E9)',
+                      }
+                    : {}),
                 }}
               >
                 {sec.heading && (
@@ -369,7 +399,12 @@ export default function BlogPostView({ post }) {
                       fontSize: '1.06rem',
                       color: '#334155',
                       lineHeight: 1.8,
-                      marginBottom: '1.1rem',
+                      marginBottom:
+                        (isTakeaway || isToolCta) &&
+                        !sec.ctaButton &&
+                        pIdx === sec.paragraphs.length - 1
+                          ? 0
+                          : '1.1rem',
                     }}
                   >
                     {renderInlineMarkdown(p)}
@@ -719,8 +754,27 @@ export default function BlogPostView({ post }) {
                       )}
                     </div>
                   ))}
+
+                {sec.ctaButton && sec.ctaButton.href && (
+                  <div style={{ marginTop: '0.35rem' }}>
+                    <Link
+                      href={sec.ctaButton.href}
+                      className="btn btn-secondary"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.45rem',
+                        textDecoration: 'none',
+                        fontWeight: 700,
+                      }}
+                    >
+                      {sec.ctaButton.label} &rarr;
+                    </Link>
+                  </div>
+                )}
               </div>
-            ))}
+              );
+            })}
 
             {/* Key Takeaway Callout */}
             {post.keyTakeaway && (

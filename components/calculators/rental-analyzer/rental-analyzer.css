@@ -300,6 +300,55 @@
   font-weight: 600;
 }
 
+.ra-table tr.ra-subhead-row td,
+.ra-table tr.ra-subhead-row:hover td {
+  position: static;
+  background: #EFF6FF;
+  color: #0468E9;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: left;
+  padding: 0.38rem 0.5rem;
+  border-top: 1px solid #BFDBFE;
+  border-bottom: 1px solid #BFDBFE;
+  border-right: none;
+}
+
+/* Distinct outline around the bottom 3 balance-sheet / equity rows */
+.ra-table tr.ra-equity-row td {
+  background: #F4F8FF;
+}
+
+.ra-table tr.ra-equity-row:nth-child(even) td {
+  background: #EDF4FF;
+}
+
+.ra-table tr.ra-equity-row td.ra-highlight-col {
+  background: #FEFCE8;
+}
+
+.ra-table tr.ra-equity-row:hover td {
+  background: #E6F0FF;
+}
+
+.ra-table tr.ra-equity-group-start td {
+  border-top: 2px solid #0468E9;
+}
+
+.ra-table tr.ra-equity-group-end td {
+  border-bottom: 2px solid #0468E9;
+}
+
+.ra-table tr.ra-equity-row td:first-child {
+  box-shadow: inset 2.5px 0 0 #0468E9;
+}
+
+.ra-table tr.ra-equity-row td:last-child {
+  box-shadow: inset -2.5px 0 0 #0468E9;
+}
+
 /* Blur gate overlay */
 .ra-locked-blur {
   filter: blur(6px);

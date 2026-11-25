@@ -36,18 +36,25 @@ export default function ProFormaTable({
     const sellingPctLabel = `${(inputs.sellingCostPct * 100).toFixed(0)}%`;
     const headers = ['Metric', ...summary.schedule.map((row) => `Year ${row.year}`)];
 
+    let csvRunningCf = 0;
+    const csvCumulativeCf = summary.schedule.map((r) => {
+      csvRunningCf += r.netCashFlow;
+      return r.year === 1 ? '' : Math.round(csvRunningCf);
+    });
+
     const rows = [
       ['Gross Rent (Monthly)', ...summary.schedule.map((r) => Math.round(r.monthlyGrossRent))],
       ['Effective Gross Income (EGI)', ...summary.schedule.map((r) => Math.round(r.effectiveGrossIncome))],
       ['Operating Expenses', ...summary.schedule.map((r) => -Math.round(r.operatingExpenses))],
       ['Net Operating Income (NOI)', ...summary.schedule.map((r) => Math.round(r.noi))],
-      ['Annual Debt Service', ...summary.schedule.map((r) => -Math.round(r.annualDebtService))],
-      ['Annual Net Cash Flow', ...summary.schedule.map((r) => Math.round(r.netCashFlow))],
-      ['Monthly Net Cash Flow', ...summary.schedule.map((r) => Math.round(r.netCashFlow / 12))],
+      ['Debt Service', ...summary.schedule.map((r) => -Math.round(r.annualDebtService))],
+      ['Net Cash Flow', ...summary.schedule.map((r) => Math.round(r.netCashFlow))],
+      ['Net Cash Flow (MONTHLY)', ...summary.schedule.map((r) => Math.round(r.netCashFlow / 12))],
+      ['Cumulative Cash Flow', ...csvCumulativeCf],
       ['Projected Property Value', ...summary.schedule.map((r) => Math.round(r.propertyValue))],
       ['Remaining Loan Balance', ...summary.schedule.map((r) => Math.round(r.remainingBalance))],
       [
-        `Net Equity (After ${sellingPctLabel})`,
+        `Net Equity (After ${sellingPctLabel} Selling Costs)`,
         ...summary.schedule.map((r) =>
           Math.round(r.propertyValue * (1 - inputs.sellingCostPct) - r.remainingBalance)
         ),
@@ -185,8 +192,33 @@ export default function ProFormaTable({
             </tr>
           </thead>
           <tbody>
-            {(
-              [
+            {(() => {
+              const cumulativeCashFlowByYear = new Map<number, number>();
+              let runningCashFlow = 0;
+              for (const r of summary.schedule) {
+                runningCashFlow += r.netCashFlow;
+                cumulativeCashFlowByYear.set(r.year, runningCashFlow);
+              }
+
+              type MetricRowDef =
+                | {
+                    type: 'subhead';
+                    key: string;
+                    label: string;
+                  }
+                | {
+                    type?: 'metric';
+                    key: string;
+                    label: string;
+                    rowClassName?: string;
+                    labelStyle?: React.CSSProperties;
+                    render: (row: (typeof summary.schedule)[number]) => {
+                      text: string;
+                      style?: React.CSSProperties;
+                    };
+                  };
+
+              const metricRows: MetricRowDef[] = [
                 {
                   key: 'monthlyGrossRent',
                   label: 'Gross Rent (Monthly)',
@@ -194,6 +226,11 @@ export default function ProFormaTable({
                   render: (row) => ({
                     text: currencyFmt.format(Math.round(row.monthlyGrossRent)),
                   }),
+                },
+                {
+                  type: 'subhead',
+                  key: 'annualSubhead',
+                  label: 'Annual',
                 },
                 {
                   key: 'effectiveGrossIncome',
@@ -223,7 +260,7 @@ export default function ProFormaTable({
                 },
                 {
                   key: 'annualDebtService',
-                  label: 'Annual Debt Service',
+                  label: 'Debt Service',
                   labelStyle: { fontWeight: 600, color: '#475569' },
                   render: (row) => ({
                     text: `-${currencyFmt.format(Math.round(row.annualDebtService))}`,
@@ -232,7 +269,7 @@ export default function ProFormaTable({
                 },
                 {
                   key: 'netCashFlow',
-                  label: 'Annual Net Cash Flow',
+                  label: 'Net Cash Flow',
                   labelStyle: { fontWeight: 800, color: '#060A2D' },
                   render: (row) => ({
                     text: currencyFmt.format(Math.round(row.netCashFlow)),
@@ -244,7 +281,7 @@ export default function ProFormaTable({
                 },
                 {
                   key: 'monthlyCashFlow',
-                  label: 'Monthly Cash Flow',
+                  label: 'Net Cash Flow (MONTHLY)',
                   labelStyle: { fontWeight: 700, color: '#060A2D' },
                   render: (row) => ({
                     text: `${currencyFmt.format(Math.round(row.netCashFlow / 12))}/mo`,
@@ -255,8 +292,30 @@ export default function ProFormaTable({
                   }),
                 },
                 {
+                  key: 'cumulativeCashFlow',
+                  label: 'Cumulative Cash Flow',
+                  labelStyle: { fontWeight: 700, color: '#060A2D' },
+                  render: (row) => {
+                    if (row.year === 1) {
+                      return {
+                        text: '—',
+                        style: { color: '#94A3B8', fontWeight: 500 },
+                      };
+                    }
+                    const cumCf = cumulativeCashFlowByYear.get(row.year) ?? 0;
+                    return {
+                      text: currencyFmt.format(Math.round(cumCf)),
+                      style: {
+                        fontWeight: 700,
+                        color: cumCf >= 0 ? '#15803D' : '#B91C1C',
+                      },
+                    };
+                  },
+                },
+                {
                   key: 'propertyValue',
                   label: 'Property Value',
+                  rowClassName: 'ra-equity-row ra-equity-group-start',
                   labelStyle: { fontWeight: 700, color: '#060A2D' },
                   render: (row) => ({
                     text: currencyFmt.format(Math.round(row.propertyValue)),
@@ -266,6 +325,7 @@ export default function ProFormaTable({
                 {
                   key: 'remainingBalance',
                   label: 'Loan Balance',
+                  rowClassName: 'ra-equity-row',
                   labelStyle: { fontWeight: 600, color: '#475569' },
                   render: (row) => ({
                     text: currencyFmt.format(Math.round(row.remainingBalance)),
@@ -274,7 +334,8 @@ export default function ProFormaTable({
                 },
                 {
                   key: 'netSaleEquity',
-                  label: `Net Equity (After ${(inputs.sellingCostPct * 100).toFixed(0)}%)`,
+                  label: `Net Equity (After ${(inputs.sellingCostPct * 100).toFixed(0)}% Selling Costs)`,
+                  rowClassName: 'ra-equity-row ra-equity-group-end',
                   labelStyle: { fontWeight: 800, color: '#0468E9' },
                   render: (row) => {
                     const netSaleEquity =
@@ -285,35 +346,40 @@ export default function ProFormaTable({
                     };
                   },
                 },
-              ] as Array<{
-                key: string;
-                label: string;
-                labelStyle?: React.CSSProperties;
-                render: (row: (typeof summary.schedule)[number]) => {
-                  text: string;
-                  style?: React.CSSProperties;
-                };
-              }>
-            ).map((metric) => (
-              <tr key={metric.key}>
-                <td style={metric.labelStyle}>{metric.label}</td>
-                {summary.schedule.map((row) => {
-                  const isRefiStart =
-                    inputs.refiEnabled && row.year === (inputs.refiYear ?? 3) + 1;
-                  const isMilestone = row.year === 5 || row.year === 10;
-                  const cell = metric.render(row);
+              ];
+
+              return metricRows.map((metric) => {
+                if (metric.type === 'subhead') {
                   return (
-                    <td
-                      key={row.year}
-                      className={isMilestone || isRefiStart ? 'ra-highlight-col' : ''}
-                      style={cell.style}
-                    >
-                      {cell.text}
-                    </td>
+                    <tr key={metric.key} className="ra-subhead-row">
+                      <td colSpan={summary.schedule.length + 1}>
+                        <span style={{ position: 'sticky', left: '0.5rem' }}>{metric.label}</span>
+                      </td>
+                    </tr>
                   );
-                })}
-              </tr>
-            ))}
+                }
+                return (
+                  <tr key={metric.key} className={metric.rowClassName}>
+                    <td style={metric.labelStyle}>{metric.label}</td>
+                    {summary.schedule.map((row) => {
+                      const isRefiStart =
+                        inputs.refiEnabled && row.year === (inputs.refiYear ?? 3) + 1;
+                      const isMilestone = row.year === 5 || row.year === 10;
+                      const cell = metric.render(row);
+                      return (
+                        <td
+                          key={row.year}
+                          className={isMilestone || isRefiStart ? 'ra-highlight-col' : ''}
+                          style={cell.style}
+                        >
+                          {cell.text}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              });
+            })()}
           </tbody>
         </table>
       </div>
@@ -520,9 +586,9 @@ export default function ProFormaTable({
             operating income before debt service.
           </div>
           <div>
-            <strong style={{ color: '#060A2D' }}>Annual Debt Service:</strong> Total annual
+            <strong style={{ color: '#060A2D' }}>Debt Service:</strong> Total annual
             principal &amp; interest (P&amp;I) mortgage payments (<code>Monthly P&amp;I × 12</code>).
-            Subtracting Annual Debt Service from NOI yields <strong>Annual Net Cash Flow</strong>.
+            Subtracting Debt Service from NOI yields <strong>Net Cash Flow</strong>.
           </div>
         </div>
       </div>

@@ -1035,17 +1035,31 @@ export default function RentalAnalyzerContainer({
                 <>
                   Speak directly with <strong style={{ color: '#FFFFFF' }}>Rakesh Jain</strong>{' '}
                   ({stateInfo.rakeshLicense} · NMLS #240594) at Insider Mortgage
+                  <div style={{ marginTop: '0.35rem', fontSize: '0.98rem', fontWeight: 800, color: '#EFB51E' }}>
+                    (858) 848-5653
+                  </div>
                 </>
               ) : (
                 <>
                   Speak directly with <strong style={{ color: '#FFFFFF' }}>David Sider</strong>{' '}
                   (NMLS #254108) &amp; <strong style={{ color: '#FFFFFF' }}>Rakesh Jain</strong>{' '}
                   (NMLS #240594 / CA DRE #01336748) at Insider Mortgage
+                  <div
+                    style={{
+                      marginTop: '0.4rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '0.15rem',
+                      fontSize: '0.92rem',
+                      fontWeight: 800,
+                      color: '#EFB51E',
+                    }}
+                  >
+                    <div>David Sider: (858) 967-5777</div>
+                    <div>Rakesh Jain: (858) 848-5653</div>
+                  </div>
                 </>
               )}
-              <div style={{ marginTop: '0.35rem', fontSize: '0.98rem', fontWeight: 800, color: '#EFB51E' }}>
-                (858) 848-5653
-              </div>
             </div>
             {mode === 'public' && (
               <button

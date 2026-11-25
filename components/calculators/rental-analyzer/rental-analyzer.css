@@ -1142,7 +1142,8 @@
   .ra-print-proforma-table {
     width: 100% !important;
     border-collapse: collapse !important;
-    font-size: 9pt !important;
+    font-size: 7.5pt !important;
+    table-layout: auto !important;
   }
 
   .ra-print-proforma-table th {
@@ -1150,22 +1151,31 @@
     color: #FFFFFF !important;
     font-weight: 800 !important;
     padding: 2.5px 2px !important;
-    text-align: center !important;
+    text-align: right !important;
     line-height: 1.15 !important;
     border: 1px solid #1E293B !important;
-    font-size: 9pt !important;
+    font-size: 7.5pt !important;
     text-transform: uppercase !important;
     letter-spacing: 0.02em !important;
+    white-space: nowrap !important;
   }
 
   .ra-print-proforma-table th:first-child {
-    text-align: center !important;
+    text-align: left !important;
+    padding-left: 4px !important;
   }
 
-  .ra-print-proforma-table th .th-sub {
-    font-size: 7.8pt !important;
-    font-weight: 600 !important;
-    color: #CBD5E1 !important;
+  .ra-print-proforma-table th.ra-th-milestone {
+    color: #EFB51E !important;
+  }
+
+  .ra-print-proforma-table .ra-th-refi {
+    display: block !important;
+    font-size: 6pt !important;
+    font-weight: 800 !important;
+    color: #93C5FD !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.03em !important;
   }
 
   .ra-print-proforma-table td {
@@ -1174,28 +1184,73 @@
     border: 1px solid #CBD5E1 !important;
     white-space: nowrap !important;
     color: #0F172A !important;
-    font-size: 9pt !important;
+    font-size: 7.4pt !important;
     font-weight: 600 !important;
+  }
+
+  .ra-print-proforma-table td.ra-td-metric {
+    text-align: left !important;
+    padding-left: 4px !important;
+    color: #060A2D !important;
+    font-size: 7.3pt !important;
   }
 
   .ra-print-proforma-table tr:nth-child(even) td {
     background: #F8FAFC !important;
   }
 
-  .ra-print-proforma-table tr.ra-row-highlight td {
+  .ra-print-proforma-table td.ra-print-highlight-col {
     background: #FEFCE8 !important;
-    font-weight: 700 !important;
   }
 
-  .ra-td-year {
-    text-align: center !important;
+  .ra-print-proforma-table tr.ra-print-subhead-row td {
+    background: #EFF6FF !important;
+    color: #0468E9 !important;
+    font-size: 6.8pt !important;
     font-weight: 800 !important;
-    color: #060A2D !important;
-    font-size: 9pt !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    text-align: left !important;
+    padding: 1.5px 4px !important;
+    border-top: 1px solid #BFDBFE !important;
+    border-bottom: 1px solid #BFDBFE !important;
+  }
+
+  .ra-print-proforma-table tr.ra-print-equity-row td {
+    background: #F4F8FF !important;
+  }
+
+  .ra-print-proforma-table tr.ra-print-equity-row td.ra-print-highlight-col {
+    background: #FEFCE8 !important;
+  }
+
+  .ra-print-proforma-table tr.ra-print-equity-start td {
+    border-top: 1.5px solid #0468E9 !important;
+  }
+
+  .ra-print-proforma-table tr.ra-print-equity-end td {
+    border-bottom: 1.5px solid #0468E9 !important;
+  }
+
+  .ra-print-proforma-table tr.ra-print-equity-row td:first-child {
+    border-left: 1.5px solid #0468E9 !important;
+  }
+
+  .ra-print-proforma-table tr.ra-print-equity-row td:last-child {
+    border-right: 1.5px solid #0468E9 !important;
   }
 
   .ra-td-bold {
     font-weight: 800 !important;
+  }
+
+  .ra-td-muted {
+    color: #475569 !important;
+    font-weight: 600 !important;
+  }
+
+  .ra-td-blue {
+    color: #0468E9 !important;
   }
 
   .ra-td-neg {

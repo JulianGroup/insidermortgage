@@ -541,45 +541,196 @@ export default function RentalAnalyzerPrintReport({
           <table className="ra-print-proforma-table">
             <thead>
               <tr>
-                <th>Year</th>
-                <th>Gross Rent<br /><span className="th-sub">(Mo)</span></th>
-                <th>Effective Gross (EGI)</th>
-                <th>Operating Expenses</th>
-                <th>Net Operating Income (NOI)</th>
-                <th>Annual Debt Service</th>
-                <th>Annual Net Cash Flow</th>
-                <th>Monthly Cash Flow</th>
-                <th>Projected Value</th>
-                <th>Loan Balance</th>
-                <th>Gross Equity</th>
+                <th>Metric</th>
+                {summary.schedule.map((row) => {
+                  const isRefiStart =
+                    inputs.refiEnabled && row.year === (inputs.refiYear ?? 3) + 1;
+                  const isMilestone = row.year === 5 || row.year === 10;
+                  return (
+                    <th
+                      key={row.year}
+                      className={isMilestone ? 'ra-th-milestone' : ''}
+                    >
+                      Yr {row.year}
+                      {isRefiStart && <span className="ra-th-refi">Refi</span>}
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody>
-              {summary.schedule.map((row) => {
-                const isHighlight =
-                  (inputs.refiEnabled && row.year === (inputs.refiYear ?? 3)) ||
-                  row.year === 5 ||
-                  row.year === 10;
-                return (
-                  <tr key={row.year} className={isHighlight ? 'ra-row-highlight' : ''}>
-                    <td className="ra-td-year">{row.year}</td>
-                    <td>{currencyFmt.format(Math.round(row.monthlyGrossRent))}</td>
-                    <td>{currencyFmt.format(Math.round(row.effectiveGrossIncome))}</td>
-                    <td className="ra-td-neg">-{currencyFmt.format(Math.round(row.operatingExpenses))}</td>
-                    <td className="ra-td-bold">{currencyFmt.format(Math.round(row.noi))}</td>
-                    <td className="ra-td-neg">-{currencyFmt.format(Math.round(row.annualDebtService))}</td>
-                    <td className={`ra-td-bold ${row.netCashFlow >= 0 ? 'ra-td-pos' : 'ra-td-neg'}`}>
-                      {row.netCashFlow >= 0 ? '+' : ''}{currencyFmt.format(Math.round(row.netCashFlow))}
-                    </td>
-                    <td className={`ra-td-bold ${row.netCashFlow >= 0 ? 'ra-td-pos' : 'ra-td-neg'}`}>
-                      {row.netCashFlow >= 0 ? '+' : ''}{currencyFmt.format(Math.round(row.netCashFlow / 12))}
-                    </td>
-                    <td>{currencyFmt.format(Math.round(row.propertyValue))}</td>
-                    <td>{currencyFmt.format(Math.round(row.remainingBalance))}</td>
-                    <td className="ra-td-bold ra-td-pos">{currencyFmt.format(Math.round(row.propertyValue - row.remainingBalance))}</td>
-                  </tr>
-                );
-              })}
+              {(() => {
+                const cumulativeCashFlowByYear = new Map<number, number>();
+                let runningCashFlow = 0;
+                for (const r of summary.schedule) {
+                  runningCashFlow += r.netCashFlow;
+                  cumulativeCashFlowByYear.set(r.year, runningCashFlow);
+                }
+
+                type PrintMetricRow =
+                  | { type: 'subhead'; key: string; label: string }
+                  | {
+                      type?: 'metric';
+                      key: string;
+                      label: string;
+                      rowClassName?: string;
+                      labelClassName?: string;
+                      render: (row: (typeof summary.schedule)[number]) => {
+                        text: string;
+                        cellClassName?: string;
+                      };
+                    };
+
+                const metricRows: PrintMetricRow[] = [
+                  {
+                    key: 'monthlyGrossRent',
+                    label: 'Gross Rent (Monthly)',
+                    labelClassName: 'ra-td-bold',
+                    render: (row) => ({
+                      text: currencyFmt.format(Math.round(row.monthlyGrossRent)),
+                    }),
+                  },
+                  {
+                    type: 'subhead',
+                    key: 'annualSubhead',
+                    label: 'Annual',
+                  },
+                  {
+                    key: 'effectiveGrossIncome',
+                    label: 'Effective Gross (EGI)',
+                    labelClassName: 'ra-td-bold',
+                    render: (row) => ({
+                      text: currencyFmt.format(Math.round(row.effectiveGrossIncome)),
+                    }),
+                  },
+                  {
+                    key: 'operatingExpenses',
+                    label: 'Operating Expenses',
+                    render: (row) => ({
+                      text: `-${currencyFmt.format(Math.round(row.operatingExpenses))}`,
+                      cellClassName: 'ra-td-muted',
+                    }),
+                  },
+                  {
+                    key: 'noi',
+                    label: 'Net Operating Income (NOI)',
+                    labelClassName: 'ra-td-bold',
+                    render: (row) => ({
+                      text: currencyFmt.format(Math.round(row.noi)),
+                      cellClassName: 'ra-td-bold',
+                    }),
+                  },
+                  {
+                    key: 'annualDebtService',
+                    label: 'Debt Service',
+                    render: (row) => ({
+                      text: `-${currencyFmt.format(Math.round(row.annualDebtService))}`,
+                      cellClassName: 'ra-td-muted',
+                    }),
+                  },
+                  {
+                    key: 'netCashFlow',
+                    label: 'Net Cash Flow',
+                    labelClassName: 'ra-td-bold',
+                    render: (row) => ({
+                      text: currencyFmt.format(Math.round(row.netCashFlow)),
+                      cellClassName: `ra-td-bold ${row.netCashFlow >= 0 ? 'ra-td-pos' : 'ra-td-neg'}`,
+                    }),
+                  },
+                  {
+                    key: 'monthlyCashFlow',
+                    label: 'Net Cash Flow (Monthly)',
+                    labelClassName: 'ra-td-bold',
+                    render: (row) => ({
+                      text: `${currencyFmt.format(Math.round(row.netCashFlow / 12))}/mo`,
+                      cellClassName: row.netCashFlow >= 0 ? 'ra-td-pos' : 'ra-td-neg',
+                    }),
+                  },
+                  {
+                    key: 'cumulativeCashFlow',
+                    label: 'Cumulative Cash Flow',
+                    labelClassName: 'ra-td-bold',
+                    render: (row) => {
+                      if (row.year === 1) {
+                        return { text: '—', cellClassName: 'ra-td-muted' };
+                      }
+                      const cumCf = cumulativeCashFlowByYear.get(row.year) ?? 0;
+                      return {
+                        text: currencyFmt.format(Math.round(cumCf)),
+                        cellClassName: `ra-td-bold ${cumCf >= 0 ? 'ra-td-pos' : 'ra-td-neg'}`,
+                      };
+                    },
+                  },
+                  {
+                    key: 'propertyValue',
+                    label: 'Property Value',
+                    rowClassName: 'ra-print-equity-row ra-print-equity-start',
+                    labelClassName: 'ra-td-bold',
+                    render: (row) => ({
+                      text: currencyFmt.format(Math.round(row.propertyValue)),
+                    }),
+                  },
+                  {
+                    key: 'remainingBalance',
+                    label: 'Loan Balance',
+                    rowClassName: 'ra-print-equity-row',
+                    render: (row) => ({
+                      text: currencyFmt.format(Math.round(row.remainingBalance)),
+                      cellClassName: 'ra-td-muted',
+                    }),
+                  },
+                  {
+                    key: 'netSaleEquity',
+                    label: `Net Equity (After ${(inputs.sellingCostPct * 100).toFixed(0)}% Costs)`,
+                    rowClassName: 'ra-print-equity-row ra-print-equity-end',
+                    labelClassName: 'ra-td-bold ra-td-blue',
+                    render: (row) => {
+                      const netSaleEquity =
+                        row.propertyValue * (1 - inputs.sellingCostPct) - row.remainingBalance;
+                      return {
+                        text: currencyFmt.format(Math.round(netSaleEquity)),
+                        cellClassName: 'ra-td-bold ra-td-blue',
+                      };
+                    },
+                  },
+                ];
+
+                return metricRows.map((metric) => {
+                  if (metric.type === 'subhead') {
+                    return (
+                      <tr key={metric.key} className="ra-print-subhead-row">
+                        <td colSpan={summary.schedule.length + 1}>{metric.label}</td>
+                      </tr>
+                    );
+                  }
+                  return (
+                    <tr key={metric.key} className={metric.rowClassName || ''}>
+                      <td className={`ra-td-metric ${metric.labelClassName || ''}`}>
+                        {metric.label}
+                      </td>
+                      {summary.schedule.map((row) => {
+                        const isRefiStart =
+                          inputs.refiEnabled && row.year === (inputs.refiYear ?? 3) + 1;
+                        const isMilestone = row.year === 5 || row.year === 10;
+                        const cell = metric.render(row);
+                        return (
+                          <td
+                            key={row.year}
+                            className={[
+                              isMilestone || isRefiStart ? 'ra-print-highlight-col' : '',
+                              cell.cellClassName || '',
+                            ]
+                              .filter(Boolean)
+                              .join(' ')}
+                          >
+                            {cell.text}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  );
+                });
+              })()}
             </tbody>
           </table>
         </div>
@@ -699,7 +850,7 @@ export default function RentalAnalyzerPrintReport({
                   NMLS #254108 · CA DRE #01193796
                 </div>
                 <div className="ra-print-officer-contact">
-                  <span>Phone: <strong>(858) 848-5653</strong></span>
+                  <span>Phone: <strong>(858) 967-5777</strong></span>
                   <span>·</span>
                   <span>Email: <strong>DSider@InsiderMtg.com</strong></span>
                 </div>

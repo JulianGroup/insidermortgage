@@ -428,25 +428,38 @@ export default function CompareScenariosModal({
   <meta charset="utf-8" />
   <title>Insider Mortgage - Side-by-Side Investment Property Analysis</title>
   <style>
-    @page { size: landscape; margin: 0.45in; }
+    @page { size: landscape; margin: 0.3in; }
     * { box-sizing: border-box; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; color: #0F172A; background: #FFFFFF; }
-    .hdr { background: #060A2D; color: #FFFFFF; padding: 14px 18px; border-bottom: 4px solid #EFB51E; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
-    .eyebrow { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #EFB51E; }
-    h1 { margin: 3px 0 0; font-size: 18px; font-weight: 800; }
-    .meta { text-align: right; font-size: 11px; color: #CBD5E1; }
-    table { width: 100%; border-collapse: collapse; border: 1px solid #CBD5E1; font-size: 11px; }
-    th { background: #F8FAFC; border-bottom: 2px solid #060A2D; padding: 8px 10px; text-align: right; vertical-align: bottom; }
-    th.mcol { text-align: left; text-transform: uppercase; font-size: 10px; color: #475569; letter-spacing: 0.04em; width: 22%; }
-    .src { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #0468E9; }
-    .pname { font-size: 12px; font-weight: 800; color: #060A2D; margin-top: 2px; }
-    tr.sec td { background: #EFF6FF; color: #0468E9; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 6px 10px; border-top: 1px solid #DBEAFE; border-bottom: 1px solid #DBEAFE; text-align: left; }
-    td { padding: 6px 10px; border-bottom: 1px solid #E2E8F0; text-align: right; font-weight: 600; }
+    .hdr { background: #060A2D; color: #FFFFFF; padding: 10px 16px; border-bottom: 3px solid #EFB51E; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center; }
+    .eyebrow { font-size: 9px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #EFB51E; }
+    h1 { margin: 2px 0 0; font-size: 16px; font-weight: 800; }
+    .meta { text-align: right; font-size: 10px; color: #CBD5E1; }
+    table { width: 100%; border-collapse: collapse; border: 1px solid #CBD5E1; font-size: 10px; }
+    th { background: #F8FAFC; border-bottom: 2px solid #060A2D; padding: 6px 8px; text-align: right; vertical-align: bottom; }
+    th.mcol { text-align: left; text-transform: uppercase; font-size: 9px; color: #475569; letter-spacing: 0.04em; width: 22%; }
+    .src { font-size: 8.5px; font-weight: 700; text-transform: uppercase; color: #0468E9; }
+    .pname { font-size: 11px; font-weight: 800; color: #060A2D; margin-top: 1px; }
+    tr.sec td { background: #EFF6FF; color: #0468E9; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 8px; border-top: 1px solid #DBEAFE; border-bottom: 1px solid #DBEAFE; text-align: left; }
+    td { padding: 3.8px 8px; border-bottom: 1px solid #E2E8F0; text-align: right; font-weight: 600; }
     td.lbl { text-align: left; background: #F8FAFC; color: #334155; font-weight: 600; }
-    .sub { font-size: 9px; font-weight: 500; color: #64748B; }
+    .sub { font-size: 8px; font-weight: 500; color: #64748B; }
     td.best { background: #F0FDF4; color: #15803D; font-weight: 800; }
-    .badge { display: inline-block; font-size: 8px; font-weight: 800; color: #15803D; background: #DCFCE7; border: 1px solid #86EFAC; padding: 1px 4px; border-radius: 3px; margin-left: 4px; }
-    .ftr { margin-top: 10px; padding: 8px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; font-size: 10px; color: #475569; display: flex; justify-content: space-between; }
+    .badge { display: inline-block; font-size: 7.5px; font-weight: 800; color: #15803D; background: #DCFCE7; border: 1px solid #86EFAC; padding: 0.5px 4px; border-radius: 3px; margin-left: 4px; }
+    .ad-banner { margin-top: 8px; background: linear-gradient(135deg, #060A2D 0%, #0C1764 100%); color: #FFFFFF; border: 1.5px solid #EFB51E; border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+    .ad-left { flex: 1 1 auto; }
+    .ad-eyebrow { font-size: 8px; font-weight: 800; color: #EFB51E; text-transform: uppercase; letter-spacing: 0.06em; }
+    .ad-title { margin: 2px 0 3px; font-size: 13px; font-weight: 800; color: #FFFFFF; }
+    .ad-desc { margin: 0 0 6px; font-size: 9px; color: #CBD5E1; line-height: 1.35; }
+    .ad-bullets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px 10px; font-size: 8.5px; color: #F1F5F9; }
+    .ad-bullet { display: flex; align-items: flex-start; gap: 4px; line-height: 1.25; }
+    .ad-check { color: #EFB51E; font-weight: 800; }
+    .ad-right { flex: 0 0 250px; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 8px; padding: 8px 10px; }
+    .ad-speak { font-size: 8.5px; color: #E2E8F0; line-height: 1.35; }
+    .ad-speak strong { color: #FFFFFF; }
+    .ad-phones { margin-top: 5px; display: flex; flex-direction: column; gap: 2px; font-size: 9.5px; font-weight: 800; color: #EFB51E; }
+    .ad-cta { display: block; margin-top: 6px; padding: 5px 10px; border-radius: 999px; background: #EFB51E; color: #060A2D; font-weight: 800; font-size: 9px; text-align: center; text-decoration: none; }
+    .ftr { margin-top: 6px; padding: 5px 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; font-size: 8.5px; color: #475569; display: flex; justify-content: space-between; align-items: center; }
   </style>
 </head>
 <body>
@@ -466,9 +479,34 @@ export default function CompareScenariosModal({
     </thead>
     <tbody>${bodyRows}</tbody>
   </table>
+  <div class="ad-banner">
+    <div class="ad-left">
+      <div class="ad-eyebrow">Explore Financing Scenarios with Insider Mortgage</div>
+      <div class="ad-title">The right financing can change the investment.</div>
+      <p class="ad-desc">Real estate investors have different financing needs depending on the property, ownership structure, income documentation, and investment strategy.</p>
+      <div class="ad-bullets">
+        <div class="ad-bullet"><span class="ad-check">✓</span><span>Conventional investment property financing</span></div>
+        <div class="ad-bullet"><span class="ad-check">✓</span><span>DSCR loans</span></div>
+        <div class="ad-bullet"><span class="ad-check">✓</span><span>Bank statement programs for self-employed investors</span></div>
+        <div class="ad-bullet"><span class="ad-check">✓</span><span>Financing for 2–4 unit properties</span></div>
+        <div class="ad-bullet"><span class="ad-check">✓</span><span>Cash-out refinancing for existing rental properties</span></div>
+        <div class="ad-bullet"><span class="ad-check">✓</span><span>ADU and value-add financing opportunities</span></div>
+      </div>
+    </div>
+    <div class="ad-right">
+      <div class="ad-speak">
+        Speak directly with <strong>David Sider</strong> (NMLS #254108) &amp; <strong>Rakesh Jain</strong> (NMLS #240594 / CA DRE #01336748) at Insider Mortgage
+      </div>
+      <div class="ad-phones">
+        <div>David Sider: (858) 967-5777</div>
+        <div>Rakesh Jain: (858) 848-5653</div>
+      </div>
+      <a class="ad-cta" href="https://insidermortgage.com/pre-approval">Request Custom Loan Quote →</a>
+    </div>
+  </div>
   <div class="ftr">
     <div><strong>David Sider</strong> (NMLS #254108 · CA DRE #01193796) &amp; <strong>Rakesh Jain</strong> (NMLS #240594 · CA DRE #01336748) · Insider Mortgage powered by C2 Financial Corp (NMLS #135622)</div>
-    <div>(858) 848-5653 · dsrj@insidermtg.com</div>
+    <div>David: (858) 967-5777 · Rakesh: (858) 848-5653 · dsrj@insidermtg.com</div>
   </div>
 </body>
 </html>`;

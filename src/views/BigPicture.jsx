@@ -16,8 +16,12 @@ const BigPicture = () => {
 
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '3rem' }}>
           <img 
-            src="/big-picture.jpg" 
+            src="/big-picture.webp" 
             alt="IMC's Big Picture - Financial Whealth" 
+            width={450}
+            height={555}
+            fetchPriority="high"
+            decoding="async"
             style={{ maxWidth: '100%', height: 'auto', borderRadius: '8px', border: '1px solid #ddd' }} 
           />
         </div>

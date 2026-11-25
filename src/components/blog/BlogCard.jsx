@@ -61,6 +61,10 @@ export default function BlogCard({ post, compact = false }) {
             <img
               src={ytThumb}
               alt={post.title}
+              width={480}
+              height={270}
+              loading="lazy"
+              decoding="async"
               style={{
                 position: 'absolute',
                 inset: 0,
@@ -266,6 +270,10 @@ export default function BlogCard({ post, compact = false }) {
               <img
                 src={author.photo}
                 alt={author.name}
+                width={36}
+                height={36}
+                loading="lazy"
+                decoding="async"
                 style={{
                   width: '36px',
                   height: '36px',

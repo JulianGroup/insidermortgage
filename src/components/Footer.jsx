@@ -12,7 +12,7 @@ const Footer = () => {
             <span>powered</span>
             <span>by</span>
           </div>
-          <img src="/logo-white.svg" alt="C2 Financial Logo" style={{ height: '40px' }} />
+          <img src="/logo-white.svg" alt="C2 Financial Logo" width={183} height={40} style={{ height: '40px', width: 'auto' }} loading="lazy" decoding="async" />
         </div>
         <div style={{ display: 'flex', gap: '20px', margin: '10px 0', flexWrap: 'wrap', justifyContent: 'center' }}>
           <Link href="/resource-library" style={{ color: 'white', textDecoration: 'underline' }}>Resource Library</Link>

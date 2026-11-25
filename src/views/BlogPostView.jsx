@@ -229,6 +229,9 @@ export default function BlogPostView({ post }) {
               <img
                 src={author.photo}
                 alt={author.name}
+                width={48}
+                height={48}
+                decoding="async"
                 style={{
                   width: '48px',
                   height: '48px',

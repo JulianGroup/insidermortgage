@@ -16,9 +16,15 @@ const BioDavid = () => {
           
           <div style={{ position: 'sticky', top: '2rem' }}>
             <img 
-              src="/david-sider.jpg" 
+              src="/david-sider.webp" 
+              srcSet="/david-sider-sm.webp 600w, /david-sider.webp 1000w"
+              sizes="(max-width: 768px) 92vw, 460px"
               alt="David Sider" 
-              style={{ width: '100%', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl)', display: 'block' }} 
+              width={1000}
+              height={666}
+              fetchPriority="high"
+              decoding="async"
+              style={{ width: '100%', height: 'auto', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl)', display: 'block' }} 
             />
           </div>
 

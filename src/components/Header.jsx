@@ -42,7 +42,7 @@ const Header = () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >
-          <img src="/C2-IMCv2.jpg?v=2" alt="Insider Mortgage Logo" style={{ height: '40px' }} />
+          <img src="/C2-IMCv2.webp" alt="Insider Mortgage Logo" width={147} height={40} style={{ height: '40px', width: 'auto' }} decoding="async" />
         </Link>
 
         {/* Desktop Navigation */}

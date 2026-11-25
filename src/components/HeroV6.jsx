@@ -85,16 +85,13 @@ const HeroV6 = () => {
 
   return (
     <React.Fragment>
-      <link
-        href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@500;600;700;800&display=swap"
-        rel="stylesheet"
-      />
-
       <div className="hero-v6-wrapper">
         {/* Aspect-Ratio Locked Hero Stage */}
         <section className="hero-v6-stage">
           <img
-            src="/splash-bg.jpg"
+            src="/splash-bg.webp"
+            srcSet="/splash-bg-mobile.webp 960w, /splash-bg.webp 1920w"
+            sizes="100vw"
             alt="Surfing dog riding the interest rate wave"
             className="hero-v6-bg-img"
             width={1920}
@@ -109,7 +106,7 @@ const HeroV6 = () => {
                 San Diego Mortgage Broker &amp; Loan Specialists - Trusted Mortgage Experts
               </span>
               <img
-                src="/headline-graphic.png"
+                src="/headline-graphic.webp"
                 alt="Trusted Mortgage Experts - San Diego Mortgage Broker"
                 className="hero-v6-headline-img"
                 width={1297}
@@ -129,11 +126,13 @@ const HeroV6 = () => {
           {/* Right Callout: Exact extracted script graphic positioned over the golden reflection */}
           <div className="hero-v6-wave-callout">
             <img
-              src="/wave-quote-graphic.png"
+              src="/wave-quote-graphic.webp"
               alt="I'm riding the interest rate wave"
               className="hero-v6-wave-quote-img"
               width={325}
               height={138}
+              loading="lazy"
+              decoding="async"
             />
           </div>
 
@@ -240,7 +239,7 @@ const HeroV6 = () => {
           
           <div className="partners-section" style={{ marginTop: '0' }}>
             <div className="partner-card">
-              <img src="/david-sider.jpg" alt="David Sider" className="partner-bg-image" width={1000} height={666} loading="lazy" />
+              <img src="/david-sider-sm.webp" alt="David Sider" className="partner-bg-image" width={600} height={400} loading="lazy" decoding="async" />
               <div className="partner-info">
                 <h3>David Sider</h3>
                 <p className="partner-title">Managing Partner / Broker</p>
@@ -249,7 +248,7 @@ const HeroV6 = () => {
             </div>
 
             <div className="partner-card">
-              <img src="/rakesh-jain.jpg" alt="Rakesh Jain" className="partner-bg-image" width={332} height={336} loading="lazy" />
+              <img src="/rakesh-jain.webp" alt="Rakesh Jain" className="partner-bg-image" width={332} height={336} loading="lazy" decoding="async" />
               <div className="partner-info">
                 <h3>Rakesh Jain</h3>
                 <p className="partner-title">Managing Partner / Broker</p>

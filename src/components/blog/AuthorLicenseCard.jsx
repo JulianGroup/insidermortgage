@@ -31,6 +31,10 @@ export default function AuthorLicenseCard({ author }) {
         <img
           src={author.photo}
           alt={author.name}
+          width={76}
+          height={76}
+          loading="lazy"
+          decoding="async"
           style={{
             width: '76px',
             height: '76px',

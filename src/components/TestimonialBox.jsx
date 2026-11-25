@@ -22,6 +22,10 @@ const TestimonialBox = ({ title = "What Our Clients Say", quote, author, image }
           <img 
             src={image} 
             alt={`${author} headshot`} 
+            width={80}
+            height={80}
+            loading="lazy"
+            decoding="async"
             style={{
               width: '80px',
               height: '80px',

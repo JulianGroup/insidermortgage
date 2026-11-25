@@ -16,9 +16,13 @@ const BioRakesh = () => {
           
           <div style={{ position: 'sticky', top: '2rem' }}>
             <img 
-              src="/rakesh-jain.jpg" 
+              src="/rakesh-jain.webp" 
               alt="Rakesh Jain" 
-              style={{ width: '100%', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl)', display: 'block' }} 
+              width={332}
+              height={336}
+              fetchPriority="high"
+              decoding="async"
+              style={{ width: '100%', height: 'auto', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-xl)', display: 'block' }} 
             />
           </div>
 

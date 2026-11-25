@@ -405,8 +405,12 @@ const SpecialtyPage = ({ data }) => {
                     </p>
                     <div style={{ marginTop: '1.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem' }}>
                       <img
-                        src="/david-sider.jpg"
+                        src="/david-sider-sm.webp"
                         alt="David Sider"
+                        width={44}
+                        height={44}
+                        loading="lazy"
+                        decoding="async"
                         style={{ width: '44px', height: '44px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.4)', objectFit: 'cover' }}
                       />
                       <span style={{ color: 'rgba(255, 255, 255, 0.92)', fontSize: '0.98rem', fontWeight: 600 }}>
@@ -481,13 +485,21 @@ const SpecialtyPage = ({ data }) => {
                       {data.goodNewsSection.showHeadshotsInCta && (
                         <span className="se-btn-avatars">
                           <img
-                            src="/david-sider.jpg"
+                            src="/david-sider-sm.webp"
                             alt="David Sider"
+                            width={46}
+                            height={46}
+                            loading="lazy"
+                            decoding="async"
                             className="se-btn-avatar"
                           />
                           <img
-                            src="/rakesh-jain.jpg"
+                            src="/rakesh-jain.webp"
                             alt="Rakesh Jain"
+                            width={46}
+                            height={46}
+                            loading="lazy"
+                            decoding="async"
                             className="se-btn-avatar se-btn-avatar-overlap"
                           />
                         </span>
@@ -746,14 +758,14 @@ const SpecialtyPage = ({ data }) => {
               {data.showPartnerHeaderInForm && (
                 <div className="se-partner-contact-header">
                   <div className="se-partner-card-pill">
-                    <img src="/david-sider.jpg" alt="David Sider" className="se-partner-photo" />
+                    <img src="/david-sider-sm.webp" alt="David Sider" width={48} height={48} loading="lazy" decoding="async" className="se-partner-photo" />
                     <div className="se-partner-info">
                       <strong>David Sider</strong>
                       <span>Managing Partner</span>
                     </div>
                   </div>
                   <div className="se-partner-card-pill">
-                    <img src="/rakesh-jain.jpg" alt="Rakesh Jain" className="se-partner-photo" />
+                    <img src="/rakesh-jain.webp" alt="Rakesh Jain" width={48} height={48} loading="lazy" decoding="async" className="se-partner-photo" />
                     <div className="se-partner-info">
                       <strong>Rakesh Jain</strong>
                       <span>Senior Loan Officer &amp; Partner</span>

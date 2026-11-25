@@ -19,7 +19,7 @@ const BioSection = () => {
         
         <div className="partners-section">
           <div className="partner-card">
-            <img src="/david-sider.jpg" alt="David Sider" className="partner-bg-image" />
+            <img src="/david-sider-sm.webp" alt="David Sider" className="partner-bg-image" width={600} height={400} loading="lazy" decoding="async" />
             <div className="partner-info">
               <h3>David Sider</h3>
               <p className="partner-title">Managing Partner / Broker</p>
@@ -28,7 +28,7 @@ const BioSection = () => {
           </div>
 
           <div className="partner-card">
-            <img src="/rakesh-jain.jpg" alt="Rakesh Jain" className="partner-bg-image" />
+            <img src="/rakesh-jain.webp" alt="Rakesh Jain" className="partner-bg-image" width={332} height={336} loading="lazy" decoding="async" />
             <div className="partner-info">
               <h3>Rakesh Jain</h3>
               <p className="partner-title">Managing Partner / Broker</p>

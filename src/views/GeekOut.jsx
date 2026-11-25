@@ -65,8 +65,8 @@ export default function GeekOut() {
       )
     },
     {
-      title: "2026 County Loan Limits",
-      description: "Lookup the 2026 maximum conforming and high-balance loan limits by state and county for 1-4 unit properties.",
+      title: "2027 & 2026 County Loan Limits",
+      description: "Lookup the new 2027 (and 2026) maximum conforming and high-balance loan limits by state and county for 1-4 unit properties.",
       href: "/geek-out/loan-limits",
       icon: (
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{width:'40px', height:'40px'}}>

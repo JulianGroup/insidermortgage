@@ -166,11 +166,11 @@ export const CALCULATOR_TAGS = [
   },
   {
     id: 'calc-loan-limits',
-    label: '2026 County Loan Limits Lookup',
-    shortLabel: '2026 Loan Limits',
+    label: '2027 & 2026 County Loan Limits Lookup',
+    shortLabel: '2027 Loan Limits',
     route: '/geek-out/loan-limits',
     description:
-      'Check 2026 conforming and high-balance loan limits for 1-to-4 unit properties in your county.',
+      'Check 2027 and 2026 conforming and high-balance loan limits for 1-to-4 unit properties in your county.',
     ctaLabel: 'Check County Loan Limits',
   },
   {

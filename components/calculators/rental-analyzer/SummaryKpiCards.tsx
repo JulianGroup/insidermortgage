@@ -45,8 +45,12 @@ export default function SummaryKpiCards({
   const aduMultiplier = inputs.unitCount > 1 && inputs.aduCount === 2 ? 2 : 1;
   const aduInYear1 = inputs.aduEnabled && (inputs.aduStartMonth ?? 0) < 12;
   const effectiveAduCostYr1 = aduInYear1 ? (inputs.aduCost || 0) * aduMultiplier : 0;
+  const effectiveAduRentYr1 = aduInYear1 ? (inputs.aduRentMonthly || 0) * aduMultiplier : 0;
   const basisValue =
     (inputs.purchasePrice || 0) + (inputs.makeReadyCost || 0) + effectiveAduCostYr1;
+  const grossMonthlyRentForRentFactor = summary.totalMonthlyRent + effectiveAduRentYr1;
+  const rentFactor =
+    basisValue > 0 ? (grossMonthlyRentForRentFactor / basisValue) * 100 : 0;
   const capRate = basisValue > 0 ? (summary.year1Noi / basisValue) * 100 : 0;
   const cocPct =
     summary.initialCashInvested > 0
@@ -200,7 +204,141 @@ export default function SummaryKpiCards({
 
         {/* 4 Core KPI Tiles (2x2 Quadrant) */}
         <div className="ra-kpi-grid">
-          {/* Top-Left: Cash on Cash Return */}
+          {/* Top-Left: Rent Factor */}
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => onOpenMath?.('rent-factor')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onOpenMath?.('rent-factor');
+              }
+            }}
+            title="Tap to see how Rent Factor is calculated"
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
+              borderRadius: '12px',
+              padding: '1rem',
+              cursor: 'pointer',
+            }}
+          >
+            <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
+              Rent Factor
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginTop: '0.25rem',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 800,
+                  color: '#60A5FA',
+                  textDecoration: 'underline',
+                  textDecorationStyle: 'dotted',
+                  textUnderlineOffset: '4px',
+                }}
+              >
+                {rentFactor.toFixed(2)}%
+              </div>
+              <span
+                className="no-print"
+                style={{
+                  fontSize: '0.65rem',
+                  fontWeight: 700,
+                  color: '#93C5FD',
+                  backgroundColor: 'rgba(96, 165, 250, 0.16)',
+                  border: '1px solid rgba(96, 165, 250, 0.35)',
+                  padding: '0.1rem 0.4rem',
+                  borderRadius: '4px',
+                  flexShrink: 0,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                ∑ Math
+              </span>
+            </div>
+            <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
+              {currencyFmt.format(Math.round(grossMonthlyRentForRentFactor))}/mo ÷{' '}
+              {currencyFmt.format(Math.round(basisValue))}
+            </div>
+          </div>
+
+          {/* Top-Right: Cap Rate */}
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => onOpenMath?.('cap-rate')}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onOpenMath?.('cap-rate');
+              }
+            }}
+            title="Tap to see how Cap Rate is calculated"
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
+              borderRadius: '12px',
+              padding: '1rem',
+              cursor: 'pointer',
+            }}
+          >
+            <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
+              Cap Rate
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: '0.5rem',
+                marginTop: '0.25rem',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '1.5rem',
+                  fontWeight: 800,
+                  color: '#EFB51E',
+                  textDecoration: 'underline',
+                  textDecorationStyle: 'dotted',
+                  textUnderlineOffset: '4px',
+                }}
+              >
+                {capRate.toFixed(2)}%
+              </div>
+              <span
+                className="no-print"
+                style={{
+                  fontSize: '0.65rem',
+                  fontWeight: 700,
+                  color: '#EFB51E',
+                  backgroundColor: 'rgba(239, 181, 30, 0.16)',
+                  border: '1px solid rgba(239, 181, 30, 0.35)',
+                  padding: '0.1rem 0.4rem',
+                  borderRadius: '4px',
+                  flexShrink: 0,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                ∑ Math
+              </span>
+            </div>
+            <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
+              {currencyFmt.format(Math.round(summary.year1Noi))} on{' '}
+              {currencyFmt.format(Math.round(basisValue))}
+            </div>
+          </div>
+
+          {/* Bottom-Left: Cash on Cash (COC) */}
           <div
             role="button"
             tabIndex={0}
@@ -273,18 +411,18 @@ export default function SummaryKpiCards({
             </div>
           </div>
 
-          {/* Top-Right: DSCR */}
+          {/* Bottom-Right: 10-Year Projected ROI */}
           <div
             role="button"
             tabIndex={0}
-            onClick={() => onOpenMath?.('dscr')}
+            onClick={() => onOpenMath?.('profit-10')}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                onOpenMath?.('dscr');
+                onOpenMath?.('profit-10');
               }
             }}
-            title="Tap to see how DSCR is calculated"
+            title="Tap to see how 10-Year Projected ROI & Net Equity are calculated"
             style={{
               backgroundColor: 'rgba(255, 255, 255, 0.08)',
               border: '1px solid rgba(255, 255, 255, 0.18)',
@@ -294,7 +432,7 @@ export default function SummaryKpiCards({
             }}
           >
             <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
-              DSCR
+              10-Year Projected ROI
             </div>
             <div
               style={{
@@ -309,22 +447,22 @@ export default function SummaryKpiCards({
                 style={{
                   fontSize: '1.5rem',
                   fontWeight: 800,
-                  color: dscr >= 1.0 ? '#4ADE80' : '#EFB51E',
+                  color: summary.tenYear.totalRoiPct >= 0 ? '#A78BFA' : '#FCA5A5',
                   textDecoration: 'underline',
                   textDecorationStyle: 'dotted',
                   textUnderlineOffset: '4px',
                 }}
               >
-                {dscr.toFixed(2)}%
+                {summary.tenYear.totalRoiPct.toFixed(2)}%
               </div>
               <span
                 className="no-print"
                 style={{
                   fontSize: '0.65rem',
                   fontWeight: 700,
-                  color: '#EFB51E',
-                  backgroundColor: 'rgba(239, 181, 30, 0.16)',
-                  border: '1px solid rgba(239, 181, 30, 0.35)',
+                  color: '#C4B5FD',
+                  backgroundColor: 'rgba(167, 139, 250, 0.16)',
+                  border: '1px solid rgba(167, 139, 250, 0.35)',
                   padding: '0.1rem 0.4rem',
                   borderRadius: '4px',
                   flexShrink: 0,
@@ -335,143 +473,7 @@ export default function SummaryKpiCards({
               </span>
             </div>
             <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
-              {currencyFmt.format(Math.round(summary.totalMonthlyRent))}/mo Rent ÷{' '}
-              {currencyFmt.format(Math.round(totalMonthlyPitia))}/mo PITIA
-            </div>
-          </div>
-
-          {/* Bottom-Left: Net Operating Income (NOI) */}
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => onOpenMath?.('noi')}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                onOpenMath?.('noi');
-              }
-            }}
-            title="Tap to see how Year 1 Net Operating Income is calculated"
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              border: '1px solid rgba(255, 255, 255, 0.18)',
-              borderRadius: '12px',
-              padding: '1rem',
-              cursor: 'pointer',
-              position: 'relative',
-            }}
-          >
-            <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
-              Net Operating Income (NOI)
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                gap: '0.5rem',
-                marginTop: '0.25rem',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 800,
-                  color: '#EFB51E',
-                  textDecoration: 'underline',
-                  textDecorationStyle: 'dotted',
-                  textUnderlineOffset: '4px',
-                }}
-              >
-                {currencyFmt.format(Math.round(summary.year1Noi))}/yr
-              </div>
-              <span
-                className="no-print"
-                style={{
-                  fontSize: '0.65rem',
-                  fontWeight: 700,
-                  color: '#EFB51E',
-                  backgroundColor: 'rgba(239, 181, 30, 0.16)',
-                  border: '1px solid rgba(239, 181, 30, 0.35)',
-                  padding: '0.1rem 0.4rem',
-                  borderRadius: '4px',
-                  flexShrink: 0,
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                ∑ Math
-              </span>
-            </div>
-            <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.35 }}>
-              {currencyFmt.format(Math.round(summary.schedule[0]?.effectiveGrossIncome ?? 0))} EGI -{' '}
-              {currencyFmt.format(Math.round(summary.schedule[0]?.operatingExpenses ?? 0))} Operating Exp.
-            </div>
-          </div>
-
-          {/* Bottom-Right: Cap Rate */}
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => onOpenMath?.('cap-rate')}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                onOpenMath?.('cap-rate');
-              }
-            }}
-            title="Tap to see how Cap Rate is calculated"
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              border: '1px solid rgba(255, 255, 255, 0.18)',
-              borderRadius: '12px',
-              padding: '1rem',
-              cursor: 'pointer',
-            }}
-          >
-            <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
-              Cap Rate
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                gap: '0.5rem',
-                marginTop: '0.25rem',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '1.5rem',
-                  fontWeight: 800,
-                  color: '#EFB51E',
-                  textDecoration: 'underline',
-                  textDecorationStyle: 'dotted',
-                  textUnderlineOffset: '4px',
-                }}
-              >
-                {capRate.toFixed(2)}%
-              </div>
-              <span
-                className="no-print"
-                style={{
-                  fontSize: '0.65rem',
-                  fontWeight: 700,
-                  color: '#EFB51E',
-                  backgroundColor: 'rgba(239, 181, 30, 0.16)',
-                  border: '1px solid rgba(239, 181, 30, 0.35)',
-                  padding: '0.1rem 0.4rem',
-                  borderRadius: '4px',
-                  flexShrink: 0,
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                ∑ Math
-              </span>
-            </div>
-            <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
-              {currencyFmt.format(Math.round(summary.year1Noi))} on{' '}
-              {currencyFmt.format(Math.round(basisValue))}
+              Projected Net Equity: {currencyFmt.format(Math.round(summary.tenYear.netSaleProceeds))}
             </div>
           </div>
         </div>

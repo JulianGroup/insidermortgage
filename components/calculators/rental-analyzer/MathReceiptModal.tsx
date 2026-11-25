@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { UnderwriteInputs, UnderwriteSummary } from '../../../lib/financial-engine';
 
 export type MathMetricKey =
+  | 'rent-factor'
   | 'cash-flow'
   | 'dscr'
   | 'noi'
@@ -34,14 +35,19 @@ const fmtSigned = (n: number) => {
 };
 
 export const MATH_METRIC_TABS: { key: MathMetricKey; shortLabel: string; title: string }[] = [
-  { key: 'cash-flow', shortLabel: 'Cash on Cash', title: 'Cash-on-Cash Return (CoC) & Cash Flow' },
-  { key: 'dscr', shortLabel: 'DSCR', title: 'DSCR (Debt Service Coverage Ratio)' },
-  { key: 'noi', shortLabel: 'Year 1 NOI', title: 'Year 1 Net Operating Income (NOI)' },
+  {
+    key: 'rent-factor',
+    shortLabel: 'Rent Factor',
+    title: 'Rent Factor — A Quick Measure of Rental Income Potential',
+  },
   { key: 'cap-rate', shortLabel: 'Cap Rate', title: 'Cap Rate (NOI ÷ Basis Value)' },
-  { key: 'profit-5', shortLabel: '5-Yr Profit & ROI', title: 'Net 5-Year Lifetime Profit & ROI' },
-  { key: 'irr-5', shortLabel: '5-Yr IRR', title: '5-Year Internal Rate of Return (IRR)' },
+  { key: 'cash-flow', shortLabel: 'Cash on Cash', title: 'Cash-on-Cash Return (CoC) & Cash Flow' },
   { key: 'profit-10', shortLabel: '10-Yr Profit & ROI', title: 'Net 10-Year Lifetime Profit & ROI' },
   { key: 'irr-10', shortLabel: '10-Yr IRR', title: '10-Year Internal Rate of Return (IRR)' },
+  { key: 'profit-5', shortLabel: '5-Yr Profit & ROI', title: 'Net 5-Year Lifetime Profit & ROI' },
+  { key: 'irr-5', shortLabel: '5-Yr IRR', title: '5-Year Internal Rate of Return (IRR)' },
+  { key: 'noi', shortLabel: 'Year 1 NOI', title: 'Year 1 Net Operating Income (NOI)' },
+  { key: 'dscr', shortLabel: 'DSCR', title: 'DSCR (Debt Service Coverage Ratio)' },
 ];
 
 interface ReceiptLine {
@@ -74,9 +80,14 @@ export default function MathReceiptModal({
   const price = inputs.purchasePrice || 0;
   const aduMultiplier = inputs.unitCount > 1 && inputs.aduCount === 2 ? 2 : 1;
   const effectiveAduCost = inputs.aduEnabled ? (inputs.aduCost || 0) * aduMultiplier : 0;
+  const effectiveAduRent = inputs.aduEnabled ? (inputs.aduRentMonthly || 0) * aduMultiplier : 0;
   const aduInYear1 = inputs.aduEnabled && (inputs.aduStartMonth ?? 0) < 12;
   const taxInsBase = price + (aduInYear1 ? effectiveAduCost : 0);
   const basisValue = price + (inputs.makeReadyCost || 0) + (aduInYear1 ? effectiveAduCost : 0);
+  const grossMonthlyRentForRentFactor =
+    summary.totalMonthlyRent + (aduInYear1 ? effectiveAduRent : 0);
+  const rentFactor =
+    basisValue > 0 ? (grossMonthlyRentForRentFactor / basisValue) * 100 : 0;
 
   const yr1 = summary.schedule[0];
   const annualGrossRent = yr1 ? yr1.monthlyGrossRent * 12 : summary.totalMonthlyRent * 12;
@@ -242,12 +253,54 @@ export default function MathReceiptModal({
   const getMetricContent = (): {
     badgeValue: string;
     badgeTone: 'positive' | 'negative' | 'neutral';
-    plainEnglish: string;
+    plainEnglish: string | string[];
     formula: string;
     lines: ReceiptLine[];
     takeaway: string;
   } => {
     switch (activeMetric) {
+      case 'rent-factor':
+        return {
+          badgeValue: `${rentFactor.toFixed(2)}%`,
+          badgeTone: rentFactor >= 1.0 ? 'positive' : 'neutral',
+          plainEnglish: [
+            "The Rent Factor is an Insider Mortgage metric that compares a property's Monthly Gross Rental Income to its Total Acquisition Cost (purchase price plus initial improvements). A higher Rent Factor generally indicates more rental income relative to the property's cost, making it a useful tool for quickly comparing potential investments.",
+            'Some call this a “Rent-to-Price Ratio.” Another common investor screening metric is called the “1% Rule,” which says a great investment is a Rent Factor of 1% or more.',
+            'For example, a property with a purchase price of $900,000 and $100,000 of improvements that generates $7,500 in monthly rent has a Rent Factor of 0.75%.',
+            'Unlike Cap Rate, Rent Factor does not deduct operating expenses. Unlike Cash-on-Cash Return and DSCR, it does not consider mortgage financing.',
+          ],
+          formula: 'Rent Factor = Gross Monthly Rent ÷ Total Acquisition Cost × 100',
+          lines: [
+            {
+              label: 'Gross Monthly Rental Income',
+              sub: `Across ${inputs.unitCount} ${inputs.unitCount === 1 ? 'unit' : 'units'}${
+                aduInYear1 && effectiveAduRent > 0 ? ` + ${fmt(effectiveAduRent)}/mo ADU` : ''
+              }`,
+              amount: `${fmt(grossMonthlyRentForRentFactor)}/mo`,
+              type: 'normal',
+            },
+            {
+              label: 'Divided by Total Acquisition Cost',
+              sub: `${fmt(price)} purchase price + ${fmt(
+                inputs.makeReadyCost || 0
+              )} initial improvements${
+                aduInYear1 && effectiveAduCost > 0 ? ` + ${fmt(effectiveAduCost)} ADU cost` : ''
+              }`,
+              amount: `÷ ${fmt(basisValue)}`,
+              type: 'normal',
+            },
+            {
+              label: 'Rent Factor',
+              sub: `(${fmt(grossMonthlyRentForRentFactor)} ÷ ${fmt(basisValue)}) × 100`,
+              amount: `${rentFactor.toFixed(2)}%`,
+              type: 'total',
+              tone: rentFactor >= 1.0 ? 'positive' : 'neutral',
+            },
+          ],
+          takeaway:
+            'Think of Rent Factor as the first screening tool, Cap Rate as the measure of operating performance, Cash-on-Cash as the return on your invested cash, and DSCR as the measure of debt-payment coverage.',
+        };
+
       case 'noi':
         return {
           badgeValue: `${fmt(year1Noi)}/yr (${fmt(monthlyNoi)}/mo)`,
@@ -671,9 +724,22 @@ export default function MathReceiptModal({
             >
               What It Means in Plain English
             </div>
-            <p style={{ margin: 0, fontSize: '0.86rem', color: '#1E293B', lineHeight: 1.5 }}>
-              {content.plainEnglish}
-            </p>
+            {Array.isArray(content.plainEnglish) ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {content.plainEnglish.map((paragraph, idx) => (
+                  <p
+                    key={idx}
+                    style={{ margin: 0, fontSize: '0.86rem', color: '#1E293B', lineHeight: 1.5 }}
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            ) : (
+              <p style={{ margin: 0, fontSize: '0.86rem', color: '#1E293B', lineHeight: 1.5 }}>
+                {content.plainEnglish}
+              </p>
+            )}
           </div>
 
           {/* Simple Formula */}

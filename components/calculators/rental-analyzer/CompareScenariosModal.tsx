@@ -536,10 +536,13 @@ export default function CompareScenariosModal({
     'max'
   );
 
+  const placeholderCount = Math.max(0, 2 - selectedComputed.length);
+  const totalDataCols = selectedComputed.length + placeholderCount;
+
   const renderSectionRow = (title: string) => (
     <tr>
       <td
-        colSpan={selectedComputed.length + 1}
+        colSpan={totalDataCols + 1}
         style={{
           backgroundColor: '#EFF6FF',
           color: '#0468E9',
@@ -620,6 +623,23 @@ export default function CompareScenariosModal({
           </td>
         );
       })}
+      {Array.from({ length: placeholderCount }).map((_, idx) => (
+        <td
+          key={`empty-${idx}`}
+          style={{
+            padding: '0.55rem 0.75rem',
+            fontSize: '0.84rem',
+            fontWeight: 500,
+            color: '#CBD5E1',
+            backgroundColor: '#FFFFFF',
+            textAlign: 'right',
+            verticalAlign: 'middle',
+            minWidth: '150px',
+          }}
+        >
+          —
+        </td>
+      ))}
     </tr>
   );
 
@@ -902,7 +922,7 @@ export default function CompareScenariosModal({
               </button>
 
               {selectedComputed.length < 2 && (
-                <span style={{ fontSize: '0.74rem', color: '#94A3B8' }}>
+                <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#EFB51E' }}>
                   Select at least 2 properties to enable Email &amp; PDF export.
                 </span>
               )}
@@ -912,103 +932,124 @@ export default function CompareScenariosModal({
 
         {/* Scrollable Comparison Table */}
         <div style={{ overflow: 'auto', flex: 1, padding: '0 0 1rem' }}>
-          {selectedComputed.length < 2 ? (
-            <div
-              style={{
-                padding: '3rem 1.5rem',
-                textAlign: 'center',
-                color: '#475569',
-                fontSize: '0.95rem',
-              }}
-            >
-              <div style={{ fontSize: '1.6rem', marginBottom: '0.5rem' }}>⚖️</div>
-              <strong>Select at least 2 properties above</strong> to compare them side by side.
-            </div>
-          ) : (
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr
+                style={{
+                  backgroundColor: '#F8FAFC',
+                  borderBottom: '2px solid #060A2D',
+                  position: 'sticky',
+                  top: 0,
+                  zIndex: 2,
+                }}
+              >
+                <th
                   style={{
+                    padding: '0.75rem',
+                    textAlign: 'left',
+                    fontSize: '0.76rem',
+                    fontWeight: 800,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.04em',
+                    color: '#475569',
                     backgroundColor: '#F8FAFC',
-                    borderBottom: '2px solid #060A2D',
                     position: 'sticky',
-                    top: 0,
-                    zIndex: 2,
+                    left: 0,
+                    zIndex: 3,
                   }}
                 >
+                  Underwriting Metric
+                </th>
+                {selectedComputed.map((c) => (
                   <th
+                    key={c.item.id}
                     style={{
                       padding: '0.75rem',
-                      textAlign: 'left',
-                      fontSize: '0.76rem',
-                      fontWeight: 800,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.04em',
-                      color: '#475569',
+                      textAlign: 'right',
+                      verticalAlign: 'bottom',
                       backgroundColor: '#F8FAFC',
-                      position: 'sticky',
-                      left: 0,
-                      zIndex: 3,
+                      minWidth: '165px',
                     }}
                   >
-                    Underwriting Metric
-                  </th>
-                  {selectedComputed.map((c) => (
-                    <th
-                      key={c.item.id}
+                    <div
                       style={{
-                        padding: '0.75rem',
-                        textAlign: 'right',
-                        verticalAlign: 'bottom',
-                        backgroundColor: '#F8FAFC',
-                        minWidth: '165px',
+                        fontSize: '0.66rem',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        color: '#0468E9',
+                        marginBottom: '0.15rem',
                       }}
                     >
-                      <div
-                        style={{
-                          fontSize: '0.66rem',
-                          fontWeight: 700,
-                          textTransform: 'uppercase',
-                          color: '#0468E9',
-                          marginBottom: '0.15rem',
-                        }}
-                      >
-                        {c.item.sourceLabel}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: '0.92rem',
-                          fontWeight: 800,
-                          color: '#060A2D',
-                          lineHeight: 1.25,
-                        }}
-                      >
-                        {c.item.name}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          onLoadScenario(c.item);
-                          onClose();
-                        }}
-                        style={{
-                          marginTop: '0.4rem',
-                          padding: '0.22rem 0.55rem',
-                          borderRadius: '6px',
-                          border: '1px solid #CBD5E1',
-                          backgroundColor: '#FFFFFF',
-                          color: '#060A2D',
-                          fontSize: '0.7rem',
-                          fontWeight: 700,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        Load in Analyzer →
-                      </button>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
+                      {c.item.sourceLabel}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '0.92rem',
+                        fontWeight: 800,
+                        color: '#060A2D',
+                        lineHeight: 1.25,
+                      }}
+                    >
+                      {c.item.name}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onLoadScenario(c.item);
+                        onClose();
+                      }}
+                      style={{
+                        marginTop: '0.4rem',
+                        padding: '0.22rem 0.55rem',
+                        borderRadius: '6px',
+                        border: '1px solid #CBD5E1',
+                        backgroundColor: '#FFFFFF',
+                        color: '#060A2D',
+                        fontSize: '0.7rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Load in Analyzer →
+                    </button>
+                  </th>
+                ))}
+                {Array.from({ length: placeholderCount }).map((_, idx) => (
+                  <th
+                    key={`placeholder-${idx}`}
+                    style={{
+                      padding: '0.75rem',
+                      textAlign: 'right',
+                      verticalAlign: 'bottom',
+                      backgroundColor: '#F8FAFC',
+                      minWidth: '165px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: '0.66rem',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        color: '#94A3B8',
+                        marginBottom: '0.15rem',
+                      }}
+                    >
+                      Property {selectedComputed.length + idx + 1}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: '0.8rem',
+                        fontWeight: 600,
+                        color: '#64748B',
+                        fontStyle: 'italic',
+                      }}
+                    >
+                      Select above to compare
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
               <tbody>
                 {renderSectionRow('1. Acquisition & Cash Required')}
                 {renderMetricRow(
@@ -1144,7 +1185,6 @@ export default function CompareScenariosModal({
                 )}
               </tbody>
             </table>
-          )}
         </div>
       </div>
     </div>

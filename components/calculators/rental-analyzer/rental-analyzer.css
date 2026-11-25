@@ -1488,35 +1488,36 @@
     background: #FFFFFF !important;
     border: 1px solid #CBD5E1 !important;
     border-radius: 4px !important;
-    padding: 3.5px 6px !important;
+    padding: 3px 6px !important;
     display: flex !important;
     flex-direction: column !important;
     gap: 1px !important;
   }
 
   .ra-print-officer-name {
-    font-size: 11pt !important;
+    font-size: 9.5pt !important;
     font-weight: 900 !important;
     color: #060A2D !important;
     line-height: 1.15 !important;
   }
 
   .ra-print-officer-role {
-    font-size: 9pt !important;
+    font-size: 7.8pt !important;
     font-weight: 700 !important;
     color: #475569 !important;
   }
 
   .ra-print-officer-licenses {
-    font-size: 9pt !important;
+    font-size: 7.6pt !important;
     font-weight: 700 !important;
     color: #0468E9 !important;
+    line-height: 1.2 !important;
   }
 
   .ra-print-officer-contact {
     display: flex !important;
     gap: 5px !important;
-    font-size: 9pt !important;
+    font-size: 7.8pt !important;
     color: #0F172A !important;
     margin-top: 1px !important;
   }
@@ -1535,10 +1536,11 @@
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    font-size: 9pt !important;
+    font-size: 7.8pt !important;
     font-weight: 800 !important;
     color: #1E293B !important;
     margin-bottom: 1.5px !important;
+    white-space: nowrap !important;
   }
 
   .ra-print-eho-badge {
@@ -1548,9 +1550,9 @@
   }
 
   .ra-print-disclaimer-text {
-    font-size: 8.5pt !important;
+    font-size: 7pt !important;
     color: #64748B !important;
-    line-height: 1.25 !important;
+    line-height: 1.2 !important;
   }
 }
 

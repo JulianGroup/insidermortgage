@@ -829,17 +829,6 @@ export default function RentalAnalyzerPrintReport({
 
         {/* Contact Information & Licensing Box */}
         <div className="ra-print-contact-section">
-          <div className="ra-print-contact-header">
-            <div className="ra-print-contact-title">
-              {stateInfo.isRakeshOnly
-                ? `MORTGAGE FINANCING & UNDERWRITING ADVISOR (${stateInfo.stateName.toUpperCase()})`
-                : 'MORTGAGE FINANCING & UNDERWRITING ADVISORS'}
-            </div>
-            <div className="ra-print-contact-sub">
-              Insider Mortgage · Powered by C2 Financial Corporation (NMLS #135622)
-            </div>
-          </div>
-
           <div className={`ra-print-officers-grid ${stateInfo.isRakeshOnly ? 'single' : 'dual'}`}>
             {/* If CA or Other: Show David Sider */}
             {!stateInfo.isRakeshOnly && (
@@ -877,7 +866,7 @@ export default function RentalAnalyzerPrintReport({
           <div className="ra-print-compliance-note">
             <div className="ra-print-eho-row">
               <span className="ra-print-eho-badge">🏠 EQUAL HOUSING LENDER</span>
-              <span>Office: 12230 El Camino Real #100, San Diego, CA 92130 · (858) 848-5653 · www.insidermortgage.com</span>
+              <span>Office: 12230 El Camino Real #100, San Diego, CA 92130 · www.insidermortgage.com</span>
             </div>
             <div className="ra-print-disclaimer-text">
               C2 Financial Corporation (NMLS #135622) is licensed in CA (DRE #01821025 / CFLL #603L442), AZ (#BK-2009362), FL (#MLD2635), UT (UDRE #13748829), and WA (#MB135622). This underwriting scenario analysis is prepared for educational and investment modeling purposes only and does not constitute a commitment to lend. Rates, terms, and guidelines are subject to property appraisal, investor guidelines, and borrower qualification.
@@ -887,7 +876,7 @@ export default function RentalAnalyzerPrintReport({
 
         {/* Page 2 Footer */}
         <footer className="ra-print-page-footer">
-          <span>Insider Mortgage · (858) 848-5653 · www.insidermortgage.com</span>
+          <span>Insider Mortgage · www.insidermortgage.com</span>
           <span>NMLS #135622 · Equal Housing Opportunity</span>
           <span>Page 2 of 2</span>
         </footer>

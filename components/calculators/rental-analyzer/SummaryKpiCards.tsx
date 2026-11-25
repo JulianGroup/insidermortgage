@@ -472,8 +472,23 @@ export default function SummaryKpiCards({
                 ∑ Math
               </span>
             </div>
-            <div style={{ fontSize: '0.78rem', color: '#CBD5E1', marginTop: '0.3rem', lineHeight: 1.4 }}>
-              Projected Net Equity: {currencyFmt.format(Math.round(summary.tenYear.netSaleProceeds))}
+            <div
+              style={{
+                fontSize: '0.78rem',
+                color: '#CBD5E1',
+                marginTop: '0.3rem',
+                lineHeight: 1.4,
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '0.2rem 0.65rem',
+              }}
+            >
+              <span>
+                Projected Profit: {currencyFmt.format(Math.round(summary.tenYear.totalProfit))}
+              </span>
+              <span>
+                Equity: {currencyFmt.format(Math.round(summary.tenYear.netSaleProceeds))}
+              </span>
             </div>
           </div>
         </div>

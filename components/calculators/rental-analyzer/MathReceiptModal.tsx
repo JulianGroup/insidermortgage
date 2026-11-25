@@ -55,6 +55,7 @@ interface ReceiptLine {
   sub?: string;
   amount: string;
   amountSub?: string;
+  amountSubTone?: 'positive' | 'negative' | 'neutral';
   type?: 'normal' | 'subtract' | 'subtotal' | 'total';
   tone?: 'positive' | 'negative' | 'neutral';
 }
@@ -131,7 +132,7 @@ export default function MathReceiptModal({
       plainEnglish: `If you sell the property at the end of Year ${years}, pay off the remaining mortgage, pay realtor/closing costs, and pay yourself back the ${fmt(
         summary.initialCashInvested
       )} you put in on Day 1, this is the net profit left in your pocket.`,
-      formula: `Cash Check at Sale + ${years}-Yr Cash Flows − Initial Cash Put In = Net ${years}-Yr Profit`,
+      formula: `Net Sales Proceeds + ${years}-Yr Cash Flows − Initial Cash Put In = Net ${years}-Yr Profit`,
       lines: [
         {
           label: `Projected Property Value in Year ${years}`,
@@ -156,7 +157,7 @@ export default function MathReceiptModal({
           tone: 'negative' as const,
         },
         {
-          label: 'Equals Cash Check at Closing (Net Sale Proceeds)',
+          label: 'Equals Net Sales Proceeds at Closing',
           sub: 'Cash wired to you when the sale closes',
           amount: fmt(h.netSaleProceeds),
           type: 'subtotal' as const,
@@ -186,6 +187,7 @@ export default function MathReceiptModal({
           )} = ${h.totalRoiPct.toFixed(1)}%`,
           amount: fmt(h.totalProfit),
           amountSub: `${h.totalRoiPct.toFixed(1)}% Total ROI`,
+          amountSubTone: isPositiveProfit ? ('positive' as const) : ('negative' as const),
           type: 'total' as const,
           tone: isPositiveProfit ? ('positive' as const) : ('negative' as const),
         },
@@ -222,7 +224,7 @@ export default function MathReceiptModal({
         label: `Year ${years} Cash Flow + Sale Payday`,
         sub: `${fmtSigned(rows[years - 1]?.netCashFlow ?? 0)} Year ${years} cash flow + ${fmt(
           h.netSaleProceeds
-        )} net sale check`,
+        )} net sales proceeds`,
         amount: fmtSigned((rows[years - 1]?.netCashFlow ?? 0) + h.netSaleProceeds),
         type: 'subtotal',
         tone: 'positive',
@@ -858,9 +860,15 @@ export default function MathReceiptModal({
                       {line.amountSub && (
                         <div
                           style={{
-                            fontSize: '0.74rem',
-                            fontWeight: 600,
-                            color: '#64748B',
+                            fontSize: line.amountSubTone ? '0.78rem' : '0.74rem',
+                            fontWeight: line.amountSubTone ? 800 : 600,
+                            marginTop: line.amountSubTone ? '2px' : undefined,
+                            color:
+                              line.amountSubTone === 'positive'
+                                ? '#15803D'
+                                : line.amountSubTone === 'negative'
+                                ? '#B91C1C'
+                                : '#64748B',
                           }}
                         >
                           {line.amountSub}

@@ -370,6 +370,10 @@ export default function CompareScenariosModal({
         ),
         bestCashFlowIdx
       ),
+      renderPrintRow(
+        'Day-1 Break-Even Rent Needed',
+        selectedComputed.map((c) => `${fmt(c.breakEvenRent)}/mo`)
+      ),
       renderPrintSection('3. Investment Overview (2x2 KPIs)'),
       renderPrintRow(
         'Cash on Cash (COC)',
@@ -415,10 +419,6 @@ export default function CompareScenariosModal({
         '10-Yr IRR',
         selectedComputed.map((c) => `${c.summary.tenYear.irrPct.toFixed(2)}%`),
         bestIrr10Idx
-      ),
-      renderPrintRow(
-        'Day-1 Break-Even Rent Needed',
-        selectedComputed.map((c) => `${fmt(c.breakEvenRent)}/mo`)
       ),
     ].join('');
 
@@ -1120,6 +1120,10 @@ export default function CompareScenariosModal({
                   )),
                   bestCashFlowIdx
                 )}
+                {renderMetricRow(
+                  'Day-1 Break-Even Rent Needed',
+                  selectedComputed.map((c) => `${fmt(c.breakEvenRent)}/mo`)
+                )}
 
                 {renderSectionRow('3. Investment Overview (2×2 KPIs)')}
                 {renderMetricRow(
@@ -1178,10 +1182,6 @@ export default function CompareScenariosModal({
                   '10-Yr IRR',
                   selectedComputed.map((c) => `${c.summary.tenYear.irrPct.toFixed(2)}%`),
                   bestIrr10Idx
-                )}
-                {renderMetricRow(
-                  'Day-1 Break-Even Rent Needed',
-                  selectedComputed.map((c) => `${fmt(c.breakEvenRent)}/mo`)
                 )}
               </tbody>
             </table>

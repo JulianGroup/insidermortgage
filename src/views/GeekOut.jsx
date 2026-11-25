@@ -82,7 +82,7 @@ export default function GeekOut() {
           1-4 Unit Rental Properties
         </>
       ),
-      description: "Evaluate rental properties using key financial metrics. Compare properties side by side to find investments that fit your goals.",
+      description: "Evaluate rental properties using key financial metrics, including cash flow, Cash-on-Cash Returns, and 10-year projected equity. Compare properties side by side to find investments that fit your goals.",
       href: "/tools/rental-analyzer",
       icon: (
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{width:'40px', height:'40px'}}>

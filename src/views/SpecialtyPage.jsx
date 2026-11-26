@@ -67,6 +67,113 @@ const ExpandableCard = ({ card, accentColor = 'var(--secondary)' }) => {
   );
 };
 
+const ExpandableStageBox = ({ box, bIdx }) => {
+  const [expanded, setExpanded] = useState(false);
+  const previewCount =
+    typeof box.previewParagraphCount === 'number' ? box.previewParagraphCount : null;
+  const paragraphs = Array.isArray(box.paragraphs) ? box.paragraphs : [];
+  const hasOverflow =
+    previewCount !== null &&
+    (paragraphs.length > previewCount ||
+      Boolean(box.bullets?.length) ||
+      Boolean(box.callout));
+  const visibleParagraphs =
+    hasOverflow && !expanded ? paragraphs.slice(0, previewCount) : paragraphs;
+
+  return (
+    <div
+      style={{
+        backgroundColor: 'white',
+        borderRadius: 'var(--radius-lg)',
+        padding: 'clamp(1.75rem, 3vw, 2.25rem)',
+        boxShadow: 'var(--shadow-md)',
+        borderTop: `4px solid ${box.accentColor || (bIdx === 0 ? 'var(--secondary, #0468E9)' : 'var(--primary, #0B2545)')}`,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      <div>
+        <h3 style={{ color: 'var(--primary)', fontSize: '1.35rem', marginBottom: '0.4rem', lineHeight: 1.35 }}>
+          {box.title}
+        </h3>
+        {box.subtitle && (
+          <div
+            style={{
+              display: 'inline-block',
+              padding: '0.25rem 0.75rem',
+              backgroundColor: 'rgba(4, 104, 233, 0.08)',
+              color: 'var(--secondary, #0468E9)',
+              fontSize: '0.85rem',
+              fontWeight: 700,
+              borderRadius: '999px',
+              marginBottom: '1.25rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+            }}
+          >
+            {box.subtitle}
+          </div>
+        )}
+        {visibleParagraphs.map((bp, bpIdx) => (
+          <p key={bpIdx} style={{ color: 'var(--text-secondary)', fontSize: '1.02rem', lineHeight: 1.7, marginBottom: '0.95rem' }}>
+            {bp}
+          </p>
+        ))}
+        {(!hasOverflow || expanded) && (
+          <>
+            {box.bulletTitle && (
+              <p style={{ color: 'var(--primary)', fontWeight: 600, marginTop: '1.25rem', marginBottom: '0.65rem' }}>
+                {box.bulletTitle}
+              </p>
+            )}
+            {box.bullets && (
+              <ul style={{ paddingLeft: '1.25rem', margin: '0 0 1.25rem', color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '0.98rem' }}>
+                {box.bullets.map((bullet, bltIdx) => (
+                  <li key={bltIdx} style={{ marginBottom: '0.5rem' }}>
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {box.callout && (
+              <div
+                style={{
+                  marginTop: '1.25rem',
+                  padding: '1rem',
+                  backgroundColor: 'rgba(11, 37, 69, 0.04)',
+                  borderLeft: `3px solid ${box.accentColor || 'var(--primary)'}`,
+                  borderRadius: '6px',
+                  fontSize: '0.92rem',
+                  color: 'var(--text-secondary)',
+                  lineHeight: 1.6,
+                }}
+              >
+                {box.callout}
+              </div>
+            )}
+          </>
+        )}
+        {hasOverflow && (
+          <button
+            type="button"
+            onClick={() => setExpanded((prev) => !prev)}
+            className="expand-card-btn"
+            aria-expanded={expanded}
+          >
+            {expanded ? 'Show Less ▲' : 'Read More ▼'}
+          </button>
+        )}
+      </div>
+      {box.footerNote && (
+        <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(15, 23, 42, 0.07)', fontSize: '0.88rem', color: 'var(--text-muted)', fontStyle: 'italic', lineHeight: 1.5 }}>
+          {box.footerNote}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const SpecialtyPage = ({ data }) => {
   return (
     <>
@@ -274,85 +381,9 @@ const SpecialtyPage = ({ data }) => {
               </div>
 
               {data.stageBoxes && (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '3.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '3.5rem', alignItems: 'start' }}>
                   {data.stageBoxes.map((box, bIdx) => (
-                    <div
-                      key={bIdx}
-                      style={{
-                        backgroundColor: 'white',
-                        borderRadius: 'var(--radius-lg)',
-                        padding: 'clamp(1.75rem, 3vw, 2.25rem)',
-                        boxShadow: 'var(--shadow-md)',
-                        borderTop: `4px solid ${box.accentColor || (bIdx === 0 ? 'var(--secondary, #0468E9)' : 'var(--primary, #0B2545)')}`,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      <div>
-                        <h3 style={{ color: 'var(--primary)', fontSize: '1.35rem', marginBottom: '0.4rem', lineHeight: 1.35 }}>
-                          {box.title}
-                        </h3>
-                        {box.subtitle && (
-                          <div
-                            style={{
-                              display: 'inline-block',
-                              padding: '0.25rem 0.75rem',
-                              backgroundColor: 'rgba(4, 104, 233, 0.08)',
-                              color: 'var(--secondary, #0468E9)',
-                              fontSize: '0.85rem',
-                              fontWeight: 700,
-                              borderRadius: '999px',
-                              marginBottom: '1.25rem',
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.04em',
-                            }}
-                          >
-                            {box.subtitle}
-                          </div>
-                        )}
-                        {box.paragraphs && box.paragraphs.map((bp, bpIdx) => (
-                          <p key={bpIdx} style={{ color: 'var(--text-secondary)', fontSize: '1.02rem', lineHeight: 1.7, marginBottom: '0.95rem' }}>
-                            {bp}
-                          </p>
-                        ))}
-                        {box.bulletTitle && (
-                          <p style={{ color: 'var(--primary)', fontWeight: 600, marginTop: '1.25rem', marginBottom: '0.65rem' }}>
-                            {box.bulletTitle}
-                          </p>
-                        )}
-                        {box.bullets && (
-                          <ul style={{ paddingLeft: '1.25rem', margin: '0 0 1.25rem', color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '0.98rem' }}>
-                            {box.bullets.map((bullet, bltIdx) => (
-                              <li key={bltIdx} style={{ marginBottom: '0.5rem' }}>
-                                {bullet}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                        {box.callout && (
-                          <div
-                            style={{
-                              marginTop: '1.25rem',
-                              padding: '1rem',
-                              backgroundColor: 'rgba(11, 37, 69, 0.04)',
-                              borderLeft: `3px solid ${box.accentColor || 'var(--primary)'}`,
-                              borderRadius: '6px',
-                              fontSize: '0.92rem',
-                              color: 'var(--text-secondary)',
-                              lineHeight: 1.6,
-                            }}
-                          >
-                            {box.callout}
-                          </div>
-                        )}
-                      </div>
-                      {box.footerNote && (
-                        <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(15, 23, 42, 0.07)', fontSize: '0.88rem', color: 'var(--text-muted)', fontStyle: 'italic', lineHeight: 1.5 }}>
-                          {box.footerNote}
-                        </div>
-                      )}
-                    </div>
+                    <ExpandableStageBox key={bIdx} box={box} bIdx={bIdx} />
                   ))}
                 </div>
               )}

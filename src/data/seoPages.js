@@ -149,6 +149,7 @@ export const seoPages = [
         title: 'Pre-Qualification — Understanding Your Buying Power',
         subtitle: 'The Financial Planning Stage',
         accentColor: 'var(--secondary, #0468E9)',
+        previewParagraphCount: 3,
         paragraphs: [
           "Pre-qualification is an excellent starting point, particularly if you're just beginning to explore homeownership or planning to purchase several months down the road.",
           "Our pre-qualification process begins with a conversation about your income, employment, savings, existing debts, and overall financial goals.",
@@ -171,6 +172,7 @@ export const seoPages = [
         title: 'Pre-Approval — Getting Ready to Make an Offer',
         subtitle: 'The Formal Qualification Stage',
         accentColor: 'var(--primary, #0B2545)',
+        previewParagraphCount: 3,
         paragraphs: [
           "When you're ready to actively shop for a home and make an offer, the next step is obtaining a mortgage pre-approval.",
           "Pre-approval involves a more comprehensive evaluation of your financial circumstances and is designed to give you, your Realtor, and the seller greater confidence in your ability to obtain financing.",

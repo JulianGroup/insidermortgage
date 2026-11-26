@@ -67,8 +67,7 @@ const ExpandableCard = ({ card, accentColor = 'var(--secondary)' }) => {
   );
 };
 
-const ExpandableStageBox = ({ box, bIdx }) => {
-  const [expanded, setExpanded] = useState(false);
+const ExpandableStageBox = ({ box, bIdx, expanded, onToggle }) => {
   const previewCount =
     typeof box.previewParagraphCount === 'number' ? box.previewParagraphCount : null;
   const paragraphs = Array.isArray(box.paragraphs) ? box.paragraphs : [];
@@ -157,7 +156,7 @@ const ExpandableStageBox = ({ box, bIdx }) => {
         {hasOverflow && (
           <button
             type="button"
-            onClick={() => setExpanded((prev) => !prev)}
+            onClick={onToggle}
             className="expand-card-btn"
             aria-expanded={expanded}
           >
@@ -175,6 +174,8 @@ const ExpandableStageBox = ({ box, bIdx }) => {
 };
 
 const SpecialtyPage = ({ data }) => {
+  const [stageBoxesExpanded, setStageBoxesExpanded] = useState(false);
+
   return (
     <>
       <main>
@@ -381,9 +382,15 @@ const SpecialtyPage = ({ data }) => {
               </div>
 
               {data.stageBoxes && (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '3.5rem', alignItems: 'start' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', marginBottom: '3.5rem' }}>
                   {data.stageBoxes.map((box, bIdx) => (
-                    <ExpandableStageBox key={bIdx} box={box} bIdx={bIdx} />
+                    <ExpandableStageBox
+                      key={bIdx}
+                      box={box}
+                      bIdx={bIdx}
+                      expanded={stageBoxesExpanded}
+                      onToggle={() => setStageBoxesExpanded((prev) => !prev)}
+                    />
                   ))}
                 </div>
               )}

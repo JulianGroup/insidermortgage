@@ -431,8 +431,34 @@ export default function SummaryKpiCards({
               cursor: 'pointer',
             }}
           >
-            <div style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
-              10-Year Projected ROI
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '0.5rem',
+              }}
+            >
+              <span style={{ fontSize: '1.15rem', color: '#FFFFFF', fontWeight: 800, lineHeight: 1.25 }}>
+                10-Year ROI
+              </span>
+              <span
+                style={{
+                  fontSize: '0.68rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  color: '#F9A8D4',
+                  backgroundColor: 'rgba(236, 72, 153, 0.16)',
+                  border: '1px solid rgba(244, 114, 182, 0.42)',
+                  padding: '0.16rem 0.55rem',
+                  borderRadius: '999px',
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                PROJECTED
+              </span>
             </div>
             <div
               style={{
@@ -475,19 +501,26 @@ export default function SummaryKpiCards({
             <div
               style={{
                 fontSize: '0.78rem',
-                color: '#CBD5E1',
                 marginTop: '0.3rem',
                 lineHeight: 1.4,
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: '0.2rem 0.65rem',
+                alignItems: 'center',
+                gap: '0.2rem 0.45rem',
               }}
             >
-              <span>
-                Projected Profit: {currencyFmt.format(Math.round(summary.tenYear.totalProfit))}
+              <span style={{ whiteSpace: 'nowrap' }}>
+                <span style={{ color: '#94A3B8' }}>Profit:</span>{' '}
+                <span style={{ color: '#E2E8F0', fontWeight: 600 }}>
+                  {currencyFmt.format(Math.round(summary.tenYear.totalProfit))}
+                </span>
               </span>
-              <span>
-                Equity: {currencyFmt.format(Math.round(summary.tenYear.netSaleProceeds))}
+              <span aria-hidden="true" style={{ color: '#94A3B8' }}>•</span>
+              <span style={{ whiteSpace: 'nowrap' }}>
+                <span style={{ color: '#94A3B8' }}>Equity:</span>{' '}
+                <span style={{ color: '#E2E8F0', fontWeight: 600 }}>
+                  {currencyFmt.format(Math.round(summary.tenYear.netSaleProceeds))}
+                </span>
               </span>
             </div>
           </div>

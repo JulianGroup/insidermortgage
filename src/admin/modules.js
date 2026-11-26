@@ -32,6 +32,16 @@ export const ADMIN_MODULES = [
     status: 'soon',
   },
   {
+    id: 'mbs-desk',
+    title: 'MBS Rate Watch Desk',
+    description: 'Set morning UMBS opening anchors, lock desk overrides, trigger server sync, and inspect 20-day calibration error.',
+    icon: '📈',
+    route: '/admin/mbs-desk',
+    permission: 'mbs-desk',
+    status: 'live',
+    ownerOnly: true,
+  },
+  {
     id: 'team',
     title: 'Team & Access',
     description: 'Add staff, choose which modules each person can use.',

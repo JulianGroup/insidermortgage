@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback } from 'react';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import {
   fetchUs10YrDailyFactsFromCnbc,
@@ -48,7 +48,8 @@ export default function Us10YrDailyLogModal({ isOpen, onClose }) {
       console.warn('Firestore daily log read warning:', err);
     }
 
-    // 2. Fetch live/recent 5-minute Tradeweb US10Y bars from CNBC and merge
+    // 2. Fetch live/recent 5-minute Tradeweb US10Y bars from CNBC and merge in memory
+    // (Scheduled server-side persistence to Firestore runs via Cloud Function syncUs10YrDailyLog)
     try {
       const freshRows = await fetchUs10YrDailyFactsFromCnbc(45);
       if (freshRows.length > 0) {
@@ -56,18 +57,6 @@ export default function Us10YrDailyLogModal({ isOpen, onClose }) {
         setRows(merged);
         const nowIso = new Date().toISOString();
         setLastSyncedAt(new Date(nowIso));
-
-        // Persist merged archive back to Firestore so new trading days are saved
-        setDoc(
-          logRef,
-          {
-            updatedAt: nowIso,
-            source: 'Tradeweb US10Y (5m Intraday Bars)',
-            sessionWindow: '5:00 AM – 12:30 PM Pacific',
-            rows: merged,
-          },
-          { merge: true }
-        ).catch((err) => console.warn('Firestore daily log write warning:', err));
       }
     } catch (err) {
       console.warn('CNBC US10Y 5m bar fetch warning:', err);

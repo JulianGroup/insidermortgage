@@ -1,10 +1,8 @@
 name: Sync US 10-Year T-Note Daily Session Log
 
+# Scheduled authenticated sync now runs in Firebase Cloud Functions (`syncUs10YrDailyLog`).
+# Keep manual dispatch available here for ad-hoc maintenance if needed.
 on:
-  schedule:
-    # Runs Mon-Fri at 19:35 UTC (12:35 PM PDT) and 20:35 UTC (12:35 PM PST)
-    - cron: '35 19 * * 1-5'
-    - cron: '35 20 * * 1-5'
   workflow_dispatch:
 
 jobs:

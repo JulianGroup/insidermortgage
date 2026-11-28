@@ -1,0 +1,8 @@
+1:"$Sreact.fragment"
+2:I[28464,["/_next/static/chunks/2k0lepb3jat3m.js","/_next/static/chunks/1-8s9_t85wwr4.js","/_next/static/chunks/0i5mqn5v2ir11.js","/_next/static/chunks/17_0j7ls5b-sb.js"],"default"]
+3:I[51235,["/_next/static/chunks/2k0lepb3jat3m.js","/_next/static/chunks/1-8s9_t85wwr4.js","/_next/static/chunks/0i5mqn5v2ir11.js","/_next/static/chunks/17_0j7ls5b-sb.js"],"default"]
+4:I[97367,["/_next/static/chunks/2k0lepb3jat3m.js","/_next/static/chunks/1-8s9_t85wwr4.js"],"OutletBoundary"]
+5:"$Sreact.suspense"
+:HL["/_next/static/chunks/1f0ia-zhciwqm.css","style"]
+0:{"rsc":["$","$1","c",{"children":[["$","main",null,{"style":{"minHeight":"80vh","backgroundColor":"var(--bg-color)"},"children":[["$","$L2",null,{}],["$","$L3",null,{"calculatorId":"calc-interactive","title":"Payment & Cash-Flow Strategy Breakdowns","subtitle":"Real borrower and investor scenarios analyzed by David and Rakesh.","background":"#FFFFFF"}]]}],[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/1f0ia-zhciwqm.css","precedence":"next"}],["$","script","script-0",{"src":"/_next/static/chunks/0i5mqn5v2ir11.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/17_0j7ls5b-sb.js","async":true}]],["$","$L4",null,{"children":["$","$5",null,{"name":"Next.MetadataOutlet","children":"$@6"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"ws2u5lv8gJUteiNCM53LT"}
+6:null
